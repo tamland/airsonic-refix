@@ -1,0 +1,23 @@
+@import '~roboto-fontface/css/roboto/roboto-fontface.css';
+@import '~@mdi/font/css/materialdesignicons.css';
+
+$enable-rounded: false;
+$enable-print-styles: false;
+.breadcrumb {
+  background: none !important;
+  padding: 0 !important;
+}
+
+@import './theme.scss';
+
+a.active {
+  color: $primary;
+}
+
+h1, h2, h3 {
+  // color: $primary;
+  color: #fff;
+}
+
+@import '~bootstrap';
+@import '~bootstrap-vue';

@@ -1,0 +1,31 @@
+// $BASE: #080808;
+// $BASE_EVEVATED: #222;
+$BASE: #000;
+$BASE_EVEVATED: rgb(25, 25, 25);
+
+$primary: #09f;
+$danger: #e54b4b;
+
+// $black:    #000 !default;
+
+$body-bg: $BASE;
+$body-color: #ccc;
+$link-color: #ccc;
+$text-muted: #999;
+// strong { color: #ddd }
+
+// Cards
+$card-cap-bg: $BASE_EVEVATED;
+$card-bg: $BASE_EVEVATED;
+
+$modal-content-bg: $BASE_EVEVATED;
+
+$input-bg: $BASE_EVEVATED;
+$input-color: #ccc !default;
+
+$progress-bg: rgb(35, 35, 35);
+$border-color: #444;
+
+.elevated {
+    background-color: $BASE_EVEVATED;
+}

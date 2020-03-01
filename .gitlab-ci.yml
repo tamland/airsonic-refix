@@ -1,0 +1,36 @@
+image: node:13-alpine
+
+stages:
+  - build
+  - deploy-dev
+  - deploy-prod
+
+variables:
+  NETLIFY_SITE_ID: airsonic
+
+build:
+  stage: build
+  script:
+    - export VUE_APP_VERSION=$CI_COMMIT_SHORT_SHA
+    - yarn install
+    - yarn build
+  artifacts:
+    paths:
+      - dist
+
+deploy dev:
+  stage: deploy-dev
+  script:
+    - npm i -g netlify-cli
+    - netlify deploy --dir dist --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
+
+deploy production:
+  stage: deploy-prod
+  environment:
+    name: production
+    url: https://airsonic.netlify.com
+  only:
+    - master
+  script:
+    - npm i -g netlify-cli
+    - netlify deploy --dir dist --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
