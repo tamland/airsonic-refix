@@ -22,10 +22,9 @@ Modern responsive web frontend for [Airsonic](https://github.com/airsonic/airson
 
 https://airsonic.netlify.com
 
-Use address/credentials for your own Airsonic server, or use the subsonic.org demo server:
-- server: http://demo.subsonic.org
-- username: guest1
-- password guest
+Password is `guest`.
+
+You can use the URL and credentials for your own server if you prefer. **Note**: if your server is using http only you must allow mixed content in your browser otherwise login will not work.
 
 
 ## Build

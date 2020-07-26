@@ -8,8 +8,8 @@ export class AuthService {
   private authenticated: boolean = false;
 
   constructor() {
-    this.server = localStorage.getItem("server") || "";
-    this.username = localStorage.getItem("username") || "";
+    this.server = localStorage.getItem("server") || "/api";
+    this.username = localStorage.getItem("username") || "guest1";
     this.password = localStorage.getItem("password") || "";
   }
 
