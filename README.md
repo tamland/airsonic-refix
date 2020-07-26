@@ -1,6 +1,6 @@
 # Airsonic Web Client
 
-[![pipeline status](https://gitlab.com/tamland/airsonic-frontend/badges/master/pipeline.svg)](https://gitlab.com/tamland/airsonic-ui/pipelines)
+[![](https://github.com/tamland/airsonic-frontend/workflows/CI/badge.svg)](https://github.com/tamland/airsonic-frontend/actions)
 
 Modern responsive web frontend for [Airsonic](https://github.com/airsonic/airsonic). It's currently based on the [Subsonic API](http://www.subsonic.org/pages/api.jsp) and should work with other backends implementing this API as well.
 
