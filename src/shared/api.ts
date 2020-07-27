@@ -48,11 +48,13 @@ export class API {
 
   async getGenres() {
     const response = await this.get("rest/getGenres", {});
-    return response.genres.genre.map((item: any) => ({
-      id: encodeURIComponent(item.value),
-      name: item.value,
-      ...item,
-    }));
+    return response.genres.genre
+      .map((item: any) => ({
+        id: encodeURIComponent(item.value),
+        name: item.value,
+        ...item,
+      }))
+      .sort((a: any, b:any) => a.name.localeCompare(b.name));;
   }
 
   async getGenreDetails(id: string) {
