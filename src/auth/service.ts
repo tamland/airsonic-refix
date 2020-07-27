@@ -1,35 +1,45 @@
 import axios from 'axios';
+import { randomString, md5 } from '@/shared/utils';
 
 
 export class AuthService {
   public server: string = "";
   public username: string = "";
-  public password: string = "";
+  public salt: string = "";
+  public hash: string = "";
   private authenticated: boolean = false;
 
   constructor() {
     this.server = localStorage.getItem("server") || "/api";
     this.username = localStorage.getItem("username") || "guest1";
-    this.password = localStorage.getItem("password") || "";
+    this.salt = localStorage.getItem("salt") || "";
+    this.hash = localStorage.getItem("hash") || "";
   }
 
   private saveSession() {
     localStorage.setItem("server", this.server);
     localStorage.setItem("username", this.username);
-    localStorage.setItem("password", this.password);
+    localStorage.setItem("salt", this.salt);
+    localStorage.setItem("hash", this.hash);
   }
 
   async autoLogin(): Promise<boolean> {
     if (!this.server || !this.username) {
       return false;
     }
-    return this.login(this.server, this.username, this.password, false)
+    return this.loginWithHash(this.server, this.username, this.salt, this.hash, false)
       .then(() => true)
       .catch(() => false);
   }
 
-  async login(server: string, username: string, password: string, remember: boolean) {
-    return axios.get(`${server}/rest/ping.view?u=${username}&p=${password}&v=1.15.0&c=app&f=json`)
+  async loginWithPassword(server: string, username: string, password: string, remember: boolean) {
+    const salt = randomString();
+    const hash = md5(password + salt);
+    return this.loginWithHash(server, username, salt, hash, remember);
+  }
+
+  private async loginWithHash(server: string, username: string, salt: string, hash: string, remember: boolean) {
+    return axios.get(`${server}/rest/ping.view?u=${username}&s=${salt}&t=${hash}&v=1.15.0&c=app&f=json`)
       .then((response) => {
         const subsonicResponse = response.data["subsonic-response"];
         if (!subsonicResponse || subsonicResponse.status !== "ok") {
@@ -39,7 +49,8 @@ export class AuthService {
         this.authenticated = true;
         this.server = server;
         this.username = username;
-        this.password = password;
+        this.salt = salt;
+        this.hash = hash;
         if (remember) {
           this.saveSession();
         }

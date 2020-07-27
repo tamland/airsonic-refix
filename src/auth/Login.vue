@@ -49,7 +49,6 @@ export default Vue.extend({
   async created() {
     this.server = await this.$auth.server;
     this.username = await this.$auth.username;
-    this.password = await this.$auth.password;
     const success = await this.$auth.autoLogin();
     if (success) {
       this.$store.commit("setLoginSuccess", { username: this.username});
@@ -61,7 +60,7 @@ export default Vue.extend({
   methods: {
     login() {
       this.busy = true;
-      this.$auth.login(this.server, this.username, this.password, this.rememberLogin)
+      this.$auth.loginWithPassword(this.server, this.username, this.password, this.rememberLogin)
         .then(() => {
           this.$store.commit("setLoginSuccess", { username: this.username });
           this.$router.push(this.returnTo);

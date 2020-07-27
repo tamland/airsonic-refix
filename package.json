@@ -13,6 +13,7 @@
     "bootstrap-vue": "^2.15.0",
     "howler": "^2.2.0",
     "material-design-icons-iconfont": "^5.0.1",
+    "md5-es": "1.8.2",
     "roboto-fontface": "*",
     "uuid": "^8.2.0",
     "vue": "^2.6.10",

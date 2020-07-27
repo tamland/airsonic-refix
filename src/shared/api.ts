@@ -16,7 +16,8 @@ export class API {
       config.params = config.params || {};
       config.baseURL = this.auth.server
       config.params.u = this.auth.username;
-      config.params.p = this.auth.password;
+      config.params.s = this.auth.salt;
+      config.params.t = this.auth.hash;
       config.params.c = "app";
       config.params.f = "json";
       config.params.v = "1.15.0";
@@ -255,12 +256,12 @@ export class API {
     if (!item.coverArt) {
       return undefined;
     }
-    const { server, username, password } = this.auth;
-    return `${server}/rest/getCoverArt?id=${item.coverArt}&v=1.15.0&u=${username}&p=${password}&c=test&size=300`
+    const { server, username, salt, hash } = this.auth;
+    return `${server}/rest/getCoverArt?id=${item.coverArt}&v=1.15.0&u=${username}&s=${salt}&t=${hash}&c=test&size=300`
   }
 
   private getStreamUrl(id: any) {
-    const { server, username, password } = this.auth;
-    return `${server}/rest/stream?id=${id}&format=raw&v=1.15.0&u=${username}&p=${password}&c=test&size=300`
+    const { server, username, salt, hash } = this.auth;
+    return `${server}/rest/stream?id=${id}&format=raw&v=1.15.0&u=${username}&s=${salt}&t=${hash}&c=test&size=300`
   }
 }
