@@ -19,6 +19,7 @@
 <script lang="ts">
 import Vue from "vue";
 import AlbumCard from "./AlbumCard.vue";
+import { AlbumSort } from '@/shared/api';
 
 export default Vue.extend({
   components: {
@@ -48,7 +49,7 @@ export default Vue.extend({
   watch: {
     sort: {
       immediate: true,
-      handler(value: string) {
+      handler(value: AlbumSort) {
         this.albums = null;
         this.$api.getAlbums(value).then(albums => {
           this.albums = albums;

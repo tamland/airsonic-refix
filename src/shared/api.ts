@@ -1,6 +1,8 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from "axios"
 import { AuthService } from '@/auth/service';
 
+export type AlbumSort = "alphabeticalByName" | "newest" |  "recent" | "frequent" | "random"
+
 
 export class API {
   readonly http: AxiosInstance;
@@ -80,11 +82,12 @@ export class API {
     })));
   }
 
-  async getAlbums(sort: string) {
+
+  async getAlbums(sort: AlbumSort, size: number = 500) {
     const params = {
       type: sort,
       offset: "0",
-      size: "500",
+      size: size,
     };
     const data = await this.get("rest/getAlbumList2", params);
     return data.albumList2.album.map((item: any) => ({
