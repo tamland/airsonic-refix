@@ -70,20 +70,14 @@ export class API {
     }
   }
 
-  async getArtists(offset: any = 0, size: any = 400) {
-    const params = {
-      type: "random",
-      offset,
-      size,
-    };
-    const data = await this.get("rest/getArtists", params);
+  async getArtists() {
+    const data = await this.get("rest/getArtists");
     return data.artists.index.flatMap((index: any) => index.artist.map((artist: any) => ({
       id: artist.id,
       name: artist.name,
       ...artist
     })));
   }
-
 
   async getAlbums(sort: AlbumSort, size: number = 500) {
     const params = {
