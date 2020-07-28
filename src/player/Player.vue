@@ -25,14 +25,14 @@
         <div class="col-auto p-0">
           <b-button variant="link" class="m-2"
               :disabled="!hasPrevious" @click="playPrevious">
-            <Icon>mdi-skip-previous</Icon>
+            <Icon icon="skip-start-fill"/>
           </b-button>
           <b-button variant="link" size="lg" class="m-2" @click="playPause">
-            <Icon>{{ isPlaying ? 'mdi-pause' : 'mdi-play' }}</Icon>
+            <Icon :icon="isPlaying ? 'pause-fill' : 'play-fill'"/>
           </b-button>
           <b-button variant="link" class="m-2"
               :disabled="!hasNext" @click="playNext">
-            <Icon>mdi-skip-next</Icon>
+            <Icon icon="skip-end-fill"/>
           </b-button>
         </div>
         <div class="col p-0 text-truncate">

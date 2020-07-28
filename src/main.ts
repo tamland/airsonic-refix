@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from "vue-router"
 import Vuex from "vuex"
-import BootstrapVue from 'bootstrap-vue'
+import { BootstrapVue } from 'bootstrap-vue'
 import '@/style/main.scss'
 import '@/shared/components'
 import '@/shared/filters'

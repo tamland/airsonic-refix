@@ -1,7 +1,7 @@
 <template>
   <b-dropdown variant="link" boundary="window" no-caret toggle-class="p-0">
     <template #button-content>
-      <Icon>mdi-dots-vertical</Icon>
+      <Icon icon="three-dots-vertical"/>
     </template>
     <slot/>
   </b-dropdown>

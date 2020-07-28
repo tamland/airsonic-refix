@@ -5,9 +5,7 @@
         <div class="tile-img bg-secondary">
           <div class="tile-img-inner">
             <img v-if="item.image" :src="item.image">
-            <div v-else class="fallback-img text-muted">
-              <Icon>mdi-music</Icon>
-            </div>
+            <Icon v-else class="fallback-img text-muted" icon="music-note-beamed"/>
           </div>
         </div>
         <div class="card-body">
@@ -56,13 +54,11 @@
       }
 
       .fallback-img {
-        *{
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          font-size: 4.5rem;
-        }
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 4.5rem;
       }
     }
   }

@@ -3,7 +3,7 @@
     <div class="fixed-img-inner">
       <img v-if="props.src" :src="props.src">
       <div v-else class="text-muted">
-      <Icon>mdi-music</Icon>
+      <Icon icon="music-note-beamed"/>
       </div>
     </div>
   </div>

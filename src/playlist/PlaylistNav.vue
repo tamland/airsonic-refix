@@ -4,20 +4,20 @@
       <small class="text-uppercase text-muted font-weight-bold">
         Playlists
          <button class="btn btn-link btn-sm p-0 float-right" @click="showModal = true">
-           <Icon>mdi-plus</Icon>
+           <Icon icon="plus"/>
          </button>
       </small>
     </span>
 
     <router-link class="nav-item nav-link" :to="{name: 'playlist', params: { id: 'random' }}">
-      <Icon>mdi-view-list</Icon> Random
+      <Icon icon="music-note-list" class="mr-2"/> Random
     </router-link>
 
     <router-link v-for="item in playlists" :key="item.id"
                   :to="{name: 'playlist', params: { id: item.id }}"
                   class="nav-item nav-link">
       <span @dragover="onDragover" @drop="onDrop(item.id, $event)">
-        <Icon>mdi-playlist-music</Icon> {{ item.name }}
+        <Icon icon="music-note-list" class="mr-2"/> {{ item.name }}
       </span>
     </router-link>
 

@@ -6,15 +6,15 @@
       </router-link>
 
       <router-link class="nav-link" :to="{name: 'home'}">
-        <Icon>mdi-home</Icon> Home
+        <Icon icon="card-text" class="mr-2"/> Home
       </router-link>
 
       <router-link class="nav-link" :to="{name: 'queue'}">
-        <Icon>mdi-view-list</Icon> Playing
+        <Icon icon="music-note-list" class="mr-2"/> Playing
       </router-link>
 
       <router-link class="nav-link" :to="{name: 'starred'}">
-        <Icon>mdi-star</Icon> Starred
+        <Icon icon="star-fill" class="mr-2"/> Starred
       </router-link>
       
       <a class="nav-link disabled">
@@ -24,15 +24,15 @@
       </a>
 
       <router-link class="nav-link" :to="{name: 'albums'}">
-        <Icon>mdi-album</Icon> Albums
+        <Icon icon="collection-fill" class="mr-2"/> Albums
       </router-link>
 
       <router-link class="nav-link" :to="{name: 'artists'}">
-        <Icon>mdi-artist</Icon> Artists
+        <Icon icon="collection-fill" class="mr-2"/> Artists
       </router-link>
 
       <router-link class="nav-item nav-link" :to="{name: 'genres'}">
-        <Icon>mdi-library-music</Icon> Genres
+        <Icon icon="collection-fill" class="mr-2"/> Genres
       </router-link>
 
       <PlaylistNav/>

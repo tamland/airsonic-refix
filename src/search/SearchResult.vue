@@ -56,7 +56,7 @@
         <tr v-for="(item, index) in result.tracks">
           <td>
             <span  @click="play(index)">
-              <Icon>mdi-play</Icon>
+              <Icon icon="play-fill"/>
             </span>
           </td>
           <td>{{ item.title }}</td>

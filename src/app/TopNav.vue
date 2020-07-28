@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex align-items-center mb-2">
     <button class="navbar-toggler text-white d-md-none" @click="toggleMenu">
-      <Icon>mdi-menu</Icon>
+      <Icon icon="list"/>
     </button>
 
     <div class="ml-auto"></div>
@@ -11,7 +11,7 @@
     <template v-if="username">
       <b-dropdown variant="link" right :text="username">
         <b-dropdown-item-button @click="logout">
-          <Icon>mdi-logout</Icon> Logout
+          <Icon icon="box-arrow-right"/> Logout
         </b-dropdown-item-button>
       </b-dropdown>
     </template>

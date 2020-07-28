@@ -7,8 +7,8 @@
       <tbody>
         <tr v-for="item in items" :key="item.id">
           <td>
-             <Icon @click="() => {}">mdi-play-outline</Icon>
-        <Icon @click="() => {}">mdi-plus</Icon>
+            <Icon icon="play-fill" @click="() => {}"/>
+            <Icon icon="plus" @click="() => {}"/>
           </td>
           <td>{{ item.artist }}</td>
           <td>{{ item.album }}</td>
