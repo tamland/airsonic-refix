@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="min-vh-100 d-flex align-items-stretch justify-spcace-between">
-      <div class="sidebar elevated d-none d-md-block" :class="{'d-block':showMenu}">
-        <SideNav></SideNav>
-      </div>
+      <Sidebar/>
       <div class="main flex-fill">
         <div class="container-fluid pt-3 pb-3">
           <TopNav/>
@@ -16,28 +14,9 @@
     </footer>
   </div>
 </template>
-<style lang="scss" >
-  .sidebar {
-    // position: sticky;
-    // top: 0;
-    // height: calc(100vh - 80px);
-    // width: 200px;
-    // min-width: 200px;
-    // max-width: 200px;
-    // text-overflow: ellipsis;
-
-    .nav-link {
-      width: 220px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
+<style lang="scss">
   .main {
     margin-bottom: 80px;
-  }
-  .sidebar {
-    padding-bottom: 180px;
   }
   .footer {
     position: fixed;
@@ -48,19 +27,15 @@
   }
 </style>
 <script lang="ts">
-  import SideNav from "./SideNav.vue";
   import TopNav from "./TopNav.vue";
+  import Sidebar from "./Sidebar.vue";
   import Player from "@/player/Player.vue";
-  import { mapState, mapMutations } from 'vuex';
 
   export default {
     components: {
-      SideNav,
       TopNav,
+      Sidebar,
       Player,
-    },
-    computed: {
-      ...mapState(['showMenu'])
     },
   };
 </script>
