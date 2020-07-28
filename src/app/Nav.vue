@@ -2,7 +2,7 @@
   <div class="text-truncate">
     <nav class="nav flex-column">
       <router-link class="nav-link logo" :to="{name: 'home'}">
-        <img src="@/app/logo.png" class="img-fluid">
+        <Logo/>
       </router-link>
 
       <router-link class="nav-link" :to="{name: 'home'}">
@@ -41,7 +41,7 @@
 </template>
 <style lang="scss" scoped>
   .logo {
-    max-width: 200px;
+    height: 48px;
   }
   .nav-link {
     width: 220px;
@@ -52,11 +52,13 @@
 </style>
 <script lang="ts">
 import Vue from "vue";
+import Logo from "./Logo.vue";
 import PlaylistNav from "@/playlist/PlaylistNav.vue";
 import { mapState } from 'vuex';
 
 export default Vue.extend({
   components: {
+    Logo,
     PlaylistNav,
   },
   methods: {
