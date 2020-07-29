@@ -1,10 +1,8 @@
 <template>
   <div v-if="album">
-    <div class="row mb-4">
-      <div class="col-auto">
-        <b-img height="300" width="300" :src="album.image"></b-img>
-      </div>
-      <div class="col">
+    <div class="d-flex align-items-start mb-3">
+      <b-img height="300" width="300" fluid :src="album.image"/>
+      <div class="ml-3 ml-md-4">
         <h1>{{ album.name }}</h1>
         <p>by 
           <router-link :to="{name: 'artist', params: { id: album.artistId }}">
