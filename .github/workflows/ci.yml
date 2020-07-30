@@ -27,7 +27,7 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'pull_request'
+    if: github.ref != 'refs/heads/master'
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v2
