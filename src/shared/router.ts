@@ -3,13 +3,13 @@ import Router from 'vue-router'
 import Login from '@/auth/Login.vue'
 import Queue from '@/player/Queue.vue'
 import Home from '@/home/Home.vue'
-import AlbumList from '@/library/album/AlbumList.vue'
 import ArtistDetails from '@/library/artist/ArtistDetails.vue'
-import ArtistList from '@/library/artist/ArtistList.vue'
-import Album from '@/library/album/Album.vue'
+import ArtistLibrary from '@/library/artist/ArtistLibrary.vue'
+import AlbumDetails from '@/library/album/AlbumDetails.vue'
+import AlbumLibrary from '@/library/album/AlbumLibrary.vue'
 import RandomSongs from '@/playlist/RandomSongs.vue'
-import GenreList from '@/library/genre/GenreList.vue'
 import GenreDetails from '@/library/genre/GenreDetails.vue'
+import GenreLibrary from '@/library/genre/GenreLibrary.vue'
 import Starred from '@/library/starred/Starred.vue'
 import Playlist from '@/playlist/Playlist.vue'
 import PlaylistList from '@/playlist/PlaylistList.vue'
@@ -44,18 +44,18 @@ export function setupRouter(auth: AuthService) {
       {
         name: 'albums',
         path: '/albums',
-        component: AlbumList
+        component: AlbumLibrary
       },
       {
         name: 'album',
         path: '/album/:id',
-        component: Album,
+        component: AlbumDetails,
         props: true,
       },
       {
         name: 'artists',
         path: '/artists',
-        component: ArtistList
+        component: ArtistLibrary
       },
       {
         name: 'artist',
@@ -66,7 +66,7 @@ export function setupRouter(auth: AuthService) {
       {
         name: 'genres',
         path: '/genres',
-        component: GenreList,
+        component: GenreLibrary,
       },
       {
         name: 'genre',

@@ -4,26 +4,19 @@
     <template v-else>
       <div v-for="section in sections" :key="section.key" class="mb-4">
         <h1>{{ section.name }}</h1>
-        <Tiles square>
-          <Tile v-for="item in $data[section.key]" :key="item.id"
-            :image="item.image"
-            :to="{name: 'album', params: { id: item.id } }"
-            :title="item.name">
-            <template v-slot:text>
-              <router-link :to="{name: 'artist', params: { id: item.artistId } }">
-                {{ item.artist }}
-              </router-link>
-            </template>
-          </Tile>
-        </Tiles>
+        <AlbumList :items="$data[section.key]"/>
       </div>
     </template>
   </div>
 </template>
 <script lang="ts">
 import Vue from 'vue';
+import AlbumList from "@/library/album/AlbumList.vue";
 
 export default Vue.extend({
+  components: {
+    AlbumList,
+  },
   data() {
     return {
       sections: [

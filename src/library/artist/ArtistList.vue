@@ -1,7 +1,6 @@
-<template>
+<template functional>
   <Tiles>
-    <Tile v-for="item in items" :key="item.id"
-      :image="item.image"
+    <Tile v-for="item in props.items" :key="item.id"
       :to="{name: 'artist', params: { id: item.id } }"
       :title="item.name">
       <template v-slot:text>
@@ -10,19 +9,3 @@
     </Tile>
   </Tiles>
 </template>
-<script lang="ts">
-  import Vue from "vue";
-
-  export default Vue.extend({
-    data() {
-      return {
-        items: []
-      };
-    },
-    created() {
-      this.$api.getArtists().then(items => {
-        this.items = items;
-      });
-    }
-  });
-</script>

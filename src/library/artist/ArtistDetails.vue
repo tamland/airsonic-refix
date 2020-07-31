@@ -10,31 +10,22 @@
       </div>
     </div>
     <h3 class="pt-5">Albums</h3>
-    <Tiles square>
-      <Tile v-for="item in item.albums" :key="item.id"
-        :image="item.image"
-        :to="{name: 'album', params: { id: item.id } }"
-        :title="item.name"
-        :text="item.artist">
-      </Tile>
-    </Tiles>
+    <AlbumList :items="item.albums"/>
+
     <h3 class="pt-5">Similar artist</h3>
-    <Tiles>
-      <Tile v-for="item in item.similarArtist" :key="item.id"
-        :to="{name: 'artist', params: { id: item.id } }"
-        :title="item.name">
-        <template v-slot:text>
-          <strong>{{ item.albumCount }}</strong> albums
-        </template>
-      </Tile>
-    </Tiles>
+    <ArtistList :items="item.similarArtist"/>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
+import AlbumList from "@/library/album/AlbumList.vue";
+import ArtistList from "@/library/artist/ArtistList.vue";
 
 export default Vue.extend({
-  components: {},
+  components: {
+    AlbumList,
+    ArtistList,
+  },
   props: {
     id: String
   },

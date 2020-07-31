@@ -1,15 +1,8 @@
 <template>
   <div v-if="result">
-  
     <div>
       <h5 class="text-uppercase">Artists</h5>
-      <div class="d-flex">
-        <div class="tiles">
-          <div v-for="item in result.artists" :key="item.id">
-            <ArtistCard :item="item"></ArtistCard>
-          </div>
-        </div>
-      </div>
+      <ArtistList :items="result.artists"/>
 
       <b-table-simple hover borderless>
         <tbody>
@@ -22,13 +15,7 @@
 
     <div>
       <h5 class="text-uppercase">Albums</h5>
-       <div class="d-flex">
-      <div class="tiles">
-        <div v-for="item in result.albums" :key="item.id">
-          <AlbumCard :item="item"></AlbumCard>
-        </div>
-      </div>
-      </div>
+      <AlbumList :items="result.albums"/>
       <b-table-simple hover borderless>
         <tbody>
           <tr v-for="item in result.albums">
@@ -72,13 +59,13 @@
 </template>
 <script lang="ts">
   import Vue from "vue";
-  import AlbumCard from "@/library/album/AlbumCard.vue";
-  import ArtistCard from "@/library/artist/ArtistCard.vue";
+  import AlbumList from "@/library/album/AlbumList.vue";
+  import ArtistList from "@/library/artist/ArtistList.vue";
 
   export default Vue.extend({
     components: {
-      AlbumCard,
-      ArtistCard,
+      AlbumList,
+      ArtistList,
     },
     props: {
       query: String,
