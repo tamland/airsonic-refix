@@ -193,12 +193,9 @@ export class API {
   }
 
   async getStarred() {
-    const [tracks, albums] = await Promise.all([
-      this.get("rest/getStarred2").then(r => this.normalizeTrackList(r.starred2.song)),
-      this.get("rest/getAlbumList2", { type: 'starred' }).then(r => r.albumList2),
-      this.get("rest/getAlbumList2", { type: 'starred' }).then(r => r.albumList2),
-    ]);
-    return { tracks, albums }
+    return this
+      .get("rest/getStarred2")
+      .then(r => this.normalizeTrackList(r.starred2.song))
   }
 
   async star(type: 'track' | 'album' | 'artist', id: string) {
