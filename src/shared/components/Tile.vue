@@ -1,9 +1,9 @@
 <template functional>
   <div class="tile card">
-    <div class="tile-img">
+    <router-link class="tile-img" :to="props.to">
       <img v-if="props.image" :src="props.image">
       <Icon v-else class="tile-img-fallback text-muted" icon="music-note-beamed"/>
-    </div>
+    </router-link>
     <div class="card-body">
       <div class="text-truncate font-weight-bold">
         <slot name="title">
