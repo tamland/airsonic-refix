@@ -1,29 +1,13 @@
 <template>
   <div v-if="result">
-    <div>
-      <h5 class="text-uppercase">Artists</h5>
+    <div v-if="result.artists.length > 0" class="mb-5">
+      <h1>Artists</h1>
       <ArtistList :items="result.artists"/>
-
-      <b-table-simple hover borderless>
-        <tbody>
-          <tr v-for="item in result.artists" :key="item.id">
-            <td>{{ item.name }}</td>
-          </tr>
-        </tbody>
-      </b-table-simple>
     </div>
 
-    <div>
-      <h5 class="text-uppercase">Albums</h5>
+    <div v-if="result.albums.length > 0" class="mb-5">
+      <h1>Albums</h1>
       <AlbumList :items="result.albums"/>
-      <b-table-simple hover borderless>
-        <tbody>
-          <tr v-for="item in result.albums">
-            <td>{{ item.name }}</td>
-            <td>{{ item.artist }}</td>
-          </tr>
-        </tbody>
-      </b-table-simple>
     </div>
 
     <div>
