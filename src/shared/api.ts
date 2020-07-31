@@ -139,6 +139,7 @@ export class API {
     return response.playlists.playlist.map((playlist: any) => ({
       ...playlist,
       name: playlist.name || "(Unnamed)",
+      image: playlist.songCount > 0 ? this.getCoverArtUrl(playlist) : undefined,
     }));
   }
 

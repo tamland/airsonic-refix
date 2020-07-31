@@ -1,32 +1,14 @@
 <template>
-  <div>
-    <b-table-simple>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Created</th>
-        <th>Updated</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(item, index) in playlists" :key="item.id">
-        <td>
-          <router-link :to="{name: 'playlist', params: { id: item.id } }">
-            {{ item.name }}
-          </router-link>
-        </td>
-        <td>{{ item.created | dateTime }}</td>
-        <td>{{ item.changed | dateTime }}</td>
-        <td class="text-right">
-          <OverflowMenu>
-            <b-dropdown-item-btn @click="deletePlaylist(item.id)">Delete</b-dropdown-item-btn>
-          </OverflowMenu>
-        </td>
-      </tr>
-    </tbody>
-    </b-table-simple>
-  </div>
+  <Tiles square>
+    <Tile v-for="item in playlists" :key="item.id"
+      :image="item.image"
+      :to="{name: 'playlist', params: { id: item.id } }"
+      :title="item.name">
+      <template v-slot:text>
+        <strong>{{ item.songCount }}</strong> songs
+      </template>
+    </Tile>
+  </Tiles>
 </template>
 <script lang="ts">
   import Vue from "vue";
