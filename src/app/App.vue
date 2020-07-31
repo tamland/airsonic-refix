@@ -9,6 +9,7 @@
         </div>
       </div>
     </div>
+    <ErrorBar/>
     <footer class="footer elevated">
       <Player />
     </footer>
@@ -27,12 +28,14 @@
   }
 </style>
 <script lang="ts">
+  import ErrorBar from "./ErrorBar.vue";
   import TopNav from "./TopNav.vue";
   import Sidebar from "./Sidebar.vue";
   import Player from "@/player/Player.vue";
 
   export default {
     components: {
+      ErrorBar,
       TopNav,
       Sidebar,
       Player,

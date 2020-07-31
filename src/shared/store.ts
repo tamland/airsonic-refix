@@ -10,7 +10,7 @@ interface State {
   isLoggedIn: boolean;
   username: null | string;
   showMenu: boolean;
-  errors: any[];
+  error: Error | null;
   playlists: any[];
 }
 
@@ -19,10 +19,16 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
     isLoggedIn: false,
     username: null,
     showMenu: false,
-    errors: [],
+    error: null,
     playlists: [],
   },
   mutations: {
+    setError(state, error) {
+      state.error = error;
+    },
+    clearError(state) {
+      state.error = null;
+    },
     setLoginSuccess(state, { username }) {
       state.isLoggedIn = true;
       state.username = username;

@@ -124,4 +124,7 @@ export function connectAudioToStore(store: Store<any>) {
   audio.onended = (event) => {
     store.dispatch("player/playNext");
   }
+  audio.onerror = (event) => {
+    store.commit("setError", audio.error);
+  }
 }

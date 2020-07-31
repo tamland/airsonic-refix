@@ -33,6 +33,10 @@ connectAudioToStore(store);
 Vue.prototype.$auth = authService;
 Vue.prototype.$api = api;
 
+Vue.config.errorHandler = (err, vm, info) => {
+  store.commit("setError", err)
+}
+
 new Vue({
   router,
   store,
