@@ -1,7 +1,9 @@
 <template>
   <div class="d-flex player">
     <div v-if="track" class="d-none d-sm-block">
-      <b-img :src="track.image" block width="80px" height="80px"></b-img>
+      <router-link :to="{name: 'album', params: {id: track.albumId}}">
+        <b-img :src="track.image" block width="80px" height="80px"></b-img>
+      </router-link>
     </div>
     <div class="flex-fill">
       <!-- Progress --->
