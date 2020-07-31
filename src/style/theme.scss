@@ -1,31 +1,33 @@
-// $BASE: #080808;
-// $BASE_EVEVATED: #222;
-$BASE: #000;
-$BASE_EVEVATED: rgb(25, 25, 25);
+$theme-base: #000;
+$theme-elevated: rgb(25, 25, 25);
+$theme-text: #ccc;
 
 $primary: #09f;
 $danger: #e54b4b;
 
-// $black:    #000 !default;
-
-$body-bg: $BASE;
-$body-color: #ccc;
-$link-color: #ccc;
+$body-bg: $theme-base;
+$body-color: $theme-text;
+$link-color: $theme-text;
 $text-muted: #999;
-// strong { color: #ddd }
 
-// Cards
-$card-cap-bg: $BASE_EVEVATED;
-$card-bg: $BASE_EVEVATED;
+// Card
+$card-cap-bg: $theme-elevated;
+$card-bg: $theme-elevated;
 
-$modal-content-bg: $BASE_EVEVATED;
+$modal-content-bg: $theme-elevated;
 
-$input-bg: $BASE_EVEVATED;
+// Dropdown
+$dropdown-bg: $theme-elevated;
+$dropdown-link-color: $theme-text;
+$dropdown-link-hover-bg: $theme-elevated;
+$dropdown-link-hover-color: #a6a6a6;
+
+$input-bg: $theme-elevated;
 $input-color: #ccc !default;
 
 $progress-bg: rgb(35, 35, 35);
 $border-color: #444;
 
 .elevated {
-    background-color: $BASE_EVEVATED;
+  background-color: $theme-elevated;
 }
