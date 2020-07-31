@@ -1,30 +1,26 @@
 <template>
   <div>
     <Spinner :data="albums" v-slot="{albums: data}">
-      <Tiles :items="albums" v-slot="{ item }" square>
-        <div class="text-truncate">
-          <router-link :to="{name: 'album', params: { id: item.id } }">
-            <strong>{{ item.name }}</strong>
-          </router-link>
-        </div>
-        <div class="text-truncate text-muted">
-          <router-link :to="{name: 'artist', params: { id: item.artistId } }">
-            {{ item.artist }}
-          </router-link>
-        </div>
+      <Tiles square>
+        <Tile v-for="item in albums" :key="item.id"
+          :image="item.image"
+          :to="{name: 'album', params: { id: item.id } }"
+          :title="item.name">
+          <template v-slot:text>
+            <router-link :to="{name: 'artist', params: { id: item.artistId } }">
+              {{ item.artist }}
+            </router-link>
+          </template>
+        </Tile>
       </Tiles>
     </Spinner>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
-import AlbumCard from "./AlbumCard.vue";
 import { AlbumSort } from '@/shared/api';
 
 export default Vue.extend({
-  components: {
-    AlbumCard
-  },
   props: {
     msg: String
   },

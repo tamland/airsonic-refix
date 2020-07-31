@@ -10,33 +10,31 @@
       </div>
     </div>
     <h3 class="pt-5">Albums</h3>
-    <Tiles :items="item.albums" v-slot="{ item }" square>
-      <div class="text-truncate">
-        <router-link :to="{name: 'album', params: { id: item.id } }">
-          <strong>{{ item.name }}</strong>
-        </router-link>
-      </div>
-      <div class="text-truncate text-muted">
-        {{ item.artist }}
-      </div>
+    <Tiles square>
+      <Tile v-for="item in item.albums" :key="item.id"
+        :image="item.image"
+        :to="{name: 'album', params: { id: item.id } }"
+        :title="item.name"
+        :text="item.artist">
+      </Tile>
     </Tiles>
-
     <h3 class="pt-5">Similar artist</h3>
-    <Tiles :items="item.similarArtist" v-slot="{ item }">
-      <ArtistCard :item="item"></ArtistCard>
+    <Tiles>
+      <Tile v-for="item in item.similarArtist" :key="item.id"
+        :to="{name: 'artist', params: { id: item.id } }"
+        :title="item.name">
+        <template v-slot:text>
+          <strong>{{ item.albumCount }}</strong> albums
+        </template>
+      </Tile>
     </Tiles>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
-import AlbumCard from "@/library/album/AlbumCard.vue";
-import ArtistCard from "@/library/artist/ArtistCard.vue";
 
 export default Vue.extend({
-  components: {
-    AlbumCard,
-    ArtistCard,
-  },
+  components: {},
   props: {
     id: String
   },

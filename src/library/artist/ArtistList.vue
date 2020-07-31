@@ -1,23 +1,19 @@
 <template>
-  <Tiles :items="items" v-slot="{ item }">
-    <div class="text-truncate">
-      <router-link :to="{name: 'artist', params: { id: item.id } }">
-        <strong>{{ item.name }}</strong>
-      </router-link>
-    </div>
-     <div class="text-truncate text-muted">
-      <strong>{{ item.albumCount }}</strong> albums
-    </div>
+  <Tiles>
+    <Tile v-for="item in items" :key="item.id"
+      :image="item.image"
+      :to="{name: 'artist', params: { id: item.id } }"
+      :title="item.name">
+      <template v-slot:text>
+        <strong>{{ item.albumCount }}</strong> albums
+      </template>
+    </Tile>
   </Tiles>
 </template>
 <script lang="ts">
   import Vue from "vue";
-  import ArtistCard from "./ArtistCard.vue";
 
   export default Vue.extend({
-    components: {
-      ArtistCard,
-    },
     data() {
       return {
         items: []

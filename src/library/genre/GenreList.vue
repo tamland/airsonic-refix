@@ -1,34 +1,30 @@
 <template>
-  <Tiles :items="items">
-    <template v-slot="{ item }">
-      <div class="text-truncate">
-        <router-link :to="{name: 'genre', params: { id: item.id } }">
-          <strong>{{ item.name }}</strong>
-        </router-link>
-      </div>
-      <div class="text-truncate text-muted">
+  <Tiles>
+    <Tile v-for="item in items" :key="item.id"
+      :image="item.image"
+      :to="{name: 'genre', params: { id: item.id } }"
+      :title="item.name">
+      <template v-slot:text>
         <strong>{{ item.albumCount }}</strong> albums ·
         <strong>{{ item.songCount }}</strong> songs
-      </div>
-    </template>
+      </template>
+    </Tile>
   </Tiles>
 </template>
 <script lang="ts">
 import Vue from "vue";
 
 export default Vue.extend({
-  components: {
-    
-  },
+  components: {},
   data() {
     return {
-      items: []
+      items: [],
     };
   },
   created() {
-    this.$api.getGenres().then(items => {
+    this.$api.getGenres().then((items) => {
       this.items = items;
     });
-  }
+  },
 });
 </script>

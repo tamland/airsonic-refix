@@ -3,12 +3,14 @@ import Icon from "./Icon.vue";
 import OverflowMenu from "./OverflowMenu.vue";
 import Spinner from "./Spinner.vue";
 import Tiles from "./Tiles.vue";
+import Tile from "./Tile.vue";
 
 const components = {
   Icon,
   OverflowMenu,
   Spinner,
   Tiles,
+  Tile,
 };
 
 type Key = keyof typeof components;
