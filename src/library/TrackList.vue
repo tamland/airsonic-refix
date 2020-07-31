@@ -18,13 +18,13 @@
         <td class="pl-0 pr-0 text-center text-muted" style="min-width: 20px; max-width: 20px;">
           <span class="track-status">
             <template v-if="item.id === playingTrackId">
-              <Icon :icon="isPlaying ? 'volume-up-fill' : 'play-fill'"/>
+              <Icon :icon="isPlaying ? 'pause-fill' : 'play-fill'" class="text-primary"/>
             </template>
             <template v-else>{{ item.track || 1 }}</template>
           </span>
           <span class="track-status-hover">
             <span v-if="item.id === playingTrackId" @click="playPause()">
-              <Icon :icon="isPlaying ? 'pause-fill' : 'play-fill'"/>
+              <Icon :icon="isPlaying ? 'pause-fill' : 'play-fill'" class="text-primary"/>
             </span>
             <span v-else @click="play(index)">
               <Icon icon="play-fill"/>
