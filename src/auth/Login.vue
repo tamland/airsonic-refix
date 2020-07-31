@@ -51,7 +51,10 @@ export default Vue.extend({
     this.username = await this.$auth.username;
     const success = await this.$auth.autoLogin();
     if (success) {
-      this.$store.commit("setLoginSuccess", { username: this.username});
+      this.$store.commit("setLoginSuccess", {
+        username: this.username,
+        server: this.server,
+      });
       this.$router.push(this.returnTo);
     } else {
       this.showModal = true;
@@ -62,7 +65,10 @@ export default Vue.extend({
       this.busy = true;
       this.$auth.loginWithPassword(this.server, this.username, this.password, this.rememberLogin)
         .then(() => {
-          this.$store.commit("setLoginSuccess", { username: this.username });
+          this.$store.commit("setLoginSuccess", {
+            username: this.username,
+            server: this.server,
+          });
           this.$router.push(this.returnTo);
         })
         .catch(err => {

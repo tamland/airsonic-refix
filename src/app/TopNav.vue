@@ -9,9 +9,21 @@
     <SearchForm/>
 
     <template v-if="username">
-      <b-dropdown variant="link" right :text="username">
+      <b-dropdown variant="link" right no-caret>
+        <template #button-content>
+          <b-avatar variant="secondary">
+            <Icon icon="person-fill"/>
+          </b-avatar>
+        </template>
+        <b-dropdown-text>
+          {{ server }}
+        </b-dropdown-text>
+        <b-dropdown-text>
+          {{ username }}
+        </b-dropdown-text>
+        <b-dropdown-divider/>
         <b-dropdown-item-button @click="logout">
-          <Icon icon="box-arrow-right"/> Logout
+          Log out
         </b-dropdown-item-button>
       </b-dropdown>
     </template>
@@ -27,7 +39,10 @@ import SearchForm from '@/search/SearchForm.vue';
       SearchForm,
     },
     computed: {
-      ...mapState(["username"])
+      ...mapState([
+        "server",
+        "username",
+      ])
     },
     methods: {
       ...mapMutations([

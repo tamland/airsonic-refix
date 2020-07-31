@@ -9,6 +9,7 @@ import { API } from './api';
 interface State {
   isLoggedIn: boolean;
   username: null | string;
+  server: null | string;
   showMenu: boolean;
   error: Error | null;
   playlists: any[];
@@ -18,6 +19,7 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
   state: {
     isLoggedIn: false,
     username: null,
+    server: null,
     showMenu: false,
     error: null,
     playlists: [],
@@ -29,9 +31,10 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
     clearError(state) {
       state.error = null;
     },
-    setLoginSuccess(state, { username }) {
+    setLoginSuccess(state, { username, server }) {
       state.isLoggedIn = true;
       state.username = username;
+      state.server = server;
     },
     toggleMenu(state) {
       state.showMenu = !state.showMenu;
