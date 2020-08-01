@@ -1,7 +1,5 @@
 <template>
-  <div v-if="items">
-    <TrackList :tracks="items.tracks"/>
-  </div>
+  <TrackList v-if="items" :tracks="items"/>
 </template>
 <script lang="ts">
   import Vue from "vue";
