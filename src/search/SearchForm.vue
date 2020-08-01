@@ -12,8 +12,10 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  props: {
-    query: String
+  data() {
+    return {
+      query: ""
+    }
   },
   methods: {
     search(): void {
