@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import ExternalLink from "./ExternalLink.vue";
 import Icon from "./Icon.vue";
 import OverflowMenu from "./OverflowMenu.vue";
 import Spinner from "./Spinner.vue";
@@ -6,6 +7,7 @@ import Tiles from "./Tiles.vue";
 import Tile from "./Tile.vue";
 
 const components = {
+  ExternalLink,
   Icon,
   OverflowMenu,
   Spinner,

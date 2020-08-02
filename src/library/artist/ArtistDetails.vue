@@ -1,12 +1,15 @@
 <template>
   <div v-if="item">
-    <div class="row mb-2">
-      <!-- <div class="col"> -->
-        <!-- <b-img height="300" width="300" :src="item.image"></b-img> -->
-      <!-- </div> -->
+    <div class="row">
       <div class="col col-xl-8">
         <h1>{{ item.name }}</h1>
         <p>{{ item.description }}</p>
+        <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="btn btn-secondary mr-2">
+          Last.fm
+        </ExternalLink>
+        <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl" class="btn btn-secondary">
+          MusicBrainz
+        </ExternalLink>
       </div>
     </div>
     <h3 class="pt-5">Albums</h3>

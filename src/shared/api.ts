@@ -100,14 +100,13 @@ export class API {
       this.get("rest/getArtistInfo2", params).then(r => r.artistInfo2),
     ])
     return {
-      info1,
-      info2,
       id: info1.id,
       name: info1.name,
       description: info2.biography,
       image: info2.largeImageUrl || info2.mediumImageUrl || info2.smallImageUrl,
       lastFmUrl: info2.lastFmUrl,
-      musicBrainzId: info2.musicBrainzId,
+      musicBrainzUrl: info2.musicBrainzId
+        ? `https://musicbrainz.org/artist/${info2.musicBrainzId}` : null,
       albums: info1.album.map((album: any) => this.normalizeAlbumResponse(album)),
       similarArtist: (info2.similarArtist || []).map((artist: any) => ({
         id: artist.id,
