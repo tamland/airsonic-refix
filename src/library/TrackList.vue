@@ -15,23 +15,23 @@
       <tr v-for="(item, index) in tracks" :key="item.id"
            draggable="true" @dragstart="dragstart(item.id, $event)"
           :class="{'text-primary': item.id === playingTrackId}">
-        <td class="pl-0 pr-0 text-center text-muted" style="min-width: 20px; max-width: 20px;">
-          <span class="track-status">
-            <template v-if="item.id === playingTrackId">
-              <Icon :icon="isPlaying ? 'pause-fill' : 'play-fill'" class="text-primary"/>
-            </template>
-            <template v-else>{{ item.track || 1 }}</template>
-          </span>
-          <span class="track-status-hover">
-            <span v-if="item.id === playingTrackId" @click="playPause()">
-              <Icon :icon="isPlaying ? 'pause-fill' : 'play-fill'" class="text-primary"/>
-            </span>
-            <span v-else @click="play(index)">
-              <Icon icon="play-fill"/>
-            </span>
-          </span>
+        <td class="pl-0 pr-0 text-center text-muted"
+            style="min-width: 20px; max-width: 20px;"
+            @click="play(index)">
+          <template v-if="item.id === playingTrackId">
+            <Icon :icon="isPlaying ? 'pause-fill' : 'play-fill'" class="text-primary"/>
+          </template>
+          <template v-else>
+            <span class="track-number">{{ item.track || 1 }}</span>
+            <Icon class="track-number-hover" icon="play-fill"/>
+          </template>
         </td>
-        <td>{{ item.title }}</td>
+        <td @click="play(index)">
+          {{ item.title }}
+          <div class="hidden-md text-muted">
+            <small>{{ item.artist }}</small>
+          </div>
+        </td>
         <td>
           <template v-if="item.artistId">
             <router-link :to="{name: 'artist', params: {id: item.artistId}}">
@@ -63,14 +63,14 @@
   </div>
 </template>
 <style lang="scss" scoped>
-  .track-status-hover {
+  .track-number-hover {
     display: none;
   }
   tr:hover {
-    .track-status-hover {
+    .track-number-hover {
       display: inline;
     }
-    .track-status {
+    .track-number {
       display: none;
     }
   }
@@ -101,6 +101,10 @@ export default Vue.extend({
       playPause: "player/playPause",
     }),
     play(index: number) {
+      if ((this.tracks as any)[index].id === this.playingTrackId) {
+        this.$store.commit("player/playPause")
+        return;
+      }
       this.$store.dispatch('player/play', {
         index,
         queue: this.tracks,

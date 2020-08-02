@@ -1,5 +1,5 @@
 <template>
-  <BIcon :icon="icon"/>
+  <BIcon :icon="icon" v-bind="$attrs"/>
 </template>
 <script lang="ts">
   import Vue from 'vue'
