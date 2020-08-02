@@ -1,20 +1,61 @@
-$enable-rounded: false;
-$enable-print-styles: false;
+$theme-elevation-0: hsl(0, 0%, 0%);
+$theme-elevation-1: hsl(0, 0%, 10%);
+$theme-elevation-2: hsl(0, 0%, 20%);
+$theme-text: #ccc;
+$theme-text-muted: #999;
+
+$primary: #09f;
+$danger: #ff4141;
+$secondary: $theme-elevation-2;
+
+$body-bg: $theme-elevation-0;
+$body-color: $theme-text;
+$link-color: $theme-text;
+$text-muted: $theme-text-muted;
+$border-color: $theme-elevation-2;
+
+// Card
+$card-bg: $theme-elevation-1;
+$card-cap-bg: $theme-elevation-1;
+
+// Modal
+$modal-content-bg: $theme-elevation-1;
+$modal-content-border-color: $theme-elevation-2;
+
+// Dropdown
+$dropdown-bg: $theme-elevation-1;
+$dropdown-link-color: $theme-text;
+$dropdown-link-hover-bg: $theme-elevation-1;
+$dropdown-link-hover-color: $theme-text-muted;
+$dropdown-border-color: $theme-elevation-2;
+$dropdown-divider-bg: $theme-elevation-2;
+
+// Form
+$input-bg: $theme-elevation-2;
+$input-border-color: $theme-elevation-2;
+$input-color: $theme-text;
+
+$progress-bg: rgb(35, 35, 35);
+
+.elevated {
+  background-color: $theme-elevation-1;
+}
+
 .breadcrumb {
   background: none !important;
   padding: 0 !important;
 }
 
-@import './theme.scss';
-
 a.active {
   color: $primary;
 }
 
-h1, h2, h3 {
-  // color: $primary;
+h1, h2, h3, h4, h5 {
   color: #fff;
 }
+
+$enable-print-styles: false;
+$enable-responsive-font-sizes: true;
 
 @import '~bootstrap';
 @import '~bootstrap-vue';

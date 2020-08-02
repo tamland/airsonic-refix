@@ -24,7 +24,7 @@
   .tile-img {
     position: relative;
     width: 100%;
-    background-color: var(--secondary);
+    background-color: #6c757d;
 
     img {
       position: absolute;
