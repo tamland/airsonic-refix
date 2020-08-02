@@ -222,7 +222,7 @@ export class API {
     };
     const data = await this.get("rest/search3", params);
     return {
-      tracks: data.searchResult3.song || [],
+      tracks: this.normalizeTrackList(data.searchResult3.song || []),
       albums: (data.searchResult3.album || []).map((x: any) => this.normalizeAlbumResponse(x)),
       artists: (data.searchResult3.artist || []).map((x: any) => this.normalizeArtistResponse(x)),
     };
