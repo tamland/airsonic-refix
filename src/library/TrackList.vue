@@ -5,9 +5,9 @@
       <tr>
         <th class="pl-0 pr-0 text-center text-muted"></th>
         <th class="text-left">Title</th>
-        <th class="text-left">Artist</th>
-        <th v-if="showAlbum" class="text-left">Album</th>
-        <th class="text-right">Duration</th>
+        <th class="text-left d-none d-lg-table-cell">Artist</th>
+        <th class="text-left d-none d-md-table-cell" v-if="showAlbum">Album</th>
+        <th class="text-right d-none d-md-table-cell">Duration</th>
         <th class="text-right">Actions</th>
       </tr>
     </thead>
@@ -28,11 +28,11 @@
         </td>
         <td @click="play(index)">
           {{ item.title }}
-          <div class="hidden-md text-muted">
+          <div class="d-lg-none text-muted">
             <small>{{ item.artist }}</small>
           </div>
         </td>
-        <td>
+        <td class="d-none d-lg-table-cell">
           <template v-if="item.artistId">
             <router-link :to="{name: 'artist', params: {id: item.artistId}}">
               {{ item.artist }}
@@ -42,12 +42,12 @@
             {{ item.artist }}
           </template>
         </td>
-        <td v-if="showAlbum">
+        <td class="d-none d-md-table-cell" v-if="showAlbum">
           <router-link :to="{name: 'album', params: {id: item.albumId}}">
             {{ item.album }}
           </router-link>
         </td>
-        <td class="text-right">
+        <td class="text-right d-none d-md-table-cell">
           {{ item.duration | duration }}
         </td>
         <td class="text-right">
