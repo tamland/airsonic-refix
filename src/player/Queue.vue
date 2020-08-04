@@ -11,7 +11,7 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 import TrackList from "@/library/TrackList.vue";
 
 export default Vue.extend({
@@ -25,7 +25,6 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations("player", {
-      play: "playQueueIndex",
       remove: "removeFromQueue",
     }),
   }

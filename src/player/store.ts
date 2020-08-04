@@ -1,5 +1,12 @@
 import { Store, Module } from 'vuex'
 
+const audio = new Audio();
+const storedQueue = JSON.parse(localStorage.getItem("queue") || "[]");
+const storedQueueIndex = parseInt(localStorage.getItem("queueIndex") || "-1");
+if (storedQueueIndex > -1 && storedQueueIndex < storedQueue.length) {
+  audio.src = storedQueue[storedQueueIndex].url;
+}
+const mediaSession: MediaSession | undefined = navigator.mediaSession;
 
 interface State {
   queue: any[];
@@ -7,13 +14,6 @@ interface State {
   isPlaying: boolean;
   duration: number; // duration of current track in seconds
   currentTime: number; // position of current track in seconds
-}
-
-const audio = new Audio();
-const storedQueue = JSON.parse(localStorage.getItem("queue") || "[]");
-const storedQueueIndex = parseInt(localStorage.getItem("queueIndex") || "-1");
-if (storedQueueIndex > -1 && storedQueueIndex < storedQueue.length) {
-  audio.src = storedQueue[storedQueueIndex].url;
 }
 
 export const playerModule: Module<State, any> = {
@@ -27,40 +27,44 @@ export const playerModule: Module<State, any> = {
   },
 
   mutations: {
-    playPause(state: State) {
-      if (state.isPlaying) {
-        state.isPlaying = false;
-        audio.pause();
-      } else {
-        state.isPlaying = true;
-        audio.play();
-      }
-    },
-    seek(state, value: number) {
-      console.log("seek: " + value);
-      if (state.queueIndex != -1) {
-        const seconds = state.duration * value;
-        audio.currentTime = seconds;
-      }
-    },
-    setQueueAndPlay(state, { queue, index }) {
-      state.queue = queue;
-      state.queueIndex = index;
-      localStorage.setItem("queue", JSON.stringify(queue));
-      localStorage.setItem("queueIndex", index);
+    setPlaying(state) {
       state.isPlaying = true;
-      audio.src = queue[index].url;
-      audio.play();
+      if (mediaSession) {
+        mediaSession.playbackState = "playing";
+      }
     },
-    playQueueIndex(state, index) {
+    setPaused(state) {
+      state.isPlaying = false;
+      if (mediaSession) {
+        mediaSession.playbackState = "paused";
+      }
+    },
+    setPosition(state, time: number) {
+      audio.currentTime = time;
+    },
+    setQueue(state, queue) {
+      state.queue = queue;
+      state.queueIndex = -1;
+      localStorage.setItem("queue", JSON.stringify(queue));
+    },
+    setQueueIndex(state, index) {
       if (state.queue.length === 0) {
         return;
       }
+      index = Math.max(0, index);
       index = index < state.queue.length ? index : 0;
-      state.isPlaying = true;
       state.queueIndex = index;
-      audio.src = state.queue[index].url;
-      audio.play();
+      localStorage.setItem("queueIndex", index);
+      const track = state.queue[index];
+      audio.src = track.url;
+      if (mediaSession) {
+        mediaSession.metadata = new MediaMetadata({
+          title: track.title,
+          artist: track.artist,
+          album: track.album,
+          artwork: track.image ? [{ src: track.image}] : undefined,
+        });
+      }
     },
     removeFromQueue(state, index) {
       state.queue.splice(index, 1);
@@ -68,23 +72,47 @@ export const playerModule: Module<State, any> = {
         state.queueIndex--;
       }
     },
-    setProgress(state: State, value: any) {
+    setProgress(state, value: any) {
       state.currentTime = value;
     },
-    setDuration(state: State, value: any) {
+    setDuration(state, value: any) {
       state.duration = value;
     },
   },
 
   actions: {
-    play({ commit }, { queue, index }) {
-      commit('setQueueAndPlay', { index, queue });
+    async playQueue({ commit }, { queue, index }) {
+      commit("setQueue", queue);
+      commit("setQueueIndex", index);
+      commit("setPlaying");
+      await audio.play();
     },
-    playNext({ commit, state }) {
-      commit("playQueueIndex", state.queueIndex + 1);
+    async play({ commit }) {
+      commit("setPlaying");
+      await audio.play();
     },
-    playPrevious({ commit, state }) {
-      commit("playQueueIndex", state.queueIndex - 1);
+    pause({ commit }) {
+      audio.pause();
+      commit("setPaused");
+    },
+    async playNext({ commit, state }) {
+      commit("setQueueIndex", state.queueIndex + 1);
+      commit("setPlaying");
+      await audio.play();
+    },
+    async playPrevious({ commit, state }) {
+      commit("setQueueIndex", state.queueIndex - 1);
+      commit("setPlaying");
+      await audio.play();
+    },
+    playPause({ state, dispatch }) {
+      if (state.isPlaying) {
+        return dispatch("pause");
+      }
+      return dispatch("play");
+    },
+    seek({ commit, state }, value) {
+      commit("setPosition", state.duration * value);
     },
   },
   
@@ -114,7 +142,7 @@ export const playerModule: Module<State, any> = {
 };
 
 
-export function connectAudioToStore(store: Store<any>) {
+export function setupAudio(store: Store<any>) {
   audio.ontimeupdate = (event) => {
     store.commit("player/setProgress", audio.currentTime)
   };
@@ -125,6 +153,49 @@ export function connectAudioToStore(store: Store<any>) {
     store.dispatch("player/playNext");
   }
   audio.onerror = (event) => {
+    store.commit("player/setPaused");
     store.commit("setError", audio.error);
+  }
+  audio.onwaiting = (event) => {
+    console.log('audio is waiting for more data.');
+  };
+
+  if (mediaSession) {
+    mediaSession.setActionHandler('play', () => {
+      store.dispatch("player/play");
+    });
+    mediaSession.setActionHandler('pause', () => {
+      store.dispatch("player/pause");
+    });
+    mediaSession.setActionHandler('nexttrack', () => {
+      store.dispatch("player/playNext");
+    });
+    mediaSession.setActionHandler('previoustrack', () => {
+      store.dispatch("player/playPrevious");
+    });
+    mediaSession.setActionHandler('stop', () => {
+      store.dispatch("player/pause");
+    });
+    mediaSession.setActionHandler("seekto", (details) => {
+      store.commit("player/setPosition", details.seekTime);
+    });
+    mediaSession.setActionHandler("seekforward", (details) => {
+      const offset = details.seekOffset || 10;
+      store.commit("player/setPosition", Math.min(audio.currentTime + offset, audio.duration));
+    });
+    mediaSession.setActionHandler("seekbackward", (details) => {
+      const offset = details.seekOffset || 10;
+      store.commit("player/setPosition", Math.max(audio.currentTime - offset, 0));
+    });
+    // FIXME
+    // function updatePositionState() {
+    //   if (mediaSession && mediaSession.setPositionState) {
+    //     mediaSession.setPositionState({
+    //       duration: audio.duration || 0,
+    //       playbackRate: audio.playbackRate,
+    //       position: audio.currentTime,
+    //     });
+    //   }
+    // }
   }
 }

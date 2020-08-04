@@ -97,15 +97,14 @@ export default Vue.extend({
     }),
   },
   methods: {
-    ...mapMutations({
+    ...mapActions({
       playPause: "player/playPause",
     }),
     play(index: number) {
       if ((this.tracks as any)[index].id === this.playingTrackId) {
-        this.$store.commit("player/playPause")
-        return;
+        return this.$store.dispatch("player/playPause")
       }
-      this.$store.dispatch('player/play', {
+      return this.$store.dispatch('player/playQueue', {
         index,
         queue: this.tracks,
       })

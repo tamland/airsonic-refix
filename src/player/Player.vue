@@ -75,20 +75,16 @@ export default Vue.extend({
     ]),
   },
   methods: {
-    ...mapMutations("player", [
-      "playPause",
-    ]),
     ...mapActions("player", [
+      "playPause",
       "playNext",
       "playPrevious",
     ]),
     seek(event: any) {
       if (event.target) {
         const width = event.target.clientWidth;
-        const value = event.offsetX / width
-        this.$store.commit("player/seek", value)
-      // this.internalValue = e.offsetX / width * 100
-
+        const value = event.offsetX / width;
+        return this.$store.dispatch("player/seek", value);
       }
     }
   }

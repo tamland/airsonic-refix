@@ -10,7 +10,7 @@ import {setupRouter} from '@/shared/router'
 import {setupStore} from '@/shared/store'
 import { API } from '@/shared/api';
 import { AuthService } from '@/auth/service';
-import { connectAudioToStore } from './player/store'
+import { setupAudio } from './player/store'
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -28,7 +28,7 @@ const authService = new AuthService();
 const api = new API(authService);
 const router = setupRouter(authService);
 const store = setupStore(authService, api);
-connectAudioToStore(store);
+setupAudio(store);
 
 Vue.prototype.$auth = authService;
 Vue.prototype.$api = api;
