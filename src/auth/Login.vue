@@ -1,28 +1,27 @@
 <template>
   <div>
-    <b-modal title="Login" hide-footer no-close-on-esc :visible="showModal">
+    <b-modal size="sm" hide-header hide-footer no-close-on-esc :visible="showModal">
       <form @submit.prevent="login">
-        <fieldset :disabled="busy">
-          <b-form-group label="Server">
-            <b-form-input name="server" type="text" v-model="server" required></b-form-input>
-          </b-form-group>
-          <b-form-group label="Username">
-            <b-form-input name="username" type="text" v-model="username" required></b-form-input>
-          </b-form-group>
-          <b-form-group label="Password">
-            <b-form-input name="password" type="password" v-model="password" required></b-form-input>
-          </b-form-group>
-          <b-form-group>
-            <b-form-checkbox v-model="rememberLogin">Remember</b-form-checkbox>
-          </b-form-group>
-          <b-alert :show="!!error" variant="danger">
-            Login failed.
-          </b-alert>
-          <button class="btn btn-primary" @click="login">
-            <b-spinner v-show="busy" small type="grow"/>
-            Login
-          </button>
-        </fieldset>
+        <div style="font-size: 4rem; color: #fff;" class="text-center">
+          <Icon icon="person-circle"/>
+        </div>
+        <b-form-group label="Server">
+          <b-form-input name="server" type="text" v-model="server" :state="valid"/>
+        </b-form-group>
+        <b-form-group label="Username">
+          <b-form-input name="username" type="text" v-model="username" :state="valid"/>
+        </b-form-group>
+        <b-form-group label="Password">
+          <b-form-input name="password" type="password" v-model="password" :state="valid"/>
+        </b-form-group>
+        <b-alert :show="error != null" variant="danger">
+          <template v-if="error != null">
+            Could not log in. ({{ error.message }})
+          </template>
+        </b-alert>
+        <button class="btn btn-primary btn-block" @click="login" :disabled="busy">
+          <b-spinner v-show="busy" small type="grow"/> Log in
+        </button>
       </form>
     </b-modal>
   </div>
@@ -40,9 +39,9 @@ export default Vue.extend({
       server: "",
       username: "",
       password: "",
-      rememberLogin: false,
+      rememberLogin: true,
       busy: false,
-      error: false,
+      error: null,
       showModal: false,
     };
   },
@@ -60,8 +59,14 @@ export default Vue.extend({
       this.showModal = true;
     }
   },
+  computed: {
+    valid(): false | null {
+      return this.error == null ? null : false
+    }
+  },
   methods: {
     login() {
+      this.error = null;
       this.busy = true;
       this.$auth.loginWithPassword(this.server, this.username, this.password, this.rememberLogin)
         .then(() => {
@@ -72,7 +77,7 @@ export default Vue.extend({
           this.$router.push(this.returnTo);
         })
         .catch(err => {
-          this.error = true;
+          this.error = err;
         })
         .finally(() => {
           this.busy = false;

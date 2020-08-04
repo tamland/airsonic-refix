@@ -19,6 +19,7 @@
     BIconMusicNoteBeamed,
     BIconBoxArrowRight,
     BIconPersonFill,
+    BIconPersonCircle,
   } from 'bootstrap-vue'
 
   export default Vue.extend({
@@ -38,6 +39,7 @@
       BIconMusicNoteBeamed,
       BIconBoxArrowRight,
       BIconPersonFill,
+      BIconPersonCircle,
     },
     props: {
       icon: { type: String }
