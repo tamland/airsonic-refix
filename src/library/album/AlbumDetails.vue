@@ -1,6 +1,6 @@
 <template>
   <div v-if="album">
-    <div class="d-flex align-items-start mb-3">
+    <div class="d-flex mb-3">
       <b-img height="300" width="300" fluid :src="album.image"/>
       <div class="ml-3 ml-md-4">
         <h1>{{ album.name }}</h1>
@@ -20,6 +20,11 @@
     </div>
   </div>
 </template>
+<style scoped>
+  img {
+    max-width: 50%;
+  }
+</style>
 <script lang="ts">
 import Vue from "vue";
 import TrackList from "@/library/TrackList.vue"
