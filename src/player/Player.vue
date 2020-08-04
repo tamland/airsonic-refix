@@ -82,7 +82,7 @@ export default Vue.extend({
     ]),
     seek(event: any) {
       if (event.target) {
-        const width = event.target.clientWidth;
+        const width = event.currentTarget.clientWidth;
         const value = event.offsetX / width;
         return this.$store.dispatch("player/seek", value);
       }
