@@ -102,7 +102,7 @@ export class API {
     return {
       id: info1.id,
       name: info1.name,
-      description: info2.biography,
+      description: (info2.biography || "").replace(/<a[^>]*>.*?<\/a>/gm, ''),
       image: info2.largeImageUrl || info2.mediumImageUrl || info2.smallImageUrl,
       lastFmUrl: info2.lastFmUrl,
       musicBrainzUrl: info2.musicBrainzId
