@@ -15,8 +15,10 @@
     <h3 class="pt-5">Albums</h3>
     <AlbumList :items="item.albums"/>
 
-    <h3 class="pt-5">Similar artist</h3>
-    <ArtistList :items="item.similarArtist"/>
+    <template v-if="item.similarArtist.length > 0">
+      <h3 class="pt-5">Similar artists</h3>
+      <ArtistList :items="item.similarArtist"/>
+    </template>
   </div>
 </template>
 <script lang="ts">
