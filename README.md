@@ -4,9 +4,9 @@
 
 Modern responsive web frontend for [Airsonic](https://github.com/airsonic/airsonic). It's currently based on the [Subsonic API](http://www.subsonic.org/pages/api.jsp) and should work with other backends implementing this API as well.
 
-![Screenshot](screenshots/albumlist.jpg)
-
 ![Screenshot](screenshots/album.png)
+
+![Screenshot](screenshots/albumlist.jpg)
 
 
 ## Supported features
