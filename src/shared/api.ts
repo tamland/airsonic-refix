@@ -28,7 +28,8 @@ export class API {
       return this.http.get(path, {params}).then(response => {
         const subsonicResponse = response.data["subsonic-response"];
         if (subsonicResponse.status !== "ok") {
-          const err = new Error(subsonicResponse.status);
+          const message = subsonicResponse.error?.message || subsonicResponse.status;
+          const err = new Error(message);
           return Promise.reject(err);
         } 
         return Promise.resolve(subsonicResponse);
