@@ -6,7 +6,7 @@ Modern responsive web frontend for [Airsonic](https://github.com/airsonic/airson
 
 ![Screenshot](screenshots/album.png)
 
-![Screenshot](screenshots/albumlist.jpg)
+![Screenshot](screenshots/albumlist.png)
 
 
 ## Supported features
