@@ -47,12 +47,11 @@ export default Vue.extend({
   },
   methods: {
     remove(index: number) {
-      console.log("remove: " + index)
-      this.$api.removeFromPlaylist(this.id, index.toString());
       this.playlist.tracks.splice(index, 1);
+      return this.$api.removeFromPlaylist(this.id, index.toString());
     },
     deletePlaylist() {
-      this.$store.dispatch("deletePlaylist", this.id).then(() => {
+      return this.$store.dispatch("deletePlaylist", this.id).then(() => {
         this.$router.replace({name: "playlists"})
       })
     },

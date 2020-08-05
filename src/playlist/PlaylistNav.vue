@@ -53,15 +53,16 @@ export default Vue.extend({
   },
   methods: {
     createPlaylist() {
-      this.$store.dispatch("createPlaylist", this.playlistName);
+      const name = this.playlistName;
       this.playlistName = "";
       this.showModal = false;
+      return this.$store.dispatch("createPlaylist", name);
     },
     onDrop(playlistId: string, event: any) {
       console.log("onDrop")
       event.preventDefault();
       const trackId = event.dataTransfer.getData("id");
-      this.$store.dispatch("addTrackToPlaylist", { playlistId, trackId })
+      return this.$store.dispatch("addTrackToPlaylist", { playlistId, trackId })
     },
     onDragover(event: any) {
       console.log("onDragover")
