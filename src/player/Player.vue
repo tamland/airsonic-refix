@@ -25,15 +25,13 @@
 
         <!-- Controls--->
         <div class="col-auto p-0">
-          <b-button variant="link" class="m-2"
-              :disabled="!hasPrevious" @click="playPrevious">
+          <b-button variant="link" class="m-2" @click="playPrevious">
             <Icon icon="skip-start-fill"/>
           </b-button>
           <b-button variant="link" size="lg" class="m-2" @click="playPause">
             <Icon :icon="isPlaying ? 'pause-fill' : 'play-fill'"/>
           </b-button>
-          <b-button variant="link" class="m-2"
-              :disabled="!hasNext" @click="playNext">
+          <b-button variant="link" class="m-2" @click="playNext">
             <Icon icon="skip-end-fill"/>
           </b-button>
         </div>
@@ -70,8 +68,6 @@ export default Vue.extend({
     ...mapGetters("player", [
       "track",
       "progress",
-      "hasNext",
-      "hasPrevious",
     ]),
   },
   methods: {
