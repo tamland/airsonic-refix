@@ -40,7 +40,8 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
       state.showMenu = !state.showMenu;
     },
     setPlaylists(state, playlists: any[]) {
-      state.playlists = playlists;
+      state.playlists = playlists
+        .sort((a: any, b: any) => b.changed.localeCompare(a.changed));
     },
     removePlaylist(state, id: string) {
       state.playlists = state.playlists.filter(p => p.id !== id);
