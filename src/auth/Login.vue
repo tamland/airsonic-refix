@@ -54,7 +54,7 @@ export default Vue.extend({
         username: this.username,
         server: this.server,
       });
-      this.$router.push(this.returnTo);
+      this.$router.replace(this.returnTo);
     } else {
       this.showModal = true;
     }
@@ -74,7 +74,7 @@ export default Vue.extend({
             username: this.username,
             server: this.server,
           });
-          this.$router.push(this.returnTo);
+          this.$router.replace(this.returnTo);
         })
         .catch(err => {
           this.error = err;
