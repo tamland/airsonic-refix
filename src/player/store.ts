@@ -62,7 +62,7 @@ export const playerModule: Module<State, any> = {
           title: track.title,
           artist: track.artist,
           album: track.album,
-          artwork: track.image ? [{ src: track.image}] : undefined,
+          artwork: track.image ? [{ src: track.image, sizes: "300x300" }] : undefined,
         });
       }
     },
