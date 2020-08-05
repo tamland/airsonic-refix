@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, index) in tracks" :key="item.id"
+      <tr v-for="(item, index) in tracks" :key="index"
            draggable="true" @dragstart="dragstart(item.id, $event)"
           :class="{'text-primary': item.id === playingTrackId}">
         <td class="pl-0 pr-0 text-center text-muted"
