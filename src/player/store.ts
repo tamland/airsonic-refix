@@ -72,6 +72,9 @@ export const playerModule: Module<State, any> = {
         state.queueIndex--;
       }
     },
+    setNextInQueue(state, track) {
+      state.queue.splice(state.queueIndex + 1, 0, track);
+    },
     setProgress(state, value: any) {
       state.currentTime = value;
     },
@@ -95,12 +98,12 @@ export const playerModule: Module<State, any> = {
       audio.pause();
       commit("setPaused");
     },
-    async playNext({ commit, state }) {
+    async next({ commit, state }) {
       commit("setQueueIndex", state.queueIndex + 1);
       commit("setPlaying");
       await audio.play();
     },
-    async playPrevious({ commit, state }) {
+    async previous({ commit, state }) {
       commit("setQueueIndex", state.queueIndex - 1);
       commit("setPlaying");
       await audio.play();
@@ -113,6 +116,9 @@ export const playerModule: Module<State, any> = {
     },
     seek({ commit, state }, value) {
       commit("setPosition", state.duration * value);
+    },
+    playNext({ commit }, track) {
+      commit("setNextInQueue", track);
     },
   },
   
@@ -150,7 +156,7 @@ export function setupAudio(store: Store<any>) {
     store.commit("player/setDuration", audio.duration);
   }
   audio.onended = (event) => {
-    store.dispatch("player/playNext");
+    store.dispatch("player/next");
   }
   audio.onerror = (event) => {
     store.commit("player/setPaused");
@@ -168,10 +174,10 @@ export function setupAudio(store: Store<any>) {
       store.dispatch("player/pause");
     });
     mediaSession.setActionHandler('nexttrack', () => {
-      store.dispatch("player/playNext");
+      store.dispatch("player/next");
     });
     mediaSession.setActionHandler('previoustrack', () => {
-      store.dispatch("player/playPrevious");
+      store.dispatch("player/previous");
     });
     mediaSession.setActionHandler('stop', () => {
       store.dispatch("player/pause");

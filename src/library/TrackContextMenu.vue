@@ -3,6 +3,9 @@
     <template #button-content>
       <Icon icon="three-dots-vertical"/>
     </template>
+    <b-dropdown-item-button @click="playNext()">
+      Play next
+    </b-dropdown-item-button>
     <b-dropdown-item-button @click="toggleStarred()">
       {{ starred ? 'Unstar' : 'Star' }}
     </b-dropdown-item-button>
@@ -29,6 +32,9 @@
           this.$api.star('track', this.track.id);
         }
         this.starred = !this.starred;
+      },
+      playNext() {
+        return this.$store.dispatch("player/playNext", this.track);
       },
     }
   });

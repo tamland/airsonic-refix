@@ -25,13 +25,13 @@
 
         <!-- Controls--->
         <div class="col-auto p-0">
-          <b-button variant="link" class="m-2" @click="playPrevious">
+          <b-button variant="link" class="m-2" @click="previous">
             <Icon icon="skip-start-fill"/>
           </b-button>
           <b-button variant="link" size="lg" class="m-2" @click="playPause">
             <Icon :icon="isPlaying ? 'pause-fill' : 'play-fill'"/>
           </b-button>
-          <b-button variant="link" class="m-2" @click="playNext">
+          <b-button variant="link" class="m-2" @click="next">
             <Icon icon="skip-end-fill"/>
           </b-button>
         </div>
@@ -73,8 +73,8 @@ export default Vue.extend({
   methods: {
     ...mapActions("player", [
       "playPause",
-      "playNext",
-      "playPrevious",
+      "next",
+      "previous",
     ]),
     seek(event: any) {
       if (event.target) {
