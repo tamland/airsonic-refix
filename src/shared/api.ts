@@ -8,9 +8,9 @@ export class API {
   readonly http: AxiosInstance;
   readonly get: (path: string, params?: any) => Promise<any>;
   readonly post: (path: string, params?: any) => Promise<any>;
+  readonly clientName = window.origin || "web";
 
   constructor(private auth: AuthService) {
-
     this.http = axios.create({});
     this.http.interceptors.request.use((config: AxiosRequestConfig) => {
       config.params = config.params || {};
@@ -18,7 +18,7 @@ export class API {
       config.params.u = this.auth.username;
       config.params.s = this.auth.salt;
       config.params.t = this.auth.hash;
-      config.params.c = "app";
+      config.params.c = this.clientName;
       config.params.f = "json";
       config.params.v = "1.15.0";
       return config;
@@ -255,11 +255,11 @@ export class API {
       return undefined;
     }
     const { server, username, salt, hash } = this.auth;
-    return `${server}/rest/getCoverArt?id=${item.coverArt}&v=1.15.0&u=${username}&s=${salt}&t=${hash}&c=test&size=300`
+    return `${server}/rest/getCoverArt?id=${item.coverArt}&v=1.15.0&u=${username}&s=${salt}&t=${hash}&c=${this.clientName}&size=300`
   }
 
   private getStreamUrl(id: any) {
     const { server, username, salt, hash } = this.auth;
-    return `${server}/rest/stream?id=${id}&format=raw&v=1.15.0&u=${username}&s=${salt}&t=${hash}&c=test&size=300`
+    return `${server}/rest/stream?id=${id}&format=raw&v=1.15.0&u=${username}&s=${salt}&t=${hash}&c=${this.clientName}&size=300`
   }
 }
