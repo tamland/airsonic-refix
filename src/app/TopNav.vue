@@ -30,9 +30,9 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue";
-import { mapMutations, mapState } from 'vuex';
-import SearchForm from '@/search/SearchForm.vue';
+  import Vue from "vue";
+  import { mapMutations, mapState } from 'vuex';
+  import SearchForm from '@/search/SearchForm.vue';
 
   export default Vue.extend({
     components: {
@@ -42,7 +42,7 @@ import SearchForm from '@/search/SearchForm.vue';
       ...mapState([
         "server",
         "username",
-      ])
+      ]),
     },
     methods: {
       ...mapMutations([
