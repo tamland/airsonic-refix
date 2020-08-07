@@ -6,6 +6,9 @@
     <b-dropdown-item-button @click="playNext()">
       Play next
     </b-dropdown-item-button>
+    <b-dropdown-item-button @click="addToQueue()">
+      Add to queue
+    </b-dropdown-item-button>
     <b-dropdown-item-button @click="toggleStarred()">
       {{ starred ? 'Unstar' : 'Star' }}
     </b-dropdown-item-button>
@@ -35,6 +38,9 @@
       },
       playNext() {
         return this.$store.dispatch("player/playNext", this.track);
+      },
+      addToQueue() {
+        return this.$store.dispatch("player/addToQueue", this.track);
       },
     }
   });

@@ -66,6 +66,9 @@ export const playerModule: Module<State, any> = {
         });
       }
     },
+    addToQueue(state, track) {
+      state.queue.push(track);
+    },
     removeFromQueue(state, index) {
       state.queue.splice(index, 1);
       if (index < state.queueIndex) {
@@ -119,6 +122,9 @@ export const playerModule: Module<State, any> = {
     },
     playNext({ commit }, track) {
       commit("setNextInQueue", track);
+    },
+    addToQueue({ commit }, track) {
+      commit("addToQueue", track);
     },
   },
   
