@@ -88,7 +88,7 @@ export const playerModule: Module<State, any> = {
 
   actions: {
     async playQueue({ commit }, { queue, index }) {
-      commit("setQueue", queue);
+      commit("setQueue", [...queue]);
       commit("setQueueIndex", index);
       commit("setPlaying");
       await audio.play();
