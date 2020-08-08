@@ -27,11 +27,26 @@ Password is `guest`.
 You can use the URL and credentials for your own server if you prefer. **Note**: if your server is using http only you must allow mixed content in your browser otherwise login will not work.
 
 
-## Build
+## Install
+
+### Docker
 
 ```
-yarn install
-yarn build
+$ docker run -d -p 8080:80 tamland/airsonic-frontend:latest
+```
+
+You can now access the application at http://localhost:8080/
+
+### Pre-built bundle
+
+Pre-built bundles can be found in the [Actions](https://github.com/tamland/airsonic-frontend/actions)
+tab. Download/extract artifact and serve with your favourite web server.
+
+### Build from source
+
+```
+$ yarn install
+$ yarn build
 ```
 
 Bundle can be found in the `dist` folder.
@@ -40,8 +55,8 @@ Bundle can be found in the `dist` folder.
 ## Develop
 
 ```
-yarn install
-yarn serve
+$ yarn install
+$ yarn serve
 ```
 
 
