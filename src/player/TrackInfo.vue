@@ -5,6 +5,7 @@
         <div>{{ track.artist }}</div>
         <v-card color=blue tile height="100%" width="100%"></v-card>
     </div>
+  </div>
 </template>
 <style scoped lang="scss">
 .on-hover {
