@@ -1,9 +1,9 @@
 <template>
-  <TrackList v-if="items" :tracks="items"/>
+  <TrackList v-if="items" :tracks="items" />
 </template>
 <script lang="ts">
-  import Vue from "vue";
-  import TrackList from "@/library/TrackList.vue"
+  import Vue from 'vue'
+  import TrackList from '@/library/TrackList.vue'
 
   export default Vue.extend({
     components: {
@@ -16,8 +16,8 @@
     },
     created() {
       this.$api.getStarred().then(result => {
-        this.items = result;
+        this.items = result
       })
     }
-  });
+  })
 </script>

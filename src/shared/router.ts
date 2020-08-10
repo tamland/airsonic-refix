@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/auth/Login.vue'
 import Queue from '@/player/Queue.vue'
@@ -14,8 +13,7 @@ import Starred from '@/library/starred/Starred.vue'
 import Playlist from '@/playlist/Playlist.vue'
 import PlaylistList from '@/playlist/PlaylistList.vue'
 import SearchResult from '@/search/SearchResult.vue'
-import { AuthService } from '@/auth/service';
-
+import { AuthService } from '@/auth/service'
 
 export function setupRouter(auth: AuthService) {
   const router = new Router({
@@ -104,15 +102,15 @@ export function setupRouter(auth: AuthService) {
         })
       },
     ]
-  });
+  })
 
   router.beforeEach((to, from, next) => {
     if (to.name !== 'login' && !auth.isAuthenticated()) {
-      next({name: 'login', query: { returnTo: to.fullPath }});
+      next({ name: 'login', query: { returnTo: to.fullPath } })
     } else {
-      next();
+      next()
     }
-  });
+  })
 
-  return router;
+  return router
 }

@@ -10,23 +10,23 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue";
-import { mapState, mapMutations, mapActions } from 'vuex';
-import TrackList from "@/library/TrackList.vue";
+  import Vue from 'vue'
+  import { mapState, mapMutations } from 'vuex'
+  import TrackList from '@/library/TrackList.vue'
 
-export default Vue.extend({
-  components: {
-    TrackList,
-  },
-  computed: {
-    ...mapState("player", {
-      tracks: (state: any) => state.queue,
-    })
-  },
-  methods: {
-    ...mapMutations("player", {
-      remove: "removeFromQueue",
-    }),
-  }
-});
+  export default Vue.extend({
+    components: {
+      TrackList,
+    },
+    computed: {
+      ...mapState('player', {
+        tracks: (state: any) => state.queue,
+      })
+    },
+    methods: {
+      ...mapMutations('player', {
+        remove: 'removeFromQueue',
+      }),
+    }
+  })
 </script>

@@ -1,6 +1,6 @@
 <template functional>
   <div class="tiles" :class="props.square ? 'tiles-square' : 'tiles-rect'">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <style lang="scss">
@@ -29,11 +29,11 @@
   }
 </style>
 <script lang="ts">
-  import Vue from "vue";
+  import Vue from 'vue'
 
   export default Vue.extend({
     props: {
       square: { type: Boolean, default: false },
     }
-  });
+  })
 </script>

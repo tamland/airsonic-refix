@@ -2,25 +2,25 @@
   <div v-if="result">
     <div v-if="result.artists.length > 0" class="mb-5">
       <h1>Artists</h1>
-      <ArtistList :items="result.artists"/>
+      <ArtistList :items="result.artists" />
     </div>
 
     <div v-if="result.albums.length > 0" class="mb-5">
       <h1>Albums</h1>
-      <AlbumList :items="result.albums"/>
+      <AlbumList :items="result.albums" />
     </div>
 
     <div v-if="result.tracks.length > 0">
       <h1>Tracks</h1>
-      <TrackList :tracks="result.tracks" showAlbum/>
+      <TrackList :tracks="result.tracks" show-album />
     </div>
   </div>
 </template>
 <script lang="ts">
-  import Vue from "vue";
-  import AlbumList from "@/library/album/AlbumList.vue";
-  import ArtistList from "@/library/artist/ArtistList.vue";
-  import TrackList from "@/library/TrackList.vue"
+  import Vue from 'vue'
+  import AlbumList from '@/library/album/AlbumList.vue'
+  import ArtistList from '@/library/artist/ArtistList.vue'
+  import TrackList from '@/library/TrackList.vue'
 
   export default Vue.extend({
     components: {
@@ -29,22 +29,22 @@
       TrackList,
     },
     props: {
-      query: String,
+      query: { type: String, required: true }
     },
     data() {
       return {
         result: null as any,
-      };
+      }
     },
     watch: {
       query: {
         immediate: true,
         handler(value: string) {
-          this.$api.search(this.query).then(result => {
-            this.result = result;
-          });
+          this.$api.search(value).then(result => {
+            this.result = result
+          })
         }
       }
     },
-  });
+  })
 </script>

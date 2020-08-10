@@ -1,5 +1,5 @@
 <template>
-  <BIcon :icon="icon" v-bind="$attrs"/>
+  <BIcon :icon="icon" v-bind="$attrs" />
 </template>
 <script lang="ts">
   import Vue from 'vue'
@@ -42,7 +42,7 @@
       BIconPersonCircle,
     },
     props: {
-      icon: { type: String }
+      icon: { type: String, required: true }
     },
   })
 </script>

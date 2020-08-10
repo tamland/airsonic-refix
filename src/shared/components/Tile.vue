@@ -2,7 +2,7 @@
   <div class="tile card">
     <router-link class="tile-img" :to="props.to">
       <img v-if="props.image" :src="props.image">
-      <Icon v-else class="tile-img-fallback text-muted" icon="music-note-beamed"/>
+      <Icon v-else class="tile-img-fallback text-muted" icon="music-note-beamed" />
     </router-link>
     <div class="card-body">
       <div class="text-truncate font-weight-bold">

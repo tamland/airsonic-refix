@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="col" d-flex fill-height grow>
-          <h1>{{ track.name }}</h1>
-        <div>{{ track.artist }}</div>
-        <v-card color=blue tile height="100%" width="100%"></v-card>
+      <h1>{{ track.name }}</h1>
+      <div>{{ track.artist }}</div>
+      <v-card color="blue" tile height="100%" width="100%" />
     </div>
   </div>
 </template>
@@ -18,11 +18,11 @@
 
 </style>
 <script lang="ts">
-import Vue from "vue";
+  import Vue from 'vue'
 
-export default Vue.extend({
-  props: {
-    album: Object
-  }
-});
+  export default Vue.extend({
+    props: {
+      album: { type: Object, required: true }
+    }
+  })
 </script>

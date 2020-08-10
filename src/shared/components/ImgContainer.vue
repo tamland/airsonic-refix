@@ -3,7 +3,7 @@
     <div class="fixed-img-inner">
       <img v-if="props.src" :src="props.src">
       <div v-else class="text-muted">
-      <Icon icon="music-note-beamed"/>
+        <Icon icon="music-note-beamed" />
       </div>
     </div>
   </div>
@@ -18,7 +18,7 @@
   .fixed-img {
     position: relative;
     width: 100%;
-    
+
     .tile-img-inner {
       position: absolute;
       width: 100%;
@@ -42,11 +42,11 @@
   }
 </style>
 <script lang="ts">
-  import Vue from "vue";
+  import Vue from 'vue'
 
   export default Vue.extend({
     props: {
       square: { type: Boolean, default: false },
     }
-  });
+  })
 </script>

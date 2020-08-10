@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="min-vh-100 d-flex align-items-stretch justify-spcace-between">
-      <Sidebar/>
+      <Sidebar />
       <div class="main flex-fill">
         <div class="container-fluid pt-3 pb-3">
-          <TopNav/>
-          <router-view></router-view>
+          <TopNav />
+          <router-view />
         </div>
       </div>
     </div>
-    <ErrorBar/>
+    <ErrorBar />
     <footer class="footer elevated">
       <Player />
     </footer>
@@ -28,10 +28,10 @@
   }
 </style>
 <script lang="ts">
-  import ErrorBar from "./ErrorBar.vue";
-  import TopNav from "./TopNav.vue";
-  import Sidebar from "./Sidebar.vue";
-  import Player from "@/player/Player.vue";
+  import ErrorBar from './ErrorBar.vue'
+  import TopNav from './TopNav.vue'
+  import Sidebar from './Sidebar.vue'
+  import Player from '@/player/Player.vue'
 
   export default {
     components: {
@@ -40,5 +40,5 @@
       Sidebar,
       Player,
     },
-  };
+  }
 </script>

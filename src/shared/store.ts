@@ -1,10 +1,8 @@
-import Vue from 'vue'
 import Vuex, { Module } from 'vuex'
-import { ActionContext } from "vuex"
-import { playerModule } from "@/player/store"
-import axios from 'axios';
-import { AuthService } from '@/auth/service';
-import { API } from './api';
+
+import { playerModule } from '@/player/store'
+import { AuthService } from '@/auth/service'
+import { API } from './api'
 
 interface State {
   isLoggedIn: boolean;
@@ -26,48 +24,48 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
   },
   mutations: {
     setError(state, error) {
-      state.error = error;
+      state.error = error
     },
     clearError(state) {
-      state.error = null;
+      state.error = null
     },
     setLoginSuccess(state, { username, server }) {
-      state.isLoggedIn = true;
-      state.username = username;
-      state.server = server;
+      state.isLoggedIn = true
+      state.username = username
+      state.server = server
     },
     toggleMenu(state) {
-      state.showMenu = !state.showMenu;
+      state.showMenu = !state.showMenu
     },
     setPlaylists(state, playlists: any[]) {
       state.playlists = playlists
-        .sort((a: any, b: any) => b.changed.localeCompare(a.changed));
+        .sort((a: any, b: any) => b.changed.localeCompare(a.changed))
     },
     removePlaylist(state, id: string) {
-      state.playlists = state.playlists.filter(p => p.id !== id);
+      state.playlists = state.playlists.filter(p => p.id !== id)
     },
   },
   actions: {
     loadPlaylists({ commit }) {
       api.getPlaylists().then(result => {
-        commit("setPlaylists", result);
+        commit('setPlaylists', result)
       })
     },
     createPlaylist({ commit }, name) {
       api.createPlaylist(name).then(result => {
-        commit("setPlaylists", result);
+        commit('setPlaylists', result)
       })
     },
     addTrackToPlaylist({ }, { playlistId, trackId }) {
-      api.addToPlaylist(playlistId, trackId);
+      api.addToPlaylist(playlistId, trackId)
     },
-    deletePlaylist({ commit, state }, id) {
+    deletePlaylist({ commit }, id) {
       api.deletePlaylist(id).then(() => {
-        commit("removePlaylist", id)
+        commit('removePlaylist', id)
       })
     }
   },
-});
+})
 
 export function setupStore(authService: AuthService, api: API) {
   const store = new Vuex.Store({
@@ -84,9 +82,9 @@ export function setupStore(authService: AuthService, api: API) {
   store.watch(
     (state) => state.isLoggedIn,
     () => {
-      store.dispatch("loadPlaylists")
+      store.dispatch('loadPlaylists')
     }
-  );
+  )
 
-  return store;
+  return store
 }

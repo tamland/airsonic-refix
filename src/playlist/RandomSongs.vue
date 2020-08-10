@@ -1,14 +1,13 @@
 <template>
   <div v-if="items">
-    <TrackList :tracks="items" show-album/>
+    <TrackList :tracks="items" show-album />
     <table class="table">
-      <thead>
-      </thead>
+      <thead />
       <tbody>
         <tr v-for="item in items" :key="item.id">
           <td>
-            <Icon icon="play-fill" @click="() => {}"/>
-            <Icon icon="plus" @click="() => {}"/>
+            <Icon icon="play-fill" @click="() => {}" />
+            <Icon icon="plus" @click="() => {}" />
           </td>
           <td>{{ item.artist }}</td>
           <td>{{ item.album }}</td>
@@ -19,24 +18,24 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue";
-import TrackList from "@/library/TrackList.vue";
+  import Vue from 'vue'
+  import TrackList from '@/library/TrackList.vue'
 
-export default Vue.extend({
-  components: {
-    TrackList,
-  },
-  data() {
-    return {
-      loading: true,
-      items: [] as any[],
-    };
-  },
-  created() {
-    this.$api.getRandomSongs().then(items => {
-      this.loading = false;
-      this.items = items;//.sort((a: any, b:any) => a.created.localeCompare(b.created));
-    });
-  }
-});
+  export default Vue.extend({
+    components: {
+      TrackList,
+    },
+    data() {
+      return {
+        loading: true,
+        items: [] as any[],
+      }
+    },
+    created() {
+      this.$api.getRandomSongs().then(items => {
+        this.loading = false
+        this.items = items// .sort((a: any, b:any) => a.created.localeCompare(b.created));
+      })
+    }
+  })
 </script>

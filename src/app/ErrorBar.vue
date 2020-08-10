@@ -12,8 +12,8 @@
   </b-alert>
 </template>
 <script lang="ts">
-  import Vue from "vue";
-  import { mapState, mapMutations } from 'vuex';
+  import Vue from 'vue'
+  import { mapState, mapMutations } from 'vuex'
 
   export default Vue.extend({
     computed: {
@@ -24,5 +24,5 @@
         'clearError'
       ]),
     },
-  });
+  })
 </script>

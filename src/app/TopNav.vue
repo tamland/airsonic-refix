@@ -1,18 +1,18 @@
 <template>
   <div class="d-flex align-items-center mb-2">
     <button class="navbar-toggler text-white d-md-none" @click="toggleMenu">
-      <Icon icon="list"/>
+      <Icon icon="list" />
     </button>
 
-    <div class="ml-auto"></div>
+    <div class="ml-auto" />
 
-    <SearchForm/>
+    <SearchForm />
 
     <template v-if="username">
       <b-dropdown variant="link" right no-caret>
         <template #button-content>
           <b-avatar variant="secondary">
-            <Icon icon="person-fill"/>
+            <Icon icon="person-fill" />
           </b-avatar>
         </template>
         <b-dropdown-text>
@@ -21,7 +21,7 @@
         <b-dropdown-text>
           {{ username }}
         </b-dropdown-text>
-        <b-dropdown-divider/>
+        <b-dropdown-divider />
         <b-dropdown-item-button @click="logout">
           Log out
         </b-dropdown-item-button>
@@ -30,9 +30,9 @@
   </div>
 </template>
 <script lang="ts">
-  import Vue from "vue";
-  import { mapMutations, mapState } from 'vuex';
-  import SearchForm from '@/search/SearchForm.vue';
+  import Vue from 'vue'
+  import { mapMutations, mapState } from 'vuex'
+  import SearchForm from '@/search/SearchForm.vue'
 
   export default Vue.extend({
     components: {
@@ -40,8 +40,8 @@
     },
     computed: {
       ...mapState([
-        "server",
-        "username",
+        'server',
+        'username',
       ]),
     },
     methods: {
@@ -49,9 +49,9 @@
         'toggleMenu',
       ]),
       logout() {
-        this.$auth.logout();
-        this.$router.go(0);
+        this.$auth.logout()
+        this.$router.go(0)
       }
     }
-  });
+  })
 </script>

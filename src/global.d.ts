@@ -3,7 +3,7 @@ declare module '*.vue' {
   export default Vue
 }
 
-declare module "md5-es";
+declare module 'md5-es';
 
 interface Navigator {
   readonly mediaSession?: MediaSession;
@@ -15,7 +15,16 @@ interface Window {
 
 type MediaSessionPlaybackState = 'none' | 'paused' | 'playing';
 
-type MediaSessionAction = 'play' | 'pause' | 'seekbackward' | 'seekforward' | 'seekto' | 'previoustrack' | 'nexttrack' | 'skipad' | 'stop';
+type MediaSessionAction =
+  'play' |
+  'pause' |
+  'seekbackward' |
+  'seekforward' |
+  'seekto' |
+  'previoustrack' |
+  'nexttrack' |
+  'skipad' |
+  'stop';
 
 interface MediaSessionActionDetails {
   action: MediaSessionAction;
@@ -33,7 +42,9 @@ interface MediaPositionState {
 interface MediaSession {
   playbackState: MediaSessionPlaybackState;
   metadata: MediaMetadata | null;
-  setActionHandler(action: MediaSessionAction, listener: ((details: MediaSessionActionDetails) => void)): void;
+  setActionHandler(
+    action: MediaSessionAction,
+    listener: ((details: MediaSessionActionDetails) => void)): void;
   setPositionState?(arg: MediaPositionState): void;
 }
 

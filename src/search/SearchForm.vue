@@ -2,25 +2,25 @@
   <div>
     <form class="form-inline my-2 my-lg-0" @submit.prevent="search">
       <input
-        class="form-control mr-sm-2"
-        type="search" placeholder="Search"
-        v-model="query">
+        v-model="query"
+        class="form-control mr-sm-2" type="search"
+        placeholder="Search">
     </form>
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue";
+  import Vue from 'vue'
 
-export default Vue.extend({
-  data() {
-    return {
-      query: ""
+  export default Vue.extend({
+    data() {
+      return {
+        query: ''
+      }
+    },
+    methods: {
+      search(): void {
+        this.$router.push({ name: 'search', query: { q: this.query } })
+      }
     }
-  },
-  methods: {
-    search(): void {
-      this.$router.push({ name: 'search', query: { q: this.query } });
-    }
-  }
-});
+  })
 </script>

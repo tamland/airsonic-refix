@@ -1,15 +1,15 @@
 import Vue from 'vue'
-import Router from "vue-router"
-import Vuex from "vuex"
+import Router from 'vue-router'
+import Vuex from 'vuex'
 import { BootstrapVue } from 'bootstrap-vue'
 import '@/style/main.scss'
 import '@/shared/components'
 import '@/shared/filters'
 import App from '@/app/App.vue'
-import {setupRouter} from '@/shared/router'
-import {setupStore} from '@/shared/store'
-import { API } from '@/shared/api';
-import { AuthService } from '@/auth/service';
+import { setupRouter } from '@/shared/router'
+import { setupStore } from '@/shared/store'
+import { API } from '@/shared/api'
+import { AuthService } from '@/auth/service'
 import { setupAudio } from './player/store'
 
 declare module 'vue/types/vue' {
@@ -21,20 +21,20 @@ declare module 'vue/types/vue' {
 
 Vue.config.productionTip = false
 Vue.use(Router)
-Vue.use(Vuex);
+Vue.use(Vuex)
 Vue.use(BootstrapVue)
 
-const authService = new AuthService();
-const api = new API(authService);
-const router = setupRouter(authService);
-const store = setupStore(authService, api);
-setupAudio(store);
+const authService = new AuthService()
+const api = new API(authService)
+const router = setupRouter(authService)
+const store = setupStore(authService, api)
+setupAudio(store)
 
-Vue.prototype.$auth = authService;
-Vue.prototype.$api = api;
+Vue.prototype.$auth = authService
+Vue.prototype.$api = api
 
-Vue.config.errorHandler = (err, vm, info) => {
-  store.commit("setError", err)
+Vue.config.errorHandler = (err) => {
+  store.commit('setError', err)
 }
 
 new Vue({

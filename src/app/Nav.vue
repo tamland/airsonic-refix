@@ -2,21 +2,21 @@
   <div class="text-truncate">
     <nav class="nav flex-column">
       <router-link class="nav-link logo" :to="{name: 'home'}">
-        <Logo/>
+        <Logo />
       </router-link>
 
       <router-link class="nav-link" :to="{name: 'home'}">
-        <Icon icon="card-text" class="mr-2"/> Home
+        <Icon icon="card-text" class="mr-2" /> Home
       </router-link>
 
       <router-link class="nav-link" :to="{name: 'queue'}">
-        <Icon icon="music-note-list" class="mr-2"/> Playing
+        <Icon icon="music-note-list" class="mr-2" /> Playing
       </router-link>
 
       <router-link class="nav-link" :to="{name: 'starred'}">
-        <Icon icon="star-fill" class="mr-2"/> Starred
+        <Icon icon="star-fill" class="mr-2" /> Starred
       </router-link>
-      
+
       <a class="nav-link disabled">
         <small class="text-uppercase text-muted font-weight-bold">
           Library
@@ -24,18 +24,18 @@
       </a>
 
       <router-link class="nav-link" :to="{name: 'albums'}">
-        <Icon icon="collection-fill" class="mr-2"/> Albums
+        <Icon icon="collection-fill" class="mr-2" /> Albums
       </router-link>
 
       <router-link class="nav-link" :to="{name: 'artists'}">
-        <Icon icon="collection-fill" class="mr-2"/> Artists
+        <Icon icon="collection-fill" class="mr-2" /> Artists
       </router-link>
 
       <router-link class="nav-item nav-link" :to="{name: 'genres'}">
-        <Icon icon="collection-fill" class="mr-2"/> Genres
+        <Icon icon="collection-fill" class="mr-2" /> Genres
       </router-link>
 
-      <PlaylistNav/>
+      <PlaylistNav />
     </nav>
   </div>
 </template>
@@ -51,21 +51,20 @@
   }
 </style>
 <script lang="ts">
-import Vue from "vue";
-import Logo from "./Logo.vue";
-import PlaylistNav from "@/playlist/PlaylistNav.vue";
-import { mapState } from 'vuex';
+  import Vue from 'vue'
+  import Logo from './Logo.vue'
+  import PlaylistNav from '@/playlist/PlaylistNav.vue'
 
-export default Vue.extend({
-  components: {
-    Logo,
-    PlaylistNav,
-  },
-  methods: {
-    logout() {
-      this.$auth.logout();
-      this.$router.go(0);
+  export default Vue.extend({
+    components: {
+      Logo,
+      PlaylistNav,
     },
-  }
-});
+    methods: {
+      logout() {
+        this.$auth.logout()
+        this.$router.go(0)
+      },
+    }
+  })
 </script>

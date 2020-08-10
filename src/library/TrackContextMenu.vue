@@ -1,7 +1,7 @@
 <template>
   <b-dropdown variant="link" boundary="window" no-caret toggle-class="p-0">
     <template #button-content>
-      <Icon icon="three-dots-vertical"/>
+      <Icon icon="three-dots-vertical" />
     </template>
     <b-dropdown-item-button @click="playNext()">
       Play next
@@ -12,11 +12,11 @@
     <b-dropdown-item-button @click="toggleStarred()">
       {{ starred ? 'Unstar' : 'Star' }}
     </b-dropdown-item-button>
-    <slot :item="track"></slot>
+    <slot :item="track" />
   </b-dropdown>
 </template>
 <script lang="ts">
-  import Vue from "vue";
+  import Vue from 'vue'
 
   export default Vue.extend({
     props: {
@@ -30,18 +30,18 @@
     methods: {
       toggleStarred() {
         if (this.starred) {
-          this.$api.unstar('track', this.track.id);
+          this.$api.unstar('track', this.track.id)
         } else {
-          this.$api.star('track', this.track.id);
+          this.$api.star('track', this.track.id)
         }
-        this.starred = !this.starred;
+        this.starred = !this.starred
       },
       playNext() {
-        return this.$store.dispatch("player/playNext", this.track);
+        return this.$store.dispatch('player/playNext', this.track)
       },
       addToQueue() {
-        return this.$store.dispatch("player/addToQueue", this.track);
+        return this.$store.dispatch('player/addToQueue', this.track)
       },
     }
-  });
+  })
 </script>

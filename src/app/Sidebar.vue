@@ -1,20 +1,20 @@
 <template>
   <div class="sidebar elevated">
     <div class="d-none d-md-block">
-      <Nav/>
+      <Nav />
     </div>
     <b-sidebar
-        :visible="showMenu"
-        @hidden="toggleMenu"
-        class="d-md-none"
-        sidebar-class="elevated"
-        bg-variant=""
-        shadow="lg"
-        no-header
-        backdrop
-        backdrop-variant=""
-      >
-      <Nav/>
+      :visible="showMenu"
+      class="d-md-none"
+      sidebar-class="elevated"
+      bg-variant=""
+      shadow="lg"
+      no-header
+      backdrop
+      backdrop-variant=""
+      @hidden="toggleMenu"
+    >
+      <Nav />
     </b-sidebar>
   </div>
 </template>
@@ -24,9 +24,9 @@
   }
 </style>
 <script lang="ts">
-  import Vue from "vue";
-  import Nav from "./Nav.vue";
-  import { mapState, mapMutations } from 'vuex';
+  import Vue from 'vue'
+  import Nav from './Nav.vue'
+  import { mapState, mapMutations } from 'vuex'
 
   export default Vue.extend({
     components: {
@@ -38,5 +38,5 @@
     methods: {
       ...mapMutations(['toggleMenu']),
     },
-  });
+  })
 </script>
