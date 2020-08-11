@@ -67,13 +67,13 @@ export class API {
     const response = await this.get('rest/getSongsByGenre', params)
     return {
       name: id,
-      tracks: this.normalizeTrackList(response.songsByGenre.song),
+      tracks: this.normalizeTrackList(response.songsByGenre?.song || []),
     }
   }
 
   async getArtists() {
-    const data = await this.get('rest/getArtists')
-    return data.artists.index.flatMap((index: any) => index.artist.map((artist: any) => ({
+    const response = await this.get('rest/getArtists')
+    return (response.artists?.index || []).flatMap((index: any) => index.artist.map((artist: any) => ({
       id: artist.id,
       name: artist.name,
       ...artist
@@ -86,8 +86,8 @@ export class API {
       offset: '0',
       size: size,
     }
-    const data = await this.get('rest/getAlbumList2', params)
-    return data.albumList2.album.map((item: any) => ({
+    const response = await this.get('rest/getAlbumList2', params)
+    return (response.albumList2?.album || []).map((item: any) => ({
       ...item,
       image: item.coverArt ? this.getCoverArtUrl(item) : undefined,
     }))
@@ -135,7 +135,7 @@ export class API {
 
   async getPlaylists() {
     const response = await this.get('rest/getPlaylists')
-    return response.playlists.playlist.map((playlist: any) => ({
+    return (response.playlists?.playlist || []).map((playlist: any) => ({
       ...playlist,
       name: playlist.name || '(Unnamed)',
       image: playlist.songCount > 0 ? this.getCoverArtUrl(playlist) : undefined,
@@ -187,14 +187,13 @@ export class API {
     const params = {
       size: 200,
     }
-    const data = await this.get('rest/getRandomSongs', params)
-    return this.normalizeTrackList(data.randomSongs.song)
+    const response = await this.get('rest/getRandomSongs', params)
+    return this.normalizeTrackList(response.randomSongs?.song || [])
   }
 
   async getStarred() {
-    return this
-      .get('rest/getStarred2')
-      .then(r => this.normalizeTrackList(r.starred2.song))
+    const response = await this.get('rest/getStarred2')
+    return this.normalizeTrackList(response.starred2?.song || [])
   }
 
   async star(type: 'track' | 'album' | 'artist', id: string) {

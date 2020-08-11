@@ -3,8 +3,10 @@
     <Spinner v-if="loading" />
     <template v-else>
       <div v-for="section in sections" :key="section.key" class="mb-4">
-        <h1>{{ section.name }}</h1>
-        <AlbumList :items="$data[section.key]" />
+        <template v-if="$data[section.key].length > 0">
+          <h1>{{ section.name }}</h1>
+          <AlbumList :items="$data[section.key]" />
+        </template>
       </div>
     </template>
   </div>
@@ -19,17 +21,21 @@
     },
     data() {
       return {
-        sections: [
-          { name: 'Recently played', key: 'recent' },
-          { name: 'Recently added', key: 'newest' },
-          { name: 'Most played', key: 'frequent' },
-          { name: 'Random', key: 'random' },
-        ],
         loading: true as boolean,
         recent: [],
         newest: [],
         frequent: [],
         random: [],
+      }
+    },
+    computed: {
+      sections(): any[] {
+        return [
+          { name: 'Recently played', key: 'recent' },
+          { name: 'Recently added', key: 'newest' },
+          { name: 'Most played', key: 'frequent' },
+          { name: 'Random', key: 'random' },
+        ]
       }
     },
     created() {
