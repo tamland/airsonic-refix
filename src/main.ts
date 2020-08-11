@@ -34,6 +34,7 @@ Vue.prototype.$auth = authService
 Vue.prototype.$api = api
 
 Vue.config.errorHandler = (err) => {
+  console.error(err)
   store.commit('setError', err)
 }
 
