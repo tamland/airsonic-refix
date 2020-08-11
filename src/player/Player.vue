@@ -10,12 +10,12 @@
       <div class="progress2" @click="seek">
         <b-progress :value="progress" :max="100" height="4px" />
       </div>
-      <div class="row d-flex align-items-center p-2 m-0">
+      <div class="row d-flex align-items-center py-2 m-0">
         <!-- Track info --->
         <div class="col d-flex p-0 text-truncate">
           <div class="d-flex align-items-center">
             <template v-if="track">
-              <div class="ml-2 align-middle">
+              <div class="pl-3 align-middle">
                 <div>{{ track.title }}</div>
                 <div>{{ track.artist }}</div>
               </div>
@@ -36,7 +36,7 @@
           </b-button>
         </div>
         <div class="col p-0 text-truncate">
-          <div v-if="track" class="text-right">
+          <div v-if="track" class="pr-3 text-right">
             <span>{{ currentTime | duration }} / {{ duration | duration }}</span>
           </div>
         </div>
