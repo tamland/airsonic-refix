@@ -118,7 +118,6 @@
         })
       },
       dragstart(id: string, event: any) {
-        console.log('dragstart: ' + id)
         event.dataTransfer.setData('id', id)
       },
     }

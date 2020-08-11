@@ -167,9 +167,6 @@ export function setupAudio(store: Store<any>) {
     store.commit('player/setPaused')
     store.commit('setError', audio.error)
   }
-  audio.onwaiting = () => {
-    console.log('audio is waiting for more data.')
-  }
 
   if (mediaSession) {
     mediaSession.setActionHandler('play', () => {

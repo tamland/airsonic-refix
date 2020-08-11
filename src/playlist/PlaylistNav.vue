@@ -60,13 +60,11 @@
         return this.$store.dispatch('createPlaylist', name)
       },
       onDrop(playlistId: string, event: any) {
-        console.log('onDrop')
         event.preventDefault()
         const trackId = event.dataTransfer.getData('id')
         return this.$store.dispatch('addTrackToPlaylist', { playlistId, trackId })
       },
       onDragover(event: any) {
-        console.log('onDragover')
         event.preventDefault()
       },
     }

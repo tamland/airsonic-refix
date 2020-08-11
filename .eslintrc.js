@@ -18,8 +18,8 @@ module.exports = {
     'vue/no-unused-components': 'off',
     'vue/max-attributes-per-line': 'off',
     'vue/html-closing-bracket-newline': 'off',
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-console': 'warn',
+    'no-debugger': 'warn',
     'no-useless-constructor': 'off', // Crashes eslint
     'no-empty-pattern': 'off',
     'comma-dangle': 'off',

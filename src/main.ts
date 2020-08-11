@@ -34,6 +34,7 @@ Vue.prototype.$auth = authService
 Vue.prototype.$api = api
 
 Vue.config.errorHandler = (err) => {
+  // eslint-disable-next-line
   console.error(err)
   store.commit('setError', err)
 }
