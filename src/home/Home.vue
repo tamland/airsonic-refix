@@ -31,8 +31,8 @@
     computed: {
       sections(): any[] {
         return [
-          { name: 'Recently played', key: 'recent' },
           { name: 'Recently added', key: 'newest' },
+          { name: 'Recently played', key: 'recent' },
           { name: 'Most played', key: 'frequent' },
           { name: 'Random', key: 'random' },
         ]
@@ -40,12 +40,12 @@
     },
     created() {
       const size = 10
-      this.$api.getAlbums('recent', size).then(result => {
-        this.recent = result
-        this.loading = false
-      })
       this.$api.getAlbums('newest', size).then(result => {
         this.newest = result
+        this.loading = false
+      })
+      this.$api.getAlbums('recent', size).then(result => {
+        this.recent = result
       })
       this.$api.getAlbums('frequent', size).then(result => {
         this.frequent = result
