@@ -51,7 +51,7 @@ export class API {
     const response = await this.get('rest/getGenres', {})
     return response.genres.genre
       .map((item: any) => ({
-        id: encodeURIComponent(item.value),
+        id: item.value,
         name: item.value,
         ...item,
       }))
@@ -60,7 +60,7 @@ export class API {
 
   async getGenreDetails(id: string) {
     const params = {
-      genre: decodeURIComponent(id),
+      genre: id,
       count: 500,
       offset: 0,
     }
