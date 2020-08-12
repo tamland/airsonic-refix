@@ -107,7 +107,7 @@ export class API {
       lastFmUrl: info2.lastFmUrl,
       musicBrainzUrl: info2.musicBrainzId
         ? `https://musicbrainz.org/artist/${info2.musicBrainzId}` : null,
-      albums: info1.album.map((album: any) => this.normalizeAlbumResponse(album)),
+      albums: info1.album.map((album: any) => this.normalizeAlbum(album)),
       similarArtist: (info2.similarArtist || []).map((artist: any) => ({
         id: artist.id,
         name: artist.name,
@@ -193,7 +193,11 @@ export class API {
 
   async getStarred() {
     const response = await this.get('rest/getStarred2')
-    return this.normalizeTrackList(response.starred2?.song || [])
+    return {
+      albums: (response.starred2?.album || []).map(this.normalizeAlbum, this),
+      artists: (response.starred2?.artist || []).map(this.normalizeArtist, this),
+      tracks: this.normalizeTrackList(response.starred2?.song || [])
+    }
   }
 
   async star(type: 'track' | 'album' | 'artist', id: string) {
@@ -221,8 +225,8 @@ export class API {
     const data = await this.get('rest/search3', params)
     return {
       tracks: this.normalizeTrackList(data.searchResult3.song || []),
-      albums: (data.searchResult3.album || []).map((x: any) => this.normalizeAlbumResponse(x)),
-      artists: (data.searchResult3.artist || []).map((x: any) => this.normalizeArtistResponse(x)),
+      albums: (data.searchResult3.album || []).map((x: any) => this.normalizeAlbum(x)),
+      artists: (data.searchResult3.artist || []).map((x: any) => this.normalizeArtist(x)),
     }
   }
 
@@ -234,14 +238,14 @@ export class API {
     }))
   }
 
-  private normalizeAlbumResponse(item: any) {
+  private normalizeAlbum(item: any) {
     return {
       ...item,
       image: this.getCoverArtUrl(item)
     }
   }
 
-  private normalizeArtistResponse(item: any) {
+  private normalizeArtist(item: any) {
     return {
       ...item,
       image: this.getCoverArtUrl(item)
