@@ -8,7 +8,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import AlbumList from './AlbumList.vue'
-  import { AlbumSort } from '@/shared/api'
+  import { AlbumSort, Album } from '@/shared/api'
 
   export default Vue.extend({
     components: {
@@ -17,7 +17,7 @@
     data() {
       return {
         sort: 'newest',
-        albums: null,
+        albums: null as null | Album[],
       }
     },
     computed: {

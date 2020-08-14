@@ -3,6 +3,50 @@ import { AuthService } from '@/auth/service'
 
 export type AlbumSort = 'alphabeticalByName' | 'newest' | 'recent' | 'frequent' | 'random'
 
+export interface Album {
+  id: string
+  name: string
+  artist: string
+  artistId: string
+  year: number
+  starred: boolean
+  image?: string
+  tracks?: Track[]
+}
+
+export interface Artist {
+  id: string
+  name: string
+  albumCount: number
+  description?: string
+  starred: boolean
+  image?: string
+  lastFmUrl?: string
+  musicBrainzUrl?: string
+  similarArtist?: Artist[]
+  albums?: Album[]
+}
+
+export interface Track {
+  id: string
+  title: string
+  duration: number
+  starred: boolean
+  image?: string
+  url?: string
+  track?: number
+  album?: string
+  albumId?: string
+  artist?: string
+  artistId?: string
+}
+
+export interface SearchResult {
+  artists: Artist[]
+  albums: Album[]
+  tracks: Track[]
+}
+
 export class API {
   readonly http: AxiosInstance;
   readonly get: (path: string, params?: any) => Promise<any>;
@@ -67,70 +111,41 @@ export class API {
     const response = await this.get('rest/getSongsByGenre', params)
     return {
       name: id,
-      tracks: this.normalizeTrackList(response.songsByGenre?.song || []),
+      tracks: (response.songsByGenre?.song || []).map(this.normalizeTrack, this),
     }
   }
 
-  async getArtists() {
+  async getArtists(): Promise<Artist[]> {
     const response = await this.get('rest/getArtists')
-    return (response.artists?.index || []).flatMap((index: any) => index.artist.map((artist: any) => ({
-      id: artist.id,
-      name: artist.name,
-      ...artist
-    })))
+    return (response.artists?.index || [])
+      .flatMap((index: any) => index.artist)
+      .map(this.normalizeArtist, this)
   }
 
-  async getAlbums(sort: AlbumSort, size = 500) {
+  async getAlbums(sort: AlbumSort, size = 500): Promise<Album[]> {
     const params = {
       type: sort,
       offset: '0',
       size: size,
     }
     const response = await this.get('rest/getAlbumList2', params)
-    return (response.albumList2?.album || []).map((item: any) => ({
-      ...item,
-      image: item.coverArt ? this.getCoverArtUrl(item) : undefined,
-    }))
+    const albums = response.albumList2?.album || []
+    return albums.map(this.normalizeAlbum, this)
   }
 
-  async getArtistDetails(id: string) {
+  async getArtistDetails(id: string): Promise<Artist> {
     const params = { id }
     const [info1, info2] = await Promise.all([
       this.get('rest/getArtist', params).then(r => r.artist),
       this.get('rest/getArtistInfo2', params).then(r => r.artistInfo2),
     ])
-    return {
-      id: info1.id,
-      name: info1.name,
-      description: (info2.biography || '').replace(/<a[^>]*>.*?<\/a>/gm, ''),
-      image: info2.largeImageUrl || info2.mediumImageUrl || info2.smallImageUrl,
-      lastFmUrl: info2.lastFmUrl,
-      musicBrainzUrl: info2.musicBrainzId
-        ? `https://musicbrainz.org/artist/${info2.musicBrainzId}` : null,
-      albums: info1.album.map((album: any) => this.normalizeAlbum(album)),
-      similarArtist: (info2.similarArtist || []).map((artist: any) => ({
-        id: artist.id,
-        name: artist.name,
-        ...artist
-      }))
-    }
+    return this.normalizeArtist({ ...info1, ...info2 })
   }
 
-  async getAlbumDetails(id: string) {
+  async getAlbumDetails(id: string): Promise<Album> {
     const params = { id }
     const data = await this.get('rest/getAlbum', params)
-    const item = data.album
-    const image = this.getCoverArtUrl(item)
-    const trackList = item.song.map((s: any) => ({
-      ...s,
-      image,
-      url: this.getStreamUrl(s.id),
-    }))
-    return {
-      ...item,
-      image,
-      song: trackList,
-    }
+    return this.normalizeAlbum(data.album)
   }
 
   async getPlaylists() {
@@ -154,7 +169,7 @@ export class API {
     return {
       ...response.playlist,
       name: response.playlist.name || '(Unnamed)',
-      tracks: this.normalizeTrackList(response.playlist.entry || []),
+      tracks: (response.playlist.entry || []).map(this.normalizeTrack, this),
     }
   }
 
@@ -183,12 +198,12 @@ export class API {
     await this.get('rest/updatePlaylist', params)
   }
 
-  async getRandomSongs() {
+  async getRandomSongs(): Promise<Track[]> {
     const params = {
       size: 200,
     }
     const response = await this.get('rest/getRandomSongs', params)
-    return this.normalizeTrackList(response.randomSongs?.song || [])
+    return (response.randomSongs?.song || []).map(this.normalizeTrack, this)
   }
 
   async getStarred() {
@@ -196,7 +211,7 @@ export class API {
     return {
       albums: (response.starred2?.album || []).map(this.normalizeAlbum, this),
       artists: (response.starred2?.artist || []).map(this.normalizeArtist, this),
-      tracks: this.normalizeTrackList(response.starred2?.song || [])
+      tracks: (response.starred2?.song || []).map(this.normalizeTrack, this)
     }
   }
 
@@ -218,37 +233,61 @@ export class API {
     await this.get('rest/unstar', params)
   }
 
-  async search(query: string) {
+  async search(query: string): Promise<SearchResult> {
     const params = {
       query,
     }
     const data = await this.get('rest/search3', params)
     return {
-      tracks: this.normalizeTrackList(data.searchResult3.song || []),
-      albums: (data.searchResult3.album || []).map((x: any) => this.normalizeAlbum(x)),
-      artists: (data.searchResult3.artist || []).map((x: any) => this.normalizeArtist(x)),
+      tracks: (data.searchResult3.song || []).map(this.normalizeTrack, this),
+      albums: (data.searchResult3.album || []).map(this.normalizeAlbum, this),
+      artists: (data.searchResult3.artist || []).map(this.normalizeArtist, this),
     }
   }
 
-  private normalizeTrackList(items: any[]) {
-    return items.map(item => ({
-      ...item,
+  private normalizeTrack(item: any): Track {
+    return {
+      id: item.id,
+      title: item.title,
+      duration: item.duration,
+      starred: !!item.starred,
+      track: item.track,
+      album: item.album,
+      albumId: item.albumId,
+      artist: item.artist,
+      artistId: item.artistId,
       url: this.getStreamUrl(item.id),
       image: this.getCoverArtUrl(item),
-    }))
-  }
-
-  private normalizeAlbum(item: any) {
-    return {
-      ...item,
-      image: this.getCoverArtUrl(item)
     }
   }
 
-  private normalizeArtist(item: any) {
+  private normalizeAlbum(item: any): Album {
     return {
-      ...item,
-      image: this.getCoverArtUrl(item)
+      id: item.id,
+      name: item.name,
+      artist: item.artist,
+      artistId: item.artistId,
+      image: this.getCoverArtUrl(item),
+      year: item.year || 0,
+      starred: !!item.starred,
+      tracks: (item.song || []).map(this.normalizeTrack, this)
+    }
+  }
+
+  private normalizeArtist(item: any): Artist {
+    return {
+      id: item.id,
+      name: item.name,
+      description: (item.biography || '').replace(/<a[^>]*>.*?<\/a>/gm, ''),
+      starred: !!item.starred,
+      image: item.largeImageUrl || item.mediumImageUrl || item.smallImageUrl,
+      albumCount: item.albumCount,
+      lastFmUrl: item.lastFmUrl,
+      musicBrainzUrl: item.musicBrainzId
+        ? `https://musicbrainz.org/artist/${item.musicBrainzId}`
+        : undefined,
+      albums: item.album?.map(this.normalizeAlbum, this),
+      similarArtist: (item.similarArtist || []).map(this.normalizeArtist, this)
     }
   }
 

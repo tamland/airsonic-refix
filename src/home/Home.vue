@@ -14,6 +14,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import AlbumList from '@/library/album/AlbumList.vue'
+  import { Album } from '@/shared/api'
 
   export default Vue.extend({
     components: {
@@ -22,10 +23,10 @@
     data() {
       return {
         loading: true as boolean,
-        recent: [],
-        newest: [],
-        frequent: [],
-        random: [],
+        recent: [] as Album[],
+        newest: [] as Album[],
+        frequent: [] as Album[],
+        random: [] as Album[],
       }
     },
     computed: {

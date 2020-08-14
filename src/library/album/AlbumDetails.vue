@@ -16,7 +16,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <TrackList :tracks="album.song" />
+        <TrackList :tracks="album.tracks" />
       </div>
     </div>
   </div>
@@ -29,6 +29,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import TrackList from '@/library/TrackList.vue'
+  import { Album } from '@/shared/api'
 
   export default Vue.extend({
     components: {
@@ -39,7 +40,7 @@
     },
     data() {
       return {
-        album: null,
+        album: null as null | Album,
       }
     },
     async mounted() {
