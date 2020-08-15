@@ -2,7 +2,8 @@
   <div v-if="album">
     <div class="d-flex mb-3">
       <div class="mr-3 mr-md-4 image-container">
-        <b-img height="300" width="300" fluid :src="album.image" />
+        <img v-if="album.image" class="img-fluid" height="300" width="300" :src="album.image">
+        <img v-else class="img-fluid" height="300" width="300" src="@/shared/assets/fallback.svg">
       </div>
       <div>
         <h1>{{ album.name }}</h1>

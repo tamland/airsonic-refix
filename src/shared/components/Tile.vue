@@ -2,7 +2,7 @@
   <div class="tile card">
     <router-link class="tile-img" :to="props.to">
       <img v-if="props.image" :src="props.image">
-      <Icon v-else class="tile-img-fallback text-muted" icon="music-note-beamed" />
+      <img v-else src="@/shared/assets/fallback.svg">
     </router-link>
     <div class="card-body">
       <div class="text-truncate font-weight-bold">
@@ -24,7 +24,6 @@
   .tile-img {
     position: relative;
     width: 100%;
-    background-color: #6c757d;
 
     img {
       position: absolute;
@@ -32,13 +31,5 @@
       height: 100%;
       object-fit: cover;
     }
-  }
-
-  .tile-img-fallback {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 4.5rem;
   }
 </style>

@@ -2,7 +2,8 @@
   <div class="d-flex player">
     <div v-if="track" class="d-none d-sm-block">
       <router-link :to="{name: 'album', params: {id: track.albumId}}">
-        <b-img :src="track.image" block width="80px" height="80px" />
+        <img v-if="track.image" width="80px" height="80px" :src="track.image">
+        <img v-else width="80px" height="80px" src="@/shared/assets/fallback.svg">
       </router-link>
     </div>
     <div class="flex-fill">

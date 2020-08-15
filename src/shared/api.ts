@@ -20,7 +20,6 @@ export interface Artist {
   albumCount: number
   description?: string
   starred: boolean
-  image?: string
   lastFmUrl?: string
   musicBrainzUrl?: string
   similarArtist?: Artist[]
@@ -292,7 +291,6 @@ export class API {
       name: item.name,
       description: (item.biography || '').replace(/<a[^>]*>.*?<\/a>/gm, ''),
       starred: !!item.starred,
-      image: item.largeImageUrl || item.mediumImageUrl || item.smallImageUrl,
       albumCount: item.albumCount,
       lastFmUrl: item.lastFmUrl,
       musicBrainzUrl: item.musicBrainzId
