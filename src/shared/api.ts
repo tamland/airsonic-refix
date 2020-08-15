@@ -215,6 +215,14 @@ export class API {
     }
   }
 
+  starAlbum(id: string) {
+    return this.star('album', id)
+  }
+
+  unstarAlbum(id: string) {
+    return this.unstar('album', id)
+  }
+
   async star(type: 'track' | 'album' | 'artist', id: string) {
     const params = {
       id: type === 'track' ? id : undefined,

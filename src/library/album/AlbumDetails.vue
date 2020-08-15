@@ -18,6 +18,9 @@
           <b-btn variant="secondary" class="mr-2" @click="play">
             <Icon icon="play-fill" /> Play
           </b-btn>
+          <b-btn variant="secondary" class="mr-2" @click="toggleStar">
+            <Icon :icon="album.starred ? 'star-fill' : 'star'" />
+          </b-btn>
         </div>
       </div>
     </div>
@@ -62,6 +65,15 @@
           })
         }
       },
+      toggleStar() {
+        if (this.album) {
+          const value = !this.album.starred
+          this.album.starred = value
+          return value
+            ? this.$api.starAlbum(this.album.id)
+            : this.$api.unstarAlbum(this.album.id)
+        }
+      }
     }
   })
 </script>
