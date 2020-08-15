@@ -1,8 +1,10 @@
 <template>
   <div v-if="album">
     <div class="d-flex mb-3">
-      <b-img height="300" width="300" fluid :src="album.image" />
-      <div class="ml-3 ml-md-4">
+      <div class="mr-3 mr-md-4 image-container">
+        <b-img height="300" width="300" fluid :src="album.image" />
+      </div>
+      <div>
         <h1>{{ album.name }}</h1>
         <p>
           by
@@ -12,6 +14,11 @@
           <span v-if="album.year"> · {{ album.year }}</span>
           <span v-if="album.genre"> · {{ album.genre }}</span>
         </p>
+        <div class="text-nowrap">
+          <b-btn variant="secondary" class="mr-2" @click="play">
+            <Icon icon="play-fill" /> Play
+          </b-btn>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -22,7 +29,7 @@
   </div>
 </template>
 <style scoped>
-  img {
+  .image-container {
     max-width: 50%;
   }
 </style>
@@ -45,6 +52,16 @@
     },
     async mounted() {
       this.album = await this.$api.getAlbumDetails(this.id)
+    },
+    methods: {
+      play() {
+        if (this.album?.tracks) {
+          return this.$store.dispatch('player/playQueue', {
+            index: 0,
+            queue: this.album.tracks,
+          })
+        }
+      },
     }
   })
 </script>
