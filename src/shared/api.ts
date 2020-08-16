@@ -10,6 +10,7 @@ export interface Album {
   artistId: string
   year: number
   starred: boolean
+  genre?: string
   image?: string
   tracks?: Track[]
 }
@@ -277,6 +278,7 @@ export class API {
       image: this.getCoverArtUrl(item),
       year: item.year || 0,
       starred: !!item.starred,
+      genre: item.genre,
       tracks: (item.song || []).map(this.normalizeTrack, this)
     }
   }
