@@ -37,6 +37,10 @@ $input-color: $theme-text;
 
 $progress-bg: rgb(35, 35, 35);
 
+:root {
+  --text-muted: #{$theme-text-muted};
+}
+
 .elevated {
   background-color: $theme-elevation-1;
 }

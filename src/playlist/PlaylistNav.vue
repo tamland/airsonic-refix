@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="max-width: 100%">
     <span class="nav-link">
       <small class="text-uppercase text-muted font-weight-bold">
         Playlists
@@ -9,19 +9,19 @@
       </small>
     </span>
 
-    <router-link class="nav-item nav-link" :to="{name: 'playlist', params: { id: 'random' }}">
+    <router-link class="nav-link" :to="{name: 'playlist', params: { id: 'random' }}">
       <Icon icon="music-note-list" class="mr-2" /> Random
     </router-link>
 
     <router-link v-for="item in playlists" :key="item.id"
                  :to="{name: 'playlist', params: { id: item.id }}"
-                 class="nav-item nav-link">
+                 class="nav-link">
       <span @dragover="onDragover" @drop="onDrop(item.id, $event)">
         <Icon icon="music-note-list" class="mr-2" /> {{ item.name }}
       </span>
     </router-link>
 
-    <router-link class="nav-item nav-link" :to="{name: 'playlists'}">
+    <router-link class="nav-link" :to="{name: 'playlists'}">
       More...
     </router-link>
 

@@ -1,6 +1,6 @@
 <template>
-  <div class="sidebar elevated">
-    <div class="d-none d-md-block">
+  <div class="sidebar-container elevated">
+    <div class="sidebar-fixed d-none d-md-block">
       <Nav />
     </div>
     <b-sidebar
@@ -18,9 +18,31 @@
     </b-sidebar>
   </div>
 </template>
-<style lang="scss" scoped>
-  .sidebar {
+<style>
+  .sidebar-container .sidebar-fixed {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     padding-bottom: 180px;
+    width: 250px;
+  }
+
+  .sidebar-container .logo {
+    height: 48px;
+  }
+
+  .sidebar-container .nav-link {
+    width: calc(100%);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sidebar-container a.nav-link .b-icon {
+    margin-right: 0.75rem;
+  }
+
+  .sidebar-container a.nav-link:not(.active) .b-icon {
+    color: var(--text-muted);
   }
 </style>
 <script lang="ts">
