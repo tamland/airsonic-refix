@@ -21,6 +21,7 @@
     BIconBoxArrowRight,
     BIconPersonFill,
     BIconPersonCircle,
+    BIconX,
   } from 'bootstrap-vue'
 
   export default Vue.extend({
@@ -42,6 +43,7 @@
       BIconBoxArrowRight,
       BIconPersonFill,
       BIconPersonCircle,
+      BIconX,
     },
     props: {
       icon: { type: String, required: true }

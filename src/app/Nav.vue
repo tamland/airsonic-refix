@@ -1,9 +1,12 @@
 <template>
   <div>
     <nav class="nav flex-column">
-      <router-link class="nav-link logo" :to="{name: 'home'}">
+      <div class="nav-link logo d-flex justify-content-between">
         <Logo />
-      </router-link>
+        <button class="btn btn-link btn-lg p-0 d-md-none" @click="hideMenu">
+          <Icon icon="x" />
+        </button>
+      </div>
 
       <router-link class="nav-link" :to="{name: 'home'}">
         <Icon icon="card-text" class="" /> Home
@@ -43,6 +46,7 @@
   import Vue from 'vue'
   import Logo from './Logo.vue'
   import PlaylistNav from '@/playlist/PlaylistNav.vue'
+  import { mapActions } from 'vuex'
 
   export default Vue.extend({
     components: {
@@ -50,10 +54,7 @@
       PlaylistNav,
     },
     methods: {
-      logout() {
-        this.$auth.logout()
-        this.$router.go(0)
-      },
-    }
+      ...mapActions(['hideMenu']),
+    },
   })
 </script>

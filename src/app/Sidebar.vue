@@ -12,13 +12,16 @@
       no-header
       backdrop
       backdrop-variant=""
-      @hidden="toggleMenu"
+      @hidden="hideMenu"
     >
       <Nav />
     </b-sidebar>
   </div>
 </template>
 <style>
+  .sidebar-container nav {
+    padding-top: 0.5rem;
+  }
   .sidebar-container .sidebar-fixed {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -48,7 +51,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import Nav from './Nav.vue'
-  import { mapState, mapMutations } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
 
   export default Vue.extend({
     components: {
@@ -58,7 +61,7 @@
       ...mapState(['showMenu'])
     },
     methods: {
-      ...mapMutations(['toggleMenu']),
+      ...mapActions(['hideMenu']),
     },
   })
 </script>

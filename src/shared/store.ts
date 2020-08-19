@@ -34,8 +34,8 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
       state.username = username
       state.server = server
     },
-    toggleMenu(state) {
-      state.showMenu = !state.showMenu
+    setMenuVisible(state, visible) {
+      state.showMenu = visible
     },
     setPlaylists(state, playlists: any[]) {
       state.playlists = playlists
@@ -46,6 +46,12 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
     },
   },
   actions: {
+    showMenu({ commit }) {
+      commit('setMenuVisible', true)
+    },
+    hideMenu({ commit }) {
+      commit('setMenuVisible', false)
+    },
     loadPlaylists({ commit }) {
       api.getPlaylists().then(result => {
         commit('setPlaylists', result)
