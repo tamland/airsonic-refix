@@ -1,13 +1,11 @@
 <template>
   <div>
-    <div class="min-vh-100 d-flex align-items-stretch justify-spcace-between">
+    <div class="min-vh-100 d-flex -align-items-stretch -justify-spcace-between">
       <Sidebar />
-      <div class="main flex-fill">
-        <div class="container-fluid pt-3 pb-3">
-          <TopNav />
-          <router-view />
-        </div>
-      </div>
+      <main class="container-fluid pt-3 pb-3">
+        <TopNav />
+        <router-view />
+      </main>
     </div>
     <ErrorBar />
     <footer class="footer elevated">
@@ -16,8 +14,9 @@
   </div>
 </template>
 <style lang="scss">
-  .main {
+  main {
     margin-bottom: 80px;
+    overflow-x: hidden;
   }
   .footer {
     position: fixed;
