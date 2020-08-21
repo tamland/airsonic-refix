@@ -1,43 +1,59 @@
 <template>
   <div>
+    <ul class="nav-underlined">
+      <li v-for="{ value, text } in categories" :key="value">
+        <router-link :to="{... $route, params: {... $route.params, sort: value }}">
+          {{ text }}
+        </router-link>
+      </li>
+    </ul>
     <Spinner v-slot="{ data }" :data="albums">
-      <AlbumList :items="data" />
+      <AlbumList v-if="albums" :items="data" />
     </Spinner>
   </div>
 </template>
 <script lang="ts">
   import Vue from 'vue'
   import AlbumList from './AlbumList.vue'
-  import { AlbumSort, Album } from '@/shared/api'
+  import { Album, AlbumSort } from '@/shared/api'
+
+  const categoryToSort = {
+    'a-z': 'alphabeticalByName',
+    'recently-added': 'newest',
+    'recently-played': 'recent',
+    'most-played': 'frequent',
+    random: 'random',
+  } as {[key: string]: AlbumSort}
 
   export default Vue.extend({
     components: {
       AlbumList,
     },
+    props: {
+      sort: { type: String, required: true },
+    },
     data() {
       return {
-        sort: 'newest',
         albums: null as null | Album[],
       }
     },
     computed: {
-      sortOptions() {
+      categories() {
         return [
-          { text: 'A-Z', value: 'alphabeticalByName' },
-          { text: 'Date', value: 'newest' },
-          { text: 'frequent', value: 'frequent' },
-        // { text: "random", value: "random" },
-        // { text: "recent", value: "recent" },
-        // { text: "starred", value: "starred" },
+          { text: 'A-Z', value: 'a-z' },
+          { text: 'Recently added', value: 'recently-added' },
+          { text: 'Recently played', value: 'recently-played' },
+          { text: 'Most played', value: 'most-played' },
+          { text: 'Random', value: 'random' },
         ]
       }
     },
     watch: {
       sort: {
         immediate: true,
-        handler(value: AlbumSort) {
+        handler(value: string) {
           this.albums = null
-          this.$api.getAlbums(value).then(albums => {
+          this.$api.getAlbums(categoryToSort[value]).then(albums => {
             this.albums = albums
           })
         }
