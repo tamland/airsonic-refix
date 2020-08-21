@@ -5,7 +5,7 @@
           :to="{name: 'genre', params: { id: item.id } }"
           :title="item.name">
       <template v-slot:text>
-        <strong>{{ item.albumCount }}</strong> albums ·
+        <strong>{{ item.albumCount }}</strong> albums •
         <strong>{{ item.songCount }}</strong> songs
       </template>
     </Tile>
