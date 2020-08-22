@@ -8,7 +8,7 @@
         </b-dropdown-item-btn>
       </OverflowMenu>
     </div>
-    <TrackList :tracks="data.tracks" show-album @remove="remove(index)">
+    <TrackList :tracks="data.tracks" @remove="remove(index)">
       <template v-slot:context-menu="{index}">
         <b-dropdown-item-button @click="remove(index)">
           Remove

@@ -12,7 +12,7 @@
 
     <div v-if="result.tracks.length > 0">
       <h1>Tracks</h1>
-      <TrackList :tracks="result.tracks" show-album />
+      <TrackList :tracks="result.tracks" />
     </div>
   </div>
 </template>

@@ -94,7 +94,7 @@
     },
     props: {
       tracks: { type: Array, required: true },
-      showAlbum: { type: Boolean, default: false },
+      showAlbum: { type: Boolean, default: true },
     },
     computed: {
       ...mapState('player', {

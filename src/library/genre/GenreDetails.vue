@@ -15,7 +15,7 @@
     </ul>
     <template v-if="section === 'tracks'">
       <Spinner v-slot="{ data }" :data="tracks">
-        <TrackList :tracks="data" show-album />
+        <TrackList :tracks="data" />
       </Spinner>
     </template>
     <template v-else>

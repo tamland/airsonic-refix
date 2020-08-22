@@ -1,6 +1,6 @@
 <template>
   <div v-if="items">
-    <TrackList :tracks="items" show-album />
+    <TrackList :tracks="items" />
     <table class="table">
       <thead />
       <tbody>
