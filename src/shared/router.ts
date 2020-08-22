@@ -69,7 +69,7 @@ export function setupRouter(auth: AuthService) {
       },
       {
         name: 'genre',
-        path: '/genre/:id',
+        path: '/genre/:id/:section?',
         component: GenreDetails,
         props: true,
       },

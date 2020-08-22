@@ -1,27 +1,57 @@
 <template>
-  <div v-if="item">
-    <h1>{{ item.name }}</h1>
-    <TrackList :tracks="item.tracks" show-album />
+  <div>
+    <h1>{{ id }}</h1>
+    <ul class="nav-underlined">
+      <li>
+        <router-link :to="{... $route, params: { }}">
+          Albums
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{... $route, params: { section: 'tracks' }}">
+          Tracks
+        </router-link>
+      </li>
+    </ul>
+    <template v-if="section === 'tracks'">
+      <Spinner v-slot="{ data }" :data="tracks">
+        <TrackList :tracks="data" show-album />
+      </Spinner>
+    </template>
+    <template v-else>
+      <Spinner v-slot="{ data }" :data="albums">
+        <AlbumList :items="data" />
+      </Spinner>
+    </template>
   </div>
 </template>
 <script lang="ts">
   import Vue from 'vue'
+  import AlbumList from '@/library/album/AlbumList.vue'
   import TrackList from '@/library/TrackList.vue'
 
   export default Vue.extend({
     components: {
+      AlbumList,
       TrackList,
     },
     props: {
-      id: { type: String, required: true }
+      id: { type: String, required: true },
+      section: { type: String, default: '' },
     },
     data() {
       return {
-        item: null as any,
+        albums: null as null | any[],
+        tracks: null as null | any[],
       }
     },
-    async created() {
-      this.item = await this.$api.getGenreDetails(this.id)
+    created() {
+      this.$api.getAlbumsByGenre(this.id).then(result => {
+        this.albums = result
+      })
+      this.$api.getTracksByGenre(this.id).then(result => {
+        this.tracks = result
+      })
     }
   })
 </script>

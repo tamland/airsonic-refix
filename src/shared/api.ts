@@ -107,17 +107,25 @@ export class API {
       .sort((a: any, b:any) => a.name.localeCompare(b.name))
   }
 
-  async getGenreDetails(id: string) {
+  async getAlbumsByGenre(id: string) {
+    const params = {
+      type: 'byGenre',
+      genre: id,
+      count: 500,
+      offset: 0,
+    }
+    const response = await this.get('rest/getAlbumList2', params)
+    return (response.albumList2?.album || []).map(this.normalizeAlbum, this)
+  }
+
+  async getTracksByGenre(id: string) {
     const params = {
       genre: id,
       count: 500,
       offset: 0,
     }
     const response = await this.get('rest/getSongsByGenre', params)
-    return {
-      name: id,
-      tracks: (response.songsByGenre?.song || []).map(this.normalizeTrack, this),
-    }
+    return (response.songsByGenre?.song || []).map(this.normalizeTrack, this)
   }
 
   async getArtists(): Promise<Artist[]> {
