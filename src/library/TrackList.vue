@@ -1,9 +1,11 @@
 <template>
   <div>
-    <b-table-simple borderless hover>
+    <table class="table table-hover table-borderless">
       <thead>
-        <tr>
-          <th class="pl-0 pr-0 text-center text-muted" />
+        <tr class="text-muted text-uppercase" style="font-size: 80%;">
+          <th class="pl-0 pr-0 text-center">
+            #
+          </th>
           <th class="text-left">
             Title
           </th>
@@ -22,9 +24,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in tracks" :key="index"
-            draggable="true" :class="{'text-primary': item.id === playingTrackId}"
-            @dragstart="dragstart(item.id, $event)">
+        <tr
+          v-for="(item, index) in tracks"
+          :key="index"
+          :class="{'current-track': item.id === playingTrackId}"
+          :draggable="true"
+          @dragstart="dragstart(item.id, $event)"
+        >
           <td class="pl-0 pr-0 text-center text-muted"
               style="min-width: 20px; max-width: 20px;"
               @click="play(index)">
@@ -67,12 +73,17 @@
           </td>
         </tr>
       </tbody>
-    </b-table-simple>
+    </table>
   </div>
 </template>
 <style lang="scss" scoped>
   .track-number-hover {
     display: none;
+  }
+  .current-track {
+    td, a {
+      color: var(--primary);
+    }
   }
   tr:hover {
     .track-number-hover {

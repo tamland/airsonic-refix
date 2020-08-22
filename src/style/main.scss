@@ -35,7 +35,9 @@ $input-bg: $theme-elevation-2;
 $input-border-color: $theme-elevation-2;
 $input-color: $theme-text;
 
+// Other
 $progress-bg: rgb(35, 35, 35);
+$table-hover-bg: rgba(#fff, .1);
 
 :root {
   --text-muted: #{$theme-text-muted};
