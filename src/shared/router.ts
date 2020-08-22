@@ -41,14 +41,6 @@ export function setupRouter(auth: AuthService) {
       },
       {
         name: 'albums',
-        path: '/albums',
-        redirect: {
-          name: 'albums-params',
-          params: { sort: 'a-z' }
-        }
-      },
-      {
-        name: 'albums-params',
         path: '/albums/:sort',
         component: AlbumLibrary,
         props: true

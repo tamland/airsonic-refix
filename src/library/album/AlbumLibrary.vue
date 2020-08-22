@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="nav-underlined">
-      <li v-for="{ value, text } in categories" :key="value">
+      <li v-for="{ value, text } in options" :key="value">
         <router-link :to="{... $route, params: {... $route.params, sort: value }}">
           {{ text }}
         </router-link>
@@ -17,14 +17,6 @@
   import AlbumList from './AlbumList.vue'
   import { Album, AlbumSort } from '@/shared/api'
 
-  const categoryToSort = {
-    'a-z': 'alphabeticalByName',
-    'recently-added': 'newest',
-    'recently-played': 'recent',
-    'most-played': 'frequent',
-    random: 'random',
-  } as {[key: string]: AlbumSort}
-
   export default Vue.extend({
     components: {
       AlbumList,
@@ -38,7 +30,7 @@
       }
     },
     computed: {
-      categories() {
+      options() {
         return [
           { text: 'A-Z', value: 'a-z' },
           { text: 'Recently added', value: 'recently-added' },
@@ -51,9 +43,9 @@
     watch: {
       sort: {
         immediate: true,
-        handler(value: string) {
+        handler(value: AlbumSort) {
           this.albums = null
-          this.$api.getAlbums(categoryToSort[value]).then(albums => {
+          this.$api.getAlbums(value).then(albums => {
             this.albums = albums
           })
         }

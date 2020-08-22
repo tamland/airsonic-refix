@@ -6,6 +6,7 @@
   import {
     BIcon,
     BIconCardText,
+    BIconChevronCompactRight,
     BIconMusicNoteList,
     BIconStar,
     BIconStarFill,
@@ -28,6 +29,7 @@
     components: {
       BIcon,
       BIconCardText,
+      BIconChevronCompactRight,
       BIconMusicNoteList,
       BIconStar,
       BIconStarFill,

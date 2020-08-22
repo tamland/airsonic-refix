@@ -1,7 +1,12 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios'
 import { AuthService } from '@/auth/service'
 
-export type AlbumSort = 'alphabeticalByName' | 'newest' | 'recent' | 'frequent' | 'random'
+export type AlbumSort =
+  'a-z' |
+  'recently-added'|
+  'recently-played' |
+  'most-played' |
+  'random'
 
 export interface Album {
   id: string
@@ -123,8 +128,16 @@ export class API {
   }
 
   async getAlbums(sort: AlbumSort, size = 500): Promise<Album[]> {
+    const type = {
+      'a-z': 'alphabeticalByName',
+      'recently-added': 'newest',
+      'recently-played': 'recent',
+      'most-played': 'frequent',
+      random: 'random',
+    }[sort]
+
     const params = {
-      type: sort,
+      type,
       offset: '0',
       size: size,
     }
