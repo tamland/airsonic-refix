@@ -1,0 +1,13 @@
+$table-hover-bg: rgba(#fff, .1);
+
+table thead tr {
+  font-size: 80%;
+  text-transform: uppercase;
+  color: $theme-text-muted;
+}
+
+table tr.active {
+  td, td a, td svg {
+    color: var(--primary);
+  }
+}

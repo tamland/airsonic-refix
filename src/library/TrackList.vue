@@ -2,7 +2,7 @@
   <div>
     <table class="table table-hover table-borderless">
       <thead>
-        <tr class="text-muted text-uppercase" style="font-size: 80%;">
+        <tr>
           <th class="pl-0 pr-0 text-center">
             #
           </th>
@@ -27,7 +27,7 @@
         <tr
           v-for="(item, index) in tracks"
           :key="index"
-          :class="{'current-track': item.id === playingTrackId}"
+          :class="{'active': item.id === playingTrackId}"
           :draggable="true"
           @dragstart="dragstart(item.id, $event)"
         >
@@ -35,7 +35,7 @@
               style="min-width: 20px; max-width: 20px;"
               @click="play(index)">
             <template v-if="item.id === playingTrackId">
-              <Icon :icon="isPlaying ? 'pause-fill' : 'play-fill'" class="text-primary" />
+              <Icon :icon="isPlaying ? 'pause-fill' : 'play-fill'" />
             </template>
             <template v-else>
               <span class="track-number">{{ item.track || 1 }}</span>
@@ -79,11 +79,6 @@
 <style lang="scss" scoped>
   .track-number-hover {
     display: none;
-  }
-  .current-track {
-    td, a {
-      color: var(--primary);
-    }
   }
   tr:hover {
     .track-number-hover {

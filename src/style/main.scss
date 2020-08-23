@@ -37,7 +37,6 @@ $input-color: $theme-text;
 
 // Other
 $progress-bg: rgb(35, 35, 35);
-$table-hover-bg: rgba(#fff, .1);
 
 :root {
   --text-muted: #{$theme-text-muted};
@@ -65,6 +64,7 @@ h1, h2, h3, h4, h5 {
 }
 
 @import './nav';
+@import './table';
 
 $enable-print-styles: false;
 $enable-responsive-font-sizes: true;
