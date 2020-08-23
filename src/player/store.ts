@@ -118,7 +118,9 @@ export const playerModule: Module<State, any> = {
       return dispatch('play')
     },
     seek({ commit, state }, value) {
-      commit('setPosition', state.duration * value)
+      if (isFinite(state.duration)) {
+        commit('setPosition', state.duration * value)
+      }
     },
     playNext({ commit }, track) {
       commit('setNextInQueue', track)
