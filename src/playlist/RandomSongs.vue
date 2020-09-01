@@ -11,7 +11,7 @@
           </td>
           <td>{{ item.artist }}</td>
           <td>{{ item.album }}</td>
-          <td>{{ item.duration | duration }}</td>
+          <td>{{ $formatDuration(item.duration) }}</td>
         </tr>
       </tbody>
     </table>

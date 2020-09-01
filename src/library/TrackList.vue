@@ -64,7 +64,7 @@
             </router-link>
           </td>
           <td class="text-right d-none d-md-table-cell">
-            {{ item.duration | duration }}
+            {{ $formatDuration(item.duration) }}
           </td>
           <td class="text-right">
             <TrackContextMenu :track="item">

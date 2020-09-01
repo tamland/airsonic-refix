@@ -21,3 +21,12 @@ Object.keys(components).forEach((_key) => {
   const key = _key as keyof typeof components
   Vue.component(key, components[key])
 })
+
+Vue.prototype.$formatDuration = (value: number) => {
+  if (!isFinite(value)) {
+    return '∞'
+  }
+  const minutes = Math.floor(value / 60)
+  const seconds = Math.floor(value % 60)
+  return (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds
+}

@@ -38,7 +38,7 @@
         </div>
         <div class="col p-0 text-truncate">
           <div v-if="track" class="pr-3 text-right">
-            <span>{{ currentTime | duration }} / {{ duration | duration }}</span>
+            {{ $formatDuration(currentTime) }} / {{ $formatDuration(duration) }}
           </div>
         </div>
       </div>
