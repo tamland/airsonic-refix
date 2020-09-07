@@ -52,6 +52,13 @@ export interface SearchResult {
   tracks: Track[]
 }
 
+export interface RadioStation {
+  id: string
+  title: string
+  description: string
+  url: string
+}
+
 export class API {
   readonly http: AxiosInstance;
   readonly get: (path: string, params?: any) => Promise<any>;
@@ -271,6 +278,48 @@ export class API {
       tracks: (data.searchResult3.song || []).map(this.normalizeTrack, this),
       albums: (data.searchResult3.album || []).map(this.normalizeAlbum, this),
       artists: (data.searchResult3.artist || []).map(this.normalizeArtist, this),
+    }
+  }
+
+  async getRadioStations(): Promise<RadioStation[]> {
+    const response = await this.get('rest/getInternetRadioStations')
+    return (response?.internetRadioStations?.internetRadioStation || [])
+      .map(this.normalizeRadioStation, this)
+  }
+
+  async addRadioStation(title: string, url: string): Promise<RadioStation> {
+    const params = {
+      name: title,
+      streamUrl: url,
+    }
+    return this
+      .get('rest/createInternetRadioStation', params)
+      .then(this.normalizeRadioStation)
+  }
+
+  async updateRadioStation(item: RadioStation): Promise<RadioStation> {
+    const params = {
+      id: item.id,
+      name: item.title,
+      streamUrl: item.url,
+    }
+    return this
+      .get('rest/updateInternetRadioStation', params)
+      .then(this.normalizeRadioStation)
+  }
+
+  async deleteRadioStation(id: string): Promise<void> {
+    return this.get('rest/deleteInternetRadioStation', { id })
+  }
+
+  private normalizeRadioStation(item: any): Track & RadioStation {
+    return {
+      id: `radio-${item.id}`,
+      title: item.name,
+      description: item.homePageUrl,
+      url: item.streamUrl,
+      duration: 0,
+      starred: false,
     }
   }
 

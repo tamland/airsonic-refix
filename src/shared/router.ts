@@ -10,6 +10,7 @@ import RandomSongs from '@/playlist/RandomSongs.vue'
 import GenreDetails from '@/library/genre/GenreDetails.vue'
 import GenreLibrary from '@/library/genre/GenreLibrary.vue'
 import Starred from '@/library/starred/Starred.vue'
+import RadioStations from '@/library/radio/RadioStations.vue'
 import Playlist from '@/playlist/Playlist.vue'
 import PlaylistList from '@/playlist/PlaylistList.vue'
 import SearchResult from '@/search/SearchResult.vue'
@@ -77,6 +78,11 @@ export function setupRouter(auth: AuthService) {
         name: 'starred',
         path: '/starred',
         component: Starred,
+      },
+      {
+        name: 'radio',
+        path: '/radio',
+        component: RadioStations,
       },
       {
         name: 'playlists',

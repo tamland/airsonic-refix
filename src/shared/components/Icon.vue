@@ -5,6 +5,7 @@
   import Vue from 'vue'
   import {
     BIcon,
+    BIconBroadcast,
     BIconCardText,
     BIconChevronCompactRight,
     BIconMusicNoteList,
@@ -28,6 +29,7 @@
   export default Vue.extend({
     components: {
       BIcon,
+      BIconBroadcast,
       BIconCardText,
       BIconChevronCompactRight,
       BIconMusicNoteList,
