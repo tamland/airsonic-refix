@@ -9,13 +9,13 @@
           <th class="text-left">
             Title
           </th>
-          <th class="text-left d-none d-lg-table-cell">
+          <th v-if="!noArtist" class="text-left d-none d-lg-table-cell">
             Artist
           </th>
-          <th v-if="showAlbum" class="text-left d-none d-md-table-cell">
+          <th v-if="!noAlbum" class="text-left d-none d-md-table-cell">
             Album
           </th>
-          <th class="text-right d-none d-md-table-cell">
+          <th v-if="!noDuration" class="text-right d-none d-md-table-cell">
             Duration
           </th>
           <th class="text-right">
@@ -48,7 +48,7 @@
               <small>{{ item.artist }}</small>
             </div>
           </td>
-          <td class="d-none d-lg-table-cell">
+          <td v-if="!noArtist" class="d-none d-lg-table-cell">
             <template v-if="item.artistId">
               <router-link :to="{name: 'artist', params: {id: item.artistId}}">
                 {{ item.artist }}
@@ -58,12 +58,12 @@
               {{ item.artist }}
             </template>
           </td>
-          <td v-if="showAlbum" class="d-none d-md-table-cell">
+          <td v-if="!noAlbum" class="d-none d-md-table-cell">
             <router-link :to="{name: 'album', params: {id: item.albumId}}">
               {{ item.album }}
             </router-link>
           </td>
-          <td class="text-right d-none d-md-table-cell">
+          <td v-if="!noDuration" class="text-right d-none d-md-table-cell">
             {{ $formatDuration(item.duration) }}
           </td>
           <td class="text-right">
@@ -100,7 +100,9 @@
     },
     props: {
       tracks: { type: Array, required: true },
-      showAlbum: { type: Boolean, default: true },
+      noAlbum: { type: Boolean, default: false },
+      noArtist: { type: Boolean, default: false },
+      noDuration: { type: Boolean, default: false },
     },
     computed: {
       ...mapState('player', {

@@ -27,7 +27,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <TrackList :tracks="album.tracks" :show-album="false" />
+        <TrackList :tracks="album.tracks" no-album />
       </div>
     </div>
   </div>
