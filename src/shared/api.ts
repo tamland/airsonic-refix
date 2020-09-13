@@ -8,6 +8,20 @@ export type AlbumSort =
   'most-played' |
   'random'
 
+export interface Track {
+  id: string
+  title: string
+  duration: number
+  starred: boolean
+  image?: string
+  url?: string
+  track?: number
+  album?: string
+  albumId?: string
+  artist?: string
+  artistId?: string
+}
+
 export interface Album {
   id: string
   name: string
@@ -30,20 +44,6 @@ export interface Artist {
   musicBrainzUrl?: string
   similarArtist?: Artist[]
   albums?: Album[]
-}
-
-export interface Track {
-  id: string
-  title: string
-  duration: number
-  starred: boolean
-  image?: string
-  url?: string
-  track?: number
-  album?: string
-  albumId?: string
-  artist?: string
-  artistId?: string
 }
 
 export interface SearchResult {

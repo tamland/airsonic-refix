@@ -15,8 +15,6 @@ const components = {
   Tile,
 }
 
-type Key = keyof typeof components;
-
 Object.keys(components).forEach((_key) => {
   const key = _key as keyof typeof components
   Vue.component(key, components[key])
