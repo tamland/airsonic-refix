@@ -22,6 +22,9 @@
           {{ username }}
         </b-dropdown-text>
         <b-dropdown-divider />
+        <b-dropdown-item :href="`${server}/settings.view`">
+          Server settings
+        </b-dropdown-item>
         <b-dropdown-item-button @click="logout">
           Log out
         </b-dropdown-item-button>
