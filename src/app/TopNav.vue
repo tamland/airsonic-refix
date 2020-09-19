@@ -25,21 +25,33 @@
         <b-dropdown-item :href="`${server}/settings.view`">
           Server settings
         </b-dropdown-item>
+        <b-dropdown-item-button @click="showAboutModal = true">
+          About
+        </b-dropdown-item-button>
+        <b-dropdown-divider />
         <b-dropdown-item-button @click="logout">
           Log out
         </b-dropdown-item-button>
       </b-dropdown>
     </template>
+    <About :visible="showAboutModal" @close="showAboutModal = false" />
   </div>
 </template>
 <script lang="ts">
   import Vue from 'vue'
   import { mapActions, mapState } from 'vuex'
+  import About from './About.vue'
   import SearchForm from '@/search/SearchForm.vue'
 
   export default Vue.extend({
     components: {
+      About,
       SearchForm,
+    },
+    data() {
+      return {
+        showAboutModal: false
+      }
     },
     computed: {
       ...mapState([

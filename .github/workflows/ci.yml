@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 env:
   IMAGE: ${{ github.repository }}
-  VERSION: ${{ github.sha }}
+  TAG: ${{ github.sha }}
 
 jobs:
   build:
@@ -20,7 +20,10 @@ jobs:
       run: yarn install
 
     - name: Build
-      run: VUE_APP_VERSION=$VERSION yarn build
+      run: |
+        export VUE_APP_BUILD=$TAG
+        export VUE_APP_BUILD_DATE=$(date --iso-8601)
+        yarn build
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
@@ -29,12 +32,12 @@ jobs:
         path: dist
 
     - name: Build docker image
-      run: docker build -t $IMAGE:$VERSION -f docker/Dockerfile .
+      run: docker build -t $IMAGE:$TAG -f docker/Dockerfile .
 
     - name: Push docker image
       run: |
         docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
-        docker push $IMAGE:$VERSION
+        docker push $IMAGE:$TAG
 
   preview:
     runs-on: ubuntu-latest
@@ -79,7 +82,7 @@ jobs:
     steps:
       - name: Push latest
         run: |
-          docker pull $IMAGE:$VERSION
-          docker tag $IMAGE:$VERSION $IMAGE:latest
+          docker pull $IMAGE:$TAG
+          docker tag $IMAGE:$TAG $IMAGE:latest
           docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
           docker push $IMAGE:latest
