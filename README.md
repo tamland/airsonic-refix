@@ -22,7 +22,9 @@ Modern responsive web frontend for [Airsonic](https://github.com/airsonic/airson
 
 https://airsonic.netlify.com
 
-Password is `guest`.
+Server: `/api`  
+Username: `guest1`  
+Password:`guest`
 
 You can use the URL and credentials for your own server if you prefer. **Note**: if your server is using http only you must allow mixed content in your browser otherwise login will not work.
 
@@ -36,6 +38,10 @@ $ docker run -d -p 8080:80 tamland/airsonic-frontend:latest
 ```
 
 You can now access the application at http://localhost:8080/
+
+Environment variables:
+- `SERVER_URL` (Optional): The backend server URL. When set the server input on the login page will not be displayed.
+
 
 ### Pre-built bundle
 

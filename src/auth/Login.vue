@@ -5,7 +5,7 @@
         <div style="font-size: 4rem; color: #fff;" class="text-center">
           <Icon icon="person-circle" />
         </div>
-        <b-form-group label="Server">
+        <b-form-group v-if="!config.serverUrl" label="Server">
           <b-form-input v-model="server" name="server" type="text" :state="valid" />
         </b-form-group>
         <b-form-group label="Username">
@@ -28,6 +28,7 @@
 </template>>
 <script lang="ts">
   import Vue from 'vue'
+  import { config } from '@/shared/config'
 
   export default Vue.extend({
     props: {
@@ -47,7 +48,8 @@
     computed: {
       valid(): false | null {
         return this.error == null ? null : false
-      }
+      },
+      config: () => config
     },
     async created() {
       this.server = await this.$auth.server

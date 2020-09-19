@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { randomString, md5 } from '@/shared/utils'
+import { config } from '@/shared/config'
 
 export class AuthService {
   public server = '';
@@ -9,14 +10,16 @@ export class AuthService {
   private authenticated = false;
 
   constructor() {
-    this.server = localStorage.getItem('server') || '/api'
-    this.username = localStorage.getItem('username') || 'guest1'
+    this.server = config.serverUrl || localStorage.getItem('server') || ''
+    this.username = localStorage.getItem('username') || ''
     this.salt = localStorage.getItem('salt') || ''
     this.hash = localStorage.getItem('hash') || ''
   }
 
   private saveSession() {
-    localStorage.setItem('server', this.server)
+    if (!config.serverUrl) {
+      localStorage.setItem('server', this.server)
+    }
     localStorage.setItem('username', this.username)
     localStorage.setItem('salt', this.salt)
     localStorage.setItem('hash', this.hash)
