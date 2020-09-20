@@ -9,7 +9,7 @@
       </div>
 
       <router-link class="nav-link" :to="{name: 'home'}">
-        <Icon icon="card-text" class="" /> Home
+        <Icon icon="card-text" class="" /> Discover
       </router-link>
 
       <router-link class="nav-link" :to="{name: 'queue'}">
