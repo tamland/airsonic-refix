@@ -22,7 +22,7 @@
         </small>
       </a>
 
-      <router-link class="nav-link" :to="{name: 'albums', params: {sort: 'a-z'}}">
+      <router-link class="nav-link" :to="{name: 'albums', params: {sort: 'recently-added'}}">
         <Icon icon="collection" /> Albums
       </router-link>
 

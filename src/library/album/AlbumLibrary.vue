@@ -34,10 +34,10 @@
     computed: {
       options() {
         return [
-          { text: 'A-Z', value: 'a-z' },
           { text: 'Recently added', value: 'recently-added' },
           { text: 'Recently played', value: 'recently-played' },
           { text: 'Most played', value: 'most-played' },
+          { text: 'A-Z', value: 'a-z' },
           { text: 'Random', value: 'random' },
         ]
       }
