@@ -7,9 +7,8 @@
         </router-link>
       </li>
     </ul>
-    <ContentLoader #default :loading="albums == null">
-      <AlbumList :items="albums" />
-    </ContentLoader>
+    <AlbumList :items="albums" />
+    <InfiniteLoader :key="sort" :loading="loading" :has-more="hasMore" @loadMore="loadMore" />
   </div>
 </template>
 <script lang="ts">
@@ -26,7 +25,10 @@
     },
     data() {
       return {
-        albums: null as null | Album[],
+        albums: [] as | Album[],
+        loading: false,
+        offset: 0 as number,
+        hasMore: true,
       }
     },
     computed: {
@@ -42,14 +44,23 @@
     },
     watch: {
       sort: {
-        immediate: true,
-        handler(value: AlbumSort) {
-          this.albums = null
-          this.$api.getAlbums(value).then(albums => {
-            this.albums = albums
-          })
+        handler() {
+          this.albums = []
+          this.offset = 0
+          this.hasMore = true
         }
       }
     },
+    methods: {
+      loadMore() {
+        this.loading = true
+        this.$api.getAlbums(this.sort as AlbumSort, 50, this.offset).then(albums => {
+          this.albums.push(...albums)
+          this.offset += albums.length
+          this.hasMore = albums.length > 0
+          this.loading = false
+        })
+      }
+    }
   })
 </script>

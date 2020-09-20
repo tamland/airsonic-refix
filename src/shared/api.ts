@@ -142,7 +142,7 @@ export class API {
       .map(this.normalizeArtist, this)
   }
 
-  async getAlbums(sort: AlbumSort, size = 500): Promise<Album[]> {
+  async getAlbums(sort: AlbumSort, size: number, offset = 0): Promise<Album[]> {
     const type = {
       'a-z': 'alphabeticalByName',
       'recently-added': 'newest',
@@ -151,11 +151,7 @@ export class API {
       random: 'random',
     }[sort]
 
-    const params = {
-      type,
-      offset: '0',
-      size: size,
-    }
+    const params = { type, offset, size }
     const response = await this.get('rest/getAlbumList2', params)
     const albums = response.albumList2?.album || []
     return albums.map(this.normalizeAlbum, this)

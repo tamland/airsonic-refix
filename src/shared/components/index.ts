@@ -2,6 +2,7 @@ import Vue from 'vue'
 import ContentLoader from './ContentLoader.vue'
 import ExternalLink from './ExternalLink.vue'
 import Icon from './Icon.vue'
+import InfiniteLoader from './InfiniteLoader.vue'
 import OverflowMenu from './OverflowMenu.vue'
 import Tiles from './Tiles.vue'
 import Tile from './Tile.vue'
@@ -10,6 +11,7 @@ const components = {
   ContentLoader,
   ExternalLink,
   Icon,
+  InfiniteLoader,
   OverflowMenu,
   Tiles,
   Tile,
