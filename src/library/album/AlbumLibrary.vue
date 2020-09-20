@@ -7,9 +7,9 @@
         </router-link>
       </li>
     </ul>
-    <Spinner v-slot="{ data }" :data="albums">
-      <AlbumList v-if="albums" :items="data" />
-    </Spinner>
+    <ContentLoader #default :loading="albums == null">
+      <AlbumList :items="albums" />
+    </ContentLoader>
   </div>
 </template>
 <script lang="ts">

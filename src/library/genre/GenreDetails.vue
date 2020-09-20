@@ -14,14 +14,14 @@
       </li>
     </ul>
     <template v-if="section === 'tracks'">
-      <Spinner v-slot="{ data }" :data="tracks">
-        <TrackList :tracks="data" />
-      </Spinner>
+      <ContentLoader #default :loading="tracks == null">
+        <TrackList :tracks="tracks" />
+      </ContentLoader>
     </template>
     <template v-else>
-      <Spinner v-slot="{ data }" :data="albums">
-        <AlbumList :items="data" />
-      </Spinner>
+      <ContentLoader #default :loading="albums == null">
+        <AlbumList :items="albums" />
+      </ContentLoader>
     </template>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="item">
+  <ContentLoader #default :loading="item == null">
     <div class="row">
       <div class="col col-xl-8">
         <h1>{{ item.name }}</h1>
@@ -26,7 +26,7 @@
       </h3>
       <ArtistList :items="item.similarArtist" />
     </template>
-  </div>
+  </ContentLoader>
 </template>
 <script lang="ts">
   import Vue from 'vue'

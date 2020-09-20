@@ -1,21 +1,21 @@
 <template>
-  <Spinner v-slot="{ data }" :data="playlist">
+  <ContentLoader #default :loading="playlist == null">
     <div class="d-flex justify-content-between">
-      <h1>{{ data.name }}</h1>
+      <h1>{{ playlist.name }}</h1>
       <OverflowMenu>
         <b-dropdown-item-btn variant="danger" @click="deletePlaylist()">
           Delete playlist
         </b-dropdown-item-btn>
       </OverflowMenu>
     </div>
-    <TrackList :tracks="data.tracks" @remove="remove(index)">
+    <TrackList :tracks="playlist.tracks" @remove="remove(index)">
       <template v-slot:context-menu="{index}">
         <b-dropdown-item-button @click="remove(index)">
           Remove
         </b-dropdown-item-button>
       </template>
     </TrackList>
-  </Spinner>
+  </ContentLoader>
 </template>
 <script lang="ts">
   import Vue from 'vue'

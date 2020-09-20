@@ -15,7 +15,6 @@
   import Vue from 'vue'
 
   export default Vue.extend({
-    components: {},
     data() {
       return {
         items: [],

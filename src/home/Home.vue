@@ -1,22 +1,19 @@
 <template>
-  <div>
-    <Spinner v-if="loading" />
-    <template v-else>
-      <div v-for="section in sections" :key="section.key" class="mb-4">
-        <template v-if="result[section.key].length > 0">
-          <h1>
-            {{ section.name }}
-            <router-link
-              :to="{name: 'albums', params: {sort: section.key}}"
-              class="text-muted"
-            >
-              <Icon icon="chevron-compact-right" />
-            </router-link>
-          </h1>
-          <AlbumList :items="result[section.key]" />
-        </template>
-      </div>
-    </template>
+  <div v-if="!loading">
+    <div v-for="section in sections" :key="section.key" class="mb-4">
+      <template v-if="result[section.key].length > 0">
+        <h1>
+          {{ section.name }}
+          <router-link
+            :to="{name: 'albums', params: {sort: section.key}}"
+            class="text-muted"
+          >
+            <Icon icon="chevron-compact-right" />
+          </router-link>
+        </h1>
+        <AlbumList :items="result[section.key]" />
+      </template>
+    </div>
   </div>
 </template>
 <script lang="ts">
