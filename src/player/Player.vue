@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex player">
+  <div :class="{'visible': visible}" class="player elevated d-flex">
     <div v-if="track" class="d-none d-sm-block">
       <router-link :to="track.albumId ? {name: 'album', params: {id: track.albumId}} : ''">
         <img v-if="track.image" width="80px" height="80px" :src="track.image">
@@ -49,6 +49,17 @@
   .progress2 {
     cursor: pointer;
   }
+  .player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    transition: 0.5s
+  }
+  .visible {
+    height: 80px;
+  }
 </style>
 <script lang="ts">
   import Vue from 'vue'
@@ -65,6 +76,7 @@
         isPlaying: (state: any) => state.isPlaying,
         currentTime: (state: any) => state.currentTime,
         duration: (state: any) => state.duration,
+        visible: (state: any) => state.queue.length > 0,
       }),
       ...mapGetters('player', [
         'track',
@@ -83,7 +95,7 @@
           const value = event.offsetX / width
           return this.$store.dispatch('player/seek', value)
         }
-      }
+      },
     }
   })
 </script>

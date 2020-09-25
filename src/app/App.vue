@@ -8,9 +8,7 @@
       </main>
     </div>
     <ErrorBar />
-    <footer class="footer elevated">
-      <Player />
-    </footer>
+    <Player />
   </div>
 </template>
 <style lang="scss">
@@ -18,13 +16,7 @@
     margin-bottom: 80px;
     overflow-x: hidden;
   }
-  .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 80px;
-  }
+
 </style>
 <script lang="ts">
   import ErrorBar from './ErrorBar.vue'
