@@ -9,7 +9,7 @@
         <!-- Track info --->
         <div class="col p-0 d-flex flex-nowrap align-items-center justify-content-start" style="width: 0; min-width: 0">
           <template v-if="track">
-            <router-link :to="track.albumId ? {name: 'album', params: {id: track.albumId}} : ''">
+            <router-link :to="{ name: 'queue' }">
               <template v-if="track.image">
                 <img class="d-sm-none" width="64px" height="64px" :src="track.image">
                 <img class="d-none d-sm-inline-block" width="74px" height="74px" :src="track.image">
