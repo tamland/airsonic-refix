@@ -64,10 +64,12 @@
     left: 0;
     right: 0;
     height: 0;
-    transition: 0.5s
+    max-height: 0;
+    transition: max-height 0.5s;
   }
   .visible {
     height: auto;
+    max-height: 100px;
   }
 </style>
 <script lang="ts">
