@@ -77,11 +77,6 @@
   import { mapState, mapGetters, mapActions } from 'vuex'
 
   export default Vue.extend({
-    data() {
-      return {
-
-      }
-    },
     computed: {
       ...mapState('player', {
         isPlaying: (state: any) => state.isPlaying,
