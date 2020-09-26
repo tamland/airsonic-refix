@@ -26,7 +26,7 @@
 
         <!-- Controls--->
         <div class="col-auto p-0">
-          <b-button variant="link" class="m-2" @click="previous">
+          <b-button variant="link" class="m-2 d-none d-sm-inline-block" @click="previous">
             <Icon icon="skip-start-fill" />
           </b-button>
           <b-button variant="link" size="lg" class="m-2" @click="playPause">
@@ -38,7 +38,7 @@
         </div>
 
         <!-- Time --->
-        <div class="col p-0" style="min-width: 0; width: 0;">
+        <div class="col p-0 d-none d-sm-block" style="min-width: 0; width: 0;">
           <div v-if="track" class="pr-3 text-right text-truncate">
             {{ $formatDuration(currentTime) }} / {{ $formatDuration(duration) }}
           </div>
