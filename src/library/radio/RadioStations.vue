@@ -59,7 +59,10 @@
         if (this.items[index].id === this.playingTrackId) {
           return this.$store.dispatch('player/playPause')
         }
-        return this.$store.dispatch('player/playQueue', { index, queue: this.items })
+        return this.$store.dispatch('player/playTrackList', {
+          index,
+          tracks: this.items
+        })
       },
     }
   })

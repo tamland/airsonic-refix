@@ -3,7 +3,7 @@
     <template #button-content>
       <Icon icon="three-dots-vertical" />
     </template>
-    <b-dropdown-item-button @click="playNext()">
+    <b-dropdown-item-button @click="setNextInQueue()">
       Play next
     </b-dropdown-item-button>
     <b-dropdown-item-button @click="addToQueue()">
@@ -36,8 +36,8 @@
         }
         this.starred = !this.starred
       },
-      playNext() {
-        return this.$store.dispatch('player/playNext', this.track)
+      setNextInQueue() {
+        return this.$store.dispatch('player/setNextInQueue', this.track)
       },
       addToQueue() {
         return this.$store.dispatch('player/addToQueue', this.track)

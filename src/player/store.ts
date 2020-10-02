@@ -87,19 +87,25 @@ export const playerModule: Module<State, any> = {
   },
 
   actions: {
-    async playQueue({ commit }, { queue, index }) {
+    async playTrackList({ commit }, { queue, index }) {
       commit('setQueue', [...queue])
       commit('setQueueIndex', index)
       commit('setPlaying')
       await audio.play()
     },
-    async play({ commit }) {
+    async resume({ commit }) {
       commit('setPlaying')
       await audio.play()
     },
-    pause({ commit }) {
+    async pause({ commit }) {
       audio.pause()
       commit('setPaused')
+    },
+    async playPause({ state, dispatch }) {
+      if (state.isPlaying) {
+        return dispatch('pause')
+      }
+      return dispatch('resume')
     },
     async next({ commit, state }) {
       commit('setQueueIndex', state.queueIndex + 1)
@@ -111,22 +117,17 @@ export const playerModule: Module<State, any> = {
       commit('setPlaying')
       await audio.play()
     },
-    playPause({ state, dispatch }) {
-      if (state.isPlaying) {
-        return dispatch('pause')
-      }
-      return dispatch('play')
-    },
     seek({ commit, state }, value) {
       if (isFinite(state.duration)) {
         commit('setPosition', state.duration * value)
       }
     },
-    playNext({ commit }, track) {
-      commit('setNextInQueue', track)
     },
     addToQueue({ commit }, track) {
       commit('addToQueue', track)
+    },
+    setNextInQueue({ commit }, track) {
+      commit('setNextInQueue', track)
     },
   },
 
@@ -172,7 +173,7 @@ export function setupAudio(store: Store<any>) {
 
   if (mediaSession) {
     mediaSession.setActionHandler('play', () => {
-      store.dispatch('player/play')
+      store.dispatch('player/resume')
     })
     mediaSession.setActionHandler('pause', () => {
       store.dispatch('player/pause')

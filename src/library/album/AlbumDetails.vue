@@ -60,9 +60,9 @@
     methods: {
       play() {
         if (this.album?.tracks) {
-          return this.$store.dispatch('player/playQueue', {
+          return this.$store.dispatch('player/playTrackList', {
             index: 0,
-            queue: this.album.tracks,
+            tracks: this.album.tracks,
           })
         }
       },

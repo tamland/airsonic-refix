@@ -120,9 +120,9 @@
         if ((this.tracks as any)[index].id === this.playingTrackId) {
           return this.$store.dispatch('player/playPause')
         }
-        return this.$store.dispatch('player/playQueue', {
+        return this.$store.dispatch('player/playTrackList', {
           index,
-          queue: this.tracks,
+          tracks: this.tracks,
         })
       },
       dragstart(id: string, event: any) {
