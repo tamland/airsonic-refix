@@ -1,4 +1,5 @@
 import { Store, Module } from 'vuex'
+import { trackListEquals } from '@/shared/utils'
 
 const audio = new Audio()
 const storedQueue = JSON.parse(localStorage.getItem('queue') || '[]')
@@ -87,8 +88,10 @@ export const playerModule: Module<State, any> = {
   },
 
   actions: {
-    async playTrackList({ commit }, { queue, index }) {
-      commit('setQueue', [...queue])
+    async playTrackList({ commit, state }, { tracks, index }) {
+      if (!trackListEquals(state.queue, tracks)) {
+        commit('setQueue', [...tracks])
+      }
       commit('setQueueIndex', index)
       commit('setPlaying')
       await audio.play()

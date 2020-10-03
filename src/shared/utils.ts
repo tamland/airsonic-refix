@@ -1,4 +1,5 @@
 import MD5 from 'md5-es'
+import { Track } from '@/shared/api'
 
 export function randomString(): string {
   let arr = new Uint8Array(16)
@@ -10,4 +11,16 @@ export function randomString(): string {
 
 export function md5(str: string): string {
   return MD5.hash(str)
+}
+
+export function trackListEquals(a: Track[], b: Track[]): boolean {
+  if (a.length !== b.length) {
+    return false
+  }
+  for (let i = 0; i < a.length; i++) {
+    if (a[i].id !== b[i].id) {
+      return false
+    }
+  }
+  return true
 }
