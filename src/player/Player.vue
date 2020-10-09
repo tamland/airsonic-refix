@@ -44,10 +44,21 @@
           </b-button>
         </div>
 
-        <!-- Time --->
-        <div class="col p-0 d-none d-sm-block" style="min-width: 0; width: 0;">
-          <div v-if="track" class="pr-3 text-right text-truncate">
-            {{ $formatDuration(currentTime) }} / {{ $formatDuration(duration) }}
+        <!-- Controls right --->
+        <div class="col p-0 d-none  d-sm-block " style="min-width: 0; width: 0;">
+          <div class="d-flex justify-content-end pr-3">
+            <b-button variant="link"
+                      class="m-0 d-none d-sm-inline-block"
+                      :class="{ 'text-primary': shuffleActive }"
+                      @click="toggleShuffle">
+              <Icon icon="shuffle" />
+            </b-button>
+            <b-button variant="link"
+                      class="m-0 d-none d-sm-inline-block "
+                      :class="{ 'text-primary': repeatActive }"
+                      @click="toggleRepeat">
+              <Icon icon="arrow-repeat" />
+            </b-button>
           </div>
         </div>
       </div>
@@ -81,7 +92,8 @@
       ...mapState('player', {
         isPlaying: (state: any) => state.isPlaying,
         currentTime: (state: any) => state.currentTime,
-        duration: (state: any) => state.duration,
+        repeatActive: (state: any) => state.repeat,
+        shuffleActive: (state: any) => state.shuffle,
         visible: (state: any) => state.queue.length > 0,
       }),
       ...mapGetters('player', [
@@ -94,6 +106,8 @@
         'playPause',
         'next',
         'previous',
+        'toggleRepeat',
+        'toggleShuffle',
       ]),
       seek(event: any) {
         if (event.target) {

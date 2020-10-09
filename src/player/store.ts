@@ -1,5 +1,5 @@
 import { Store, Module } from 'vuex'
-import { trackListEquals } from '@/shared/utils'
+import { shuffle, trackListEquals } from '@/shared/utils'
 
 const audio = new Audio()
 const storedQueue = JSON.parse(localStorage.getItem('queue') || '[]')
@@ -15,6 +15,8 @@ interface State {
   isPlaying: boolean;
   duration: number; // duration of current track in seconds
   currentTime: number; // position of current track in seconds
+  repeat: boolean;
+  shuffle: boolean;
 }
 
 export const playerModule: Module<State, any> = {
@@ -25,6 +27,8 @@ export const playerModule: Module<State, any> = {
     isPlaying: false,
     duration: 0,
     currentTime: 0,
+    repeat: localStorage.getItem('player.repeat') !== 'false',
+    shuffle: localStorage.getItem('player.shuffle') === 'true',
   },
 
   mutations: {
@@ -42,6 +46,14 @@ export const playerModule: Module<State, any> = {
     },
     setPosition(state, time: number) {
       audio.currentTime = time
+    },
+    setRepeat(state, enable) {
+      state.repeat = enable
+      localStorage.setItem('player.repeat', enable)
+    },
+    setShuffle(state, enable) {
+      state.shuffle = enable
+      localStorage.setItem('player.shuffle', enable)
     },
     setQueue(state, queue) {
       state.queue = queue
@@ -89,10 +101,23 @@ export const playerModule: Module<State, any> = {
 
   actions: {
     async playTrackList({ commit, state }, { tracks, index }) {
-      if (!trackListEquals(state.queue, tracks)) {
-        commit('setQueue', [...tracks])
+      if (trackListEquals(state.queue, tracks)) {
+        commit('setQueueIndex', index)
+        commit('setPlaying')
+        await audio.play()
+        return
       }
-      commit('setQueueIndex', index)
+      tracks = [...tracks]
+      if (state.shuffle) {
+        const selected = tracks[index]
+        tracks.splice(index, 1)
+        tracks = [selected, ...shuffle(tracks)]
+        commit('setQueue', tracks)
+        commit('setQueueIndex', 0)
+      } else {
+        commit('setQueue', tracks)
+        commit('setQueueIndex', index)
+      }
       commit('setPlaying')
       await audio.play()
     },
@@ -125,6 +150,16 @@ export const playerModule: Module<State, any> = {
         commit('setPosition', state.duration * value)
       }
     },
+    resetQueue({ commit }) {
+      audio.pause()
+      commit('setQueueIndex', 0)
+      commit('setPaused')
+    },
+    toggleRepeat({ commit, state }) {
+      commit('setRepeat', !state.repeat)
+    },
+    toggleShuffle({ commit, state }) {
+      commit('setShuffle', !state.shuffle)
     },
     addToQueue({ commit }, track) {
       commit('addToQueue', track)
@@ -167,7 +202,11 @@ export function setupAudio(store: Store<any>) {
     store.commit('player/setDuration', audio.duration)
   }
   audio.onended = () => {
-    store.dispatch('player/next')
+    if (store.state.repeat) {
+      store.dispatch('player/next')
+    } else {
+      store.dispatch('player/resetQueue')
+    }
   }
   audio.onerror = () => {
     store.commit('player/setPaused')

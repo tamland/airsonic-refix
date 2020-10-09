@@ -5,6 +5,7 @@
   import Vue from 'vue'
   import {
     BIcon,
+    BIconArrowRepeat,
     BIconBoxArrowUpRight,
     BIconBroadcast,
     BIconCardText,
@@ -17,6 +18,7 @@
     BIconList,
     BIconPlayFill,
     BIconPauseFill,
+    BIconShuffle,
     BIconSkipStartFill,
     BIconSkipEndFill,
     BIconPlus,
@@ -30,6 +32,7 @@
   export default Vue.extend({
     components: {
       BIcon,
+      BIconArrowRepeat,
       BIconBoxArrowUpRight,
       BIconBroadcast,
       BIconCardText,
@@ -42,6 +45,7 @@
       BIconList,
       BIconPlayFill,
       BIconPauseFill,
+      BIconShuffle,
       BIconSkipStartFill,
       BIconSkipEndFill,
       BIconPlus,
