@@ -1,5 +1,5 @@
 <template>
-  <ContentLoader #default :loading="item == null">
+  <ContentLoader v-slot :loading="item == null">
     <div class="row">
       <div class="col col-xl-8">
         <h1>{{ item.name }}</h1>

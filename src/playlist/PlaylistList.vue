@@ -4,7 +4,7 @@
           :image="item.image"
           :to="{name: 'playlist', params: { id: item.id } }"
           :title="item.name">
-      <template v-slot:text>
+      <template #text>
         <strong>{{ item.songCount }}</strong> songs
       </template>
     </Tile>

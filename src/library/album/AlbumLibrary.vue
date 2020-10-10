@@ -8,7 +8,7 @@
       </li>
     </ul>
     <AlbumList :items="albums" />
-    <InfiniteLoader :key="sort" :loading="loading" :has-more="hasMore" @loadMore="loadMore" />
+    <InfiniteLoader :key="sort" :loading="loading" :has-more="hasMore" @load-more="loadMore" />
   </div>
 </template>
 <script lang="ts">

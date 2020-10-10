@@ -1,5 +1,5 @@
 <template>
-  <ContentLoader #default :loading="result == null">
+  <ContentLoader v-slot :loading="result == null">
     <div v-if="result.artists.length > 0" class="mb-5">
       <h1>Artists</h1>
       <ArtistList :items="result.artists" />

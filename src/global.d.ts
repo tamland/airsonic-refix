@@ -5,14 +5,6 @@ declare module '*.vue' {
 
 declare module 'md5-es';
 
-interface Navigator {
-  readonly mediaSession?: MediaSession;
-}
-
-interface Window {
-  MediaSession?: MediaSession;
-}
-
 type MediaSessionPlaybackState = 'none' | 'paused' | 'playing';
 
 type MediaSessionAction =
@@ -33,21 +25,6 @@ interface MediaSessionActionDetails {
   seekTime?: number;
 }
 
-interface MediaPositionState {
-  duration?: number;
-  playbackRate?: number;
-  position?: number;
-}
-
-interface MediaSession {
-  playbackState: MediaSessionPlaybackState;
-  metadata: MediaMetadata | null;
-  setActionHandler(
-    action: MediaSessionAction,
-    listener: ((details: MediaSessionActionDetails) => void)): void;
-  setPositionState?(arg: MediaPositionState): void;
-}
-
 interface MediaImage {
   src: string;
   sizes?: string;
@@ -63,4 +40,27 @@ interface MediaMetadataInit {
 
 declare class MediaMetadata {
   constructor(init?: MediaMetadataInit);
+}
+
+interface MediaPositionState {
+  duration?: number;
+  playbackRate?: number;
+  position?: number;
+}
+
+interface MediaSession {
+  playbackState: MediaSessionPlaybackState;
+  metadata: MediaMetadata | null;
+  setActionHandler(
+    action: MediaSessionAction,
+    listener: ((details: MediaSessionActionDetails) => void)): void;
+  setPositionState?(arg: MediaPositionState): void;
+}
+
+interface Navigator {
+  readonly mediaSession?: MediaSession;
+}
+
+interface Window {
+  MediaSession?: MediaSession;
 }

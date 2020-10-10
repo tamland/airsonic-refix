@@ -18,6 +18,10 @@ module.exports = {
     'vue/no-unused-components': 'off',
     'vue/max-attributes-per-line': 'off',
     'vue/html-closing-bracket-newline': 'off',
+    'vue/valid-v-slot': 'off', // Bug: https://github.com/vuejs/eslint-plugin-vue/issues/1229
+    'vue/component-tags-order': ['error', {
+      order: ['template', 'style', 'script']
+    }],
     'no-console': 'warn',
     'no-debugger': 'warn',
     'no-useless-constructor': 'off', // Crashes eslint

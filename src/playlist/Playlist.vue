@@ -1,5 +1,5 @@
 <template>
-  <ContentLoader #default :loading="playlist == null">
+  <ContentLoader v-slot :loading="playlist == null">
     <div class="d-flex justify-content-between">
       <h1>{{ playlist.name }}</h1>
       <OverflowMenu>
@@ -9,7 +9,7 @@
       </OverflowMenu>
     </div>
     <TrackList :tracks="playlist.tracks" @remove="remove(index)">
-      <template v-slot:context-menu="{index}">
+      <template #context-menu="{index}">
         <b-dropdown-item-button @click="remove(index)">
           Remove
         </b-dropdown-item-button>

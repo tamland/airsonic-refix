@@ -45,7 +45,7 @@
     },
     methods: {
       loadMore() {
-        this.$emit('loadMore')
+        this.$emit('load-more')
       },
     }
   })
