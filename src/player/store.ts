@@ -44,9 +44,6 @@ export const playerModule: Module<State, any> = {
         mediaSession.playbackState = 'paused'
       }
     },
-    setPosition(state, time: number) {
-      audio.currentTime = time
-    },
     setRepeat(state, enable) {
       state.repeat = enable
       localStorage.setItem('player.repeat', enable)
@@ -91,7 +88,7 @@ export const playerModule: Module<State, any> = {
     setNextInQueue(state, track) {
       state.queue.splice(state.queueIndex + 1, 0, track)
     },
-    setProgress(state, value: any) {
+    setCurrentTime(state, value: any) {
       state.currentTime = value
     },
     setDuration(state, value: any) {
@@ -145,9 +142,9 @@ export const playerModule: Module<State, any> = {
       commit('setPlaying')
       await audio.play()
     },
-    seek({ commit, state }, value) {
+    seek({ state }, value) {
       if (isFinite(state.duration)) {
-        commit('setPosition', state.duration * value)
+        audio.currentTime = state.duration * value
       }
     },
     resetQueue({ commit }) {
@@ -196,7 +193,7 @@ export const playerModule: Module<State, any> = {
 
 export function setupAudio(store: Store<any>) {
   audio.ontimeupdate = () => {
-    store.commit('player/setProgress', audio.currentTime)
+    store.commit('player/setCurrentTime', audio.currentTime)
   }
   audio.ondurationchange = () => {
     store.commit('player/setDuration', audio.duration)
@@ -230,15 +227,17 @@ export function setupAudio(store: Store<any>) {
       store.dispatch('player/pause')
     })
     mediaSession.setActionHandler('seekto', (details) => {
-      store.commit('player/setPosition', details.seekTime)
+      if (details.seekTime) {
+        audio.currentTime = details.seekTime
+      }
     })
     mediaSession.setActionHandler('seekforward', (details) => {
       const offset = details.seekOffset || 10
-      store.commit('player/setPosition', Math.min(audio.currentTime + offset, audio.duration))
+      audio.currentTime = Math.min(audio.currentTime + offset, audio.duration)
     })
     mediaSession.setActionHandler('seekbackward', (details) => {
       const offset = details.seekOffset || 10
-      store.commit('player/setPosition', Math.max(audio.currentTime - offset, 0))
+      audio.currentTime = Math.max(audio.currentTime - offset, 0)
     })
     // FIXME
     // function updatePositionState() {
