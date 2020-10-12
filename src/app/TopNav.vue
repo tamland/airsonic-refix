@@ -25,6 +25,9 @@
         <b-dropdown-item :href="`${server}/settings.view`">
           Server settings
         </b-dropdown-item>
+        <b-dropdown-item-button @click="scan">
+          Scan media folders
+        </b-dropdown-item-button>
         <b-dropdown-item-button @click="showAboutModal = true">
           About
         </b-dropdown-item-button>
@@ -63,6 +66,9 @@
       ...mapActions([
         'showMenu',
       ]),
+      scan() {
+        this.$api.scan()
+      },
       logout() {
         this.$auth.logout()
         this.$router.go(0)

@@ -308,6 +308,10 @@ export class API {
     return this.get('rest/deleteInternetRadioStation', { id })
   }
 
+  async scan(): Promise<void> {
+    return this.get('rest/startScan')
+  }
+
   private normalizeRadioStation(item: any): Track & RadioStation {
     return {
       id: `radio-${item.id}`,
