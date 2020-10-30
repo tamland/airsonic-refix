@@ -132,7 +132,10 @@ export const playerModule: Module<State, any> = {
       }
       return dispatch('resume')
     },
-    async next({ commit, state }) {
+    async next({ commit, state, getters, dispatch }) {
+      if (!state.repeat && !getters.hasNext) {
+        return dispatch('resetQueue')
+      }
       commit('setQueueIndex', state.queueIndex + 1)
       commit('setPlaying')
       await audio.play()
@@ -199,11 +202,7 @@ export function setupAudio(store: Store<any>) {
     store.commit('player/setDuration', audio.duration)
   }
   audio.onended = () => {
-    if (store.state.repeat) {
-      store.dispatch('player/next')
-    } else {
-      store.dispatch('player/resetQueue')
-    }
+    store.dispatch('player/next')
   }
   audio.onerror = () => {
     store.commit('player/setPaused')
