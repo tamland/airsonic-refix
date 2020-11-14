@@ -31,13 +31,18 @@ jobs:
         name: dist
         path: dist
 
-    - name: Build docker image
-      run: docker build -t $IMAGE:$TAG -f docker/Dockerfile .
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
 
-    - name: Push docker image
+    - name: Log in to docker hub
+      run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+    - name: Build docker image
       run: |
-        docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
-        docker push $IMAGE:$TAG
+        docker buildx build \
+          --platform linux/arm64 \
+          --tag $IMAGE:$TAG \
+          --file docker/Dockerfile .
 
   preview:
     runs-on: ubuntu-latest
