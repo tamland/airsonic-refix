@@ -312,6 +312,10 @@ export class API {
     return this.get('rest/startScan')
   }
 
+  async scrobble(id: string): Promise<void> {
+    return this.get('rest/scrobble', { id })
+  }
+
   private normalizeRadioStation(item: any): Track & RadioStation {
     return {
       id: `radio-${item.id}`,

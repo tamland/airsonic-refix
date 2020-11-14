@@ -27,7 +27,7 @@ const authService = new AuthService()
 const api = new API(authService)
 const router = setupRouter(authService)
 const store = setupStore(authService, api)
-setupAudio(store)
+setupAudio(store, api)
 
 Vue.prototype.$auth = authService
 Vue.prototype.$api = api

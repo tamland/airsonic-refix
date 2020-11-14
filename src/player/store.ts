@@ -1,5 +1,6 @@
 import { Store, Module } from 'vuex'
 import { shuffle, trackListEquals } from '@/shared/utils'
+import { API } from '@/shared/api'
 
 const audio = new Audio()
 const storedQueue = JSON.parse(localStorage.getItem('queue') || '[]')
@@ -12,6 +13,7 @@ const mediaSession: MediaSession | undefined = navigator.mediaSession
 interface State {
   queue: any[];
   queueIndex: number;
+  scrobbled: boolean;
   isPlaying: boolean;
   duration: number; // duration of current track in seconds
   currentTime: number; // position of current track in seconds
@@ -24,6 +26,7 @@ export const playerModule: Module<State, any> = {
   state: {
     queue: storedQueue,
     queueIndex: storedQueueIndex,
+    scrobbled: false,
     isPlaying: false,
     duration: 0,
     currentTime: 0,
@@ -65,6 +68,7 @@ export const playerModule: Module<State, any> = {
       index = index < state.queue.length ? index : 0
       state.queueIndex = index
       localStorage.setItem('queueIndex', index)
+      state.scrobbled = false
       const track = state.queue[index]
       audio.src = track.url
       if (mediaSession) {
@@ -93,6 +97,9 @@ export const playerModule: Module<State, any> = {
     },
     setDuration(state, value: any) {
       state.duration = value
+    },
+    setScrobbled(state) {
+      state.scrobbled = true
     },
   },
 
@@ -194,19 +201,28 @@ export const playerModule: Module<State, any> = {
   },
 }
 
-export function setupAudio(store: Store<any>) {
+export function setupAudio(store: Store<any>, api: API) {
   audio.ontimeupdate = () => {
     store.commit('player/setCurrentTime', audio.currentTime)
+
+    // Scrobble
+    if (store.state.player.scrobbled === false &&
+        audio.duration > 30 &&
+        audio.currentTime / audio.duration > 0.7) {
+      const id = store.getters['player/trackId']
+      store.commit('player/setScrobbled')
+      api.scrobble(id)
+    }
   }
   audio.ondurationchange = () => {
     store.commit('player/setDuration', audio.duration)
   }
-  audio.onended = () => {
-    store.dispatch('player/next')
-  }
   audio.onerror = () => {
     store.commit('player/setPaused')
     store.commit('setError', audio.error)
+  }
+  audio.onended = () => {
+    store.dispatch('player/next')
   }
 
   if (mediaSession) {
