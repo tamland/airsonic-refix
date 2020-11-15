@@ -45,8 +45,8 @@
         </div>
 
         <!-- Controls right --->
-        <div class="col p-0 d-none  d-sm-block " style="min-width: 0; width: 0;">
-          <div class="d-flex justify-content-end pr-3">
+        <div class="col-auto col-sm p-0">
+          <div class="d-flex flex-nowrap justify-content-end pr-3">
             <b-button variant="link"
                       class="m-0 d-none d-sm-inline-block"
                       :class="{ 'text-primary': shuffleActive }"
@@ -59,6 +59,20 @@
                       @click="toggleRepeat">
               <Icon icon="arrow-repeat" />
             </b-button>
+            <OverflowMenu class="d-sm-none">
+              <b-dropdown-text>
+                <div class="d-flex justify-content-between">
+                  <strong>Repeat</strong>
+                  <b-form-checkbox switch :checked="repeatActive" @change="toggleRepeat" />
+                </div>
+              </b-dropdown-text>
+              <b-dropdown-text>
+                <div class="d-flex justify-content-between">
+                  <strong>Shuffle</strong>
+                  <b-form-checkbox switch :checked="shuffleActive" @change="toggleShuffle" />
+                </div>
+              </b-dropdown-text>
+            </OverflowMenu>
           </div>
         </div>
       </div>
