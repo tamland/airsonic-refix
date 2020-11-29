@@ -71,6 +71,7 @@ export const playerModule: Module<State, any> = {
       state.scrobbled = false
       const track = state.queue[index]
       audio.src = track.url
+      document.title = `${track.title} • ${track.artist}`
       if (mediaSession) {
         mediaSession.metadata = new MediaMetadata({
           title: track.title,
