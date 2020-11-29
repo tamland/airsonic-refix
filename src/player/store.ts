@@ -149,7 +149,8 @@ export const playerModule: Module<State, any> = {
       await audio.play()
     },
     async previous({ commit, state }) {
-      commit('setQueueIndex', state.queueIndex - 1)
+      commit('setQueueIndex',
+        audio.currentTime > 3 ? state.queueIndex : state.queueIndex - 1)
       commit('setPlaying')
       await audio.play()
     },
