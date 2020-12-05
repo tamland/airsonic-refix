@@ -10,13 +10,15 @@ Modern responsive web frontend for [Airsonic](https://github.com/airsonic/airson
 
 
 ## Supported features
-- Responsive UI. Works on mobile and desktop
+- Responsive UI for desktop and mobile
 - Playback with presistent queue
-- Browse library for albums, artist, generes and starred songs
-- Create, delete and edit playlists
-- Search for artists, albums and songs
+- MediaSession integration
+- Browse library for albums, artist, generes
+- View, create, and edit playlists with drag and drop support
 - Play random songs with the built-in smart playlist
-
+- Favourites
+- Search
+- Internet radio
 
 ## Demo
 
