@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Vuex from 'vuex'
-import { BootstrapVue } from 'bootstrap-vue'
 import '@/style/main.scss'
 import '@/shared/components'
 import App from '@/app/App.vue'
@@ -21,7 +20,6 @@ declare module 'vue/types/vue' {
 Vue.config.productionTip = false
 Vue.use(Router)
 Vue.use(Vuex)
-Vue.use(BootstrapVue)
 
 const authService = new AuthService()
 const api = new API(authService)

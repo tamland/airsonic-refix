@@ -16,12 +16,12 @@
           <span v-if="album.genre"> • {{ album.genre }}</span>
         </p>
         <div class="text-nowrap">
-          <b-btn variant="secondary" class="mr-2" @click="play">
+          <b-button variant="secondary" class="mr-2" @click="play">
             <Icon icon="play-fill" /> Play
-          </b-btn>
-          <b-btn variant="secondary" class="mr-2" @click="toggleStar">
+          </b-button>
+          <b-button variant="secondary" class="mr-2" @click="toggleStar">
             <Icon :icon="album.starred ? 'star-fill' : 'star'" />
-          </b-btn>
+          </b-button>
         </div>
       </div>
     </div>

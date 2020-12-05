@@ -6,6 +6,31 @@ import InfiniteLoader from './InfiniteLoader.vue'
 import OverflowMenu from './OverflowMenu.vue'
 import Tiles from './Tiles.vue'
 import Tile from './Tile.vue'
+import {
+  BAlert,
+  BAvatar,
+  BButton,
+  BFormCheckbox,
+  BFormGroup,
+  BFormInput,
+  BModal,
+  BProgress,
+  BSidebar,
+  BSpinner,
+  DropdownPlugin,
+} from 'bootstrap-vue'
+
+Vue.component('BModal', BModal)
+Vue.component('BAlert', BAlert)
+Vue.component('BAvatar', BAvatar)
+Vue.component('BSidebar', BSidebar)
+Vue.component('BFormGroup', BFormGroup)
+Vue.component('BFormInput', BFormInput)
+Vue.component('BFormCheckbox', BFormCheckbox)
+Vue.component('BButton', BButton)
+Vue.component('BProgress', BProgress)
+Vue.component('BSpinner', BSpinner)
+Vue.use(DropdownPlugin)
 
 const components = {
   ContentLoader,
