@@ -48,7 +48,7 @@ Environment variables:
 ### Pre-built bundle
 
 Pre-built bundles can be found in the [Actions](https://github.com/tamland/airsonic-frontend/actions)
-tab. Download/extract artifact and serve with your favourite web server.
+tab. Download/extract artifact and serve with any web server such as nginx or apache.
 
 ### Build from source
 
@@ -59,6 +59,11 @@ $ yarn build
 
 Bundle can be found in the `dist` folder.
 
+Build docker image:
+
+```
+$ docker build -f docker/Dockerfile .
+```
 
 ## Develop
 
