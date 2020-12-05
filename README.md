@@ -23,7 +23,7 @@ Modern responsive web frontend for [Airsonic](https://github.com/airsonic/airson
 https://airsonic.netlify.com
 
 Server: `/api`  
-Username: `guest1`  
+Username: `guest2`, `guest3`, `guest4` etc.
 Password:`guest`
 
 You can use the URL and credentials for your own server if you prefer. **Note**: if your server is using http only you must allow mixed content in your browser otherwise login will not work.
