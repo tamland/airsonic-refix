@@ -1,29 +1,36 @@
 <template>
-  <div>
-    <b-modal size="sm" hide-header hide-footer no-close-on-esc :visible="showModal">
-      <form @submit.prevent="login">
-        <div style="font-size: 4rem; color: #fff;" class="text-center">
-          <Icon icon="person-circle" />
+  <div class="row align-items-center h-100 mt-5">
+    <div v-if="!displayForm" class="mx-auto">
+      <span class="spinner-border " />
+    </div>
+    <div v-else class="mx-auto card " style="width: 22rem;">
+      <b-overlay rounded :show="busy" opacity="0.1">
+        <div class="card-body">
+          <form @submit.prevent="login">
+            <div style="font-size: 4rem; color: #fff;" class="text-center">
+              <Icon icon="person-circle" />
+            </div>
+            <b-form-group v-if="!config.serverUrl" label="Server">
+              <b-form-input v-model="server" name="server" type="text" :state="valid" />
+            </b-form-group>
+            <b-form-group label="Username">
+              <b-form-input v-model="username" name="username" type="text" :state="valid" />
+            </b-form-group>
+            <b-form-group label="Password">
+              <b-form-input v-model="password" name="password" type="password" :state="valid" />
+            </b-form-group>
+            <b-alert :show="error != null" variant="danger">
+              <template v-if="error != null">
+                Could not log in. ({{ error.message }})
+              </template>
+            </b-alert>
+            <button class="btn btn-primary btn-block" :disabled="busy" @click="login">
+              <span v-show="false" class="spinner-border spinner-border-sm" /> Log in
+            </button>
+          </form>
         </div>
-        <b-form-group v-if="!config.serverUrl" label="Server">
-          <b-form-input v-model="server" name="server" type="text" :state="valid" />
-        </b-form-group>
-        <b-form-group label="Username">
-          <b-form-input v-model="username" name="username" type="text" :state="valid" />
-        </b-form-group>
-        <b-form-group label="Password">
-          <b-form-input v-model="password" name="password" type="password" :state="valid" />
-        </b-form-group>
-        <b-alert :show="error != null" variant="danger">
-          <template v-if="error != null">
-            Could not log in. ({{ error.message }})
-          </template>
-        </b-alert>
-        <button class="btn btn-primary btn-block" :disabled="busy" @click="login">
-          <b-spinner v-show="busy" small type="grow" /> Log in
-        </button>
-      </form>
-    </b-modal>
+      </b-overlay>
+    </div>
   </div>
 </template>>
 <script lang="ts">
@@ -42,7 +49,7 @@
         rememberLogin: true,
         busy: false,
         error: null,
-        showModal: false,
+        displayForm: false,
       }
     },
     computed: {
@@ -52,8 +59,8 @@
       config: () => config
     },
     async created() {
-      this.server = await this.$auth.server
-      this.username = await this.$auth.username
+      this.server = this.$auth.server
+      this.username = this.$auth.username
       const success = await this.$auth.autoLogin()
       if (success) {
         this.$store.commit('setLoginSuccess', {
@@ -62,7 +69,7 @@
         })
         this.$router.replace(this.returnTo)
       } else {
-        this.showModal = true
+        this.displayForm = true
       }
     },
     methods: {

@@ -1,35 +1,26 @@
 <template>
   <div>
-    <div class="min-vh-100 d-flex -align-items-stretch -justify-spcace-between">
-      <Sidebar />
-      <main class="container-fluid pt-3 pb-3">
-        <TopNav />
-        <router-view />
-      </main>
-    </div>
     <ErrorBar />
-    <Player />
+    <component :is="layout">
+      <router-view />
+    </component>
   </div>
 </template>
-<style lang="scss">
-  main {
-    margin-bottom: 80px;
-    overflow-x: hidden;
-  }
-
-</style>
 <script lang="ts">
   import ErrorBar from './ErrorBar.vue'
-  import TopNav from './TopNav.vue'
-  import Sidebar from './Sidebar.vue'
-  import Player from '@/player/Player.vue'
+  import Default from '@/app/layout/Default.vue'
+  import Fullscreen from '@/app/layout/Fullscreen.vue'
 
   export default {
     components: {
       ErrorBar,
-      TopNav,
-      Sidebar,
-      Player,
+      Default,
+      Fullscreen,
     },
+    computed: {
+      layout(): string {
+        return (this as any).$route.meta.layout || 'Default'
+      }
+    }
   }
 </script>

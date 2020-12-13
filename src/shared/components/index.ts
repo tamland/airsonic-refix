@@ -14,9 +14,9 @@ import {
   BFormGroup,
   BFormInput,
   BModal,
+  BOverlay,
   BProgress,
   BSidebar,
-  BSpinner,
   DropdownPlugin,
 } from 'bootstrap-vue'
 
@@ -29,7 +29,7 @@ Vue.component('BFormInput', BFormInput)
 Vue.component('BFormCheckbox', BFormCheckbox)
 Vue.component('BButton', BButton)
 Vue.component('BProgress', BProgress)
-Vue.component('BSpinner', BSpinner)
+Vue.component('BOverlay', BOverlay)
 Vue.use(DropdownPlugin)
 
 const components = {

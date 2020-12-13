@@ -33,7 +33,10 @@ export function setupRouter(auth: AuthService) {
         component: Login,
         props: (route) => ({
           returnTo: route.query.returnTo,
-        })
+        }),
+        meta: {
+          layout: 'fullscreen'
+        }
       },
       {
         name: 'queue',
