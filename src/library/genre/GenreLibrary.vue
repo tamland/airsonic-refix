@@ -6,7 +6,7 @@
           :title="item.name">
       <template #text>
         <strong>{{ item.albumCount }}</strong> albums •
-        <strong>{{ item.songCount }}</strong> songs
+        <strong>{{ item.trackCount }}</strong> tracks
       </template>
     </Tile>
   </Tiles>

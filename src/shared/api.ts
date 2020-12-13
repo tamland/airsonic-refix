@@ -109,9 +109,10 @@ export class API {
       .map((item: any) => ({
         id: item.value,
         name: item.value,
-        ...item,
+        albumCount: item.albumCount,
+        trackCount: item.songCount,
       }))
-      .sort((a: any, b:any) => a.name.localeCompare(b.name))
+      .sort((a: any, b:any) => b.albumCount - a.albumCount)
   }
 
   async getAlbumsByGenre(id: string) {
