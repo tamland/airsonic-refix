@@ -14,12 +14,12 @@
       </li>
     </ul>
     <template v-if="section === 'tracks'">
-      <ContentLoader v-slot :loading="tracks == null">
-        <TrackList :tracks="tracks" />
-      </ContentLoader>
+      <InfiniteList v-slot="{ items }" key="tracks" :load="loadTracks">
+        <TrackList :tracks="items" />
+      </InfiniteList>
     </template>
     <template v-else>
-      <InfiniteList v-slot="{ items }" :load="loadAlbums">
+      <InfiniteList v-slot="{ items }" key="albums" :load="loadAlbums">
         <AlbumList :items="items" />
       </InfiniteList>
     </template>
@@ -41,20 +41,13 @@
       id: { type: String, required: true },
       section: { type: String, default: '' },
     },
-    data() {
-      return {
-        tracks: null as null | any[],
-      }
-    },
-    created() {
-      this.$api.getTracksByGenre(this.id).then(result => {
-        this.tracks = result
-      })
-    },
     methods: {
       loadAlbums(offset: number) {
         return this.$api.getAlbumsByGenre(this.id, 50, offset)
-      }
+      },
+      loadTracks(offset: number) {
+        return this.$api.getTracksByGenre(this.id, 50, offset)
+      },
     }
   })
 </script>

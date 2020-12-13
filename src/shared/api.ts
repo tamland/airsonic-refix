@@ -126,11 +126,11 @@ export class API {
     return (response.albumList2?.album || []).map(this.normalizeAlbum, this)
   }
 
-  async getTracksByGenre(id: string) {
+  async getTracksByGenre(id: string, size: number, offset = 0) {
     const params = {
       genre: id,
-      count: 500,
-      offset: 0,
+      count: size,
+      offset,
     }
     const response = await this.get('rest/getSongsByGenre', params)
     return (response.songsByGenre?.song || []).map(this.normalizeTrack, this)
