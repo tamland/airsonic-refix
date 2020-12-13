@@ -115,12 +115,12 @@ export class API {
       .sort((a: any, b:any) => b.albumCount - a.albumCount)
   }
 
-  async getAlbumsByGenre(id: string) {
+  async getAlbumsByGenre(id: string, size: number, offset = 0) {
     const params = {
       type: 'byGenre',
       genre: id,
-      count: 500,
-      offset: 0,
+      size,
+      offset,
     }
     const response = await this.get('rest/getAlbumList2', params)
     return (response.albumList2?.album || []).map(this.normalizeAlbum, this)

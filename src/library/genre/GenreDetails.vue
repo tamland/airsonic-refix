@@ -19,9 +19,9 @@
       </ContentLoader>
     </template>
     <template v-else>
-      <ContentLoader v-slot :loading="albums == null">
-        <AlbumList :items="albums" />
-      </ContentLoader>
+      <InfiniteList v-slot="{ items }" :load="loadAlbums">
+        <AlbumList :items="items" />
+      </InfiniteList>
     </template>
   </div>
 </template>
@@ -29,11 +29,13 @@
   import Vue from 'vue'
   import AlbumList from '@/library/album/AlbumList.vue'
   import TrackList from '@/library/TrackList.vue'
+  import InfiniteList from '@/shared/components/InfiniteList.vue'
 
   export default Vue.extend({
     components: {
       AlbumList,
       TrackList,
+      InfiniteList,
     },
     props: {
       id: { type: String, required: true },
@@ -41,17 +43,18 @@
     },
     data() {
       return {
-        albums: null as null | any[],
         tracks: null as null | any[],
       }
     },
     created() {
-      this.$api.getAlbumsByGenre(this.id).then(result => {
-        this.albums = result
-      })
       this.$api.getTracksByGenre(this.id).then(result => {
         this.tracks = result
       })
+    },
+    methods: {
+      loadAlbums(offset: number) {
+        return this.$api.getAlbumsByGenre(this.id, 50, offset)
+      }
     }
   })
 </script>
