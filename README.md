@@ -11,21 +11,20 @@ Modern responsive web frontend for [Airsonic](https://github.com/airsonic/airson
 
 ## Supported features
 - Responsive UI for desktop and mobile
-- Playback with presistent queue
-- MediaSession integration
+- Playback with persistent queue, repeat, shuffle and MediaSession integration
 - Browse library for albums, artist, generes
 - View, create, and edit playlists with drag and drop support
 - Play random songs with the built-in smart playlist
 - Favourites
-- Search
 - Internet radio
+- Search
 
 ## Demo
 
 https://airsonic.netlify.com
 
 Server: `/api`  
-Username: `guest2`, `guest3`, `guest4` etc.
+Username: `guest2`, `guest3`, `guest4` etc.  
 Password:`guest`
 
 You can use the URL and credentials for your own server if you prefer. **Note**: if your server is using http only you must allow mixed content in your browser otherwise login will not work.
