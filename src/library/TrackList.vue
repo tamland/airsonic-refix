@@ -30,10 +30,11 @@
           :class="{'active': item.id === playingTrackId}"
           :draggable="true"
           @dragstart="dragstart(item.id, $event)"
+          @click="play(index)"
         >
           <td class="pl-0 pr-0 text-center text-muted"
               style="min-width: 20px; max-width: 20px;"
-              @click="play(index)">
+          >
             <template v-if="item.id === playingTrackId">
               <Icon :icon="isPlaying ? 'pause-fill' : 'play-fill'" />
             </template>
@@ -42,7 +43,7 @@
               <Icon class="track-number-hover" icon="play-fill" />
             </template>
           </td>
-          <td @click="play(index)">
+          <td>
             {{ item.title }}
             <div class="d-lg-none text-muted">
               <small>{{ item.artist }}</small>
@@ -50,7 +51,7 @@
           </td>
           <td v-if="!noArtist" class="d-none d-lg-table-cell">
             <template v-if="item.artistId">
-              <router-link :to="{name: 'artist', params: {id: item.artistId}}">
+              <router-link :to="{name: 'artist', params: {id: item.artistId}}" @click.native.stop>
                 {{ item.artist }}
               </router-link>
             </template>
@@ -59,7 +60,7 @@
             </template>
           </td>
           <td v-if="!noAlbum" class="d-none d-md-table-cell">
-            <router-link :to="{name: 'album', params: {id: item.albumId}}">
+            <router-link :to="{name: 'album', params: {id: item.albumId}}" @click.native.stop>
               {{ item.album }}
             </router-link>
           </td>
