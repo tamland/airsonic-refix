@@ -6,7 +6,6 @@ import ArtistDetails from '@/library/artist/ArtistDetails.vue'
 import ArtistLibrary from '@/library/artist/ArtistLibrary.vue'
 import AlbumDetails from '@/library/album/AlbumDetails.vue'
 import AlbumLibrary from '@/library/album/AlbumLibrary.vue'
-import RandomSongs from '@/playlist/RandomSongs.vue'
 import GenreDetails from '@/library/genre/GenreDetails.vue'
 import GenreLibrary from '@/library/genre/GenreLibrary.vue'
 import Starred from '@/library/starred/Starred.vue'
@@ -97,11 +96,6 @@ export function setupRouter(auth: AuthService) {
         path: '/playlist/:id',
         component: Playlist,
         props: true,
-      },
-      {
-        name: 'playlist-random',
-        path: '/random',
-        component: RandomSongs,
       },
       {
         name: 'search',
