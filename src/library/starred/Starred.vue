@@ -1,5 +1,5 @@
 <template>
-  <div v-if="result">
+  <ContentLoader v-slot :loading="result == null">
     <div v-if="result.albums.length > 0" class="mb-4">
       <h1>Albums</h1>
       <AlbumList :items="result.albums" />
@@ -12,7 +12,7 @@
       <h1>Tracks</h1>
       <TrackList :tracks="result.tracks" />
     </div>
-  </div>
+  </ContentLoader>
 </template>
 <script lang="ts">
   import Vue from 'vue'
