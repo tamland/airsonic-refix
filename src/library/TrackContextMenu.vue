@@ -29,12 +29,11 @@
     },
     methods: {
       toggleStarred() {
-        if (this.starred) {
-          this.$api.unstar('track', this.track.id)
-        } else {
-          this.$api.star('track', this.track.id)
-        }
         this.starred = !this.starred
+        if (this.starred) {
+          return this.$api.unstar('track', this.track.id)
+        }
+        return this.$api.star('track', this.track.id)
       },
       setNextInQueue() {
         return this.$store.dispatch('player/setNextInQueue', this.track)

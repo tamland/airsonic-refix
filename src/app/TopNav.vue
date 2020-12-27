@@ -67,7 +67,7 @@
         'showMenu',
       ]),
       scan() {
-        this.$api.scan()
+        return this.$api.scan()
       },
       logout() {
         this.$auth.logout()

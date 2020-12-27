@@ -54,7 +54,7 @@
     methods: {
       loadMore() {
         this.loading = true
-        this.$api.getAlbums(this.sort as AlbumSort, 50, this.offset).then(albums => {
+        return this.$api.getAlbums(this.sort as AlbumSort, 50, this.offset).then(albums => {
           this.albums.push(...albums)
           this.offset += albums.length
           this.hasMore = albums.length > 0

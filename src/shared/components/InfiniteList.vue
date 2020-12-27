@@ -22,7 +22,7 @@
     methods: {
       loadMore() {
         this.loading = true
-        this.load(this.offset).then((items: any[]) => {
+        return this.load(this.offset).then((items: any[]) => {
           this.items.push(...items)
           this.offset += items.length
           this.hasMore = items.length > 0
