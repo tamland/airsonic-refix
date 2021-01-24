@@ -34,7 +34,7 @@
               </small>
             </div>
           </td>
-          <td class="text-right">
+          <td class="text-right" @click.stop="">
             <TrackContextMenu :track="item" />
           </td>
         </tr>

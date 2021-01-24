@@ -61,7 +61,7 @@
         <td v-if="!noDuration" class="text-right d-none d-md-table-cell">
           {{ $formatDuration(item.duration) }}
         </td>
-        <td class="text-right">
+        <td class="text-right" @click.stop="">
           <TrackContextMenu :track="item">
             <slot name="context-menu" :index="index" :item="item" />
           </TrackContextMenu>
