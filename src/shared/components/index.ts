@@ -13,6 +13,7 @@ import {
   BFormCheckbox,
   BFormGroup,
   BFormInput,
+  BFormTextarea,
   BModal,
   BOverlay,
   BProgress,
@@ -27,6 +28,7 @@ Vue.component('BSidebar', BSidebar)
 Vue.component('BFormGroup', BFormGroup)
 Vue.component('BFormInput', BFormInput)
 Vue.component('BFormCheckbox', BFormCheckbox)
+Vue.component('BFormTextarea', BFormTextarea)
 Vue.component('BButton', BButton)
 Vue.component('BProgress', BProgress)
 Vue.component('BOverlay', BOverlay)

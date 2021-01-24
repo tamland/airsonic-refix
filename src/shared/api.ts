@@ -203,6 +203,15 @@ export class API {
     return this.getPlaylists()
   }
 
+  async editPlaylist(playlistId: string, name: string, comment: string) {
+    const params = {
+      playlistId,
+      name,
+      comment,
+    }
+    await this.get('rest/updatePlaylist', params)
+  }
+
   async deletePlaylist(id: string) {
     await this.get('rest/deletePlaylist', { id })
   }

@@ -41,6 +41,10 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
       state.playlists = playlists
         .sort((a: any, b: any) => b.changed.localeCompare(a.changed))
     },
+    setPlaylist(state, playlist: any) {
+      const idx = state.playlists.findIndex(x => x.id === playlist.id)
+      state.playlists.splice(idx, 1, playlist)
+    },
     removePlaylist(state, id: string) {
       state.playlists = state.playlists.filter(p => p.id !== id)
     },
@@ -60,6 +64,16 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
     createPlaylist({ commit }, name) {
       api.createPlaylist(name).then(result => {
         commit('setPlaylists', result)
+      })
+    },
+    updatePlaylist({ commit, state }, { id, name, comment }) {
+      api.editPlaylist(id, name, comment).then(() => {
+        const playlist = {
+          ...state.playlists.find(x => x.id === id),
+          name,
+          comment,
+        }
+        commit('setPlaylist', playlist)
       })
     },
     addTrackToPlaylist({ }, { playlistId, trackId }) {
