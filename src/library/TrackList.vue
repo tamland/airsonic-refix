@@ -72,7 +72,7 @@
 </template>
 <script lang="ts">
   import Vue from 'vue'
-  import { mapActions, mapGetters, mapState } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
   import TrackContextMenu from '@/library/TrackContextMenu.vue'
 
   export default Vue.extend({
@@ -86,11 +86,9 @@
       noDuration: { type: Boolean, default: false },
     },
     computed: {
-      ...mapState('player', {
-        isPlaying: 'isPlaying',
-      }),
       ...mapGetters({
         playingTrackId: 'player/trackId',
+        isPlaying: 'player/isPlaying',
       }),
     },
     methods: {
