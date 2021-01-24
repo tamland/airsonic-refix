@@ -26,6 +26,7 @@
     BIconBoxArrowRight,
     BIconPersonFill,
     BIconPersonCircle,
+    BIconRss,
     BIconX,
   } from 'bootstrap-vue'
 
@@ -53,6 +54,7 @@
       BIconBoxArrowRight,
       BIconPersonFill,
       BIconPersonCircle,
+      BIconRss,
       BIconX,
     },
     props: {

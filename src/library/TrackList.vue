@@ -54,9 +54,14 @@
           </template>
         </td>
         <td v-if="!noAlbum" class="d-none d-md-table-cell">
-          <router-link :to="{name: 'album', params: {id: item.albumId}}" @click.native.stop>
+          <template v-if="item.albumId">
+            <router-link :to="{name: 'album', params: {id: item.albumId}}" disabled @click.native.stop>
+              {{ item.album }}
+            </router-link>
+          </template>
+          <template v-else>
             {{ item.album }}
-          </router-link>
+          </template>
         </td>
         <td v-if="!noDuration" class="text-right d-none d-md-table-cell">
           {{ $formatDuration(item.duration) }}

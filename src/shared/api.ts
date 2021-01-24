@@ -318,6 +318,20 @@ export class API {
     return this.get('rest/deleteInternetRadioStation', { id })
   }
 
+  async getPodcasts(): Promise<any[]> {
+    const response = await this.get('rest/getPodcasts')
+    return (response?.podcasts?.channel || []).map(this.normalizePodcast, this)
+  }
+
+  async getPodcast(id: string): Promise<any> {
+    const response = await this.get('rest/getPodcasts', { id })
+    return this.normalizePodcast(response?.podcasts?.channel[0])
+  }
+
+  async refreshPodcasts(): Promise<void> {
+    return this.get('rest/refreshPodcasts')
+  }
+
   async scan(): Promise<void> {
     return this.get('rest/startScan')
   }
@@ -384,6 +398,33 @@ export class API {
         : undefined,
       albums,
       similarArtist: (item.similarArtist || []).map(this.normalizeArtist, this)
+    }
+  }
+
+  private normalizePodcast(podcast: any): any {
+    const image = podcast.originalImageUrl
+    return {
+      id: podcast.id,
+      name: podcast.title,
+      description: podcast.description,
+      image: image,
+      url: podcast.url,
+      trackCount: podcast.episode.length,
+      tracks: podcast.episode.map((episode: any, index: number) => ({
+        id: episode.id,
+        title: episode.title,
+        duration: episode.duration,
+        starred: false,
+        track: podcast.episode.length - index,
+        album: podcast.title,
+        albumId: null,
+        artist: '',
+        artistId: null,
+        image,
+        url: episode.streamId ? this.getStreamUrl(episode.streamId) : null,
+        description: podcast.description,
+        playable: episode.status === 'completed',
+      })),
     }
   }
 

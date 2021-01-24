@@ -38,6 +38,10 @@
         <Icon icon="star" /> Starred
       </router-link>
 
+      <router-link class="nav-link" :to="{name: 'podcasts'}">
+        <Icon icon="rss" /> Podcasts
+      </router-link>
+
       <router-link class="nav-link" :to="{name: 'radio'}">
         <Icon icon="broadcast" /> Radio
       </router-link>

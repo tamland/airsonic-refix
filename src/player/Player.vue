@@ -25,7 +25,7 @@
                 {{ track.title }}
               </div>
               <div class="text-truncate text-muted">
-                {{ track.artist }}
+                {{ track.artist || track.album || track.description }}
               </div>
             </div>
           </template>
