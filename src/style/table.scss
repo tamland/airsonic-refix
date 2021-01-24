@@ -6,8 +6,54 @@ table thead tr {
   color: $theme-text-muted;
 }
 
-table tr.active {
-  td, td a, td svg {
-    color: var(--primary);
+table.table {
+  tr {
+    cursor: pointer;
+  }
+  tr.active {
+    td, td a, td svg {
+      color: var(--primary);
+    }
+  }
+  tr.disabled {
+    cursor: default;
+    td, td a, td svg {
+      color: var(--text-muted);
+    }
+    button {
+      cursor: default;
+    }
+  }
+}
+
+table.table-numbered {
+  th:first-child, td:first-child {
+    padding-left: 0;
+    padding-right: 0;
+    width: 26px;
+    max-width: 26px;
+    text-align: center;
+    color: var(--text-muted);
+  }
+  tr td:first-child button {
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    outline: inherit;
+    .number { display: inline; }
+    .icon { display: none; }
+  }
+  tr.active td:first-child button {
+    .number { display: none;}
+    .icon { display: inline;}
+  }
+  tr:hover td:first-child button {
+    .number { display: none; }
+    .icon { display: inline; }
+  }
+  tr.disabled:hover td:first-child button {
+    .number { display: inline;}
+    .icon { display: none;}
   }
 }
