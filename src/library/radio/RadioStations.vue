@@ -1,9 +1,12 @@
 <template>
   <div v-if="items">
     <h1>Radio</h1>
-    <table class="table table-hover table-borderless">
+    <table class="table table-hover table-borderless table-numbered">
       <thead>
         <tr>
+          <th>
+            #
+          </th>
           <th class="text-left">
             Title
           </th>
@@ -13,9 +16,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in items" :key="index"
-            :class="{'active': item.id === playingTrackId}">
-          <td @click="play(index)">
+        <tr v-for="(item, index) in items"
+            :key="index"
+            :class="{'active': item.id === playingTrackId}"
+            @click="play(index)">
+          <td>
+            <button>
+              <Icon class="icon" :icon="isPlaying && item.id === playingTrackId ? 'pause-fill' :'play-fill'" />
+              <span class="number">{{ index + 1 }}</span>
+            </button>
+          </td>
+          <td>
             {{ item.title }}
             <div>
               <small class="text-muted">
@@ -49,6 +60,7 @@
     computed: {
       ...mapGetters({
         playingTrackId: 'player/trackId',
+        isPlaying: 'player/isPlaying',
       }),
     },
     async created() {

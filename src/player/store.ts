@@ -188,6 +188,9 @@ export const playerModule: Module<State, any> = {
     trackId(state, getters): number {
       return getters.track ? getters.track.id : -1
     },
+    isPlaying(state): boolean {
+      return state.isPlaying
+    },
     progress(state) {
       if (state.currentTime > -1 && state.duration > 0) {
         return (state.currentTime / state.duration) * 100
