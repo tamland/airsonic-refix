@@ -47,6 +47,16 @@
         <!-- Controls right --->
         <div class="col-auto col-sm p-0">
           <div class="d-flex flex-nowrap justify-content-end pr-3">
+            <div class="m-0 d-none d-sm-inline-flex align-items-center pr-3">
+              <Icon class="volume-icon" icon="volume-up-fill" />
+              <b-form-input
+                :value="volume"
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                @input="setVolume" />
+            </div>
             <b-button variant="link"
                       class="m-0 d-none d-sm-inline-block"
                       :class="{ 'text-primary': shuffleActive }"
@@ -60,6 +70,18 @@
               <Icon icon="arrow-repeat" />
             </b-button>
             <OverflowMenu class="d-sm-none">
+              <b-dropdown-text>
+                <div class="d-flex justify-content-between">
+                  <strong class="pr-1">Volume</strong>
+                  <b-form-input
+                    :value="volume"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.05"
+                    @input="setVolume" />
+                </div>
+              </b-dropdown-text>
               <b-dropdown-text>
                 <div class="d-flex justify-content-between">
                   <strong>Repeat</strong>
@@ -109,6 +131,7 @@
         repeatActive: (state: any) => state.repeat,
         shuffleActive: (state: any) => state.shuffle,
         visible: (state: any) => state.queue.length > 0,
+        volume: (state: any) => state.volume,
       }),
       ...mapGetters('player', [
         'track',
@@ -129,6 +152,9 @@
           const value = event.offsetX / width
           return this.$store.dispatch('player/seek', value)
         }
+      },
+      setVolume(volume: any) {
+        return this.$store.dispatch('player/setVolume', parseFloat(volume))
       },
     }
   })

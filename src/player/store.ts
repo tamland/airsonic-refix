@@ -5,6 +5,7 @@ import { API } from '@/shared/api'
 const audio = new Audio()
 const storedQueue = JSON.parse(localStorage.getItem('queue') || '[]')
 const storedQueueIndex = parseInt(localStorage.getItem('queueIndex') || '-1')
+const storedVolume = parseFloat(localStorage.getItem('player.volume') || '0.8')
 if (storedQueueIndex > -1 && storedQueueIndex < storedQueue.length) {
   audio.src = storedQueue[storedQueueIndex].url
 }
@@ -19,6 +20,7 @@ interface State {
   currentTime: number; // position of current track in seconds
   repeat: boolean;
   shuffle: boolean;
+  volume: number; // integer between 0 and 1 representing the volume of the player
 }
 
 export const playerModule: Module<State, any> = {
@@ -32,6 +34,7 @@ export const playerModule: Module<State, any> = {
     currentTime: 0,
     repeat: localStorage.getItem('player.repeat') !== 'false',
     shuffle: localStorage.getItem('player.shuffle') === 'true',
+    volume: storedVolume,
   },
 
   mutations: {
@@ -102,6 +105,10 @@ export const playerModule: Module<State, any> = {
     setScrobbled(state) {
       state.scrobbled = true
     },
+    setVolume(state, value: any) {
+      state.volume = value
+      localStorage.setItem('player.volume', String(value))
+    }
   },
 
   actions: {
@@ -176,6 +183,10 @@ export const playerModule: Module<State, any> = {
     setNextInQueue({ commit }, track) {
       commit('setNextInQueue', track)
     },
+    setVolume({ commit }, value) {
+      audio.volume = value
+      commit('setVolume', value)
+    },
   },
 
   getters: {
@@ -207,6 +218,7 @@ export const playerModule: Module<State, any> = {
 }
 
 export function setupAudio(store: Store<any>, api: API) {
+  audio.volume = store.state.player.volume
   audio.ontimeupdate = () => {
     store.commit('player/setCurrentTime', audio.currentTime)
 
