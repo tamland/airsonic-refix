@@ -48,17 +48,14 @@
         <div class="col-auto col-sm p-0">
           <div class="d-flex flex-nowrap justify-content-end pr-3">
             <div class="m-0 d-none d-sm-inline-flex align-items-center pr-3">
-              <Icon class="volume-icon" icon="volume-up-fill" />
-              <b-form-input
-                :value="volume"
-                type="range"
-                min="0"
-                max="1"
-                step="0.05"
-                @input="setVolume" />
+              <b-button variant="link">
+                <Icon class="volume-icon" icon="volume-up-fill" />
+              </b-button>
+              <b-form-input type="range" min="0" max="1" step="0.05"
+                            :value="volume" @input="setVolume" />
             </div>
             <b-button variant="link"
-                      class="m-0 d-none d-sm-inline-block"
+                      class="m-0 d-none d-sm-inline-block "
                       :class="{ 'text-primary': shuffleActive }"
                       @click="toggleShuffle">
               <Icon icon="shuffle" />
@@ -115,6 +112,10 @@
   .visible {
     height: auto;
     max-height: 100px;
+  }
+  .b-icon {
+    display: flex;
+    align-items: center;
   }
 </style>
 <script lang="ts">
