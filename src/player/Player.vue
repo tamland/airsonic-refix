@@ -72,14 +72,12 @@
             <OverflowMenu class="d-sm-none">
               <b-dropdown-text>
                 <div class="d-flex justify-content-between">
-                  <strong class="pr-1">Volume</strong>
+                  <strong>Volume</strong>
                   <b-form-input
-                    :value="volume"
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.05"
-                    @input="setVolume" />
+                    class="px-2" style="width: 175px"
+                    type="range" min="0" max="1" step="0.05"
+                    :value="volume" @input="setVolume"
+                  />
                 </div>
               </b-dropdown-text>
               <b-dropdown-text>
