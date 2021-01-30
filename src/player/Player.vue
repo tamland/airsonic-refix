@@ -52,6 +52,7 @@
                 <Icon class="volume-icon" icon="volume-up-fill" />
               </b-button>
               <b-form-input type="range" min="0" max="1" step="0.05"
+                            :title="`Volume: ${Math.round(volume * 100)}%`"
                             :value="volume" @input="setVolume" />
             </div>
             <b-button variant="link"
