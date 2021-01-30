@@ -48,12 +48,12 @@
         <div class="col-auto col-sm p-0">
           <div class="d-flex flex-nowrap justify-content-end pr-3">
             <div class="m-0 d-none d-sm-inline-flex align-items-center pr-3">
-              <b-button variant="link">
-                <Icon class="volume-icon" icon="volume-up-fill" />
+              <b-button variant="link" @click="toggleMute">
+                <Icon :icon="muteActive ? 'volume-mute-fill' : 'volume-up-fill'" />
               </b-button>
               <b-form-input type="range" min="0" max="1" step="0.05" style="width: 130px"
                             :title="`Volume: ${Math.round(volume * 100)}%`"
-                            :value="volume" @input="setVolume" />
+                            :value="muteActive ? 0.0 : volume" @input="setVolume" />
             </div>
             <b-button variant="link"
                       class="m-0 d-none d-sm-inline-block "
@@ -130,6 +130,7 @@
         currentTime: (state: any) => state.currentTime,
         repeatActive: (state: any) => state.repeat,
         shuffleActive: (state: any) => state.shuffle,
+        muteActive: (state: any) => state.mute,
         visible: (state: any) => state.queue.length > 0,
         volume: (state: any) => state.volume,
       }),
@@ -145,6 +146,7 @@
         'previous',
         'toggleRepeat',
         'toggleShuffle',
+        'toggleMute',
       ]),
       seek(event: any) {
         if (event.target) {
