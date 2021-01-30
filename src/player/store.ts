@@ -5,10 +5,11 @@ import { API } from '@/shared/api'
 const audio = new Audio()
 const storedQueue = JSON.parse(localStorage.getItem('queue') || '[]')
 const storedQueueIndex = parseInt(localStorage.getItem('queueIndex') || '-1')
-const storedVolume = parseFloat(localStorage.getItem('player.volume') || '0.8')
+const storedVolume = parseFloat(localStorage.getItem('player.volume') || '1.0')
 if (storedQueueIndex > -1 && storedQueueIndex < storedQueue.length) {
   audio.src = storedQueue[storedQueueIndex].url
 }
+audio.volume = storedVolume
 const mediaSession: MediaSession | undefined = navigator.mediaSession
 
 interface State {
@@ -218,7 +219,6 @@ export const playerModule: Module<State, any> = {
 }
 
 export function setupAudio(store: Store<any>, api: API) {
-  audio.volume = store.state.player.volume
   audio.ontimeupdate = () => {
     store.commit('player/setCurrentTime', audio.currentTime)
 
