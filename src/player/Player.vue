@@ -47,19 +47,36 @@
         <!-- Controls right --->
         <div class="col-auto col-sm p-0">
           <div class="d-flex flex-nowrap justify-content-end pr-3">
-            <b-button variant="link"
-                      class="m-0 d-none d-sm-inline-block"
-                      :class="{ 'text-primary': shuffleActive }"
-                      @click="toggleShuffle">
-              <Icon icon="shuffle" />
-            </b-button>
-            <b-button variant="link"
-                      class="m-0 d-none d-sm-inline-block "
-                      :class="{ 'text-primary': repeatActive }"
-                      @click="toggleRepeat">
-              <Icon icon="arrow-repeat" />
-            </b-button>
-            <OverflowMenu class="d-sm-none">
+            <div class="m-0 d-none d-md-inline-flex align-items-center">
+              <b-button variant="link" @click="toggleMute">
+                <Icon :icon="muteActive ? 'volume-mute-fill' : 'volume-up-fill'" />
+              </b-button>
+              <b-form-input type="range" min="0" max="1" step="0.05"
+                            style="width: 120px; min-width: 0; padding-right: 0.75rem"
+                            :title="`Volume: ${Math.round(volume * 100)}%`"
+                            :value="muteActive ? 0.0 : volume" @input="setVolume" />
+              <b-button variant="link"
+                        class="m-0" :class="{ 'text-primary': shuffleActive }"
+                        @click="toggleShuffle">
+                <Icon icon="shuffle" />
+              </b-button>
+              <b-button variant="link"
+                        class="m-0" :class="{ 'text-primary': repeatActive }"
+                        @click="toggleRepeat">
+                <Icon icon="arrow-repeat" />
+              </b-button>
+            </div>
+            <OverflowMenu class="d-md-none">
+              <b-dropdown-text>
+                <div class="d-flex justify-content-between">
+                  <strong>Volume</strong>
+                  <b-form-input
+                    class="px-2" style="width: 120px"
+                    type="range" min="0" max="1" step="0.05"
+                    :value="volume" @input="setVolume"
+                  />
+                </div>
+              </b-dropdown-text>
               <b-dropdown-text>
                 <div class="d-flex justify-content-between">
                   <strong>Repeat</strong>
@@ -96,6 +113,10 @@
     height: auto;
     max-height: 100px;
   }
+  .b-icon {
+    display: flex;
+    align-items: center;
+  }
 </style>
 <script lang="ts">
   import Vue from 'vue'
@@ -108,7 +129,9 @@
         currentTime: (state: any) => state.currentTime,
         repeatActive: (state: any) => state.repeat,
         shuffleActive: (state: any) => state.shuffle,
+        muteActive: (state: any) => state.mute,
         visible: (state: any) => state.queue.length > 0,
+        volume: (state: any) => state.volume,
       }),
       ...mapGetters('player', [
         'track',
@@ -122,6 +145,7 @@
         'previous',
         'toggleRepeat',
         'toggleShuffle',
+        'toggleMute',
       ]),
       seek(event: any) {
         if (event.target) {
@@ -129,6 +153,9 @@
           const value = event.offsetX / width
           return this.$store.dispatch('player/seek', value)
         }
+      },
+      setVolume(volume: any) {
+        return this.$store.dispatch('player/setVolume', parseFloat(volume))
       },
     }
   })

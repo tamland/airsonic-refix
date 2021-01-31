@@ -8,6 +8,9 @@ const storedQueueIndex = parseInt(localStorage.getItem('queueIndex') || '-1')
 if (storedQueueIndex > -1 && storedQueueIndex < storedQueue.length) {
   audio.src = storedQueue[storedQueueIndex].url
 }
+const storedVolume = parseFloat(localStorage.getItem('player.volume') || '1.0')
+const storedMuteState = localStorage.getItem('player.mute') === 'true'
+audio.volume = storedMuteState ? 0.0 : storedVolume
 const mediaSession: MediaSession | undefined = navigator.mediaSession
 
 interface State {
@@ -19,6 +22,8 @@ interface State {
   currentTime: number; // position of current track in seconds
   repeat: boolean;
   shuffle: boolean;
+  mute: boolean;
+  volume: number; // integer between 0 and 1 representing the volume of the player
 }
 
 export const playerModule: Module<State, any> = {
@@ -32,6 +37,8 @@ export const playerModule: Module<State, any> = {
     currentTime: 0,
     repeat: localStorage.getItem('player.repeat') !== 'false',
     shuffle: localStorage.getItem('player.shuffle') === 'true',
+    mute: storedMuteState,
+    volume: storedVolume,
   },
 
   mutations: {
@@ -54,6 +61,10 @@ export const playerModule: Module<State, any> = {
     setShuffle(state, enable) {
       state.shuffle = enable
       localStorage.setItem('player.shuffle', enable)
+    },
+    setMute(state, enable) {
+      state.mute = enable
+      localStorage.setItem('player.mute', enable)
     },
     setQueue(state, queue) {
       state.queue = queue
@@ -101,6 +112,11 @@ export const playerModule: Module<State, any> = {
     },
     setScrobbled(state) {
       state.scrobbled = true
+    },
+    setVolume(state, value: number) {
+      state.volume = value
+      state.mute = value <= 0.0
+      localStorage.setItem('player.volume', String(value))
     },
   },
 
@@ -170,11 +186,19 @@ export const playerModule: Module<State, any> = {
     toggleShuffle({ commit, state }) {
       commit('setShuffle', !state.shuffle)
     },
+    toggleMute({ commit, state }) {
+      commit('setMute', !state.mute)
+      audio.volume = state.mute ? 0.0 : state.volume
+    },
     addToQueue({ commit }, track) {
       commit('addToQueue', track)
     },
     setNextInQueue({ commit }, track) {
       commit('setNextInQueue', track)
+    },
+    setVolume({ commit }, value) {
+      audio.volume = value
+      commit('setVolume', value)
     },
   },
 
