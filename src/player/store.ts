@@ -1,17 +1,14 @@
 import { Store, Module } from 'vuex'
 import { shuffle, trackListEquals } from '@/shared/utils'
 import { API } from '@/shared/api'
+import { AudioController } from '@/player/audio'
 
-const audio = new Audio()
 const storedQueue = JSON.parse(localStorage.getItem('queue') || '[]')
 const storedQueueIndex = parseInt(localStorage.getItem('queueIndex') || '-1')
-if (storedQueueIndex > -1 && storedQueueIndex < storedQueue.length) {
-  audio.src = storedQueue[storedQueueIndex].url
-}
 const storedVolume = parseFloat(localStorage.getItem('player.volume') || '1.0')
 const storedMuteState = localStorage.getItem('player.mute') === 'true'
-audio.volume = storedMuteState ? 0.0 : storedVolume
 const mediaSession: MediaSession | undefined = navigator.mediaSession
+const audio = new AudioController()
 
 interface State {
   queue: any[];
@@ -86,8 +83,9 @@ export const playerModule: Module<State, any> = {
       persistQueue(state)
       state.scrobbled = false
       const track = state.queue[index]
-      audio.src = track.url
       state.duration = track.duration
+      const next = (index + 1) % state.queue.length
+      audio.setBuffer(state.queue[next].url)
       document.title = `${track.title} • ${track.artist}`
       if (mediaSession) {
         mediaSession.metadata = new MediaMetadata({
@@ -124,7 +122,9 @@ export const playerModule: Module<State, any> = {
       state.currentTime = value
     },
     setDuration(state, value: any) {
-      state.duration = value
+      if (isFinite(value)) {
+        state.duration = value
+      }
     },
     setScrobbled(state) {
       state.scrobbled = true
@@ -137,11 +137,11 @@ export const playerModule: Module<State, any> = {
   },
 
   actions: {
-    async playTrackList({ commit, state }, { tracks, index }) {
+    async playTrackList({ commit, state, getters }, { tracks, index }) {
       if (trackListEquals(state.queue, tracks)) {
         commit('setQueueIndex', index)
         commit('setPlaying')
-        await audio.play()
+        await audio.changeTrack(getters.track.url)
         return
       }
       tracks = [...tracks]
@@ -156,45 +156,38 @@ export const playerModule: Module<State, any> = {
         commit('setQueueIndex', index)
       }
       commit('setPlaying')
-      await audio.play()
+      await audio.changeTrack(getters.track.url)
     },
     async resume({ commit }) {
       commit('setPlaying')
-      await audio.play()
+      await audio.resume()
     },
     async pause({ commit }) {
       audio.pause()
       commit('setPaused')
     },
     async playPause({ state, dispatch }) {
-      if (state.isPlaying) {
-        return dispatch('pause')
-      }
-      return dispatch('resume')
+      return state.isPlaying ? dispatch('pause') : dispatch('resume')
     },
-    async next({ commit, state, getters, dispatch }) {
-      if (!state.repeat && !getters.hasNext) {
-        return dispatch('resetQueue')
-      }
+    async next({ commit, state, getters }) {
       commit('setQueueIndex', state.queueIndex + 1)
       commit('setPlaying')
-      await audio.play()
+      await audio.changeTrack(getters.track.url)
     },
-    async previous({ commit, state }) {
-      commit('setQueueIndex',
-        audio.currentTime > 3 ? state.queueIndex : state.queueIndex - 1)
+    async previous({ commit, state, getters }) {
+      commit('setQueueIndex', audio.currentTime() > 3 ? state.queueIndex : state.queueIndex - 1)
       commit('setPlaying')
-      await audio.play()
+      await audio.changeTrack(getters.track.url)
     },
     seek({ state }, value) {
       if (isFinite(state.duration)) {
-        audio.currentTime = state.duration * value
+        audio.seek(state.duration * value)
       }
     },
-    resetQueue({ commit }) {
-      audio.pause()
+    async resetQueue({ commit, getters }) {
       commit('setQueueIndex', 0)
       commit('setPaused')
+      await audio.changeTrack(getters.track.url, { paused: true })
     },
     toggleRepeat({ commit, state }) {
       commit('setRepeat', !state.repeat)
@@ -204,7 +197,7 @@ export const playerModule: Module<State, any> = {
     },
     toggleMute({ commit, state }) {
       commit('setMute', !state.mute)
-      audio.volume = state.mute ? 0.0 : state.volume
+      audio.setVolume(state.mute ? 0.0 : state.volume)
     },
     addToQueue({ state, commit }, tracks) {
       commit('addToQueue', state.shuffle ? shuffle([...tracks]) : tracks)
@@ -213,7 +206,7 @@ export const playerModule: Module<State, any> = {
       commit('setNextInQueue', state.shuffle ? shuffle([...tracks]) : tracks)
     },
     setVolume({ commit }, value) {
-      audio.volume = value
+      audio.setVolume(value)
       commit('setVolume', value)
     },
   },
@@ -247,31 +240,40 @@ export const playerModule: Module<State, any> = {
 }
 
 export function setupAudio(store: Store<any>, api: API) {
-  audio.ontimeupdate = () => {
-    store.commit('player/setCurrentTime', audio.currentTime)
+  audio.setEventHandlers({
+    onTimeUpdate: (value: number) => {
+      store.commit('player/setCurrentTime', value)
+      // Scrobble
+      if (
+        store.state.player.scrobbled === false &&
+        store.state.player.duration > 30 &&
+        audio.currentTime() / store.state.player.duration > 0.7
+      ) {
+        const id = store.getters['player/trackId']
+        store.commit('player/setScrobbled')
+        api.scrobble(id)
+      }
+    },
+    onDurationChange: (value: number) => {
+      store.commit('player/setDuration', value)
+    },
+    onError: (error: any) => {
+      store.commit('player/setPaused')
+      store.commit('setError', error)
+    },
+    onEnded: () => {
+      if (store.getters['player/hasNext'] || store.state.player.repeat) {
+        return store.dispatch('player/next')
+      } else {
+        return store.dispatch('player/resetQueue')
+      }
+    },
+  })
 
-    // Scrobble
-    if (
-      store.state.player.scrobbled === false &&
-      store.state.player.duration > 30 &&
-      audio.currentTime / store.state.player.duration > 0.7
-    ) {
-      const id = store.getters['player/trackId']
-      store.commit('player/setScrobbled')
-      api.scrobble(id)
-    }
-  }
-  audio.ondurationchange = () => {
-    if (isFinite(audio.duration)) {
-      store.commit('player/setDuration', audio.duration)
-    }
-  }
-  audio.onerror = () => {
-    store.commit('player/setPaused')
-    store.commit('setError', audio.error)
-  }
-  audio.onended = () => {
-    store.dispatch('player/next')
+  audio.setVolume(storedMuteState ? 0.0 : storedVolume)
+  const url = store.getters['player/track']?.url
+  if (url) {
+    audio.changeTrack(url, { paused: true })
   }
 
   if (mediaSession) {
@@ -292,16 +294,16 @@ export function setupAudio(store: Store<any>, api: API) {
     })
     mediaSession.setActionHandler('seekto', (details) => {
       if (details.seekTime) {
-        audio.currentTime = details.seekTime
+        audio.seek(details.seekTime)
       }
     })
     mediaSession.setActionHandler('seekforward', (details) => {
       const offset = details.seekOffset || 10
-      audio.currentTime = Math.min(audio.currentTime + offset, audio.duration)
+      audio.seek(Math.min(audio.currentTime() + offset, audio.duration()))
     })
     mediaSession.setActionHandler('seekbackward', (details) => {
       const offset = details.seekOffset || 10
-      audio.currentTime = Math.max(audio.currentTime - offset, 0)
+      audio.seek(Math.max(audio.currentTime() - offset, 0))
     })
     // FIXME
     // function updatePositionState() {
