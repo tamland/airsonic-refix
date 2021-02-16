@@ -422,7 +422,7 @@ export class API {
         artistId: null,
         image,
         url: episode.streamId ? this.getStreamUrl(episode.streamId) : null,
-        description: podcast.description,
+        description: episode.description,
         playable: episode.status === 'completed',
       })),
     }
