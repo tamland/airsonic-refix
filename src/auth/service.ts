@@ -47,7 +47,7 @@ export class AuthService {
     hash: string,
     remember: boolean
   ) {
-    const url = `${server}/rest/ping.view?u=${username}&s=${salt}&t=${hash}&v=1.15.0&c=app&f=json`
+    const url = `${server}/rest/ping?u=${username}&s=${salt}&t=${hash}&v=1.15.0&c=app&f=json`
     return axios.get(url)
       .then((response) => {
         const subsonicResponse = response.data['subsonic-response']
