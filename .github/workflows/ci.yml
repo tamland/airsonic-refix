@@ -35,6 +35,7 @@ jobs:
       run: docker build -t $IMAGE:$TAG -f docker/Dockerfile .
 
     - name: Push docker image
+      if: ${{ github.event_name != 'pull_request' }}
       run: |
         docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
         docker push $IMAGE:$TAG
