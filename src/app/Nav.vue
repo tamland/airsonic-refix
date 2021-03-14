@@ -2,7 +2,9 @@
   <div>
     <nav class="nav flex-column">
       <div class="nav-link logo d-flex justify-content-between">
-        <Logo />
+        <router-link :to="{name: 'home'}">
+          <Logo />
+        </router-link>
         <button class="btn btn-link btn-lg p-0 d-md-none" @click="hideMenu">
           <Icon icon="x" />
         </button>
