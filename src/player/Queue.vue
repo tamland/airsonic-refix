@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h1 class="mb-0">
+        Playing
+      </h1>
+      <b-button variant="secondary" @click="clear()">
+        Clear
+      </b-button>
+    </div>
     <TrackList :tracks="tracks">
       <template #context-menu="{index}">
         <b-dropdown-item-button @click="remove(index)">
@@ -26,6 +34,7 @@
     methods: {
       ...mapMutations('player', {
         remove: 'removeFromQueue',
+        clear: 'clearQueue',
       }),
     }
   })

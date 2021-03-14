@@ -101,6 +101,14 @@ export const playerModule: Module<State, any> = {
         state.queueIndex--
       }
     },
+    clearQueue(state) {
+      if (state.queueIndex >= 0) {
+        state.queue = [state.queue[state.queueIndex]]
+        state.queueIndex = 0
+        localStorage.setItem('queue', JSON.stringify(state.queue))
+        localStorage.setItem('queueIndex', '0')
+      }
+    },
     setNextInQueue(state, tracks) {
       state.queue.splice(state.queueIndex + 1, 0, ...tracks)
     },
