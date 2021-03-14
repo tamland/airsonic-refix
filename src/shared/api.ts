@@ -428,6 +428,17 @@ export class API {
     }
   }
 
+  getDownloadUrl(id: any) {
+    const { server, username, salt, hash } = this.auth
+    return `${server}/rest/download` +
+      `?id=${id}` +
+      '&v=1.15.0' +
+      `&u=${username}` +
+      `&s=${salt}` +
+      `&t=${hash}` +
+      `&c=${this.clientName}`
+  }
+
   private getCoverArtUrl(item: any) {
     if (!item.coverArt) {
       return undefined

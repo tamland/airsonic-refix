@@ -12,6 +12,9 @@
     <b-dropdown-item-button @click="toggleStarred()">
       {{ starred ? 'Unstar' : 'Star' }}
     </b-dropdown-item-button>
+    <b-dropdown-item-button @click="download()">
+      Download
+    </b-dropdown-item-button>
     <slot :item="track" />
   </b-dropdown>
 </template>
@@ -34,6 +37,9 @@
           return this.$api.unstar('track', this.track.id)
         }
         return this.$api.star('track', this.track.id)
+      },
+      download() {
+        window.location.href = this.$api.getDownloadUrl(this.track.id)
       },
       setNextInQueue() {
         return this.$store.dispatch('player/setNextInQueue', [this.track])
