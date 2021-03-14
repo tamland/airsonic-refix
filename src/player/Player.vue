@@ -55,13 +55,13 @@
                             style="width: 120px; min-width: 0; padding-right: 0.75rem"
                             :title="`Volume: ${Math.round(volume * 100)}%`"
                             :value="muteActive ? 0.0 : volume" @input="setVolume" />
-              <b-button variant="link"
-                        class="m-0" :class="{ 'text-primary': shuffleActive }"
+              <b-button title="Shuffle"
+                        variant="link" class="m-0" :class="{ 'text-primary': shuffleActive }"
                         @click="toggleShuffle">
                 <Icon icon="shuffle" />
               </b-button>
-              <b-button variant="link"
-                        class="m-0" :class="{ 'text-primary': repeatActive }"
+              <b-button title="Repeat"
+                        variant="link" class="m-0" :class="{ 'text-primary': repeatActive }"
                         @click="toggleRepeat">
                 <Icon icon="arrow-repeat" />
               </b-button>
