@@ -13,7 +13,11 @@
             {{ album.artist }}
           </router-link>
           <span v-if="album.year"> • {{ album.year }}</span>
-          <span v-if="album.genre"> • {{ album.genre }}</span>
+          <span v-if="album.genreId"> •
+            <router-link :to="{name: 'genre', params: { id: album.genreId }}">
+              {{ album.genreId }}
+            </router-link>
+          </span>
         </p>
         <div class="text-nowrap">
           <b-button variant="secondary" class="mr-2" @click="play">
