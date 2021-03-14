@@ -26,6 +26,11 @@ interface State {
   volume: number; // integer between 0 and 1 representing the volume of the player
 }
 
+function persistQueue(state: State) {
+  localStorage.setItem('queue', JSON.stringify(state.queue))
+  localStorage.setItem('queueIndex', state.queueIndex.toString())
+}
+
 export const playerModule: Module<State, any> = {
   namespaced: true,
   state: {
@@ -69,7 +74,7 @@ export const playerModule: Module<State, any> = {
     setQueue(state, queue) {
       state.queue = queue
       state.queueIndex = -1
-      localStorage.setItem('queue', JSON.stringify(queue))
+      persistQueue(state)
     },
     setQueueIndex(state, index) {
       if (state.queue.length === 0) {
@@ -78,7 +83,7 @@ export const playerModule: Module<State, any> = {
       index = Math.max(0, index)
       index = index < state.queue.length ? index : 0
       state.queueIndex = index
-      localStorage.setItem('queueIndex', index)
+      persistQueue(state)
       state.scrobbled = false
       const track = state.queue[index]
       audio.src = track.url
@@ -94,23 +99,25 @@ export const playerModule: Module<State, any> = {
     },
     addToQueue(state, tracks) {
       state.queue.push(...tracks)
+      persistQueue(state)
     },
     removeFromQueue(state, index) {
       state.queue.splice(index, 1)
       if (index < state.queueIndex) {
         state.queueIndex--
       }
+      persistQueue(state)
     },
     clearQueue(state) {
       if (state.queueIndex >= 0) {
         state.queue = [state.queue[state.queueIndex]]
         state.queueIndex = 0
-        localStorage.setItem('queue', JSON.stringify(state.queue))
-        localStorage.setItem('queueIndex', '0')
+        persistQueue(state)
       }
     },
     setNextInQueue(state, tracks) {
       state.queue.splice(state.queueIndex + 1, 0, ...tracks)
+      persistQueue(state)
     },
     setCurrentTime(state, value: any) {
       state.currentTime = value
