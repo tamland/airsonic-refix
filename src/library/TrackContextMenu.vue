@@ -36,10 +36,10 @@
         return this.$api.star('track', this.track.id)
       },
       setNextInQueue() {
-        return this.$store.dispatch('player/setNextInQueue', this.track)
+        return this.$store.dispatch('player/setNextInQueue', [this.track])
       },
       addToQueue() {
-        return this.$store.dispatch('player/addToQueue', this.track)
+        return this.$store.dispatch('player/addToQueue', [this.track])
       },
     }
   })

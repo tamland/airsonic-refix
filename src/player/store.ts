@@ -92,8 +92,8 @@ export const playerModule: Module<State, any> = {
         })
       }
     },
-    addToQueue(state, track) {
-      state.queue.push(track)
+    addToQueue(state, tracks) {
+      state.queue.push(...tracks)
     },
     removeFromQueue(state, index) {
       state.queue.splice(index, 1)
@@ -101,8 +101,8 @@ export const playerModule: Module<State, any> = {
         state.queueIndex--
       }
     },
-    setNextInQueue(state, track) {
-      state.queue.splice(state.queueIndex + 1, 0, track)
+    setNextInQueue(state, tracks) {
+      state.queue.splice(state.queueIndex + 1, 0, ...tracks)
     },
     setCurrentTime(state, value: any) {
       state.currentTime = value
@@ -190,11 +190,11 @@ export const playerModule: Module<State, any> = {
       commit('setMute', !state.mute)
       audio.volume = state.mute ? 0.0 : state.volume
     },
-    addToQueue({ commit }, track) {
-      commit('addToQueue', track)
+    addToQueue({ state, commit }, tracks) {
+      commit('addToQueue', state.shuffle ? shuffle([...tracks]) : tracks)
     },
-    setNextInQueue({ commit }, track) {
-      commit('setNextInQueue', track)
+    setNextInQueue({ state, commit }, tracks) {
+      commit('setNextInQueue', state.shuffle ? shuffle([...tracks]) : tracks)
     },
     setVolume({ commit }, value) {
       audio.volume = value

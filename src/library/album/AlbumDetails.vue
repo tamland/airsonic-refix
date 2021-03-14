@@ -22,6 +22,17 @@
           <b-button variant="secondary" class="mr-2" @click="toggleStar">
             <Icon :icon="album.starred ? 'star-fill' : 'star'" />
           </b-button>
+          <b-dropdown variant="secondary" boundary="window" no-caret toggle-class="px-1">
+            <template #button-content>
+              <Icon icon="three-dots-vertical" />
+            </template>
+            <b-dropdown-item-btn @click="setNextInQueue">
+              Play next
+            </b-dropdown-item-btn>
+            <b-dropdown-item-btn @click="addToQueue">
+              Add to queue
+            </b-dropdown-item-btn>
+          </b-dropdown>
         </div>
       </div>
     </div>
@@ -59,11 +70,21 @@
     },
     methods: {
       play() {
-        if (this.album?.tracks) {
+        if (this.album) {
           return this.$store.dispatch('player/playTrackList', {
             index: 0,
             tracks: this.album.tracks,
           })
+        }
+      },
+      setNextInQueue() {
+        if (this.album) {
+          return this.$store.dispatch('player/setNextInQueue', this.album.tracks)
+        }
+      },
+      addToQueue() {
+        if (this.album) {
+          return this.$store.dispatch('player/addToQueue', this.album.tracks)
         }
       },
       toggleStar() {
@@ -74,7 +95,7 @@
             ? this.$api.starAlbum(this.album.id)
             : this.$api.unstarAlbum(this.album.id)
         }
-      }
+      },
     }
   })
 </script>
