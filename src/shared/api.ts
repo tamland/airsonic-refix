@@ -452,7 +452,6 @@ export class API {
       `&u=${username}` +
       `&s=${salt}` +
       `&t=${hash}` +
-      `&c=${this.clientName}` +
-      '&size=300'
+      `&c=${this.clientName}`
   }
 }
