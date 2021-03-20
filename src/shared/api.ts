@@ -290,6 +290,7 @@ export class API {
   async getRadioStations(): Promise<RadioStation[]> {
     const response = await this.get('rest/getInternetRadioStations')
     return (response?.internetRadioStations?.internetRadioStation || [])
+      .map((item: any, idx: number) => ({ ...item, track: idx + 1 }))
       .map(this.normalizeRadioStation, this)
   }
 
@@ -345,6 +346,7 @@ export class API {
       id: `radio-${item.id}`,
       title: item.name,
       description: item.homePageUrl,
+      track: item.track,
       url: item.streamUrl,
       duration: 0,
       starred: false,

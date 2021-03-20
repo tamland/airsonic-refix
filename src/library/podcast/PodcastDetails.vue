@@ -2,58 +2,44 @@
   <ContentLoader v-slot :loading="podcast ==null">
     <h1>{{ podcast.name }}</h1>
     <p>{{ podcast.description }}</p>
-    <table class="table table-hover table-borderless table-numbered">
-      <thead>
-        <tr>
-          <th>
-            #
-          </th>
-          <th class="text-left">
-            Title
-          </th>
-          <th class="text-right d-none d-md-table-cell">
-            Duration
-          </th>
-          <th class="text-right">
-            Actions
-          </th>
-        </tr>
-      </thead>
+    <BaseTable>
+      <BaseTableHead>
+        <th class="text-right d-none d-md-table-cell">
+          Duration
+        </th>
+      </BaseTableHead>
       <tbody>
-        <tr v-for="(item, index) in podcast.tracks"
-            :key="index"
+        <tr v-for="(item, index) in podcast.tracks" :key="index"
             :class="{'active': item.id === playingTrackId, 'disabled': !item.playable}"
-            @click="click(item)">
-          <td>
-            <button>
-              <Icon class="icon" :icon="isPlaying && item.id === playingTrackId ? 'pause-fill' :'play-fill'" />
-              <span class="number">{{ item.track }}</span>
-            </button>
-          </td>
-          <td>
-            {{ item.title }}
-            <div class="text-muted">
-              <small>{{ item.description }}</small>
-            </div>
-          </td>
-          <td class="text-right d-none d-md-table-cell">
-            <template v-if="item.duration">
-              {{ $formatDuration(item.duration) }}
-            </template>
-          </td>
-          <td class="text-right" @click.stop="">
-            <OverflowMenu :disabled="!item.playable" />
-          </td>
+            @click="play(item)">
+          <CellTrackNumber :active="item.id === playingTrackId && isPlaying" :track="item" />
+          <CellTitle :track="item" />
+          <CellDuration :track="item" />
+          <CellActions :track="item" />
         </tr>
       </tbody>
-    </table>
+    </BaseTable>
   </ContentLoader>
 </template>
 <script lang="ts">
   import Vue from 'vue'
   import { mapGetters } from 'vuex'
+  import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
+  import CellActions from '@/library/track/CellActions.vue'
+  import CellDuration from '@/library/track/CellDuration.vue'
+  import CellTitle from '@/library/track/CellTitle.vue'
+  import BaseTable from '@/library/track/BaseTable.vue'
+  import BaseTableHead from '@/library/track/BaseTableHead.vue'
 
   export default Vue.extend({
+    components: {
+      BaseTableHead,
+      BaseTable,
+      CellTitle,
+      CellDuration,
+      CellActions,
+      CellTrackNumber
+    },
     props: {
       id: { type: String, required: true },
     },
@@ -72,7 +58,7 @@
       this.podcast = await this.$api.getPodcast(this.id)
     },
     methods: {
-      async click(track: any) {
+      async play(track: any) {
         if (!track.playable) {
           return
         }

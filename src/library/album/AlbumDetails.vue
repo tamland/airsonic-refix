@@ -54,7 +54,7 @@
 </style>
 <script lang="ts">
   import Vue from 'vue'
-  import TrackList from '@/library/TrackList.vue'
+  import TrackList from '@/library/track/TrackList.vue'
   import { Album } from '@/shared/api'
 
   export default Vue.extend({

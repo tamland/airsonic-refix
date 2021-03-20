@@ -14,7 +14,7 @@
     <p v-if="playlist.comment" class="text-muted">
       {{ playlist.comment }}
     </p>
-    <TrackList :tracks="playlist.tracks" @remove="remove(index)">
+    <TrackList :tracks="playlist.tracks">
       <template #context-menu="{index}">
         <b-dropdown-item-button @click="remove(index)">
           Remove
@@ -38,7 +38,7 @@
 </template>
 <script lang="ts">
   import Vue from 'vue'
-  import TrackList from '@/library/TrackList.vue'
+  import TrackList from '@/library/track/TrackList.vue'
   import EditModal from '@/shared/components/EditModal.vue'
 
   export default Vue.extend({

@@ -20,7 +20,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import { mapState, mapMutations } from 'vuex'
-  import TrackList from '@/library/TrackList.vue'
+  import TrackList from '@/library/track/TrackList.vue'
 
   export default Vue.extend({
     components: {

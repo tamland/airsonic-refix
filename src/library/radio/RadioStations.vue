@@ -1,56 +1,37 @@
 <template>
   <div v-if="items">
     <h1>Radio</h1>
-    <table class="table table-hover table-borderless table-numbered">
-      <thead>
-        <tr>
-          <th>
-            #
-          </th>
-          <th class="text-left">
-            Title
-          </th>
-          <th class="text-right">
-            Actions
-          </th>
-        </tr>
-      </thead>
+    <BaseTable>
+      <BaseTableHead />
       <tbody>
-        <tr v-for="(item, index) in items"
-            :key="index"
+        <tr v-for="(item, index) in items" :key="index"
             :class="{'active': item.id === playingTrackId}"
             @click="play(index)">
-          <td>
-            <button>
-              <Icon class="icon" :icon="isPlaying && item.id === playingTrackId ? 'pause-fill' :'play-fill'" />
-              <span class="number">{{ index + 1 }}</span>
-            </button>
-          </td>
-          <td>
-            {{ item.title }}
-            <div>
-              <small class="text-muted">
-                {{ item.description }}
-              </small>
-            </div>
-          </td>
-          <td class="text-right" @click.stop="">
-            <TrackContextMenu :track="item" />
-          </td>
+          <CellTrackNumber :active="item.id === playingTrackId && isPlaying" :track="item" />
+          <CellTitle :track="item" />
+          <CellActions :track="item" />
         </tr>
       </tbody>
-    </table>
+    </BaseTable>
   </div>
 </template>
 <script lang="ts">
   import Vue from 'vue'
-  import TrackContextMenu from '@/library/TrackContextMenu.vue'
   import { RadioStation } from '@/shared/api'
   import { mapGetters } from 'vuex'
+  import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
+  import CellActions from '@/library/track/CellActions.vue'
+  import CellTitle from '@/library/track/CellTitle.vue'
+  import BaseTable from '@/library/track/BaseTable.vue'
+  import BaseTableHead from '@/library/track/BaseTableHead.vue'
 
   export default Vue.extend({
     components: {
-      TrackContextMenu,
+      BaseTableHead,
+      BaseTable,
+      CellTitle,
+      CellActions,
+      CellTrackNumber,
     },
     data() {
       return {
