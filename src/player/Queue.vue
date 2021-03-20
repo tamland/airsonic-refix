@@ -8,34 +8,89 @@
         Clear
       </b-button>
     </div>
-    <TrackList :tracks="tracks">
-      <template #context-menu="{index}">
-        <b-dropdown-item-button @click="remove(index)">
-          Remove
-        </b-dropdown-item-button>
-      </template>
-    </TrackList>
+    <BaseTable>
+      <BaseTableHead>
+        <th class="text-left d-none d-lg-table-cell">
+          Artist
+        </th>
+        <th class="text-left d-none d-md-table-cell">
+          Album
+        </th>
+        <th class="text-right d-none d-md-table-cell">
+          Duration
+        </th>
+      </BaseTableHead>
+      <tbody>
+        <tr v-for="(item, index) in tracks" :key="index"
+            :class="{'active': index === queueIndex}"
+            :draggable="true" @dragstart="dragstart(item.id, $event)"
+            @click="play(index)">
+          <CellTrackNumber :active="index === queueIndex && isPlaying" :track="item" />
+          <CellTitle :track="item" />
+          <CellArtist :track="item" />
+          <CellAlbum :track="item" />
+          <CellDuration :track="item" />
+          <CellActions :track="item">
+            <b-dropdown-item-button @click="remove(index)">
+              Remove
+            </b-dropdown-item-button>
+          </CellActions>
+        </tr>
+      </tbody>
+    </BaseTable>
   </div>
 </template>
 <script lang="ts">
   import Vue from 'vue'
-  import { mapState, mapMutations } from 'vuex'
+  import { mapState, mapMutations, mapGetters } from 'vuex'
   import TrackList from '@/library/track/TrackList.vue'
+  import BaseTable from '@/library/track/BaseTable.vue'
+  import BaseTableHead from '@/library/track/BaseTableHead.vue'
+  import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
+  import CellDuration from '@/library/track/CellDuration.vue'
+  import CellAlbum from '@/library/track/CellAlbum.vue'
+  import CellArtist from '@/library/track/CellArtist.vue'
+  import CellTitle from '@/library/track/CellTitle.vue'
+  import CellActions from '@/library/track/CellActions.vue'
 
   export default Vue.extend({
     components: {
+      CellActions,
+      CellTitle,
+      CellArtist,
+      CellAlbum,
+      CellDuration,
+      CellTrackNumber,
+      BaseTableHead,
+      BaseTable,
       TrackList,
     },
     computed: {
       ...mapState('player', {
-        tracks: (state: any) => state.queue,
-      })
+        tracks: 'queue',
+        queueIndex: 'queueIndex',
+      }),
+      ...mapGetters('player', {
+        isPlaying: 'isPlaying',
+      }),
     },
     methods: {
       ...mapMutations('player', {
         remove: 'removeFromQueue',
         clear: 'clearQueue',
       }),
+      play(index: number) {
+        if (index === this.queueIndex) {
+          return this.$store.dispatch('player/playPause')
+        }
+        return this.$store.dispatch('player/playTrackList', {
+          index,
+          tracks: this.tracks,
+        })
+      },
+      dragstart(id: string, event: any) {
+        event.dataTransfer.setData('id', id)
+      },
     }
   })
 </script>
