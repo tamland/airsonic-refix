@@ -7,8 +7,8 @@
       <b-overlay rounded :show="busy" opacity="0.1">
         <div class="card-body">
           <form @submit.prevent="login">
-            <div style="font-size: 4rem; color: #fff;" class="text-center">
-              <Icon icon="person-circle" />
+            <div style="width: 160px;" class="d-flex mx-auto mb-2">
+              <Logo />
             </div>
             <b-form-group v-if="!config.serverUrl" label="Server">
               <b-form-input v-model="server" name="server" type="text" :state="valid" />
@@ -36,8 +36,12 @@
 <script lang="ts">
   import Vue from 'vue'
   import { config } from '@/shared/config'
+  import Logo from '@/app/Logo.vue'
 
   export default Vue.extend({
+    components: {
+      Logo,
+    },
     props: {
       returnTo: { type: String, required: true },
     },
