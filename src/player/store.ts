@@ -87,6 +87,7 @@ export const playerModule: Module<State, any> = {
       state.scrobbled = false
       const track = state.queue[index]
       audio.src = track.url
+      state.duration = track.duration
       document.title = `${track.title} • ${track.artist}`
       if (mediaSession) {
         mediaSession.metadata = new MediaMetadata({
@@ -250,16 +251,20 @@ export function setupAudio(store: Store<any>, api: API) {
     store.commit('player/setCurrentTime', audio.currentTime)
 
     // Scrobble
-    if (store.state.player.scrobbled === false &&
-        audio.duration > 30 &&
-        audio.currentTime / audio.duration > 0.7) {
+    if (
+      store.state.player.scrobbled === false &&
+      store.state.player.duration > 30 &&
+      audio.currentTime / store.state.player.duration > 0.7
+    ) {
       const id = store.getters['player/trackId']
       store.commit('player/setScrobbled')
       api.scrobble(id)
     }
   }
   audio.ondurationchange = () => {
-    store.commit('player/setDuration', audio.duration)
+    if (isFinite(audio.duration)) {
+      store.commit('player/setDuration', audio.duration)
+    }
   }
   audio.onerror = () => {
     store.commit('player/setPaused')
