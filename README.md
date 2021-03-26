@@ -1,7 +1,7 @@
-# Airsonic Web Client
+# Airsonic (refix) UI
 
-[![Build](https://img.shields.io/github/workflow/status/tamland/airsonic-frontend/CI?style=flat-square)](https://github.com/tamland/airsonic-frontend/actions)
-[![Docker Pulls](https://img.shields.io/docker/pulls/tamland/airsonic-frontend?style=flat-square)](https://hub.docker.com/r/tamland/airsonic-frontend)
+[![Build](https://img.shields.io/github/workflow/status/tamland/airsonic-refix/CI?style=flat-square)](https://github.com/tamland/airsonic-refix/actions)
+[![Docker Pulls](https://img.shields.io/docker/pulls/tamland/airsonic-refix?style=flat-square)](https://hub.docker.com/r/tamland/airsonic-refix)
 
 Modern responsive web frontend for [Airsonic](https://github.com/airsonic-advanced/airsonic-advanced) and other [Subsonic](https://github.com/topics/subsonic) based music servers.
 
@@ -38,7 +38,7 @@ You can try the demo with your own local server as well. Simply enter the full U
 ### Docker
 
 ```
-$ docker run -d -p 8080:80 tamland/airsonic-frontend:latest
+$ docker run -d -p 8080:80 tamland/airsonic-refix:latest
 ```
 
 You can now access the application at http://localhost:8080/
@@ -49,7 +49,7 @@ Environment variables:
 
 ### Pre-built bundle
 
-Pre-built bundles can be found in the [Actions](https://github.com/tamland/airsonic-frontend/actions)
+Pre-built bundles can be found in the [Actions](https://github.com/tamland/airsonic-refix/actions)
 tab. Download/extract artifact and serve with any web server such as nginx or apache.
 
 ### Build from source
