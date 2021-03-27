@@ -19,9 +19,6 @@
   </div>
 </template>
 <style>
-  .sidebar-container nav {
-    padding-top: 0.5rem;
-  }
   .sidebar-container .sidebar-fixed {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -30,7 +27,10 @@
   }
 
   .sidebar-container .logo {
-    height: 48px;
+    padding: 1.5rem 1rem;
+  }
+  .sidebar-container .logo > * {
+    height: 1.5rem;
   }
 
   .sidebar-container .nav-link {
