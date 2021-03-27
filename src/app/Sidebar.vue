@@ -33,6 +33,13 @@
     height: 1.5rem;
   }
 
+  .sidebar-container .sidebar-heading {
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: block;
+  }
+
   .sidebar-container .nav-link {
     width: calc(100%);
     overflow: hidden;
@@ -44,8 +51,18 @@
     margin-right: 0.75rem;
   }
 
-  .sidebar-container a.nav-link:not(.active) .b-icon {
+  .sidebar-container .nav-link:not(.active) .b-icon {
     color: var(--text-muted);
+  }
+  .sidebar-container .nav-link:hover {
+    color: inherit;
+    background-color: rgba(255, 255, 255, 0.045);
+  }
+  .sidebar-container .nav-link.router-link-active {
+    background-color: rgba(255, 255, 255, 0.045);
+  }
+  .sidebar-container .nav-link.router-link-active:hover {
+    color: var(--primary);
   }
 </style>
 <script lang="ts">

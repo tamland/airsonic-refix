@@ -1,13 +1,11 @@
 <template>
   <div style="max-width: 100%">
-    <span class="nav-link">
-      <small class="text-uppercase text-muted font-weight-bold">
-        Playlists
-        <button class="btn btn-link btn-sm p-0 float-right" @click="showModal = true">
-          <Icon icon="plus" />
-        </button>
-      </small>
-    </span>
+    <small class="sidebar-heading text-muted">
+      Playlists
+      <button class="btn btn-link btn-sm p-0 float-right" @click="showModal = true">
+        <Icon icon="plus" />
+      </button>
+    </small>
 
     <router-link class="nav-link" :to="{name: 'playlist', params: { id: 'random' }}">
       <Icon icon="music-note-list" class="mr-2" /> Random
