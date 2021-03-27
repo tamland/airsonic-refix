@@ -19,7 +19,7 @@
       Library
     </small>
 
-    <router-link class="nav-link" :to="{name: 'albums', params: {sort: 'recently-added'}}">
+    <router-link class="nav-link" :to="{name: 'albums-default'}">
       <Icon icon="collection" /> Albums
     </router-link>
 

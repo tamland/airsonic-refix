@@ -51,7 +51,7 @@
     margin-right: 0.75rem;
   }
 
-  .sidebar-container .nav-link:not(.active) .b-icon {
+  .sidebar-container .nav-link:not(.router-link-active) .b-icon {
     color: var(--text-muted);
   }
   .sidebar-container .nav-link:hover {
@@ -59,6 +59,7 @@
     background-color: rgba(255, 255, 255, 0.045);
   }
   .sidebar-container .nav-link.router-link-active {
+    color: var(--primary);
     background-color: rgba(255, 255, 255, 0.045);
   }
   .sidebar-container .nav-link.router-link-active:hover {

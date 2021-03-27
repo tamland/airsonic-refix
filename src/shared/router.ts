@@ -45,6 +45,14 @@ export function setupRouter(auth: AuthService) {
         component: Queue,
       },
       {
+        name: 'albums-default',
+        path: '/albums',
+        redirect: ({
+          name: 'albums',
+          params: { sort: 'recently-added' }
+        }),
+      },
+      {
         name: 'albums',
         path: '/albums/:sort',
         component: AlbumLibrary,
@@ -52,7 +60,7 @@ export function setupRouter(auth: AuthService) {
       },
       {
         name: 'album',
-        path: '/album/:id',
+        path: '/albums/id/:id',
         component: AlbumDetails,
         props: true,
       },
@@ -63,7 +71,7 @@ export function setupRouter(auth: AuthService) {
       },
       {
         name: 'artist',
-        path: '/artist/:id',
+        path: '/artists/:id',
         component: ArtistDetails,
         props: true,
       },
@@ -74,7 +82,7 @@ export function setupRouter(auth: AuthService) {
       },
       {
         name: 'genre',
-        path: '/genre/:id/:section?',
+        path: '/genres/:id/:section?',
         component: GenreDetails,
         props: true,
       },
@@ -95,7 +103,7 @@ export function setupRouter(auth: AuthService) {
       },
       {
         name: 'podcast',
-        path: '/podcast/:id',
+        path: '/podcasts/:id',
         component: PodcastDetails,
         props: true,
       },
