@@ -1,5 +1,8 @@
 <template>
   <b-modal ok-title="Save" :visible="visible" @ok="confirm" @change="change">
+    <template #modal-header-close>
+      <Icon icon="x" />
+    </template>
     <template #modal-title>
       <slot name="title" :item="copy">
         {{ title }}

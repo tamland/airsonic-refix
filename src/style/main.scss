@@ -74,3 +74,8 @@ $enable-responsive-font-sizes: true;
 
 @import '~bootstrap';
 @import '~bootstrap-vue';
+
+.modal-header .close {
+  color: $theme-text;
+  opacity: 1;
+}

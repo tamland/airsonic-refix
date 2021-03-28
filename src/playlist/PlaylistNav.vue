@@ -24,6 +24,9 @@
     </router-link>
 
     <b-modal v-model="showModal" title="New playlist">
+      <template #modal-header-close>
+        <Icon icon="x" />
+      </template>
       <b-form-group label="Name">
         <b-form-input v-model="playlistName" type="text" />
       </b-form-group>
