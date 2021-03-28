@@ -26,11 +26,8 @@
     width: 250px;
   }
 
-  .sidebar-container .logo {
-    padding: 1.5rem 1rem;
-  }
-  .sidebar-container .logo > * {
-    height: 1.5rem;
+  .sidebar-container .sidebar-brand {
+    padding: 1rem 1rem 0.75rem;
   }
 
   .sidebar-container .sidebar-heading {

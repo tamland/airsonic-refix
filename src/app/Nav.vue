@@ -1,8 +1,8 @@
 <template>
   <nav class="nav flex-column">
-    <div class="logo d-flex justify-content-between">
+    <div class="sidebar-brand d-flex justify-content-between align-items-end">
       <Logo />
-      <button class="btn btn-link btn-lg p-0 d-md-none" @click="hideMenu">
+      <button class="btn btn-link btn-lg p-0 m-0 d-md-none" @click="hideMenu">
         <Icon icon="x" />
       </button>
     </div>

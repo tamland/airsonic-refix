@@ -7,8 +7,8 @@
       <b-overlay rounded :show="busy" opacity="0.1">
         <div class="card-body">
           <form @submit.prevent="login">
-            <div style="width: 160px;" class="d-flex mx-auto mb-2">
-              <Logo />
+            <div class="d-flex mb-2">
+              <Logo class="mx-auto" />
             </div>
             <b-form-group v-if="!config.serverUrl" label="Server">
               <b-form-input v-model="server" name="server" type="text" :state="valid" />
