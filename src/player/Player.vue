@@ -9,18 +9,11 @@
         <!-- Track info --->
         <div class="col p-0 d-flex flex-nowrap align-items-center justify-content-start" style="width: 0; min-width: 0">
           <template v-if="track">
-            <router-link :to="{ name: 'queue' }">
-              <template v-if="track.image">
-                <img class="d-sm-none" width="64px" height="64px" :src="track.image">
-                <img class="d-none d-sm-inline-block" width="74px" height="74px" :src="track.image">
-              </template>
-              <template v-else>
-                <img class="d-sm-none" width="64px" height="64px" src="@/shared/assets/fallback.svg">
-                <img class="d-none d-sm-inline-block" width="74px" height="74px" src="@/shared/assets/fallback.svg">
-              </template>
+            <router-link :to="{ name: 'queue' }" style="padding: 12px">
+              <img v-if="track.image" width="52px" height="52px" :src="track.image">
+              <img v-else width="52px" height="52px" src="@/shared/assets/fallback.svg">
             </router-link>
-
-            <div class="pl-3" style="min-width: 0">
+            <div style="min-width: 0">
               <div class="text-truncate">
                 {{ track.title }}
               </div>
