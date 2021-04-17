@@ -1,10 +1,8 @@
 export class AudioController {
   private audio = new Audio()
   private handle = -1
-  private ended = false
   private volume = 1.0
   private fadeDuration = 200
-  private endCutoff = 200
   private eventHandlers = null as any
   private buffer = new Audio()
 
@@ -61,21 +59,11 @@ export class AudioController {
       this.eventHandlers?.onError(this.audio.error)
     }
     this.audio.onended = () => {
-      if (!this.ended) {
-        this.ended = true
-        this.eventHandlers?.onEnded()
-      }
+      this.eventHandlers?.onEnded()
     }
     this.audio.ontimeupdate = () => {
       this.eventHandlers?.onTimeUpdate(this.audio.currentTime)
-      const left = (this.audio.duration - this.audio.currentTime) * 1000
-      if (!this.ended && left <= this.endCutoff + this.fadeDuration) {
-        console.info(`AudioController: ending. time left: ${left}`)
-        this.ended = true
-        this.eventHandlers?.onEnded()
-      }
     }
-    this.ended = false
     this.eventHandlers?.onDurationChange(this.audio.duration)
     this.eventHandlers?.onTimeUpdate(this.audio.currentTime)
     this.audio.volume = 0.0
