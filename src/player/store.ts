@@ -240,35 +240,33 @@ export const playerModule: Module<State, any> = {
 }
 
 export function setupAudio(store: Store<any>, api: API) {
-  audio.setEventHandlers({
-    onTimeUpdate: (value: number) => {
-      store.commit('player/setCurrentTime', value)
-      // Scrobble
-      if (
-        store.state.player.scrobbled === false &&
-        store.state.player.duration > 30 &&
-        audio.currentTime() / store.state.player.duration > 0.7
-      ) {
-        const id = store.getters['player/trackId']
-        store.commit('player/setScrobbled')
-        api.scrobble(id)
-      }
-    },
-    onDurationChange: (value: number) => {
-      store.commit('player/setDuration', value)
-    },
-    onError: (error: any) => {
-      store.commit('player/setPaused')
-      store.commit('setError', error)
-    },
-    onEnded: () => {
-      if (store.getters['player/hasNext'] || store.state.player.repeat) {
-        return store.dispatch('player/next')
-      } else {
-        return store.dispatch('player/resetQueue')
-      }
-    },
-  })
+  audio.ontimeupdate = (value: number) => {
+    store.commit('player/setCurrentTime', value)
+    // Scrobble
+    if (
+      store.state.player.scrobbled === false &&
+      store.state.player.duration > 30 &&
+      audio.currentTime() / store.state.player.duration > 0.7
+    ) {
+      const id = store.getters['player/trackId']
+      store.commit('player/setScrobbled')
+      api.scrobble(id)
+    }
+  }
+  audio.ondurationchange = (value: number) => {
+    store.commit('player/setDuration', value)
+  }
+  audio.onended = () => {
+    if (store.getters['player/hasNext'] || store.state.player.repeat) {
+      return store.dispatch('player/next')
+    } else {
+      return store.dispatch('player/resetQueue')
+    }
+  }
+  audio.onerror = (error: any) => {
+    store.commit('player/setPaused')
+    store.commit('setError', error)
+  }
 
   audio.setVolume(storedMuteState ? 0.0 : storedVolume)
   const url = store.getters['player/track']?.url

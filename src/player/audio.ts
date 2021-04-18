@@ -3,8 +3,12 @@ export class AudioController {
   private handle = -1
   private volume = 1.0
   private fadeDuration = 200
-  private eventHandlers = null as any
   private buffer = new Audio()
+
+  ontimeupdate: (value: number) => void = () => { /* do nothing */ }
+  ondurationchange: (value: number) => void = () => { /* do nothing */ }
+  onended: () => void = () => { /* do nothing */ }
+  onerror: (err: MediaError | null) => void = () => { /* do nothing */ }
 
   currentTime() {
     return this.audio.currentTime
@@ -12,10 +16,6 @@ export class AudioController {
 
   duration() {
     return this.audio.duration
-  }
-
-  setEventHandlers(handlers: any) {
-    this.eventHandlers = handlers
   }
 
   setBuffer(url: string) {
@@ -52,20 +52,20 @@ export class AudioController {
       endPlayback(this.audio, this.fadeDuration)
     }
     this.audio = new Audio(url)
-    this.audio.ondurationchange = () => {
-      this.eventHandlers?.onDurationChange(this.audio.duration)
-    }
     this.audio.onerror = () => {
-      this.eventHandlers?.onError(this.audio.error)
+      this.onerror(this.audio.error)
     }
     this.audio.onended = () => {
-      this.eventHandlers?.onEnded()
+      this.onended()
     }
     this.audio.ontimeupdate = () => {
-      this.eventHandlers?.onTimeUpdate(this.audio.currentTime)
+      this.ontimeupdate(this.audio.currentTime)
     }
-    this.eventHandlers?.onDurationChange(this.audio.duration)
-    this.eventHandlers?.onTimeUpdate(this.audio.currentTime)
+    this.audio.ondurationchange = () => {
+      this.ondurationchange(this.audio.duration)
+    }
+    this.ondurationchange(this.audio.duration)
+    this.ontimeupdate(this.audio.currentTime)
     this.audio.volume = 0.0
 
     if (options.paused !== true) {
