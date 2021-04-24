@@ -2,7 +2,7 @@
   <div>
     <div class="min-vh-100 d-flex">
       <Sidebar />
-      <main class="container-fluid pt-3 pb-3">
+      <main class="container-fluid py-2">
         <TopNav />
         <slot />
       </main>
