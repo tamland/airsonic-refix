@@ -24,7 +24,6 @@ module.exports = {
     }],
     'no-console': 'off',
     'no-debugger': 'warn',
-    'no-useless-constructor': 'off', // Crashes eslint
     'no-empty-pattern': 'off',
     'comma-dangle': 'off',
     'space-before-function-paren': ['error', 'never'],
