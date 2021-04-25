@@ -22,7 +22,7 @@ module.exports = {
     'vue/component-tags-order': ['error', {
       order: ['template', 'style', 'script']
     }],
-    'no-console': 'warn',
+    'no-console': 'off',
     'no-debugger': 'warn',
     'no-useless-constructor': 'off', // Crashes eslint
     'no-empty-pattern': 'off',
