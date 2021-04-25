@@ -69,7 +69,15 @@ export class AudioController {
     this.audio.volume = 0.0
 
     if (options.paused !== true) {
-      await this.audio.play()
+      try {
+        await this.audio.play()
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          console.warn(error)
+          return
+        }
+        throw error
+      }
       this.fadeIn()
     }
   }
