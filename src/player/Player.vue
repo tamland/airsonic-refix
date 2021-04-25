@@ -41,13 +41,15 @@
         <div class="col-auto col-sm p-0">
           <div class="d-flex flex-nowrap justify-content-end pr-3">
             <div class="m-0 d-none d-md-inline-flex align-items-center">
-              <b-button variant="link" @click="toggleMute">
+              <b-button id="player-volume-btn" variant="link" title="Volume">
                 <Icon :icon="muteActive ? 'volume-mute-fill' : 'volume-up-fill'" />
               </b-button>
-              <b-form-input type="range" min="0" max="1" step="0.05"
-                            style="width: 120px; min-width: 0; padding-right: 0.75rem"
-                            :title="`Volume: ${Math.round(volume * 100)}%`"
-                            :value="muteActive ? 0.0 : volume" @input="setVolume" />
+              <b-popover target="player-volume-btn" placement="top" triggers="click blur" no-fade>
+                <Slider class="pt-2" style="height: 120px;" direction="btt"
+                        :min="0" :max="1" :step="0.01" percent
+                        :value="muteActive ? 0.0 : volume" @input="setVolume"
+                />
+              </b-popover>
               <b-button title="Shuffle"
                         variant="link" class="m-0" :class="{ 'text-primary': shuffleActive }"
                         @click="toggleShuffle">
@@ -61,12 +63,11 @@
             </div>
             <OverflowMenu class="d-md-none">
               <b-dropdown-text>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between align-items-center">
                   <strong>Volume</strong>
-                  <b-form-input
-                    class="px-2" style="width: 120px"
-                    type="range" min="0" max="1" step="0.05"
-                    :value="volume" @input="setVolume"
+                  <Slider class="px-3" style="width: 120px;"
+                          :min="0" :max="1" :step="0.01" percent
+                          :value="muteActive ? 0.0 : volume" @input="setVolume"
                   />
                 </div>
               </b-dropdown-text>

@@ -4,6 +4,7 @@ import ExternalLink from './ExternalLink.vue'
 import Icon from './Icon.vue'
 import InfiniteLoader from './InfiniteLoader.vue'
 import OverflowMenu from './OverflowMenu.vue'
+import Slider from './Slider.vue'
 import Tiles from './Tiles.vue'
 import Tile from './Tile.vue'
 import {
@@ -16,6 +17,7 @@ import {
   BFormTextarea,
   BModal,
   BOverlay,
+  BPopover,
   BProgress,
   BSidebar,
   DropdownPlugin,
@@ -30,6 +32,7 @@ Vue.component('BFormInput', BFormInput)
 Vue.component('BFormCheckbox', BFormCheckbox)
 Vue.component('BFormTextarea', BFormTextarea)
 Vue.component('BButton', BButton)
+Vue.component('BPopover', BPopover)
 Vue.component('BProgress', BProgress)
 Vue.component('BOverlay', BOverlay)
 Vue.use(DropdownPlugin)
@@ -40,6 +43,7 @@ const components = {
   Icon,
   InfiniteLoader,
   OverflowMenu,
+  Slider,
   Tiles,
   Tile,
 }

@@ -27,8 +27,8 @@
     BIconPersonFill,
     BIconRss,
     BIconX,
-    BIconVolumeUpFill,
     BIconVolumeMuteFill,
+    BIconVolumeUpFill,
   } from 'bootstrap-vue'
 
   export default Vue.extend({
@@ -56,8 +56,8 @@
       BIconPersonFill,
       BIconRss,
       BIconX,
-      BIconVolumeUpFill,
       BIconVolumeMuteFill,
+      BIconVolumeUpFill,
     },
     props: {
       icon: { type: String, required: true }

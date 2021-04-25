@@ -30,6 +30,10 @@ $dropdown-link-hover-color: $theme-text-muted;
 $dropdown-border-color: $theme-elevation-2;
 $dropdown-divider-bg: $theme-elevation-2;
 
+// Popover
+$popover-bg: $theme-elevation-1;
+$popover-border-color: $theme-elevation-2;
+
 // Form
 $input-bg: $theme-elevation-2;
 $input-border-color: $theme-elevation-2;
@@ -42,6 +46,7 @@ $custom-range-track-bg: $theme-text-muted;
 $progress-bg: rgb(35, 35, 35);
 
 :root {
+  --text-body: #{$theme-text};
   --text-muted: #{$theme-text-muted};
 }
 
