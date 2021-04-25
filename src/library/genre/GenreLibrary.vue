@@ -20,10 +20,8 @@
         items: [],
       }
     },
-    created() {
-      this.$api.getGenres().then((items) => {
-        this.items = items
-      })
+    async created() {
+      this.items = await this.$api.getGenres()
     },
   })
 </script>

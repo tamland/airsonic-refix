@@ -69,7 +69,7 @@
         album: null as null | Album,
       }
     },
-    async mounted() {
+    async created() {
       this.album = await this.$api.getAlbumDetails(this.id)
     },
     methods: {

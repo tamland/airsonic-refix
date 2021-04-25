@@ -31,10 +31,8 @@
         result: null as any,
       }
     },
-    created() {
-      this.$api.getStarred().then(result => {
-        this.result = result
-      })
+    async created() {
+      this.result = await this.$api.getStarred()
     }
   })
 </script>

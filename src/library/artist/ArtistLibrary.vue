@@ -17,10 +17,8 @@
         items: null as null | Artist[]
       }
     },
-    created() {
-      this.$api.getArtists().then(items => {
-        this.items = items
-      })
+    async created() {
+      this.items = await this.$api.getArtists()
     }
   })
 </script>
