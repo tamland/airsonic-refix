@@ -1,6 +1,6 @@
 {
-  "name": "Airsonic",
-  "short_name": "Airsonic",
+  "name": "Airsonic (refix)",
+  "short_name": "Airsonic (refix)",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#000",
