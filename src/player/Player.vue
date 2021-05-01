@@ -132,6 +132,15 @@
         'progress',
       ]),
     },
+    watch: {
+      track: {
+        immediate: true,
+        handler(track: any) {
+          document.title = [track?.title, track?.artist || track?.album, 'Airsonic (refix)']
+            .filter(x => !!x).join(' • ')
+        }
+      }
+    },
     methods: {
       ...mapActions('player', [
         'playPause',

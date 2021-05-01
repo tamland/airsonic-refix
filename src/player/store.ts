@@ -86,7 +86,6 @@ export const playerModule: Module<State, any> = {
       state.duration = track.duration
       const next = (index + 1) % state.queue.length
       audio.setBuffer(state.queue[next].url)
-      document.title = `${track.title} • ${track.artist}`
       if (mediaSession) {
         mediaSession.metadata = new MediaMetadata({
           title: track.title,
