@@ -3,23 +3,14 @@
   "short_name": "Airsonic",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#09F",
-  "background_color": "#09F",
+  "theme_color": "#000",
+  "background_color": "#000",
   "icons": [
     {
       "src": "./icon.svg",
-      "type": "image/svg",
-      "sizes": "any"
-    },
-    {
-      "src": "./icon-192x192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "./icon-512x512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
     }
   ]
 }
