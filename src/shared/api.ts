@@ -12,7 +12,7 @@ export interface Track {
   id: string
   title: string
   duration: number
-  starred: boolean
+  favourite: boolean
   image?: string
   url?: string
   track?: number
@@ -28,7 +28,7 @@ export interface Album {
   artist: string
   artistId: string
   year: number
-  starred: boolean
+  favourite: boolean
   genreId?: string
   image?: string
   tracks?: Track[]
@@ -39,7 +39,7 @@ export interface Artist {
   name: string
   albumCount: number
   description?: string
-  starred: boolean
+  favourite: boolean
   lastFmUrl?: string
   musicBrainzUrl?: string
   similarArtist?: Artist[]
@@ -240,7 +240,7 @@ export class API {
     return (response.randomSongs?.song || []).map(this.normalizeTrack, this)
   }
 
-  async getStarred() {
+  async getFavourites() {
     const response = await this.get('rest/getStarred2')
     return {
       albums: (response.starred2?.album || []).map(this.normalizeAlbum, this),
@@ -249,15 +249,7 @@ export class API {
     }
   }
 
-  starAlbum(id: string) {
-    return this.star('album', id)
-  }
-
-  unstarAlbum(id: string) {
-    return this.unstar('album', id)
-  }
-
-  async star(type: 'track' | 'album' | 'artist', id: string) {
+  async addFavourite(type: 'track' | 'album' | 'artist', id: string) {
     const params = {
       id: type === 'track' ? id : undefined,
       albumId: type === 'album' ? id : undefined,
@@ -266,7 +258,7 @@ export class API {
     await this.get('rest/star', params)
   }
 
-  async unstar(type: 'track' | 'album' | 'artist', id: string) {
+  async removeFavourite(type: 'track' | 'album' | 'artist', id: string) {
     const params = {
       id: type === 'track' ? id : undefined,
       albumId: type === 'album' ? id : undefined,
@@ -349,7 +341,7 @@ export class API {
       track: item.track,
       url: item.streamUrl,
       duration: 0,
-      starred: false,
+      favourite: false,
     }
   }
 
@@ -358,7 +350,7 @@ export class API {
       id: item.id,
       title: item.title,
       duration: item.duration,
-      starred: !!item.starred,
+      favourite: !!item.starred,
       track: item.track,
       album: item.album,
       albumId: item.albumId,
@@ -377,7 +369,7 @@ export class API {
       artistId: item.artistId,
       image: this.getCoverArtUrl(item),
       year: item.year || 0,
-      starred: !!item.starred,
+      favourite: !!item.starred,
       genreId: item.genre,
       tracks: (item.song || []).map(this.normalizeTrack, this)
     }
@@ -392,7 +384,7 @@ export class API {
       id: item.id,
       name: item.name,
       description: (item.biography || '').replace(/<a[^>]*>.*?<\/a>/gm, ''),
-      starred: !!item.starred,
+      favourite: !!item.starred,
       albumCount: item.albumCount,
       lastFmUrl: item.lastFmUrl,
       musicBrainzUrl: item.musicBrainzId
@@ -416,7 +408,7 @@ export class API {
         id: episode.id,
         title: episode.title,
         duration: episode.duration,
-        starred: false,
+        favourite: false,
         track: podcast.episode.length - index,
         album: podcast.title,
         albumId: null,

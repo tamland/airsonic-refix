@@ -23,8 +23,8 @@
           <b-button variant="secondary" class="mr-2" @click="play">
             <Icon icon="play-fill" /> Play
           </b-button>
-          <b-button variant="secondary" class="mr-2" @click="toggleStar">
-            <Icon :icon="album.starred ? 'star-fill' : 'star'" />
+          <b-button variant="secondary" class="mr-2" @click="toggleFavourite">
+            <Icon :icon="album.favourite ? 'heart-fill' : 'heart'" />
           </b-button>
           <b-dropdown variant="secondary" boundary="window" no-caret toggle-class="px-1">
             <template #button-content>
@@ -91,13 +91,13 @@
           return this.$store.dispatch('player/addToQueue', this.album.tracks)
         }
       },
-      toggleStar() {
+      toggleFavourite() {
         if (this.album) {
-          const value = !this.album.starred
-          this.album.starred = value
+          const value = !this.album.favourite
+          this.album.favourite = value
           return value
-            ? this.$api.starAlbum(this.album.id)
-            : this.$api.unstarAlbum(this.album.id)
+            ? this.$api.addFavourite('album', this.album.id)
+            : this.$api.removeFavourite('album', this.album.id)
         }
       },
     }

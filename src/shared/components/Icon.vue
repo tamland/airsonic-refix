@@ -11,8 +11,6 @@
     BIconCardText,
     BIconChevronCompactRight,
     BIconMusicNoteList,
-    BIconStar,
-    BIconStarFill,
     BIconCollection,
     BIconCollectionFill,
     BIconList,
@@ -29,6 +27,8 @@
     BIconX,
     BIconVolumeMuteFill,
     BIconVolumeUpFill,
+    BIconHeart,
+    BIconHeartFill,
   } from 'bootstrap-vue'
 
   export default Vue.extend({
@@ -40,8 +40,6 @@
       BIconCardText,
       BIconChevronCompactRight,
       BIconMusicNoteList,
-      BIconStar,
-      BIconStarFill,
       BIconCollection,
       BIconCollectionFill,
       BIconList,
@@ -58,6 +56,8 @@
       BIconX,
       BIconVolumeMuteFill,
       BIconVolumeUpFill,
+      BIconHeart,
+      BIconHeartFill,
     },
     props: {
       icon: { type: String, required: true }

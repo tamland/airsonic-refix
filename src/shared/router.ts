@@ -8,7 +8,7 @@ import AlbumDetails from '@/library/album/AlbumDetails.vue'
 import AlbumLibrary from '@/library/album/AlbumLibrary.vue'
 import GenreDetails from '@/library/genre/GenreDetails.vue'
 import GenreLibrary from '@/library/genre/GenreLibrary.vue'
-import Starred from '@/library/starred/Starred.vue'
+import Favourites from '@/library/favourite/Favourites.vue'
 import RadioStations from '@/library/radio/RadioStations.vue'
 import PodcastDetails from '@/library/podcast/PodcastDetails.vue'
 import PodcastLibrary from '@/library/podcast/PodcastLibrary.vue'
@@ -87,9 +87,9 @@ export function setupRouter(auth: AuthService) {
         props: true,
       },
       {
-        name: 'starred',
-        path: '/starred/:section?',
-        component: Starred,
+        name: 'favourites',
+        path: '/favourites/:section?',
+        component: Favourites,
         props: true,
       },
       {

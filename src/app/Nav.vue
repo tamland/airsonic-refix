@@ -31,8 +31,8 @@
       <Icon icon="collection" /> Genres
     </router-link>
 
-    <router-link class="nav-link" :to="{name: 'starred'}">
-      <Icon icon="star" /> Starred
+    <router-link class="nav-link" :to="{name: 'favourites'}">
+      <Icon icon="heart" /> Favourites
     </router-link>
 
     <router-link class="nav-link" :to="{name: 'podcasts'}">

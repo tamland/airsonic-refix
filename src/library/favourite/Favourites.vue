@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Starred</h1>
+    <h1>Favourites</h1>
     <ul class="nav-underlined">
       <li>
         <router-link :to="{... $route, params: { }}">
@@ -46,7 +46,7 @@
       }
     },
     async created() {
-      this.result = await this.$api.getStarred()
+      this.result = await this.$api.getFavourites()
     }
   })
 </script>

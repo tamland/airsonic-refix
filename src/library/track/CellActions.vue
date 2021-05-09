@@ -7,8 +7,8 @@
       <b-dropdown-item-button @click="addToQueue()">
         Add to queue
       </b-dropdown-item-button>
-      <b-dropdown-item-button @click="toggleStarred()">
-        {{ starred ? 'Unstar' : 'Star' }}
+      <b-dropdown-item-button @click="toggleFavourite()">
+        {{ favourite ? 'Remove from favourites' : 'Add to favourites' }}
       </b-dropdown-item-button>
       <b-dropdown-item-button @click="download()">
         Download
@@ -26,16 +26,16 @@
     },
     data() {
       return {
-        starred: this.track.starred,
+        favourite: this.track.favourite,
       }
     },
     methods: {
-      toggleStarred() {
-        this.starred = !this.starred
-        if (this.starred) {
-          return this.$api.unstar('track', this.track.id)
+      toggleFavourite() {
+        this.favourite = !this.favourite
+        if (this.favourite) {
+          return this.$api.removeFavourite('track', this.track.id)
         }
-        return this.$api.star('track', this.track.id)
+        return this.$api.addFavourite('track', this.track.id)
       },
       download() {
         window.location.href = this.$api.getDownloadUrl(this.track.id)
