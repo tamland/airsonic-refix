@@ -88,8 +88,9 @@ export function setupRouter(auth: AuthService) {
       },
       {
         name: 'starred',
-        path: '/starred',
+        path: '/starred/:section?',
         component: Starred,
+        props: true,
       },
       {
         name: 'radio',

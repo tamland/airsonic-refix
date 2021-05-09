@@ -1,18 +1,29 @@
 <template>
-  <ContentLoader v-slot :loading="result == null">
-    <div v-if="result.albums.length > 0" class="mb-4">
-      <h1>Albums</h1>
-      <AlbumList :items="result.albums" />
-    </div>
-    <div v-if="result.artists.length > 0" class="mb-4">
-      <h1>Artists</h1>
-      <ArtistList :items="result.artists" />
-    </div>
-    <div v-if="result.tracks.length > 0" class="mb-4">
-      <h1>Tracks</h1>
-      <TrackList :tracks="result.tracks" />
-    </div>
-  </ContentLoader>
+  <div>
+    <h1>Starred</h1>
+    <ul class="nav-underlined">
+      <li>
+        <router-link :to="{... $route, params: { }}">
+          Albums
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{... $route, params: { section: 'artists' }}">
+          Artists
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{... $route, params: { section: 'tracks' }}">
+          Tracks
+        </router-link>
+      </li>
+    </ul>
+    <ContentLoader v-slot :loading="result == null">
+      <ArtistList v-if="section === 'artists'" :items="result.artists" />
+      <TrackList v-else-if="section === 'tracks'" :tracks="result.tracks" />
+      <AlbumList v-else :items="result.albums" />
+    </ContentLoader>
+  </div>
 </template>
 <script lang="ts">
   import Vue from 'vue'
@@ -25,6 +36,9 @@
       AlbumList,
       ArtistList,
       TrackList,
+    },
+    props: {
+      section: { type: String, default: '' },
     },
     data() {
       return {
