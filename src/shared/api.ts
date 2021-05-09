@@ -249,7 +249,7 @@ export class API {
     }
   }
 
-  async addFavourite(type: 'track' | 'album' | 'artist', id: string) {
+  async addFavourite(id: string, type: 'track' | 'album' | 'artist') {
     const params = {
       id: type === 'track' ? id : undefined,
       albumId: type === 'album' ? id : undefined,
@@ -258,7 +258,7 @@ export class API {
     await this.get('rest/star', params)
   }
 
-  async removeFavourite(type: 'track' | 'album' | 'artist', id: string) {
+  async removeFavourite(id: string, type: 'track' | 'album' | 'artist') {
     const params = {
       id: type === 'track' ? id : undefined,
       albumId: type === 'album' ? id : undefined,

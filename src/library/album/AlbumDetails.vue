@@ -93,11 +93,10 @@
       },
       toggleFavourite() {
         if (this.album) {
-          const value = !this.album.favourite
-          this.album.favourite = value
-          return value
-            ? this.$api.addFavourite('album', this.album.id)
-            : this.$api.removeFavourite('album', this.album.id)
+          this.album.favourite = !this.album.favourite
+          return this.album.favourite
+            ? this.$api.addFavourite(this.album.id, 'album')
+            : this.$api.removeFavourite(this.album.id, 'album')
         }
       },
     }
