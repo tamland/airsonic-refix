@@ -133,6 +133,13 @@ export const playerModule: Module<State, any> = {
       state.mute = value <= 0.0
       localStorage.setItem('player.volume', String(value))
     },
+    updateTrack(state, track) {
+      const idx = state.queue.findIndex(x => x.id === track.id)
+      if (idx > -1) {
+        state.queue[idx] = Object.assign(state.queue[idx], track)
+        persistQueue(state)
+      }
+    },
   },
 
   actions: {

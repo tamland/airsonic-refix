@@ -41,6 +41,11 @@
         <div class="col-auto col-sm p-0">
           <div class="d-flex flex-nowrap justify-content-end pr-3">
             <div class="m-0 d-none d-md-inline-flex align-items-center">
+              <b-button title="Favourite"
+                        variant="link" class="m-0"
+                        @click="toggleFavourite">
+                <Icon :icon="track.favourite ? 'heart-fill' : 'heart'" />
+              </b-button>
               <b-button id="player-volume-btn" variant="link" title="Volume">
                 <Icon :icon="muteActive ? 'volume-mute-fill' : 'volume-up-fill'" />
               </b-button>
@@ -160,6 +165,11 @@
       setVolume(volume: any) {
         return this.$store.dispatch('player/setVolume', parseFloat(volume))
       },
+      toggleFavourite() {
+        return this.track.favourite
+          ? this.$store.dispatch('removeFavourite', this.track.id)
+          : this.$store.dispatch('addFavourite', this.track.id)
+      }
     }
   })
 </script>

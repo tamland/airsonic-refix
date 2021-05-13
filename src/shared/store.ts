@@ -83,6 +83,14 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
       api.deletePlaylist(id).then(() => {
         commit('removePlaylist', id)
       })
+    },
+    addFavourite({ commit }, id) {
+      commit('player/updateTrack', { id, favourite: true })
+      return api.addFavourite(id, 'track')
+    },
+    removeFavourite({ commit }, id) {
+      commit('player/updateTrack', { id, favourite: false })
+      return api.removeFavourite(id, 'track')
     }
   },
 })

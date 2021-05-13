@@ -33,8 +33,8 @@
       toggleFavourite() {
         this.favourite = !this.favourite
         return this.favourite
-          ? this.$api.addFavourite(this.track.id, 'track')
-          : this.$api.removeFavourite(this.track.id, 'track')
+          ? this.$store.dispatch('addFavourite', this.track.id)
+          : this.$store.dispatch('removeFavourite', this.track.id)
       },
       download() {
         window.location.href = this.$api.getDownloadUrl(this.track.id)
