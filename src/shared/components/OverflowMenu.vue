@@ -5,6 +5,7 @@
     no-caret
     toggle-class="p-0"
     :disabled="disabled"
+    lazy
   >
     <template #button-content>
       <Icon icon="three-dots-vertical" />
