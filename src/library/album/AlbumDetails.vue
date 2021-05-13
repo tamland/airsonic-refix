@@ -26,7 +26,7 @@
           <b-button variant="secondary" class="mr-2" @click="toggleFavourite">
             <Icon :icon="album.favourite ? 'heart-fill' : 'heart'" />
           </b-button>
-          <b-dropdown variant="secondary" boundary="window" no-caret toggle-class="px-1">
+          <b-dropdown variant="secondary" no-caret toggle-class="px-1">
             <template #button-content>
               <Icon icon="three-dots-vertical" />
             </template>
