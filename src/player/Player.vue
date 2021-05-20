@@ -44,7 +44,7 @@
               <b-button title="Favourite"
                         variant="link" class="m-0"
                         @click="toggleFavourite">
-                <Icon :icon="track.favourite ? 'heart-fill' : 'heart'" />
+                <Icon :icon="track && track.favourite ? 'heart-fill' : 'heart'" />
               </b-button>
               <b-button id="player-volume-btn" variant="link" title="Volume">
                 <Icon :icon="muteActive ? 'volume-mute-fill' : 'volume-up-fill'" />
