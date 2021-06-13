@@ -15,7 +15,7 @@
     "vue": "^2.6.12",
     "vue-infinite-loading": "2.4.5",
     "vue-router": "^3.5.1",
-    "vue-slider-component": "3.2.11",
+    "vue-slider-component": "3.2.13",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
