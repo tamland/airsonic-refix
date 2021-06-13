@@ -1,0 +1,28 @@
+name: PR
+on:
+  - pull_request
+
+env:
+  VERSION: ${{ github.sha }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Build
+      run: |
+        export VUE_APP_BUILD=$VERSION
+        export VUE_APP_BUILD_DATE=$(date --iso-8601)
+        yarn build
+
+    - name: Build docker image
+      run: docker build -t $IMAGE:$VERSION -f docker/Dockerfile .
