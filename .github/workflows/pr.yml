@@ -3,6 +3,7 @@ on:
   - pull_request
 
 env:
+  IMAGE: ${{ github.repository }}
   VERSION: ${{ github.sha }}
 
 jobs:
