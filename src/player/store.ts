@@ -187,7 +187,7 @@ export const playerModule: Module<State, any> = {
     },
     seek({ state }, value) {
       if (isFinite(state.duration)) {
-        audio.seek(state.duration * value)
+        audio.seek(state.duration * (value / 100.0))
       }
     },
     async resetQueue({ commit, getters }) {

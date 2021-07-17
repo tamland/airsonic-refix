@@ -18,7 +18,6 @@ import {
   BModal,
   BOverlay,
   BPopover,
-  BProgress,
   BSidebar,
   DropdownPlugin,
 } from 'bootstrap-vue'
@@ -33,7 +32,6 @@ Vue.component('BFormCheckbox', BFormCheckbox)
 Vue.component('BFormTextarea', BFormTextarea)
 Vue.component('BButton', BButton)
 Vue.component('BPopover', BPopover)
-Vue.component('BProgress', BProgress)
 Vue.component('BOverlay', BOverlay)
 Vue.use(DropdownPlugin)
 

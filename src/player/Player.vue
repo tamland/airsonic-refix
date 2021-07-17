@@ -2,10 +2,11 @@
   <div :class="{'visible': visible}" class="player elevated d-flex">
     <div class="flex-fill">
       <!-- Progress --->
-      <div class="progress2" @click="seek">
-        <b-progress :value="progress" :max="100" height="4px" />
-      </div>
-      <div class="row align-items-center m-0">
+      <ProgressBar
+        style="margin-bottom: -5px; margin-top: -9px"
+        :value="progress" @input="seek"
+      />
+      <div class="row align-items-center m-0" style="padding-top: -10px">
         <!-- Track info --->
         <div class="col p-0 d-flex flex-nowrap align-items-center justify-content-start" style="width: 0; min-width: 0">
           <template v-if="track">
@@ -96,9 +97,6 @@
   </div>
 </template>
 <style scoped>
-  .progress2 {
-    cursor: pointer;
-  }
   .player {
     position: fixed;
     bottom: 0;
@@ -120,8 +118,12 @@
 <script lang="ts">
   import Vue from 'vue'
   import { mapState, mapGetters, mapActions } from 'vuex'
+  import ProgressBar from '@/player/ProgressBar.vue'
 
   export default Vue.extend({
+    components: {
+      ProgressBar,
+    },
     computed: {
       ...mapState('player', {
         isPlaying: (state: any) => state.isPlaying,
@@ -154,14 +156,8 @@
         'toggleRepeat',
         'toggleShuffle',
         'toggleMute',
+        'seek',
       ]),
-      seek(event: any) {
-        if (event.target) {
-          const width = event.currentTarget.clientWidth
-          const value = event.offsetX / width
-          return this.$store.dispatch('player/seek', value)
-        }
-      },
       setVolume(volume: any) {
         return this.$store.dispatch('player/setVolume', parseFloat(volume))
       },

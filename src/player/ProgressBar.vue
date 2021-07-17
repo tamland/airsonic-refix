@@ -2,18 +2,22 @@
   <VueSlider
     v-bind="$attrs"
     :value="value"
-    :min="min"
-    :max="max"
-    :interval="step"
-    :tooltip-formatter="formatter"
+    :min="0"
+    :max="100"
+    :interval="0.001"
+    :lazy="true"
+    :contained="true"
+    :dot-options="{tooltip: 'none'}"
     @change="onInput"
   />
 </template>
 <style lang="scss" scoped>
-  @import '/src/style/_variables';
+  @import '/src/style/variables';
   @import '~vue-slider-component/theme/material.css';
 
   .vue-slider {
+    height: 4px !important;
+    padding: 5px 0 !important;
     cursor: pointer;
   }
   ::v-deep .vue-slider-rail {
@@ -31,16 +35,11 @@
     background-color: rgba($primary, 0.32);
     transform: translate(-50%, -50%) scale(1);
   }
-  ::v-deep .vue-slider-dot-handle:hover .vue-slider-dot-tooltip {
-    visibility: visible;
+  .vue-slider:not(:hover) ::v-deep .vue-slider-dot-handle {
+    display: none;
   }
-  ::v-deep .vue-slider-dot-tooltip-inner {
-    background-color: $primary;
-    border-color: $primary;
-  }
-  ::v-deep .vue-slider-dot-tooltip-text {
-    width: 40px;
-    height: 40px;
+  .vue-slider:hover ::v-deep .vue-slider-dot-handle {
+    display: block;
   }
 </style>
 <script lang="ts">
@@ -53,20 +52,11 @@
     },
     props: {
       value: { type: Number, required: true },
-      min: { type: Number, required: true },
-      max: { type: Number, required: true },
-      step: { type: Number, required: true },
-      percent: { type: Boolean, default: false },
     },
     methods: {
       onInput(value: number) {
         this.$emit('input', value)
       },
-      formatter(value: number) {
-        return this.percent
-          ? `${Math.round(((value - this.min) * 100) / (this.max - this.min))}%`
-          : `${value}`
-      }
     }
   })
 </script>

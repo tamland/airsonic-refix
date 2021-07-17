@@ -1,18 +1,4 @@
-$theme-elevation-0: hsl(0, 0%, 0%);
-$theme-elevation-1: hsl(0, 0%, 10%);
-$theme-elevation-2: hsl(0, 0%, 20%);
-$theme-text: #ccc;
-$theme-text-muted: #999;
-
-$primary: #09f;
-$danger: #ff4141;
-$secondary: $theme-elevation-2;
-
-$body-bg: $theme-elevation-0;
-$body-color: $theme-text;
-$link-color: $theme-text;
-$text-muted: $theme-text-muted;
-$border-color: $theme-elevation-2;
+@import "./variables";
 
 // Card
 $card-bg: $theme-elevation-1;
@@ -41,9 +27,6 @@ $input-color: $theme-text;
 $custom-range-track-height: 0.1rem;
 $custom-range-thumb-bg: $theme-text;
 $custom-range-track-bg: $theme-text-muted;
-
-// Other
-$progress-bg: rgb(35, 35, 35);
 
 :root {
   --text-body: #{$theme-text};
