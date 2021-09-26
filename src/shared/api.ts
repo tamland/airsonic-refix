@@ -1,4 +1,3 @@
-import axios, { AxiosRequestConfig, AxiosInstance } from 'axios'
 import { AuthService } from '@/auth/service'
 
 export type AlbumSort =
@@ -60,51 +59,41 @@ export interface RadioStation {
 }
 
 export class API {
-  readonly http: AxiosInstance;
-  readonly get: (path: string, params?: any) => Promise<any>;
-  readonly post: (path: string, params?: any) => Promise<any>;
-  readonly clientName = window.origin || 'web';
+  private readonly fetch: (path: string, params?: any) => Promise<any>;
+  private readonly clientName = window.origin || 'web';
 
   constructor(private auth: AuthService) {
-    this.http = axios.create({})
-    this.http.interceptors.request.use((config: AxiosRequestConfig) => {
-      config.params = config.params || {}
-      config.baseURL = this.auth.server
-      config.params.u = this.auth.username
-      config.params.s = this.auth.salt
-      config.params.t = this.auth.hash
-      config.params.c = this.clientName
-      config.params.f = 'json'
-      config.params.v = '1.15.0'
-      return config
-    })
-
-    this.get = (path: string, params: any = {}) => {
-      return this.http.get(path, { params }).then(response => {
-        const subsonicResponse = response.data['subsonic-response']
-        if (subsonicResponse.status !== 'ok') {
-          const message = subsonicResponse.error?.message || subsonicResponse.status
-          const err = new Error(message)
-          return Promise.reject(err)
-        }
-        return Promise.resolve(subsonicResponse)
-      })
-    }
-
-    this.post = (path: string, params: any = {}) => {
-      return this.http.post(path, params).then(response => {
-        const subsonicResponse = response.data['subsonic-response']
-        if (subsonicResponse.status !== 'ok') {
-          const err = new Error(subsonicResponse.status)
-          return Promise.reject(err)
-        }
-        return Promise.resolve(subsonicResponse)
-      })
+    this.fetch = (path: string, params: any) => {
+      const url = `${this.auth.server}/${path}?${new URLSearchParams({
+        ...params,
+        u: this.auth.username,
+        s: this.auth.salt,
+        t: this.auth.hash,
+        c: this.clientName,
+        f: 'json',
+        v: '1.15.0',
+      })}`
+      return window
+        .fetch(url, {
+          method: 'GET',
+          headers: { Accept: 'application/json' }
+        })
+        .then(response => response.ok
+          ? response.json()
+          : Promise.reject(new Error(response.statusText)))
+        .then(response => {
+          const subsonicResponse = response['subsonic-response']
+          if (subsonicResponse.status !== 'ok') {
+            const message = subsonicResponse.error?.message || subsonicResponse.status
+            throw new Error(message)
+          }
+          return subsonicResponse
+        })
     }
   }
 
   async getGenres() {
-    const response = await this.get('rest/getGenres', {})
+    const response = await this.fetch('rest/getGenres', {})
     return response.genres.genre
       .map((item: any) => ({
         id: item.value,
@@ -122,7 +111,7 @@ export class API {
       size,
       offset,
     }
-    const response = await this.get('rest/getAlbumList2', params)
+    const response = await this.fetch('rest/getAlbumList2', params)
     return (response.albumList2?.album || []).map(this.normalizeAlbum, this)
   }
 
@@ -132,12 +121,12 @@ export class API {
       count: size,
       offset,
     }
-    const response = await this.get('rest/getSongsByGenre', params)
+    const response = await this.fetch('rest/getSongsByGenre', params)
     return (response.songsByGenre?.song || []).map(this.normalizeTrack, this)
   }
 
   async getArtists(): Promise<Artist[]> {
-    const response = await this.get('rest/getArtists')
+    const response = await this.fetch('rest/getArtists')
     return (response.artists?.index || [])
       .flatMap((index: any) => index.artist)
       .map(this.normalizeArtist, this)
@@ -153,7 +142,7 @@ export class API {
     }[sort]
 
     const params = { type, offset, size }
-    const response = await this.get('rest/getAlbumList2', params)
+    const response = await this.fetch('rest/getAlbumList2', params)
     const albums = response.albumList2?.album || []
     return albums.map(this.normalizeAlbum, this)
   }
@@ -161,20 +150,20 @@ export class API {
   async getArtistDetails(id: string): Promise<Artist> {
     const params = { id }
     const [info1, info2] = await Promise.all([
-      this.get('rest/getArtist', params).then(r => r.artist),
-      this.get('rest/getArtistInfo2', params).then(r => r.artistInfo2),
+      this.fetch('rest/getArtist', params).then(r => r.artist),
+      this.fetch('rest/getArtistInfo2', params).then(r => r.artistInfo2),
     ])
     return this.normalizeArtist({ ...info1, ...info2 })
   }
 
   async getAlbumDetails(id: string): Promise<Album> {
     const params = { id }
-    const data = await this.get('rest/getAlbum', params)
+    const data = await this.fetch('rest/getAlbum', params)
     return this.normalizeAlbum(data.album)
   }
 
   async getPlaylists() {
-    const response = await this.get('rest/getPlaylists')
+    const response = await this.fetch('rest/getPlaylists')
     return (response.playlists?.playlist || []).map((playlist: any) => ({
       ...playlist,
       name: playlist.name || '(Unnamed)',
@@ -190,7 +179,7 @@ export class API {
         tracks: await this.getRandomSongs(),
       }
     }
-    const response = await this.get('rest/getPlaylist', { id })
+    const response = await this.fetch('rest/getPlaylist', { id })
     return {
       ...response.playlist,
       name: response.playlist.name || '(Unnamed)',
@@ -199,7 +188,7 @@ export class API {
   }
 
   async createPlaylist(name: string) {
-    await this.get('rest/createPlaylist', { name })
+    await this.fetch('rest/createPlaylist', { name })
     return this.getPlaylists()
   }
 
@@ -209,11 +198,11 @@ export class API {
       name,
       comment,
     }
-    await this.get('rest/updatePlaylist', params)
+    await this.fetch('rest/updatePlaylist', params)
   }
 
   async deletePlaylist(id: string) {
-    await this.get('rest/deletePlaylist', { id })
+    await this.fetch('rest/deletePlaylist', { id })
   }
 
   async addToPlaylist(playlistId: string, trackId: string) {
@@ -221,7 +210,7 @@ export class API {
       playlistId,
       songIdToAdd: trackId,
     }
-    await this.get('rest/updatePlaylist', params)
+    await this.fetch('rest/updatePlaylist', params)
   }
 
   async removeFromPlaylist(playlistId: string, index: string) {
@@ -229,19 +218,19 @@ export class API {
       playlistId,
       songIndexToRemove: index,
     }
-    await this.get('rest/updatePlaylist', params)
+    await this.fetch('rest/updatePlaylist', params)
   }
 
   async getRandomSongs(): Promise<Track[]> {
     const params = {
       size: 200,
     }
-    const response = await this.get('rest/getRandomSongs', params)
+    const response = await this.fetch('rest/getRandomSongs', params)
     return (response.randomSongs?.song || []).map(this.normalizeTrack, this)
   }
 
   async getFavourites() {
-    const response = await this.get('rest/getStarred2')
+    const response = await this.fetch('rest/getStarred2')
     return {
       albums: (response.starred2?.album || []).map(this.normalizeAlbum, this),
       artists: (response.starred2?.artist || []).map(this.normalizeArtist, this),
@@ -255,7 +244,7 @@ export class API {
       albumId: type === 'album' ? id : undefined,
       artistId: type === 'artist' ? id : undefined,
     }
-    await this.get('rest/star', params)
+    await this.fetch('rest/star', params)
   }
 
   async removeFavourite(id: string, type: 'track' | 'album' | 'artist') {
@@ -264,14 +253,14 @@ export class API {
       albumId: type === 'album' ? id : undefined,
       artistId: type === 'artist' ? id : undefined,
     }
-    await this.get('rest/unstar', params)
+    await this.fetch('rest/unstar', params)
   }
 
   async search(query: string): Promise<SearchResult> {
     const params = {
       query,
     }
-    const data = await this.get('rest/search3', params)
+    const data = await this.fetch('rest/search3', params)
     return {
       tracks: (data.searchResult3.song || []).map(this.normalizeTrack, this),
       albums: (data.searchResult3.album || []).map(this.normalizeAlbum, this),
@@ -280,7 +269,7 @@ export class API {
   }
 
   async getRadioStations(): Promise<RadioStation[]> {
-    const response = await this.get('rest/getInternetRadioStations')
+    const response = await this.fetch('rest/getInternetRadioStations')
     return (response?.internetRadioStations?.internetRadioStation || [])
       .map((item: any, idx: number) => ({ ...item, track: idx + 1 }))
       .map(this.normalizeRadioStation, this)
@@ -292,7 +281,7 @@ export class API {
       streamUrl: url,
     }
     return this
-      .get('rest/createInternetRadioStation', params)
+      .fetch('rest/createInternetRadioStation', params)
       .then(this.normalizeRadioStation)
   }
 
@@ -303,34 +292,34 @@ export class API {
       streamUrl: item.url,
     }
     return this
-      .get('rest/updateInternetRadioStation', params)
+      .fetch('rest/updateInternetRadioStation', params)
       .then(this.normalizeRadioStation)
   }
 
   async deleteRadioStation(id: string): Promise<void> {
-    return this.get('rest/deleteInternetRadioStation', { id })
+    return this.fetch('rest/deleteInternetRadioStation', { id })
   }
 
   async getPodcasts(): Promise<any[]> {
-    const response = await this.get('rest/getPodcasts')
+    const response = await this.fetch('rest/getPodcasts')
     return (response?.podcasts?.channel || []).map(this.normalizePodcast, this)
   }
 
   async getPodcast(id: string): Promise<any> {
-    const response = await this.get('rest/getPodcasts', { id })
+    const response = await this.fetch('rest/getPodcasts', { id })
     return this.normalizePodcast(response?.podcasts?.channel[0])
   }
 
   async refreshPodcasts(): Promise<void> {
-    return this.get('rest/refreshPodcasts')
+    return this.fetch('rest/refreshPodcasts')
   }
 
   async scan(): Promise<void> {
-    return this.get('rest/startScan')
+    return this.fetch('rest/startScan')
   }
 
   async scrobble(id: string): Promise<void> {
-    return this.get('rest/scrobble', { id })
+    return this.fetch('rest/scrobble', { id })
   }
 
   private normalizeRadioStation(item: any): Track & RadioStation {

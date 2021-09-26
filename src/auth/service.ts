@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { randomString, md5 } from '@/shared/utils'
 import { config } from '@/shared/config'
 
@@ -48,12 +47,15 @@ export class AuthService {
     remember: boolean
   ) {
     const url = `${server}/rest/ping?u=${username}&s=${salt}&t=${hash}&v=1.15.0&c=app&f=json`
-    return axios.get(url)
+    return fetch(url)
+      .then(response => response.ok
+        ? response.json()
+        : Promise.reject(new Error(response.statusText)))
       .then((response) => {
-        const subsonicResponse = response.data['subsonic-response']
+        const subsonicResponse = response['subsonic-response']
         if (!subsonicResponse || subsonicResponse.status !== 'ok') {
-          const err = new Error(subsonicResponse.status)
-          return Promise.reject(err)
+          const message = subsonicResponse.error?.message || subsonicResponse.status
+          throw new Error(message)
         }
         this.authenticated = true
         this.server = server
