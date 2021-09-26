@@ -72,7 +72,7 @@ export class AudioController {
       try {
         await this.audio.play()
       } catch (error) {
-        if (error.name === 'AbortError') {
+        if (error instanceof Error && error.name === 'AbortError') {
           console.warn(error)
           return
         }
