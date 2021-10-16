@@ -2,9 +2,9 @@
   <div style="max-width: 100%">
     <small class="sidebar-heading text-muted">
       Playlists
-      <button class="btn btn-link btn-sm p-0 float-right" @click="showModal = true">
+      <CreatePlaylistBtn class="btn btn-link btn-sm p-0 float-right">
         <Icon icon="plus" />
-      </button>
+      </CreatePlaylistBtn>
     </small>
 
     <router-link class="nav-link" :to="{name: 'playlist', params: { id: 'random' }}">
@@ -18,26 +18,16 @@
         <Icon icon="music-note-list" class="mr-2" /> {{ item.name }}
       </span>
     </router-link>
-
-    <b-modal v-model="showModal" title="New playlist">
-      <template #modal-header-close>
-        <Icon icon="x" />
-      </template>
-      <b-form-group label="Name">
-        <b-form-input v-model="playlistName" type="text" />
-      </b-form-group>
-      <template #modal-footer>
-        <b-button variant="primary" @click="createPlaylist">
-          Create
-        </b-button>
-      </template>
-    </b-modal>
   </div>
 </template>
 <script lang="ts">
   import Vue from 'vue'
+  import CreatePlaylistBtn from '@/playlist/CreatePlaylistBtn.vue'
 
   export default Vue.extend({
+    components: {
+      CreatePlaylistBtn
+    },
     data() {
       return {
         playlistName: '',
@@ -50,12 +40,6 @@
       },
     },
     methods: {
-      createPlaylist() {
-        const name = this.playlistName
-        this.playlistName = ''
-        this.showModal = false
-        return this.$store.dispatch('createPlaylist', name)
-      },
       onDrop(playlistId: string, event: any) {
         event.preventDefault()
         const trackId = event.dataTransfer.getData('id')
