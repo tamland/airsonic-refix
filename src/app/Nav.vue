@@ -31,6 +31,10 @@
       <Icon icon="collection" /> Genres
     </router-link>
 
+    <router-link class="nav-link" :to="{name: 'playlists'}">
+      <Icon icon="list-ul" /> Playlists
+    </router-link>
+
     <router-link class="nav-link" :to="{name: 'favourites'}">
       <Icon icon="heart" /> Favourites
     </router-link>

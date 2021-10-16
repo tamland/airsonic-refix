@@ -13,7 +13,7 @@ import RadioStations from '@/library/radio/RadioStations.vue'
 import PodcastDetails from '@/library/podcast/PodcastDetails.vue'
 import PodcastLibrary from '@/library/podcast/PodcastLibrary.vue'
 import Playlist from '@/playlist/Playlist.vue'
-import PlaylistList from '@/playlist/PlaylistList.vue'
+import PlaylistLibrary from '@/playlist/PlaylistLibrary.vue'
 import SearchResult from '@/search/SearchResult.vue'
 import { AuthService } from '@/auth/service'
 
@@ -111,7 +111,7 @@ export function setupRouter(auth: AuthService) {
       {
         name: 'playlists',
         path: '/playlists',
-        component: PlaylistList,
+        component: PlaylistLibrary,
       },
       {
         name: 'playlist',

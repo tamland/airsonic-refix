@@ -19,10 +19,6 @@
       </span>
     </router-link>
 
-    <router-link class="nav-link" :to="{name: 'playlists'}">
-      More...
-    </router-link>
-
     <b-modal v-model="showModal" title="New playlist">
       <template #modal-header-close>
         <Icon icon="x" />
