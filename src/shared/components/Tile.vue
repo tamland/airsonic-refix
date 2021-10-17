@@ -1,9 +1,15 @@
 <template functional>
   <div class="tile card">
-    <router-link class="tile-img" :to="props.to">
-      <img v-if="props.image" :src="props.image">
-      <img v-else src="@/shared/assets/fallback.svg">
-    </router-link>
+    <ContextMenu class="tile-img">
+      <router-link :to="props.to">
+        <img v-if="props.image" :src="props.image">
+        <img v-else src="@/shared/assets/fallback.svg">
+      </router-link>
+      <template #context-menu>
+        <slot name="context-menu" />
+      </template>
+    </ContextMenu>
+
     <div class="card-body">
       <div class="text-truncate font-weight-bold">
         <slot name="title">

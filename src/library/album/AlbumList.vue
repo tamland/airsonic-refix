@@ -1,14 +1,54 @@
-<template functional>
+<template>
   <Tiles square>
-    <Tile v-for="item in props.items" :key="item.id"
-          :image="item.image"
-          :to="{name: 'album', params: { id: item.id } }"
-          :title="item.name">
+    <Tile
+      v-for="item in items" :key="item.id"
+      :image="item.image"
+      :to="{name: 'album', params: { id: item.id } }"
+      :title="item.name"
+    >
       <template #text>
         <router-link :to="{name: 'artist', params: { id: item.artistId } }" class="text-muted">
           {{ item.artist }}
         </router-link>
       </template>
+
+      <template #context-menu>
+        <ContextMenuItem @click="playNow(item.id)">
+          Play
+        </ContextMenuItem>
+        <ContextMenuItem @click="playNext(item.id)">
+          Play next
+        </ContextMenuItem>
+        <ContextMenuItem @click="playLater(item.id)">
+          Add to queue
+        </ContextMenuItem>
+      </template>
     </Tile>
   </Tiles>
 </template>
+<script lang="ts">
+  import Vue from 'vue'
+
+  export default Vue.extend({
+    props: {
+      items: { type: Array, required: true },
+    },
+    methods: {
+      async playNow(id: string) {
+        const album = await this.$api.getAlbumDetails(id)
+        return this.$store.dispatch('player/playTrackList', {
+          index: 0,
+          tracks: album.tracks,
+        })
+      },
+      async playNext(id: string) {
+        const album = await this.$api.getAlbumDetails(id)
+        return this.$store.dispatch('player/setNextInQueue', album.tracks)
+      },
+      async playLater(id: string) {
+        const album = await this.$api.getAlbumDetails(id)
+        return this.$store.dispatch('player/addToQueue', album.tracks)
+      },
+    }
+  })
+</script>
