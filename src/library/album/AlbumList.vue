@@ -46,7 +46,6 @@
       async playNow(id: string) {
         const album = await this.$api.getAlbumDetails(id)
         return this.$store.dispatch('player/playTrackList', {
-          index: 0,
           tracks: album.tracks,
         })
       },

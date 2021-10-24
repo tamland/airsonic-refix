@@ -83,7 +83,6 @@
       play() {
         if (this.album) {
           return this.$store.dispatch('player/playTrackList', {
-            index: 0,
             tracks: this.album.tracks,
           })
         }

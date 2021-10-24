@@ -145,16 +145,19 @@ export const playerModule: Module<State, any> = {
   actions: {
     async playTrackList({ commit, state, getters }, { tracks, index }) {
       if (trackListEquals(state.queue, tracks)) {
-        commit('setQueueIndex', index)
+        commit('setQueueIndex', index || 0)
         commit('setPlaying')
         await audio.changeTrack(getters.track.url)
         return
       }
+      if (index == null) {
+        index = state.shuffle ? Math.floor(Math.random() * tracks.length) : 0
+      }
       tracks = [...tracks]
       if (state.shuffle) {
-        const selected = tracks[index]
+        const first = tracks[index]
         tracks.splice(index, 1)
-        tracks = [selected, ...shuffle(tracks)]
+        tracks = [first, ...shuffle(tracks)]
         commit('setQueue', tracks)
         commit('setQueueIndex', 0)
       } else {
