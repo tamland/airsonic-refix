@@ -6,7 +6,12 @@
         <img v-else class="img-fluid" height="300" width="300" src="@/shared/assets/fallback.svg">
       </div>
       <div>
-        <h1>{{ album.name }}</h1>
+        <h1>
+          {{ album.name }}
+          <b-button variant="link" class="p-0" @click="toggleFavourite">
+            <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
+          </b-button>
+        </h1>
         <p>
           by
           <router-link :to="{name: 'artist', params: { id: album.artistId }}">
@@ -22,9 +27,6 @@
         <div class="text-nowrap">
           <b-button variant="secondary" class="mr-2" @click="play">
             <Icon icon="play-fill" /> Play
-          </b-button>
-          <b-button variant="secondary" class="mr-2" @click="toggleFavourite">
-            <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
           </b-button>
           <b-dropdown variant="secondary" no-caret toggle-class="px-1">
             <template #button-content>
