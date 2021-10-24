@@ -31,9 +31,9 @@
           <CellAlbum :track="item" />
           <CellDuration :track="item" />
           <CellActions :track="item">
-            <b-dropdown-item-button @click="remove(index)">
+            <ContextMenuItem icon="x" @click="remove(index)">
               Remove
-            </b-dropdown-item-button>
+            </ContextMenuItem>
           </CellActions>
         </tr>
       </tbody>

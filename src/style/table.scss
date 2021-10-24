@@ -11,13 +11,13 @@ table.table {
     cursor: pointer;
   }
   tr.active {
-    td, td a, td svg {
+    td, td a, td button.dropdown-toggle {
       color: var(--primary);
     }
   }
   tr.disabled {
     cursor: default;
-    td, td a, td svg {
+    td, td a, td button.dropdown-toggle {
       color: var(--text-muted);
     }
     button {

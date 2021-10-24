@@ -4,15 +4,15 @@
       <b-dropdown-item-button @click="setNextInQueue()">
         Play next
       </b-dropdown-item-button>
-      <b-dropdown-item-button @click="addToQueue()">
+      <ContextMenuItem icon="plus" @click="addToQueue()">
         Add to queue
-      </b-dropdown-item-button>
-      <b-dropdown-item-button @click="toggleFavourite()">
-        {{ isFavourite ? 'Remove from favourites' : 'Add to favourites' }}
-      </b-dropdown-item-button>
-      <b-dropdown-item-button @click="download()">
+      </ContextMenuItem>
+      <ContextMenuItem :icon="isFavourite ? 'heart-fill' : 'heart'" @click="toggleFavourite()">
+        Favourite
+      </ContextMenuItem>
+      <ContextMenuItem icon="download" @click="download()">
         Download
-      </b-dropdown-item-button>
+      </ContextMenuItem>
       <slot :item="track" />
     </OverflowMenu>
   </td>
