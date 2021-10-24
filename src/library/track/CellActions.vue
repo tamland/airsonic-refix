@@ -8,7 +8,7 @@
         Add to queue
       </b-dropdown-item-button>
       <b-dropdown-item-button @click="toggleFavourite()">
-        {{ favourite ? 'Remove from favourites' : 'Add to favourites' }}
+        {{ isFavourite ? 'Remove from favourites' : 'Add to favourites' }}
       </b-dropdown-item-button>
       <b-dropdown-item-button @click="download()">
         Download
@@ -24,17 +24,14 @@
     props: {
       track: { type: Object, required: true },
     },
-    data() {
-      return {
-        favourite: this.track.favourite,
+    computed: {
+      isFavourite(): boolean {
+        return !!this.$store.state.favourites.tracks[this.track.id]
       }
     },
     methods: {
       toggleFavourite() {
-        this.favourite = !this.favourite
-        return this.favourite
-          ? this.$store.dispatch('addFavourite', this.track.id)
-          : this.$store.dispatch('removeFavourite', this.track.id)
+        return this.$store.dispatch('favourites/toggle', { id: this.track.id, type: 'track' })
       },
       download() {
         window.location.href = this.$api.getDownloadUrl(this.track.id)

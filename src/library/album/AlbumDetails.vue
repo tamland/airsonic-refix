@@ -24,7 +24,7 @@
             <Icon icon="play-fill" /> Play
           </b-button>
           <b-button variant="secondary" class="mr-2" @click="toggleFavourite">
-            <Icon :icon="album.favourite ? 'heart-fill' : 'heart'" />
+            <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
           </b-button>
           <b-dropdown variant="secondary" no-caret toggle-class="px-1">
             <template #button-content>
@@ -69,6 +69,11 @@
         album: null as null | Album,
       }
     },
+    computed: {
+      isFavourite(): boolean {
+        return !!this.$store.state.favourites.albums[this.id]
+      }
+    },
     async created() {
       this.album = await this.$api.getAlbumDetails(this.id)
     },
@@ -92,12 +97,7 @@
         }
       },
       toggleFavourite() {
-        if (this.album) {
-          this.album.favourite = !this.album.favourite
-          return this.album.favourite
-            ? this.$api.addFavourite(this.album.id, 'album')
-            : this.$api.removeFavourite(this.album.id, 'album')
-        }
+        return this.$store.dispatch('favourites/toggle', { id: this.id, type: 'album' })
       },
     }
   })

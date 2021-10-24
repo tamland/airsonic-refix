@@ -18,10 +18,10 @@
         </router-link>
       </li>
     </ul>
-    <ContentLoader v-slot :loading="result == null">
-      <ArtistList v-if="section === 'artists'" :items="result.artists" />
-      <TrackList v-else-if="section === 'tracks'" :tracks="result.tracks" />
-      <AlbumList v-else :items="result.albums" />
+    <ContentLoader v-slot :loading="details == null">
+      <ArtistList v-if="section === 'artists'" :items="details.artists" />
+      <TrackList v-else-if="section === 'tracks'" :tracks="details.tracks" />
+      <AlbumList v-else :items="details.albums" />
     </ContentLoader>
   </div>
 </template>
@@ -42,11 +42,23 @@
     },
     data() {
       return {
-        result: null as any,
+        details: null as any,
       }
     },
-    async created() {
-      this.result = await this.$api.getFavourites()
+    watch: {
+      '$store.state.favourites': {
+        immediate: true,
+        deep: true,
+        async handler() {
+          const result = await this.$api.getFavourites()
+          const index = this.$store.state.favourites
+          this.details = {
+            albums: result.albums.filter((item: any) => index.albums[item.id]),
+            artists: result.artists.filter((item: any) => index.artists[item.id]),
+            tracks: result.tracks.filter((item: any) => index.tracks[item.id]),
+          }
+        }
+      }
     }
   })
 </script>

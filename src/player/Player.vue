@@ -45,7 +45,7 @@
               <b-button title="Favourite"
                         variant="link" class="m-0"
                         @click="toggleFavourite">
-                <Icon :icon="track && track.favourite ? 'heart-fill' : 'heart'" />
+                <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
               </b-button>
               <b-button id="player-volume-btn" variant="link" title="Volume">
                 <Icon :icon="muteActive ? 'volume-mute-fill' : 'volume-up-fill'" />
@@ -138,6 +138,9 @@
         'track',
         'progress',
       ]),
+      isFavourite(): boolean {
+        return this.track && !!this.$store.state.favourites.tracks[this.track.id]
+      },
     },
     watch: {
       track: {
@@ -162,10 +165,8 @@
         return this.$store.dispatch('player/setVolume', parseFloat(volume))
       },
       toggleFavourite() {
-        return this.track.favourite
-          ? this.$store.dispatch('removeFavourite', this.track.id)
-          : this.$store.dispatch('addFavourite', this.track.id)
-      }
+        return this.$store.dispatch('favourites/toggle', { id: this.track.id, type: 'track' })
+      },
     }
   })
 </script>

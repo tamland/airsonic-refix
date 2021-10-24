@@ -9,7 +9,6 @@
         <slot name="context-menu" />
       </template>
     </ContextMenu>
-
     <div class="card-body">
       <div class="text-truncate font-weight-bold">
         <slot name="title">
