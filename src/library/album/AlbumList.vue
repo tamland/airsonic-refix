@@ -19,8 +19,12 @@
         <ContextMenuItem @click="playNext(item.id)">
           Play next
         </ContextMenuItem>
-        <ContextMenuItem @click="playLater(item.id)">
+        <ContextMenuItem icon="plus" @click="playLater(item.id)">
           Add to queue
+        </ContextMenuItem>
+        <ContextMenuItem :icon="favourites[item.id] ? 'heart-fill' : 'heart'"
+                         @click="toggleFavourite(item.id)">
+          Favourite
         </ContextMenuItem>
       </template>
     </Tile>
@@ -32,6 +36,11 @@
   export default Vue.extend({
     props: {
       items: { type: Array, required: true },
+    },
+    computed: {
+      favourites(): any {
+        return this.$store.state.favourites.albums
+      },
     },
     methods: {
       async playNow(id: string) {
@@ -49,6 +58,9 @@
         const album = await this.$api.getAlbumDetails(id)
         return this.$store.dispatch('player/addToQueue', album.tracks)
       },
+      toggleFavourite(id: string) {
+        return this.$store.dispatch('favourites/toggle', { id, type: 'album' })
+      }
     }
   })
 </script>

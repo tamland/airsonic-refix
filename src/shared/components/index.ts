@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import ContentLoader from './ContentLoader.vue'
 import ContextMenu from '@/shared/components/ContextMenu.vue'
+import ContextMenuItem from '@/shared/components/ContextMenuItem.vue'
 import ExternalLink from './ExternalLink.vue'
 import Icon from './Icon.vue'
 import InfiniteLoader from './InfiniteLoader.vue'
@@ -12,7 +13,6 @@ import {
   BAlert,
   BAvatar,
   BButton,
-  BDropdownItemButton,
   BFormCheckbox,
   BFormGroup,
   BFormInput,
@@ -40,7 +40,7 @@ Vue.use(DropdownPlugin)
 const components = {
   ContentLoader,
   ContextMenu,
-  ContextMenuItem: BDropdownItemButton,
+  ContextMenuItem,
   ExternalLink,
   Icon,
   InfiniteLoader,
