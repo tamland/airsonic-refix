@@ -89,6 +89,14 @@
                   <b-form-checkbox switch :checked="shuffleActive" @change="toggleShuffle" />
                 </div>
               </b-dropdown-text>
+              <b-dropdown-text>
+                <div class="d-flex justify-content-between">
+                  <strong>Favourite</strong>
+                  <b-button variant="link" class="m-0 px-2 py-0" @click.stop="toggleFavourite">
+                    <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
+                  </b-button>
+                </div>
+              </b-dropdown-text>
             </OverflowMenu>
           </div>
         </div>
