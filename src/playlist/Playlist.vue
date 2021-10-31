@@ -3,12 +3,12 @@
     <div class="d-flex justify-content-between">
       <h1>{{ playlist.name }}</h1>
       <OverflowMenu>
-        <b-dropdown-item-btn @click="showEditModal = true">
-          Edit playlist
-        </b-dropdown-item-btn>
-        <b-dropdown-item-btn variant="danger" @click="deletePlaylist()">
-          Delete playlist
-        </b-dropdown-item-btn>
+        <ContextMenuItem icon="edit" @click="showEditModal = true">
+          Edit
+        </ContextMenuItem>
+        <ContextMenuItem icon="x" variant="danger" @click="deletePlaylist()">
+          Delete
+        </ContextMenuItem>
       </OverflowMenu>
     </div>
     <p v-if="playlist.comment" class="text-muted">
@@ -16,9 +16,9 @@
     </p>
     <TrackList :tracks="playlist.tracks">
       <template #context-menu="{index}">
-        <b-dropdown-item-button @click="remove(index)">
+        <ContextMenuItem icon="x" variant="danger" @click="remove(index)">
           Remove
-        </b-dropdown-item-button>
+        </ContextMenuItem>
       </template>
     </TrackList>
     <EditModal :visible.sync="showEditModal" :item="playlist" @confirm="updatePlaylist">

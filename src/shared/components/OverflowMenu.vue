@@ -1,8 +1,8 @@
 <template>
   <b-dropdown
-    variant="link"
     no-caret
-    toggle-class="p-0"
+    :variant="variant"
+    :toggle-class="variant === 'link' ? 'p-0' : 'px-1'"
     :disabled="disabled"
     lazy
   >
@@ -17,7 +17,8 @@
 
   export default Vue.extend({
     props: {
-      disabled: { type: Boolean, default: false }
+      disabled: { type: Boolean, default: false },
+      variant: { type: String, default: 'link' },
     }
   })
 </script>

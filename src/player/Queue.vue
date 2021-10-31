@@ -31,7 +31,7 @@
           <CellAlbum :track="item" />
           <CellDuration :track="item" />
           <CellActions :track="item">
-            <ContextMenuItem icon="x" @click="remove(index)">
+            <ContextMenuItem icon="x" variant="danger" @click="remove(index)">
               Remove
             </ContextMenuItem>
           </CellActions>

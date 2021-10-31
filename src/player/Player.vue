@@ -28,13 +28,13 @@
         <!-- Controls--->
         <div class="col-auto p-0">
           <b-button variant="link" class="m-2 d-none d-sm-inline-block" @click="previous">
-            <Icon icon="skip-start-fill" />
+            <Icon icon="skip-start" />
           </b-button>
           <b-button variant="link" size="lg" class="m-2" @click="playPause">
-            <Icon :icon="isPlaying ? 'pause-fill' : 'play-fill'" />
+            <Icon :icon="isPlaying ? 'pause' : 'play'" />
           </b-button>
           <b-button variant="link" class="m-2" @click="next">
-            <Icon icon="skip-end-fill" />
+            <Icon icon="skip-end" />
           </b-button>
         </div>
 
@@ -48,7 +48,7 @@
                 <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
               </b-button>
               <b-button id="player-volume-btn" variant="link" title="Volume">
-                <Icon :icon="muteActive ? 'volume-mute-fill' : 'volume-up-fill'" />
+                <Icon :icon="muteActive ? 'mute' : 'volume'" />
               </b-button>
               <b-popover target="player-volume-btn" placement="top" triggers="click blur" no-fade>
                 <Slider class="pt-2" style="height: 120px;" direction="btt"
@@ -64,7 +64,7 @@
               <b-button title="Repeat"
                         variant="link" class="m-0" :class="{ 'text-primary': repeatActive }"
                         @click="toggleRepeat">
-                <Icon icon="arrow-repeat" />
+                <Icon icon="repeat" />
               </b-button>
             </div>
             <OverflowMenu class="d-md-none">

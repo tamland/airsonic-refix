@@ -1,6 +1,9 @@
 <template>
   <BDropdownItemButton
-    button-class="d-flex justify-content-between text-nowrap"
+    :button-class="[
+      'd-flex justify-content-between text-nowrap',
+      {[`text-${variant}`]: variant}
+    ]"
     v-on="$listeners"
   >
     <slot>
@@ -16,6 +19,7 @@
     props: {
       text: { type: String, default: '' },
       icon: { type: String, default: null },
+      variant: { type: String, default: '' },
     }
   })
 </script>

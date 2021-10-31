@@ -1,9 +1,9 @@
 <template>
   <td class="text-right" @click.stop="">
     <OverflowMenu :disabled="track.playable === false">
-      <b-dropdown-item-button @click="setNextInQueue()">
+      <ContextMenuItem icon="plus" @click="setNextInQueue()">
         Play next
-      </b-dropdown-item-button>
+      </ContextMenuItem>
       <ContextMenuItem icon="plus" @click="addToQueue()">
         Add to queue
       </ContextMenuItem>

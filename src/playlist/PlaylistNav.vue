@@ -8,14 +8,14 @@
     </small>
 
     <router-link class="nav-link" :to="{name: 'playlist', params: { id: 'random' }}">
-      <Icon icon="music-note-list" class="mr-2" /> Random
+      <Icon icon="playlist" class="mr-2" /> Random
     </router-link>
 
     <router-link v-for="item in playlists" :key="item.id"
                  :to="{name: 'playlist', params: { id: item.id }}"
                  class="nav-link">
       <span @dragover="onDragover" @drop="onDrop(item.id, $event)">
-        <Icon icon="music-note-list" class="mr-2" /> {{ item.name }}
+        <Icon icon="playlist" class="mr-2" /> {{ item.name }}
       </span>
     </router-link>
   </div>

@@ -3,9 +3,9 @@
     <div class="d-flex justify-content-between">
       <h1>Podcasts</h1>
       <OverflowMenu>
-        <b-dropdown-item-btn @click="refresh()">
+        <ContextMenuItem icon="refresh" @click="refresh()">
           Refresh
-        </b-dropdown-item-btn>
+        </ContextMenuItem>
       </OverflowMenu>
     </div>
     <Tiles square>

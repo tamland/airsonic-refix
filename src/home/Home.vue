@@ -8,7 +8,7 @@
             :to="{name: 'albums', params: {sort: section.key}}"
             class="text-muted"
           >
-            <Icon icon="chevron-compact-right" />
+            <Icon icon="chevron-right" />
           </router-link>
         </h1>
         <AlbumList :items="result[section.key]" />

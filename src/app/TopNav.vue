@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex align-items-center mb-2">
     <button class="navbar-toggler text-white d-md-none" @click="showMenu">
-      <Icon icon="list" />
+      <Icon icon="nav" />
     </button>
 
     <div class="ml-auto" />
@@ -12,7 +12,7 @@
       <b-dropdown variant="link" right no-caret>
         <template #button-content>
           <b-avatar variant="secondary">
-            <Icon icon="person-fill" />
+            <Icon icon="person" />
           </b-avatar>
         </template>
         <b-dropdown-text>

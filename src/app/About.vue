@@ -5,7 +5,7 @@
     </div>
     <div class="text-center">
       <ExternalLink :href="url">
-        GitHub <Icon icon="box-arrow-up-right" />
+        GitHub <Icon icon="link" />
       </ExternalLink>
       <p>
         Licensed under the AGPLv3 license.

@@ -13,10 +13,10 @@
       </template>
 
       <template #context-menu>
-        <ContextMenuItem @click="playNow(item.id)">
+        <ContextMenuItem icon="play" @click="playNow(item.id)">
           Play
         </ContextMenuItem>
-        <ContextMenuItem @click="playNext(item.id)">
+        <ContextMenuItem icon="plus" @click="playNext(item.id)">
           Play next
         </ContextMenuItem>
         <ContextMenuItem icon="plus" @click="playLater(item.id)">

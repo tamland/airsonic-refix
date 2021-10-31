@@ -26,18 +26,18 @@
         </p>
         <div class="text-nowrap">
           <b-button variant="secondary" class="mr-2" @click="play">
-            <Icon icon="play-fill" /> Play
+            <Icon icon="play" /> Play
           </b-button>
           <b-dropdown variant="secondary" no-caret toggle-class="px-1">
             <template #button-content>
               <Icon icon="three-dots-vertical" />
             </template>
-            <b-dropdown-item-btn @click="setNextInQueue">
+            <ContextMenuItem icon="plus" @click="setNextInQueue">
               Play next
-            </b-dropdown-item-btn>
-            <b-dropdown-item-btn @click="addToQueue">
+            </ContextMenuItem>
+            <ContextMenuItem icon="plus" @click="addToQueue">
               Add to queue
-            </b-dropdown-item-btn>
+            </ContextMenuItem>
           </b-dropdown>
         </div>
       </div>
