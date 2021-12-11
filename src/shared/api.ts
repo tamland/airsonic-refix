@@ -386,27 +386,28 @@ export class API {
 
   private normalizePodcast(podcast: any): any {
     const image = podcast.originalImageUrl
+    const episodes = podcast.episode || []
     return {
       id: podcast.id,
       name: podcast.title,
       description: podcast.description,
       image: image,
       url: podcast.url,
-      trackCount: podcast.episode.length,
-      tracks: podcast.episode.map((episode: any, index: number) => ({
-        id: episode.id,
-        title: episode.title,
-        duration: episode.duration,
+      trackCount: episodes.length,
+      tracks: episodes.map((item: any, index: number) => ({
+        id: item.id,
+        title: item.title,
+        duration: item.duration,
         favourite: false,
-        track: podcast.episode.length - index,
+        track: episodes.length - index,
         album: podcast.title,
         albumId: null,
         artist: '',
         artistId: null,
         image,
-        url: episode.streamId ? this.getStreamUrl(episode.streamId) : null,
-        description: episode.description,
-        playable: episode.status === 'completed',
+        url: item.streamId ? this.getStreamUrl(item.streamId) : null,
+        description: item.description,
+        playable: item.status === 'completed',
       })),
     }
   }
