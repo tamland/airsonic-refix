@@ -26,12 +26,14 @@
         Edit playlist
       </template>
       <template #default="{ item }">
-        <b-form-group label="Name">
-          <b-form-input v-model="item.name" type="text" />
-        </b-form-group>
-        <b-form-group label="Comment">
-          <b-form-textarea v-model="item.comment" />
-        </b-form-group>
+        <div class="form-group">
+          <label>Name</label>
+          <input v-model="item.name" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+          <label>Comment</label>
+          <textarea v-model="item.comment" class="form-control" />
+        </div>
       </template>
     </EditModal>
   </ContentLoader>

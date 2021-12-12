@@ -10,15 +10,21 @@
             <div class="d-flex mb-2">
               <Logo class="mx-auto" />
             </div>
-            <b-form-group v-if="!config.serverUrl" label="Server">
-              <b-form-input v-model="server" name="server" type="text" :state="valid" />
-            </b-form-group>
-            <b-form-group label="Username">
-              <b-form-input v-model="username" name="username" type="text" :state="valid" />
-            </b-form-group>
-            <b-form-group label="Password">
-              <b-form-input v-model="password" name="password" type="password" :state="valid" />
-            </b-form-group>
+            <div v-if="!config.serverUrl" class="form-group">
+              <label>Server</label>
+              <input v-model="server" name="server" type="text"
+                     class="form-control" :class="{'is-invalid': hasError}">
+            </div>
+            <div class="form-group">
+              <label>Username</label>
+              <input v-model="username" name="username" type="text"
+                     class="form-control" :class="{'is-invalid': hasError}">
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input v-model="password" name="password" type="password"
+                     class="form-control" :class="{'is-invalid': hasError}">
+            </div>
             <b-alert :show="error != null" variant="danger">
               <template v-if="error != null">
                 Could not log in. ({{ error.message }})
@@ -57,8 +63,8 @@
       }
     },
     computed: {
-      valid(): false | null {
-        return this.error == null ? null : false
+      hasError(): boolean {
+        return this.error !== null
       },
       config: () => config
     },

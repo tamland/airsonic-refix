@@ -5,9 +5,10 @@
       <template #modal-header-close>
         <Icon icon="x" />
       </template>
-      <b-form-group label="Name">
-        <b-form-input v-model="name" type="text" />
-      </b-form-group>
+      <div class="form-group">
+        <label>Name</label>
+        <input v-model="name" class="form-control" type="text">
+      </div>
       <template #modal-footer>
         <b-button variant="primary" @click="createPlaylist">
           Create
