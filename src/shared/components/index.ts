@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import ContentLoader from './ContentLoader.vue'
 import ContextMenu from '@/shared/components/ContextMenu.vue'
 import ContextMenuItem from '@/shared/components/ContextMenuItem.vue'
@@ -13,6 +12,11 @@ import {
   BAlert,
   BAvatar,
   BButton,
+  BDropdown,
+  BDropdownDivider,
+  BDropdownItem,
+  BDropdownItemButton,
+  BDropdownText,
   BFormCheckbox,
   BFormGroup,
   BFormInput,
@@ -21,23 +25,25 @@ import {
   BOverlay,
   BPopover,
   BSidebar,
-  DropdownPlugin,
 } from 'bootstrap-vue'
 
-Vue.component('BModal', BModal)
-Vue.component('BAlert', BAlert)
-Vue.component('BAvatar', BAvatar)
-Vue.component('BSidebar', BSidebar)
-Vue.component('BFormGroup', BFormGroup)
-Vue.component('BFormInput', BFormInput)
-Vue.component('BFormCheckbox', BFormCheckbox)
-Vue.component('BFormTextarea', BFormTextarea)
-Vue.component('BButton', BButton)
-Vue.component('BPopover', BPopover)
-Vue.component('BOverlay', BOverlay)
-Vue.use(DropdownPlugin)
-
-const components = {
+export const components = {
+  BAlert,
+  BAvatar,
+  BButton,
+  BDropdown,
+  BDropdownDivider,
+  BDropdownItem,
+  BDropdownItemButton,
+  BDropdownText,
+  BFormCheckbox,
+  BFormGroup,
+  BFormInput,
+  BFormTextarea,
+  BModal,
+  BOverlay,
+  BPopover,
+  BSidebar,
   ContentLoader,
   ContextMenu,
   ContextMenuItem,
@@ -50,12 +56,7 @@ const components = {
   Tile,
 }
 
-Object.keys(components).forEach((_key) => {
-  const key = _key as keyof typeof components
-  Vue.component(key, components[key])
-})
-
-Vue.prototype.$formatDuration = (value: number) => {
+export function formatDuration(value: number): string {
   if (!isFinite(value)) {
     return '∞'
   }

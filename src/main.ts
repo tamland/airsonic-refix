@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Vuex from 'vuex'
 import '@/style/main.scss'
-import '@/shared/components'
+import { components, formatDuration } from '@/shared/components'
 import App from '@/app/App.vue'
 import { setupRouter } from '@/shared/router'
 import { setupStore } from '@/shared/store'
@@ -27,8 +27,13 @@ const router = setupRouter(authService)
 const store = setupStore(authService, api)
 setupAudio(store, api)
 
+Object.entries(components).forEach(([key, value]) => {
+  Vue.component(key, value)
+})
+
 Vue.prototype.$auth = authService
 Vue.prototype.$api = api
+Vue.prototype.$formatDuration = formatDuration
 
 Vue.config.errorHandler = (err) => {
   // eslint-disable-next-line
