@@ -11,9 +11,9 @@
     <template v-if="username">
       <b-dropdown variant="link" right no-caret>
         <template #button-content>
-          <b-avatar variant="secondary">
+          <Avatar>
             <Icon icon="person" />
-          </b-avatar>
+          </Avatar>
         </template>
         <b-dropdown-text>
           {{ server }}
