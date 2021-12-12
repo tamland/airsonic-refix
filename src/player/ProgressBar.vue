@@ -11,6 +11,24 @@
     @change="onInput"
   />
 </template>
+<script lang="ts">
+  import Vue from 'vue'
+  import VueSlider from 'vue-slider-component'
+
+  export default Vue.extend({
+    components: {
+      VueSlider,
+    },
+    props: {
+      value: { type: Number, required: true },
+    },
+    methods: {
+      onInput(value: number) {
+        this.$emit('input', value)
+      },
+    }
+  })
+</script>
 <style lang="scss" scoped>
   @import '/src/style/variables';
   @import '~vue-slider-component/theme/material.css';
@@ -42,21 +60,3 @@
     display: block;
   }
 </style>
-<script lang="ts">
-  import Vue from 'vue'
-  import VueSlider from 'vue-slider-component'
-
-  export default Vue.extend({
-    components: {
-      VueSlider,
-    },
-    props: {
-      value: { type: Number, required: true },
-    },
-    methods: {
-      onInput(value: number) {
-        this.$emit('input', value)
-      },
-    }
-  })
-</script>

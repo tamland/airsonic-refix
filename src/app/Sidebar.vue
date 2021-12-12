@@ -18,6 +18,23 @@
     </b-sidebar>
   </div>
 </template>
+<script lang="ts">
+  import Vue from 'vue'
+  import Nav from './Nav.vue'
+  import { mapState, mapActions } from 'vuex'
+
+  export default Vue.extend({
+    components: {
+      Nav,
+    },
+    computed: {
+      ...mapState(['showMenu'])
+    },
+    methods: {
+      ...mapActions(['hideMenu']),
+    },
+  })
+</script>
 <style>
   .sidebar-container .sidebar-fixed {
     padding-left: 0.5rem;
@@ -63,20 +80,3 @@
     color: var(--primary);
   }
 </style>
-<script lang="ts">
-  import Vue from 'vue'
-  import Nav from './Nav.vue'
-  import { mapState, mapActions } from 'vuex'
-
-  export default Vue.extend({
-    components: {
-      Nav,
-    },
-    computed: {
-      ...mapState(['showMenu'])
-    },
-    methods: {
-      ...mapActions(['hideMenu']),
-    },
-  })
-</script>

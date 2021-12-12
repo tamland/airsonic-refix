@@ -3,6 +3,15 @@
     <slot />
   </div>
 </template>
+<script lang="ts">
+  import Vue from 'vue'
+
+  export default Vue.extend({
+    props: {
+      square: { type: Boolean, default: false },
+    }
+  })
+</script>
 <style lang="scss">
   .tiles {
     display: grid;
@@ -28,12 +37,3 @@
     }
   }
 </style>
-<script lang="ts">
-  import Vue from 'vue'
-
-  export default Vue.extend({
-    props: {
-      square: { type: Boolean, default: false },
-    }
-  })
-</script>

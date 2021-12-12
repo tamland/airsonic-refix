@@ -104,25 +104,6 @@
     </div>
   </div>
 </template>
-<style scoped>
-  .player {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 0;
-    max-height: 0;
-    transition: max-height 0.5s;
-  }
-  .visible {
-    height: auto;
-    max-height: 100px;
-  }
-  .b-icon {
-    display: flex;
-    align-items: center;
-  }
-</style>
 <script lang="ts">
   import Vue from 'vue'
   import { mapState, mapGetters, mapActions } from 'vuex'
@@ -178,3 +159,22 @@
     }
   })
 </script>
+<style scoped>
+  .player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    max-height: 0;
+    transition: max-height 0.5s;
+  }
+  .visible {
+    height: auto;
+    max-height: 100px;
+  }
+  .b-icon {
+    display: flex;
+    align-items: center;
+  }
+</style>

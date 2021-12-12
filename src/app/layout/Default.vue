@@ -10,12 +10,6 @@
     <Player />
   </div>
 </template>
-<style lang="scss">
-  main {
-    margin-bottom: 80px;
-    overflow-x: hidden;
-  }
-</style>
 <script lang="ts">
   import TopNav from '@/app/TopNav.vue'
   import Sidebar from '@/app/Sidebar.vue'
@@ -29,3 +23,9 @@
     },
   }
 </script>
+<style lang="scss">
+  main {
+    margin-bottom: 80px;
+    overflow-x: hidden;
+  }
+</style>

@@ -9,6 +9,33 @@
     @change="onInput"
   />
 </template>
+<script lang="ts">
+  import Vue from 'vue'
+  import VueSlider from 'vue-slider-component'
+
+  export default Vue.extend({
+    components: {
+      VueSlider,
+    },
+    props: {
+      value: { type: Number, required: true },
+      min: { type: Number, required: true },
+      max: { type: Number, required: true },
+      step: { type: Number, required: true },
+      percent: { type: Boolean, default: false },
+    },
+    methods: {
+      onInput(value: number) {
+        this.$emit('input', value)
+      },
+      formatter(value: number) {
+        return this.percent
+          ? `${Math.round(((value - this.min) * 100) / (this.max - this.min))}%`
+          : `${value}`
+      }
+    }
+  })
+</script>
 <style lang="scss" scoped>
   @import '/src/style/_variables';
   @import '~vue-slider-component/theme/material.css';
@@ -43,30 +70,3 @@
     height: 40px;
   }
 </style>
-<script lang="ts">
-  import Vue from 'vue'
-  import VueSlider from 'vue-slider-component'
-
-  export default Vue.extend({
-    components: {
-      VueSlider,
-    },
-    props: {
-      value: { type: Number, required: true },
-      min: { type: Number, required: true },
-      max: { type: Number, required: true },
-      step: { type: Number, required: true },
-      percent: { type: Boolean, default: false },
-    },
-    methods: {
-      onInput(value: number) {
-        this.$emit('input', value)
-      },
-      formatter(value: number) {
-        return this.percent
-          ? `${Math.round(((value - this.min) * 100) / (this.max - this.min))}%`
-          : `${value}`
-      }
-    }
-  })
-</script>

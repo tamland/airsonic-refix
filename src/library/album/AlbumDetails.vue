@@ -49,11 +49,6 @@
     </div>
   </div>
 </template>
-<style scoped>
-  .image-container {
-    max-width: 50%;
-  }
-</style>
 <script lang="ts">
   import Vue from 'vue'
   import TrackList from '@/library/track/TrackList.vue'
@@ -103,3 +98,8 @@
     }
   })
 </script>
+<style scoped>
+  .image-container {
+    max-width: 50%;
+  }
+</style>

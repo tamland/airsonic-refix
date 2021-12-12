@@ -19,9 +19,7 @@ module.exports = {
     'vue/max-attributes-per-line': 'off',
     'vue/html-closing-bracket-newline': 'off',
     'vue/valid-v-slot': 'off', // Bug: https://github.com/vuejs/eslint-plugin-vue/issues/1229
-    'vue/component-tags-order': ['error', {
-      order: ['template', 'style', 'script']
-    }],
+    'vue/component-tags-order': 'error',
     'no-console': 'off',
     'no-debugger': 'warn',
     'no-empty-pattern': 'off',
