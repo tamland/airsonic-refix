@@ -3,8 +3,8 @@
   "short_name": "Music player",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#fde68a",
-  "background_color": "#fde68a",
+  "theme_color": "#000",
+  "background_color": "#000",
   "icons": [
     {
       "src": "./icon.svg",
