@@ -1,10 +1,10 @@
 {
-  "name": "Airsonic (refix)",
-  "short_name": "Airsonic (refix)",
+  "name": "Music player",
+  "short_name": "Music player",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000",
-  "background_color": "#000",
+  "theme_color": "#fde68a",
+  "background_color": "#fde68a",
   "icons": [
     {
       "src": "./icon.svg",
