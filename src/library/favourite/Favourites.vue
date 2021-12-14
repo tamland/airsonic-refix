@@ -4,7 +4,7 @@
     <ul class="nav-underlined">
       <li>
         <router-link :to="{... $route, params: { }}">
-          Albums
+          Tracks
         </router-link>
       </li>
       <li>
@@ -13,15 +13,15 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{... $route, params: { section: 'tracks' }}">
-          Tracks
+        <router-link :to="{... $route, params: { section: 'albums' }}">
+          Albums
         </router-link>
       </li>
     </ul>
     <ContentLoader v-slot :loading="details == null">
       <ArtistList v-if="section === 'artists'" :items="details.artists" />
-      <TrackList v-else-if="section === 'tracks'" :tracks="details.tracks" />
-      <AlbumList v-else :items="details.albums" />
+      <AlbumList v-else-if="section === 'tracks'" ::items="details.albums"  />
+      <TrackList TrackList v-else :tracks="details.tracks"  />
     </ContentLoader>
   </div>
 </template>
