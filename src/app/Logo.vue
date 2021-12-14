@@ -4,7 +4,7 @@
     :class="data.staticClass || ''"
     v-bind="data.attrs"
   >
-    <!-- <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="5.74 31.24 123.89 72.89">
+    <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="5.74 31.24 123.89 72.89">
       <g transform="matrix(1.0344 0 0 1.0869 -2.068 -181.521)">
         <rect width="5.994" height="23.366" x="9.929" y="224.55" rx="2.997" ry="2.997" />
         <rect width="5.994" height="41.989" x="19.849" y="215.2" rx="2.997" ry="2.819" />
@@ -20,9 +20,10 @@
         <rect width="5.994" height="22.372" x="119.04" y="230.78" rx="2.997" ry="2.997" />
       </g>
     </svg>
-    <span class="text-body ml-2 text-nowrap">airsonic&nbsp;
-      <span class="text-muted">(refix)</span>
-    </span> -->
+    <span class="text-body ml-2 text-nowrap"
+      >Novidrome&nbsp;
+      <span class="text-muted">server</span>
+    </span>
   </div>
 </template>
 <style scoped>
