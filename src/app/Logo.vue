@@ -21,7 +21,7 @@
       </g>
     </svg>
     <span class="text-body ml-2 text-nowrap"
-      >Novidrome&nbsp;
+    >Novidrome&nbsp;
       <span class="text-muted">server</span>
     </span>
   </div>

@@ -87,6 +87,7 @@ export const playerModule: Module<State, any> = {
       const next = (index + 1) % state.queue.length
       audio.setBuffer(state.queue[next].url)
       if (mediaSession) {
+        console.log('>>>>', track.image)
         mediaSession.metadata = new MediaMetadata({
           title: track.title,
           artist: track.artist,
