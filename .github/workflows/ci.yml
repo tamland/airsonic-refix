@@ -49,7 +49,7 @@ jobs:
         with:
           images: ${{ env.IMAGE }}
           tags: |
-            type=sha,format=long
+            type=sha
           flavor: |
             latest=${{ github.ref == 'refs/heads/master' }}
 
