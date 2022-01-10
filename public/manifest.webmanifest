@@ -8,32 +8,26 @@
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "sizes": "192X192",
       "purpose": "any"
     },
     {
-      "src": "./img/icons/android-chrome-512x512",
-      "type": "image/svg+xml",
+      "src": "./img/icons/android-chrome-512x512.png",
+      "type": "image/png",
       "sizes": "512x512",
       "purpose": "any"
     },
     {
       "src": "./img/icons/android-chrome-maskable-192x192.png",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "sizes": "192X192",
       "purpose": "any maskable"
     },
     {
-      "src": "./img/icons/android-chrome-maskable-512x512",
-      "type": "image/svg+xml",
+      "src": "./img/icons/android-chrome-maskable-512x512.png",
+      "type": "image/png",
       "sizes": "512x512",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "./img/icons/android-chrome-maskable-192x192.png",
-      "type": "image/svg+xml",
-      "sizes": "192X192",
       "purpose": "any maskable"
     }
   ]
