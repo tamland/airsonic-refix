@@ -1,10 +1,13 @@
 {
   "name": "Music player",
   "short_name": "Music player",
+  "description": "A Web base music player",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#000",
   "background_color": "#000",
+  "scope": "/",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
