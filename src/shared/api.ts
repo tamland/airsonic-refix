@@ -95,7 +95,7 @@ export class API {
 
   async getGenres() {
     const response = await this.fetch('rest/getGenres', {})
-    return response.genres.genre
+    return (response.genres.genre || [])
       .map((item: any) => ({
         id: item.value,
         name: item.value,
