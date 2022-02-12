@@ -43,6 +43,7 @@ export interface Artist {
   musicBrainzUrl?: string
   similarArtist?: Artist[]
   albums?: Album[]
+  image?: string
 }
 
 export interface SearchResult {
@@ -380,7 +381,8 @@ export class API {
         ? `https://musicbrainz.org/artist/${item.musicBrainzId}`
         : undefined,
       albums,
-      similarArtist: (item.similarArtist || []).map(this.normalizeArtist, this)
+      similarArtist: (item.similarArtist || []).map(this.normalizeArtist, this),
+      image: item.coverArt ? this.getCoverArtUrl(item) : undefined
     }
   }
 
