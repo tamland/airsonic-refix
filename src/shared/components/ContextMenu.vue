@@ -2,6 +2,7 @@
   <div @contextmenu="showContextMenu">
     <slot />
     <b-dropdown
+      v-if="$slots['context-menu']"
       ref="dropdown" toggle-class="p-0 border-0" no-caret lazy
       :style="{position: 'absolute', left: `${left}px`,top: `${top}px`}"
       @hide="hide"
