@@ -1,24 +1,51 @@
 <template>
-  <ContentLoader v-slot :loading="items == null">
-    <ArtistList :items="items" />
-  </ContentLoader>
+  <div>
+    <ul class="nav-underlined">
+      <li>
+        <router-link :to="{... $route, params: {... $route.params, sort: null }}">
+          Most albums
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{... $route, params: {... $route.params, sort: 'a-z' }}">
+          A-Z
+        </router-link>
+      </li>
+    </ul>
+    <ContentLoader v-slot :loading="loading">
+      <ArtistList :items="sortedItems" />
+    </ContentLoader>
+  </div>
 </template>
 <script lang="ts">
   import Vue from 'vue'
   import ArtistList from './ArtistList.vue'
   import { Artist } from '@/shared/api'
+  import { orderBy } from 'lodash-es'
 
   export default Vue.extend({
     components: {
       ArtistList,
     },
+    props: {
+      sort: { type: String, default: null },
+    },
     data() {
       return {
-        items: null as null | Artist[]
+        loading: true,
+        items: [] as readonly Artist[]
       }
     },
+    computed: {
+      sortedItems(): Artist[] {
+        return this.sort === 'a-z'
+          ? orderBy(this.items, 'name')
+          : orderBy(this.items, 'albumCount', 'desc')
+      },
+    },
     async created() {
-      this.items = await this.$api.getArtists()
+      this.items = Object.freeze(await this.$api.getArtists())
+      this.loading = false
     }
   })
 </script>

@@ -66,23 +66,25 @@ export function setupRouter(auth: AuthService) {
       },
       {
         name: 'artists',
-        path: '/artists',
-        component: ArtistLibrary
+        path: '/artists/:sort?',
+        component: ArtistLibrary,
+        props: true,
       },
       {
         name: 'artist',
-        path: '/artists/:id',
+        path: '/artists/id/:id',
         component: ArtistDetails,
         props: true,
       },
       {
         name: 'genres',
-        path: '/genres',
+        path: '/genres/:sort?',
         component: GenreLibrary,
+        props: true,
       },
       {
         name: 'genre',
-        path: '/genres/:id/:section?',
+        path: '/genres/id/:id/:section?',
         component: GenreDetails,
         props: true,
       },
