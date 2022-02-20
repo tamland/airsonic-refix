@@ -1,11 +1,8 @@
 <template>
   <div :class="{'visible': visible}" class="player elevated d-flex">
     <div class="flex-fill">
-      <!-- Progress --->
-      <ProgressBar
-        style="margin-bottom: -5px; margin-top: -9px"
-        :value="progress" @input="seek"
-      />
+      <ProgressBar style="margin-bottom: -5px; margin-top: -9px" />
+
       <div class="row align-items-center m-0" style="padding-top: -10px">
         <!-- Track info --->
         <div class="col p-0 d-flex flex-nowrap align-items-center justify-content-start" style="width: 0; min-width: 0">
@@ -116,7 +113,6 @@
     computed: {
       ...mapState('player', {
         isPlaying: (state: any) => state.isPlaying,
-        currentTime: (state: any) => state.currentTime,
         repeatActive: (state: any) => state.repeat,
         shuffleActive: (state: any) => state.shuffle,
         muteActive: (state: any) => state.mute,
@@ -125,7 +121,6 @@
       }),
       ...mapGetters('player', [
         'track',
-        'progress',
       ]),
       isFavourite(): boolean {
         return this.track && !!this.$store.state.favourites.tracks[this.track.id]
@@ -148,7 +143,6 @@
         'toggleRepeat',
         'toggleShuffle',
         'toggleMute',
-        'seek',
       ]),
       setVolume(volume: any) {
         return this.$store.dispatch('player/setVolume', parseFloat(volume))

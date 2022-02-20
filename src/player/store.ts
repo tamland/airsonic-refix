@@ -190,7 +190,7 @@ export const playerModule: Module<State, any> = {
     },
     seek({ state }, value) {
       if (isFinite(state.duration)) {
-        audio.seek(state.duration * (value / 100.0))
+        audio.seek(state.duration * value)
       }
     },
     async resetQueue({ commit, getters }) {
@@ -233,9 +233,9 @@ export const playerModule: Module<State, any> = {
     isPlaying(state): boolean {
       return state.isPlaying
     },
-    progress(state) {
+    progress(state): number {
       if (state.currentTime > -1 && state.duration > 0) {
-        return (state.currentTime / state.duration) * 100
+        return state.currentTime / state.duration
       }
       return 0
     },
