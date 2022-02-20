@@ -66,7 +66,8 @@
     border-color: $primary;
   }
   ::v-deep .vue-slider-dot-tooltip-text {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
+    font-size: inherit;
   }
 </style>
