@@ -17,6 +17,7 @@ interface State {
   isPlaying: boolean;
   duration: number; // duration of current track in seconds
   currentTime: number; // position of current track in seconds
+  streamTitle: string | null;
   repeat: boolean;
   shuffle: boolean;
   mute: boolean;
@@ -37,6 +38,7 @@ export const playerModule: Module<State, any> = {
     isPlaying: false,
     duration: 0,
     currentTime: 0,
+    streamTitle: null,
     repeat: localStorage.getItem('player.repeat') !== 'false',
     shuffle: localStorage.getItem('player.shuffle') === 'true',
     mute: storedMuteState,
@@ -125,6 +127,12 @@ export const playerModule: Module<State, any> = {
         state.duration = value
       }
     },
+    setStreamTitle(state, value: string | null) {
+      state.streamTitle = value
+      if (value && mediaSession?.metadata) {
+        mediaSession.metadata.title = value
+      }
+    },
     setScrobbled(state) {
       state.scrobbled = true
     },
@@ -147,7 +155,7 @@ export const playerModule: Module<State, any> = {
       if (trackListEquals(state.queue, tracks)) {
         commit('setQueueIndex', index || 0)
         commit('setPlaying')
-        await audio.changeTrack(getters.track.url)
+        await audio.changeTrack(getters.track)
         return
       }
       if (index == null) {
@@ -165,7 +173,7 @@ export const playerModule: Module<State, any> = {
         commit('setQueueIndex', index)
       }
       commit('setPlaying')
-      await audio.changeTrack(getters.track.url)
+      await audio.changeTrack(getters.track)
     },
     async resume({ commit }) {
       commit('setPlaying')
@@ -181,12 +189,12 @@ export const playerModule: Module<State, any> = {
     async next({ commit, state, getters }) {
       commit('setQueueIndex', state.queueIndex + 1)
       commit('setPlaying')
-      await audio.changeTrack(getters.track.url)
+      await audio.changeTrack(getters.track)
     },
     async previous({ commit, state, getters }) {
       commit('setQueueIndex', audio.currentTime() > 3 ? state.queueIndex : state.queueIndex - 1)
       commit('setPlaying')
-      await audio.changeTrack(getters.track.url)
+      await audio.changeTrack(getters.track)
     },
     seek({ state }, value) {
       if (isFinite(state.duration)) {
@@ -196,7 +204,7 @@ export const playerModule: Module<State, any> = {
     async resetQueue({ commit, getters }) {
       commit('setQueueIndex', 0)
       commit('setPaused')
-      await audio.changeTrack(getters.track.url, { paused: true })
+      await audio.changeTrack({ ...getters.url, paused: true })
     },
     toggleRepeat({ commit, state }) {
       commit('setRepeat', !state.repeat)
@@ -272,15 +280,20 @@ export function setupAudio(store: Store<any>, api: API) {
       return store.dispatch('player/resetQueue')
     }
   }
+
+  audio.onstreamtitlechange = (value: string | null) => {
+    store.commit('player/setStreamTitle', value)
+  }
+
   audio.onerror = (error: any) => {
     store.commit('player/setPaused')
     store.commit('setError', error)
   }
 
   audio.setVolume(storedMuteState ? 0.0 : storedVolume)
-  const url = store.getters['player/track']?.url
-  if (url) {
-    audio.changeTrack(url, { paused: true })
+  const track = store.getters['player/track']
+  if (track?.url) {
+    audio.changeTrack({ ...track, paused: true })
   }
 
   if (mediaSession) {

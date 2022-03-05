@@ -1,12 +1,16 @@
+import IcecastMetadataStats from 'icecast-metadata-stats'
+
 export class AudioController {
   private audio = new Audio()
   private handle = -1
   private volume = 1.0
   private fadeDuration = 200
   private buffer = new Audio()
+  private statsListener : any = null
 
   ontimeupdate: (value: number) => void = () => { /* do nothing */ }
   ondurationchange: (value: number) => void = () => { /* do nothing */ }
+  onstreamtitlechange: (value: string | null) => void = () => { /* do nothing */ }
   onended: () => void = () => { /* do nothing */ }
   onerror: (err: MediaError | null) => void = () => { /* do nothing */ }
 
@@ -46,12 +50,12 @@ export class AudioController {
     await this.fadeIn(this.fadeDuration / 2.0)
   }
 
-  async changeTrack(url: string, options: { paused?: boolean } = {}) {
+  async changeTrack(options: { url: string, paused?: boolean, isStream?: boolean }) {
     if (this.audio) {
       this.cancelFade()
       endPlayback(this.audio, this.fadeDuration)
     }
-    this.audio = new Audio(url)
+    this.audio = new Audio(options.url)
     this.audio.onerror = () => {
       this.onerror(this.audio.error)
     }
@@ -66,7 +70,25 @@ export class AudioController {
     }
     this.ondurationchange(this.audio.duration)
     this.ontimeupdate(this.audio.currentTime)
+    this.onstreamtitlechange(null)
     this.audio.volume = 0.0
+
+    this.statsListener?.stop()
+    if (options.isStream) {
+      console.info('Icecast: starting stats listener')
+      this.statsListener = new IcecastMetadataStats(options.url, {
+        sources: ['icy'],
+        onStats: (stats: any) => {
+          if (stats?.icy === undefined) {
+            console.info('Icecast: no metadata found. Stopping')
+            this.statsListener?.stop()
+          } else if (stats?.icy?.StreamTitle) {
+            this.onstreamtitlechange(stats?.icy?.StreamTitle)
+          }
+        }
+      })
+      this.statsListener?.start()
+    }
 
     if (options.paused !== true) {
       try {
@@ -141,6 +163,7 @@ function endPlayback(audio: HTMLAudioElement, duration: number) {
   audio.ondurationchange = null
   audio.onerror = null
   audio.onended = null
+  audio.onloadedmetadata = null
   const startTime = Date.now()
   fade(audio, audio.volume, 0.0, duration)
     .catch((err) => console.warn('Error during fade out: ' + err.stack))

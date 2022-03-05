@@ -13,10 +13,10 @@
             </router-link>
             <div style="min-width: 0">
               <div class="text-truncate">
-                {{ track.title }}
+                {{ streamTitle || track.title }}
               </div>
               <div class="text-truncate text-muted">
-                {{ track.artist || track.album || track.description }}
+                {{ track.artist || track.album }}
               </div>
             </div>
           </template>
@@ -118,6 +118,7 @@
         muteActive: (state: any) => state.mute,
         visible: (state: any) => state.queue.length > 0,
         volume: (state: any) => state.volume,
+        streamTitle: (state: any) => state.streamTitle,
       }),
       ...mapGetters('player', [
         'track',

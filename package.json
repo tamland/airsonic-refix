@@ -10,6 +10,7 @@
   "dependencies": {
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
+    "icecast-metadata-stats": "^0.1.1",
     "lodash-es": "4.17.21",
     "md5-es": "1.8.2",
     "vue": "^2.6.12",

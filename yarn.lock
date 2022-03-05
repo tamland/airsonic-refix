@@ -5061,6 +5061,18 @@ human-signals@^1.1.1:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-1.1.1.tgz#c5b1cd14f50aeae09ab6c59fe63ba3395fe4dfa3"
   integrity sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==
 
+icecast-metadata-js@0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/icecast-metadata-js/-/icecast-metadata-js-0.6.1.tgz#aa80e0a9b90730d269768efdc3835bfef67aaa44"
+  integrity sha512-Ije6zP1ENfMLBvxU6m4EqEmf8l1/5ld6kHz/iAQCYHMhahVhEOCpKTl6uRxvhxtBaKXKtDXRkA9wrcPDr9jA7Q==
+
+icecast-metadata-stats@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/icecast-metadata-stats/-/icecast-metadata-stats-0.1.1.tgz#4b079b399c1867bde201b43787c25edf59ddd4ea"
+  integrity sha512-yUlYrq5oJyeY8LGI/7e2N5YYep/xIJ3csIZxsSZ6a4MkMIlJiJQwe+Wd5sakJgylMaIH2MjDlbZpAZVh3sxQ7g==
+  dependencies:
+    icecast-metadata-js "0.6.1"
+
 iconv-lite@0.4.24, iconv-lite@^0.4.24:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"

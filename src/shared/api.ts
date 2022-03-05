@@ -19,6 +19,7 @@ export interface Track {
   albumId?: string
   artist?: string
   artistId?: string
+  isStream?: boolean
 }
 
 export interface Album {
@@ -328,10 +329,12 @@ export class API {
       id: `radio-${item.id}`,
       title: item.name,
       description: item.homePageUrl,
+      album: item.name,
       track: item.track,
       url: item.streamUrl,
       duration: 0,
       favourite: false,
+      isStream: true,
     }
   }
 
