@@ -45,12 +45,12 @@
                 <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
               </b-button>
               <b-button id="player-volume-btn" variant="link" title="Volume">
-                <Icon :icon="muteActive ? 'mute' : 'volume'" />
+                <Icon :icon="isMuted ? 'mute' : 'volume'" />
               </b-button>
               <b-popover target="player-volume-btn" placement="top" triggers="click blur" no-fade>
                 <Slider class="pt-2" style="height: 120px;" direction="btt"
                         :min="0" :max="1" :step="0.01" percent
-                        :value="muteActive ? 0.0 : volume" @input="setVolume"
+                        :value="volume" @input="setVolume"
                 />
               </b-popover>
               <b-button title="Shuffle"
@@ -70,7 +70,7 @@
                   <strong>Volume</strong>
                   <Slider class="px-3" style="width: 120px;"
                           :min="0" :max="1" :step="0.01" percent
-                          :value="muteActive ? 0.0 : volume" @input="setVolume"
+                          :value="volume" @input="setVolume"
                   />
                 </div>
               </b-dropdown-text>
@@ -115,9 +115,9 @@
         isPlaying: (state: any) => state.isPlaying,
         repeatActive: (state: any) => state.repeat,
         shuffleActive: (state: any) => state.shuffle,
-        muteActive: (state: any) => state.mute,
         visible: (state: any) => state.queue.length > 0,
         volume: (state: any) => state.volume,
+        isMuted: (state: any) => state.volume <= 0.0,
         streamTitle: (state: any) => state.streamTitle,
       }),
       ...mapGetters('player', [
@@ -143,7 +143,6 @@
         'previous',
         'toggleRepeat',
         'toggleShuffle',
-        'toggleMute',
       ]),
       setVolume(volume: any) {
         return this.$store.dispatch('player/setVolume', parseFloat(volume))

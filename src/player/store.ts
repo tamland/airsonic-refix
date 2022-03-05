@@ -3,10 +3,10 @@ import { shuffle, trackListEquals } from '@/shared/utils'
 import { API } from '@/shared/api'
 import { AudioController } from '@/player/audio'
 
+localStorage.removeItem('player.mute')
 const storedQueue = JSON.parse(localStorage.getItem('queue') || '[]')
 const storedQueueIndex = parseInt(localStorage.getItem('queueIndex') || '-1')
 const storedVolume = parseFloat(localStorage.getItem('player.volume') || '1.0')
-const storedMuteState = localStorage.getItem('player.mute') === 'true'
 const mediaSession: MediaSession | undefined = navigator.mediaSession
 const audio = new AudioController()
 
@@ -20,7 +20,6 @@ interface State {
   streamTitle: string | null;
   repeat: boolean;
   shuffle: boolean;
-  mute: boolean;
   volume: number; // integer between 0 and 1 representing the volume of the player
 }
 
@@ -41,7 +40,6 @@ export const playerModule: Module<State, any> = {
     streamTitle: null,
     repeat: localStorage.getItem('player.repeat') !== 'false',
     shuffle: localStorage.getItem('player.shuffle') === 'true',
-    mute: storedMuteState,
     volume: storedVolume,
   },
 
@@ -65,10 +63,6 @@ export const playerModule: Module<State, any> = {
     setShuffle(state, enable) {
       state.shuffle = enable
       localStorage.setItem('player.shuffle', enable)
-    },
-    setMute(state, enable) {
-      state.mute = enable
-      localStorage.setItem('player.mute', enable)
     },
     setQueue(state, queue) {
       state.queue = queue
@@ -138,7 +132,6 @@ export const playerModule: Module<State, any> = {
     },
     setVolume(state, value: number) {
       state.volume = value
-      state.mute = value <= 0.0
       localStorage.setItem('player.volume', String(value))
     },
     updateTrack(state, track) {
@@ -211,10 +204,6 @@ export const playerModule: Module<State, any> = {
     },
     toggleShuffle({ commit, state }) {
       commit('setShuffle', !state.shuffle)
-    },
-    toggleMute({ commit, state }) {
-      commit('setMute', !state.mute)
-      audio.setVolume(state.mute ? 0.0 : state.volume)
     },
     addToQueue({ state, commit }, tracks) {
       commit('addToQueue', state.shuffle ? shuffle([...tracks]) : tracks)
@@ -290,7 +279,7 @@ export function setupAudio(store: Store<any>, api: API) {
     store.commit('setError', error)
   }
 
-  audio.setVolume(storedMuteState ? 0.0 : storedVolume)
+  audio.setVolume(storedVolume)
   const track = store.getters['player/track']
   if (track?.url) {
     audio.changeTrack({ ...track, paused: true })
