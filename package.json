@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@iconify-icons/bi": "^1.2.2",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "icecast-metadata-stats": "^0.1.1",

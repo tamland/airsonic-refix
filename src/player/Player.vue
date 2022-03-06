@@ -167,7 +167,7 @@
     height: auto;
     max-height: 100px;
   }
-  .b-icon {
+  .icon {
     display: flex;
     align-items: center;
   }

@@ -61,11 +61,11 @@
     white-space: nowrap;
   }
 
-  .sidebar-container a.nav-link .b-icon {
+  .sidebar-container a.nav-link .icon {
     margin-right: 0.75rem;
   }
 
-  .sidebar-container .nav-link:not(.router-link-active) .b-icon {
+  .sidebar-container .nav-link:not(.router-link-active) .icon {
     color: var(--text-muted);
   }
   .sidebar-container .nav-link:hover {
