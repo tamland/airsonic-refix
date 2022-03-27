@@ -101,12 +101,13 @@ export function setupRouter(auth: AuthService) {
       },
       {
         name: 'podcasts',
-        path: '/podcasts',
+        path: '/podcasts/:sort?',
         component: PodcastLibrary,
+        props: true,
       },
       {
         name: 'podcast',
-        path: '/podcasts/:id',
+        path: '/podcasts/id/:id',
         component: PodcastDetails,
         props: true,
       },

@@ -1,4 +1,5 @@
 import { AuthService } from '@/auth/service'
+import { map, max } from 'lodash-es'
 
 export type AlbumSort =
   'a-z' |
@@ -417,6 +418,7 @@ export class API {
       image: image,
       url: podcast.url,
       trackCount: episodes.length,
+      updatedAt: max(map(episodes, 'publishDate')),
       tracks: episodes.map((item: any, index: number) => ({
         id: item.id,
         title: item.title,
