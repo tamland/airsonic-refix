@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul class="nav-underlined">
+    <ul class="nav-underlined mb-3">
       <li>
         <router-link :to="{... $route, params: { }}">
           Albums

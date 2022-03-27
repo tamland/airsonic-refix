@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-flex justify-content-between align-items-start +mb-2">
+    <div class="d-flex justify-content-between align-items-center mb-3">
       <ul class="nav-underlined">
         <li>
           <router-link :to="{... $route, params: {... $route.params, sort: null }}">
