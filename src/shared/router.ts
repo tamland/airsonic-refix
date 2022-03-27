@@ -112,8 +112,9 @@ export function setupRouter(auth: AuthService) {
       },
       {
         name: 'playlists',
-        path: '/playlists',
+        path: '/playlists/:sort?',
         component: PlaylistLibrary,
+        props: true,
       },
       {
         name: 'playlist',

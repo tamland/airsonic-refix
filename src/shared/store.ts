@@ -3,7 +3,7 @@ import Vuex, { Module } from 'vuex'
 import { playerModule } from '@/player/store'
 import { setupModule as setupFavouritesModule } from '@/library/favourite/store'
 import { AuthService } from '@/auth/service'
-import { API } from './api'
+import { API, Playlist } from './api'
 
 interface State {
   isLoggedIn: boolean;
@@ -11,7 +11,7 @@ interface State {
   server: null | string;
   showMenu: boolean;
   error: Error | null;
-  playlists: any[];
+  playlists: null | Playlist[];
 }
 
 const setupRootModule = (authService: AuthService, api: API): Module<State, any> => ({
@@ -21,7 +21,7 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
     server: null,
     showMenu: false,
     error: null,
-    playlists: [],
+    playlists: null,
   },
   mutations: {
     setError(state, error) {
@@ -38,16 +38,20 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
     setMenuVisible(state, visible) {
       state.showMenu = visible
     },
-    setPlaylists(state, playlists: any[]) {
+    setPlaylists(state, playlists: Playlist[]) {
       state.playlists = playlists
-        .sort((a: any, b: any) => b.changed.localeCompare(a.changed))
+        .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     },
-    setPlaylist(state, playlist: any) {
-      const idx = state.playlists.findIndex(x => x.id === playlist.id)
-      state.playlists.splice(idx, 1, playlist)
+    updatePlaylist(state, playlist: any) {
+      if (state.playlists) {
+        const idx = state.playlists?.findIndex(x => x.id === playlist.id)
+        state.playlists.splice(idx, 1, { ...state.playlists[idx], ...playlist })
+      }
     },
     removePlaylist(state, id: string) {
-      state.playlists = state.playlists.filter(p => p.id !== id)
+      if (state.playlists) {
+        state.playlists = state.playlists.filter(p => p.id !== id)
+      }
     },
   },
   actions: {
@@ -69,19 +73,21 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
     },
     updatePlaylist({ commit, state }, { id, name, comment }) {
       api.editPlaylist(id, name, comment).then(() => {
-        const playlist = {
-          ...state.playlists.find(x => x.id === id),
-          name,
-          comment,
-        }
-        commit('setPlaylist', playlist)
+        commit('updatePlaylist', { id, name, comment })
       })
     },
-    addTrackToPlaylist({ }, { playlistId, trackId }) {
-      api.addToPlaylist(playlistId, trackId)
+    addTrackToPlaylist({ state, commit }, { playlistId, trackId }) {
+      const playlist = state.playlists?.find(x => x.id === playlistId)
+      return api.addToPlaylist(playlistId, trackId).then(() => {
+        commit('updatePlaylist', {
+          id: playlistId,
+          updatedAt: new Date().toISOString(),
+          trackCount: (playlist?.trackCount || 0) + 1,
+        })
+      })
     },
     deletePlaylist({ commit }, id) {
-      api.deletePlaylist(id).then(() => {
+      return api.deletePlaylist(id).then(() => {
         commit('removePlaylist', id)
       })
     },

@@ -60,6 +60,17 @@ export interface RadioStation {
   url: string
 }
 
+export interface Playlist {
+  id: string
+  name: string
+  comment: string
+  trackCount: number
+  createdAt: string
+  updatedAt: string
+  image?: string
+  tracks?: Track[]
+}
+
 export class API {
   private readonly fetch: (path: string, params?: any) => Promise<any>;
   private readonly clientName = window.origin || 'web';
@@ -166,11 +177,7 @@ export class API {
 
   async getPlaylists() {
     const response = await this.fetch('rest/getPlaylists')
-    return (response.playlists?.playlist || []).map((playlist: any) => ({
-      ...playlist,
-      name: playlist.name || '(Unnamed)',
-      image: playlist.songCount > 0 ? this.getCoverArtUrl(playlist) : undefined,
-    }))
+    return (response.playlists?.playlist || []).map(this.normalizePlaylist, this)
   }
 
   async getPlaylist(id: string) {
@@ -183,8 +190,7 @@ export class API {
     }
     const response = await this.fetch('rest/getPlaylist', { id })
     return {
-      ...response.playlist,
-      name: response.playlist.name || '(Unnamed)',
+      ...this.normalizePlaylist(response.playlist),
       tracks: (response.playlist.entry || []).map(this.normalizeTrack, this),
     }
   }
@@ -386,6 +392,18 @@ export class API {
       albums,
       similarArtist: (item.similarArtist || []).map(this.normalizeArtist, this),
       image: item.coverArt ? this.getCoverArtUrl(item) : undefined
+    }
+  }
+
+  private normalizePlaylist(response: any): Playlist {
+    return {
+      id: response.id,
+      name: response.name || '(Unnamed)',
+      comment: response.comment || '',
+      createdAt: response.created || '',
+      updatedAt: response.changed || '',
+      trackCount: response.songCount,
+      image: response.songCount > 0 ? this.getCoverArtUrl(response) : undefined,
     }
   }
 

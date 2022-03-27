@@ -11,13 +11,17 @@
       <Icon icon="playlist" class="mr-2" /> Random
     </router-link>
 
-    <router-link v-for="item in playlists" :key="item.id"
-                 :to="{name: 'playlist', params: { id: item.id }}"
-                 class="nav-link">
-      <span @dragover="onDragover" @drop="onDrop(item.id, $event)">
-        <Icon icon="playlist" class="mr-2" /> {{ item.name }}
-      </span>
-    </router-link>
+    <template v-if="playlists">
+      <router-link
+        v-for="item in playlists" :key="item.id"
+        :to="{name: 'playlist', params: { id: item.id }}"
+        class="nav-link"
+      >
+        <span @dragover="onDragover" @drop="onDrop(item.id, $event)">
+          <Icon icon="playlist" class="mr-2" /> {{ item.name }}
+        </span>
+      </router-link>
+    </template>
   </div>
 </template>
 <script lang="ts">
@@ -35,8 +39,8 @@
       }
     },
     computed: {
-      playlists() {
-        return this.$store.state.playlists.slice(0, 10)
+      playlists(): any[] | null {
+        return this.$store.state.playlists?.slice(0, 10)
       },
     },
     methods: {
