@@ -6,6 +6,7 @@
         <ContextMenuItem icon="edit" @click="showEditModal = true">
           Edit
         </ContextMenuItem>
+        <b-dropdown-divider />
         <ContextMenuItem icon="x" variant="danger" @click="deletePlaylist()">
           Delete
         </ContextMenuItem>
@@ -16,6 +17,7 @@
     </p>
     <TrackList :tracks="playlist.tracks">
       <template #context-menu="{index}">
+        <b-dropdown-divider />
         <ContextMenuItem icon="x" variant="danger" @click="remove(index)">
           Remove
         </ContextMenuItem>
