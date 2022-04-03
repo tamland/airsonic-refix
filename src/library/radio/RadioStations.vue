@@ -7,7 +7,7 @@
         <tr v-for="(item, index) in items" :key="index"
             :class="{'active': item.id === playingTrackId}"
             @click="play(index)">
-          <CellTrackNumber :active="item.id === playingTrackId && isPlaying" :track="item" />
+          <CellTrackNumber :active="item.id === playingTrackId && isPlaying" :value="item.track" />
           <CellTitle :track="item" />
           <CellActions :track="item" />
         </tr>

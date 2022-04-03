@@ -12,7 +12,7 @@
         <tr v-for="(item, index) in podcast.tracks" :key="index"
             :class="{'active': item.id === playingTrackId, 'disabled': !item.playable}"
             @click="play(item)">
-          <CellTrackNumber :active="item.id === playingTrackId && isPlaying" :track="item" />
+          <CellTrackNumber :active="item.id === playingTrackId && isPlaying" :value="item.track" />
           <CellTitle :track="item" />
           <CellDuration :track="item" />
           <CellActions :track="item" />

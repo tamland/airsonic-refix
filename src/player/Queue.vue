@@ -25,7 +25,7 @@
             :class="{'active': index === queueIndex}"
             :draggable="true" @dragstart="dragstart(item.id, $event)"
             @click="play(index)">
-          <CellTrackNumber :active="index === queueIndex && isPlaying" :track="item" />
+          <CellTrackNumber :active="index === queueIndex && isPlaying" :value="item.track" />
           <CellTitle :track="item" />
           <CellArtist :track="item" />
           <CellAlbum :track="item" />

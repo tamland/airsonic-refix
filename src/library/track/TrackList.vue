@@ -16,7 +16,10 @@
           :class="{'active': item.id === playingTrackId}"
           :draggable="true" @dragstart="dragstart(item.id, $event)"
           @click="play(index)">
-        <CellTrackNumber :active="item.id === playingTrackId && isPlaying" :track="item" />
+        <CellTrackNumber
+          :active="item.id === playingTrackId && isPlaying"
+          :value="item.track || index + 1"
+        />
         <CellTitle :track="item" />
         <CellArtist v-if="!noArtist" :track="item" />
         <CellAlbum v-if="!noAlbum" :track="item" />
