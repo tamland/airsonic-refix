@@ -51,12 +51,12 @@
   </nav>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import Logo from './Logo.vue'
   import PlaylistNav from '@/playlist/PlaylistNav.vue'
   import { mapActions } from 'vuex'
 
-  export default Vue.extend({
+  export default defineComponent({
     components: {
       Logo,
       PlaylistNav,

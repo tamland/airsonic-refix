@@ -5,11 +5,11 @@
   </div>
 </template>
   <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent, PropType } from '@vue/composition-api'
 
-  export default Vue.extend({
+  export default defineComponent({
     props: {
-      load: { type: Function, required: true },
+      load: { type: Function as PropType<(offset: number) => Promise<any[]>>, required: true },
     },
     data() {
       return {

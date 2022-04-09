@@ -12,10 +12,10 @@
   </b-alert>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import { mapState, mapMutations } from 'vuex'
 
-  export default Vue.extend({
+  export default defineComponent({
     computed: {
       ...mapState(['error'])
     },

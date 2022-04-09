@@ -50,11 +50,11 @@
   </div>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import TrackList from '@/library/track/TrackList.vue'
   import { Album } from '@/shared/api'
 
-  export default Vue.extend({
+  export default defineComponent({
     components: {
       TrackList,
     },

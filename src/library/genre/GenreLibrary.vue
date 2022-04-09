@@ -27,10 +27,10 @@
   </div>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import { orderBy } from 'lodash-es'
 
-  export default Vue.extend({
+  export default defineComponent({
     props: {
       sort: { type: String, default: null },
     },

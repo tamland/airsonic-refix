@@ -41,12 +41,12 @@
   </div>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import { mapActions, mapState } from 'vuex'
   import About from './About.vue'
   import SearchForm from '@/search/SearchForm.vue'
 
-  export default Vue.extend({
+  export default defineComponent({
     components: {
       About,
       SearchForm,

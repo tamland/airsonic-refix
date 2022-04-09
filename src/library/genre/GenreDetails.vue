@@ -26,12 +26,12 @@
   </div>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import AlbumList from '@/library/album/AlbumList.vue'
   import TrackList from '@/library/track/TrackList.vue'
   import InfiniteList from '@/shared/components/InfiniteList.vue'
 
-  export default Vue.extend({
+  export default defineComponent({
     components: {
       AlbumList,
       TrackList,

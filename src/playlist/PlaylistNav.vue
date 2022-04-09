@@ -25,10 +25,10 @@
   </div>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import CreatePlaylistBtn from '@/playlist/CreatePlaylistBtn.vue'
 
-  export default Vue.extend({
+  export default defineComponent({
     components: {
       CreatePlaylistBtn
     },

@@ -12,11 +12,11 @@
   </div>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import AlbumList from './AlbumList.vue'
   import { Album, AlbumSort } from '@/shared/api'
 
-  export default Vue.extend({
+  export default defineComponent({
     components: {
       AlbumList,
     },

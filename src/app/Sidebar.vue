@@ -19,11 +19,11 @@
   </div>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import Nav from './Nav.vue'
   import { mapState, mapActions } from 'vuex'
 
-  export default Vue.extend({
+  export default defineComponent({
     components: {
       Nav,
     },

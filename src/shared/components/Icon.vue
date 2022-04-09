@@ -16,7 +16,7 @@
   />
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import iconChevronRight from '@iconify-icons/bi/chevron-compact-right'
   import iconDiscover from '@iconify-icons/bi/card-text'
   import iconDownload from '@iconify-icons/bi/download'
@@ -73,7 +73,7 @@
     x: iconX.body,
   } as {[key: string]: string}
 
-  export default Vue.extend({
+  export default defineComponent({
     props: {
       icon: { type: String, required: true }
     },

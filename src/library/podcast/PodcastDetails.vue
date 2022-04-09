@@ -22,7 +22,7 @@
   </ContentLoader>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import { mapGetters } from 'vuex'
   import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
   import CellActions from '@/library/track/CellActions.vue'
@@ -31,7 +31,7 @@
   import BaseTable from '@/library/track/BaseTable.vue'
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
 
-  export default Vue.extend({
+  export default defineComponent({
     components: {
       BaseTableHead,
       BaseTable,

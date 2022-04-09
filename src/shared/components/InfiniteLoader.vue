@@ -14,10 +14,10 @@
   </infinite-loading>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import InfiniteLoading from 'vue-infinite-loading'
 
-  export default Vue.extend({
+  export default defineComponent({
     components: {
       InfiniteLoading,
     },

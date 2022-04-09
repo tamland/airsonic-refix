@@ -102,11 +102,11 @@
   </div>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import { mapState, mapGetters, mapActions } from 'vuex'
   import ProgressBar from '@/player/ProgressBar.vue'
 
-  export default Vue.extend({
+  export default defineComponent({
     components: {
       ProgressBar,
     },

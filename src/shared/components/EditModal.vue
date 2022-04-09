@@ -14,9 +14,9 @@
   </b-modal>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
 
-  export default Vue.extend({
+  export default defineComponent({
     props: {
       item: { type: Object, default: null },
       visible: { type: Boolean, required: true },

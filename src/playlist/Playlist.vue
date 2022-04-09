@@ -41,11 +41,11 @@
   </ContentLoader>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import TrackList from '@/library/track/TrackList.vue'
   import EditModal from '@/shared/components/EditModal.vue'
 
-  export default Vue.extend({
+  export default defineComponent({
     components: {
       TrackList,
       EditModal,

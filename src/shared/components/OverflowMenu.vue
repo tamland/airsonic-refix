@@ -13,9 +13,9 @@
   </b-dropdown>
 </template>
 <script lang="ts">
-  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
 
-  export default Vue.extend({
+  export default defineComponent({
     props: {
       disabled: { type: Boolean, default: false },
       variant: { type: String, default: 'link' },
