@@ -73,8 +73,8 @@ export interface Playlist {
 }
 
 export class API {
-  private readonly fetch: (path: string, params?: any) => Promise<any>;
-  private readonly clientName = window.origin || 'web';
+  private readonly fetch: (path: string, params?: any) => Promise<any>
+  private readonly clientName = window.origin || 'web'
 
   constructor(private auth: AuthService) {
     this.fetch = (path: string, params: any) => {

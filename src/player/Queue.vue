@@ -44,7 +44,6 @@
 <script lang="ts">
   import Vue from 'vue'
   import { mapState, mapMutations, mapGetters } from 'vuex'
-  import TrackList from '@/library/track/TrackList.vue'
   import BaseTable from '@/library/track/BaseTable.vue'
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
   import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
@@ -64,7 +63,6 @@
       CellTrackNumber,
       BaseTableHead,
       BaseTable,
-      TrackList,
     },
     computed: {
       ...mapState('player', {

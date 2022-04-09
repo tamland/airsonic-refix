@@ -2,11 +2,11 @@ import { randomString, md5 } from '@/shared/utils'
 import { config } from '@/shared/config'
 
 export class AuthService {
-  public server = '';
-  public username = '';
-  public salt = '';
-  public hash = '';
-  private authenticated = false;
+  public server = ''
+  public username = ''
+  public salt = ''
+  public hash = ''
+  private authenticated = false
 
   constructor() {
     this.server = config.serverUrl || localStorage.getItem('server') || ''
