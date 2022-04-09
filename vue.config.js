@@ -1,8 +1,10 @@
 module.exports = {
   devServer: {
-    disableHostCheck: true,
-    overlay: {
-      errors: false
+    allowedHosts: 'all',
+    client: {
+      overlay: {
+        errors: false
+      }
     }
   }
 }
