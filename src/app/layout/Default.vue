@@ -11,17 +11,18 @@
   </div>
 </template>
 <script lang="ts">
+  import { defineComponent } from '@vue/composition-api'
   import TopNav from '@/app/TopNav.vue'
   import Sidebar from '@/app/Sidebar.vue'
   import Player from '@/player/Player.vue'
 
-  export default {
+  export default defineComponent({
     components: {
       TopNav,
       Sidebar,
       Player,
     },
-  }
+  })
 </script>
 <style lang="scss">
   main {
