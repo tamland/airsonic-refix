@@ -51,7 +51,7 @@ $list-group-action-active-bg: rgba(#fff, .1);
 }
 
 a.active {
-  color: $primary;
+  color: var(--primary);
 }
 
 h1, h2, h3, h4, h5 {
@@ -74,4 +74,15 @@ $enable-responsive-font-sizes: true;
 .modal-header .close {
   color: $theme-text;
   opacity: 1;
+}
+
+/* Override bootstrap styles with var */
+
+.text-primary {
+  color: var(--primary) !important;
+}
+
+.btn-primary {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
 }

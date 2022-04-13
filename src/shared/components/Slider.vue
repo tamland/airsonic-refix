@@ -37,33 +37,33 @@
   })
 </script>
 <style lang="scss" scoped>
-  @import '/src/style/_variables';
   @import '~vue-slider-component/theme/material.css';
 
   .vue-slider {
     cursor: pointer;
   }
   ::v-deep .vue-slider-rail {
-    background-color: $secondary;
+    background-color: var(--secondary);
     border-radius: 0;
   }
   ::v-deep .vue-slider-process {
-    background-color: $primary;
+    background-color: var(--primary);
     border-radius: 0;
   }
   ::v-deep .vue-slider-dot-handle  {
-    background-color: $primary;
+    background-color: var(--primary);
   }
   ::v-deep .vue-slider-dot-handle::after {
-    background-color: rgba($primary, 0.32);
+    background-color: var(--primary);
+    opacity: 0.32;
     transform: translate(-50%, -50%) scale(1);
   }
   ::v-deep .vue-slider-dot-handle:hover .vue-slider-dot-tooltip {
     visibility: visible;
   }
   ::v-deep .vue-slider-dot-tooltip-inner {
-    background-color: $primary;
-    border-color: $primary;
+    background-color: var(--primary);
+    border-color: var(--primary);
   }
   ::v-deep .vue-slider-dot-tooltip-text {
     width: 44px;
