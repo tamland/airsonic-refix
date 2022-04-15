@@ -126,13 +126,19 @@
       isFavourite(): boolean {
         return this.track && !!this.$store.state.favourites.tracks[this.track.id]
       },
+      documentTitle(): string {
+        return [
+          this.streamTitle || this.track?.title,
+          this.track?.artist || this.track?.album,
+          'Airsonic (refix)'
+        ].filter(x => !!x).join(' • ')
+      }
     },
     watch: {
-      track: {
+      documentTitle: {
         immediate: true,
-        handler(track: any) {
-          document.title = [track?.title, track?.artist || track?.album, 'Airsonic (refix)']
-            .filter(x => !!x).join(' • ')
+        handler(value: string) {
+          document.title = value
         }
       }
     },
