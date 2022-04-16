@@ -309,6 +309,32 @@ export class API {
     return this.fetch('rest/deleteInternetRadioStation', { id })
   }
 
+  async addPodcast(url: string): Promise<any> {
+    const { server, username, salt, hash } = this.auth
+    const response = await fetch(`${server}/rest/createPodcastChannel` +
+      `?url=${url}` +
+      '&v=1.15.0' +
+      `&u=${username}` +
+      `&s=${salt}` +
+      `&t=${hash}` +
+      `&c=${this.clientName}`
+    )
+    return (response?.status || 'ok') === 'ok'
+  }
+
+  async deletePodcast(id: string): Promise<any> {
+    const { server, username, salt, hash } = this.auth
+    const response = await fetch(`${server}/rest/deletePodcastChannel` +
+      `?id=${id}` +
+      '&v=1.15.0' +
+      `&u=${username}` +
+      `&s=${salt}` +
+      `&t=${hash}` +
+      `&c=${this.clientName}`
+    )
+    return (response?.status || 'ok') === 'ok'
+  }
+
   async getPodcasts(): Promise<any[]> {
     const response = await this.fetch('rest/getPodcasts')
     return (response?.podcasts?.channel || []).map(this.normalizePodcast, this)

@@ -14,10 +14,31 @@
         </li>
       </ul>
       <OverflowMenu>
+        <ContextMenuItem v-if="$auth.hasRole('podcast')" icon="plus" @click="showPodcastAdd = true">
+          Add
+        </ContextMenuItem>
         <ContextMenuItem icon="refresh" @click="refresh()">
           Refresh
         </ContextMenuItem>
       </OverflowMenu>
+
+      <b-modal
+        v-model="showPodcastAdd"
+        title="Add podcast"
+        size="md"
+        @ok="addPodcast"
+      >
+        <template #modal-header-close>
+          <Icon icon="x" />
+        </template>
+        <form class="form-inline my-2 my-lg-0" @submit.prevent="addPodcast">
+          <input
+            v-model="addedPodcastUrl"
+            class="form-control" type="url"
+            style="width: 100%"
+            placeholder="Podcast URL">
+        </form>
+      </b-modal>
     </div>
     <ContentLoader v-slot :loading="loading">
       <Tiles square>
@@ -31,6 +52,14 @@
         </Tile>
       </Tiles>
     </ContentLoader>
+    <p v-if="sortedItems.length === 0">
+      No podcasts have been added to the library yet.
+    </p>
+    <p v-if="sortedItems.length === 0 && $auth.hasRole('podcast')">
+      <a href="#" @click.prevent="showPodcastAdd = true">
+        Click here to add a podcast now.
+      </a>
+    </p>
   </div>
 </template>
 <script lang="ts">
@@ -44,6 +73,8 @@
     data() {
       return {
         items: null as null | any[],
+        showPodcastAdd: false,
+        addedPodcastUrl: '',
       }
     },
     computed: {
@@ -63,7 +94,15 @@
       async refresh() {
         await this.$api.refreshPodcasts()
         this.items = await this.$api.getPodcasts()
-      }
+      },
+      addPodcast() {
+        this.showPodcastAdd = false
+        if (this.addedPodcastUrl) {
+          this.$api.addPodcast(this.addedPodcastUrl).then(() => {
+            setTimeout(this.refresh, 1500)
+          })
+        }
+      },
     }
   })
 </script>

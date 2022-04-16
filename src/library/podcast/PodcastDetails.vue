@@ -1,5 +1,12 @@
 <template>
   <ContentLoader v-slot :loading="podcast ==null">
+    <button
+      v-if="$auth.hasRole('podcast')"
+      class="btn-xs btn-danger float-right"
+      @click.prevent="deletePodcast"
+    >
+      Delete podcast
+    </button>
     <h1>{{ podcast.name }}</h1>
     <p>{{ podcast.description }}</p>
     <BaseTable>
@@ -69,6 +76,13 @@
           tracks,
         })
       },
+      deletePodcast() {
+        if (confirm(`OK to delete podcast ${this.podcast?.name}?`)) {
+          this.$api.deletePodcast(this.id).then(() => {
+            this.$router.replace({ name: 'podcasts' })
+          })
+        }
+      }
     }
   })
 </script>

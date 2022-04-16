@@ -6,6 +6,7 @@ export class AuthService {
   public username = ''
   public salt = ''
   public hash = ''
+  public roles: string[] = []
   private authenticated = false
 
   constructor() {
@@ -13,6 +14,10 @@ export class AuthService {
     this.username = localStorage.getItem('username') || ''
     this.salt = localStorage.getItem('salt') || ''
     this.hash = localStorage.getItem('hash') || ''
+    const roleJSON = localStorage.getItem('roles') || ''
+    if (roleJSON) {
+      this.roles = JSON.parse(roleJSON)
+    }
   }
 
   private saveSession() {
@@ -65,12 +70,39 @@ export class AuthService {
         if (remember) {
           this.saveSession()
         }
+        this.fetchUserDetails()
       })
   }
 
   logout() {
     localStorage.clear()
     sessionStorage.clear()
+  }
+
+  fetchUserDetails() {
+    const url = `${this.server}/rest/getUser?username=${this.username}&u=${this.username}&s=${this.salt}&t=${this.hash}&v=1.15.0&c=app&f=json`
+    return fetch(url)
+      .then(response => response.ok
+        ? response.json()
+        : Promise.reject(new Error(response.statusText)))
+      .then((response) => {
+        const subsonicResponse = response['subsonic-response']
+        if (!subsonicResponse || subsonicResponse.status !== 'ok') {
+          const message = subsonicResponse.error?.message || subsonicResponse.status
+          throw new Error(message)
+        }
+        this.roles = []
+        for (const [key, value] of Object.entries(subsonicResponse.user)) {
+          if (key.endsWith('Role') && value === true) {
+            this.roles.push(key.replace(/Role$/, ''))
+          }
+        }
+        localStorage.setItem('roles', JSON.stringify(this.roles))
+      })
+  }
+
+  hasRole(role: string): boolean {
+    return this.roles.includes(role)
   }
 
   isAuthenticated() {
