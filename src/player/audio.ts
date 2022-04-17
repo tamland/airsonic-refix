@@ -10,6 +10,7 @@ export class AudioController {
 
   ontimeupdate: (value: number) => void = () => { /* do nothing */ }
   ondurationchange: (value: number) => void = () => { /* do nothing */ }
+  onpause: () => void = () => { /* do nothing */ }
   onstreamtitlechange: (value: string | null) => void = () => { /* do nothing */ }
   onended: () => void = () => { /* do nothing */ }
   onerror: (err: MediaError | null) => void = () => { /* do nothing */ }
@@ -67,6 +68,9 @@ export class AudioController {
     }
     this.audio.ondurationchange = () => {
       this.ondurationchange(this.audio.duration)
+    }
+    this.audio.onpause = () => {
+      this.onpause()
     }
     this.ondurationchange(this.audio.duration)
     this.ontimeupdate(this.audio.currentTime)
@@ -161,6 +165,7 @@ function endPlayback(audio: HTMLAudioElement, duration: number) {
   console.info(`AudioController: ending payback for ${audio}`)
   audio.ontimeupdate = null
   audio.ondurationchange = null
+  audio.onpause = null
   audio.onerror = null
   audio.onended = null
   audio.onloadedmetadata = null

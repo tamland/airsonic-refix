@@ -269,11 +269,12 @@ export function setupAudio(store: Store<any>, api: API) {
       return store.dispatch('player/resetQueue')
     }
   }
-
+  audio.onpause = () => {
+    store.commit('player/setPaused')
+  }
   audio.onstreamtitlechange = (value: string | null) => {
     store.commit('player/setStreamTitle', value)
   }
-
   audio.onerror = (error: any) => {
     store.commit('player/setPaused')
     store.commit('setError', error)
