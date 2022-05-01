@@ -42,7 +42,6 @@
 </template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
-  import { mapState } from 'vuex'
   import About from './About.vue'
   import SearchForm from '@/search/SearchForm.vue'
 
@@ -57,10 +56,12 @@
       }
     },
     computed: {
-      ...mapState([
-        'server',
-        'username',
-      ]),
+      server() {
+        return this.$store.state.server
+      },
+      username() {
+        return this.$store.state.username
+      }
     },
     methods: {
       showMenu() {

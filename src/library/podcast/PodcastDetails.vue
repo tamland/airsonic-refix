@@ -23,7 +23,6 @@
 </template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
-  import { mapGetters } from 'vuex'
   import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
   import CellActions from '@/library/track/CellActions.vue'
   import CellDuration from '@/library/track/CellDuration.vue'
@@ -49,10 +48,12 @@
       }
     },
     computed: {
-      ...mapGetters({
-        playingTrackId: 'player/trackId',
-        isPlaying: 'player/isPlaying',
-      }),
+      isPlaying(): boolean {
+        return this.$store.getters['player/isPlaying']
+      },
+      playingTrackId(): any {
+        return this.$store.getters['player/trackId']
+      },
     },
     async created() {
       this.podcast = await this.$api.getPodcast(this.id)

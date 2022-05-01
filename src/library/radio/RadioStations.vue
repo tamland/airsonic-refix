@@ -18,7 +18,6 @@
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
   import { RadioStation } from '@/shared/api'
-  import { mapGetters } from 'vuex'
   import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
   import CellActions from '@/library/track/CellActions.vue'
   import CellTitle from '@/library/track/CellTitle.vue'
@@ -39,10 +38,12 @@
       }
     },
     computed: {
-      ...mapGetters({
-        playingTrackId: 'player/trackId',
-        isPlaying: 'player/isPlaying',
-      }),
+      isPlaying() {
+        return this.$store.getters['player/isPlaying']
+      },
+      playingTrackId() {
+        return this.$store.getters['player/trackId']
+      },
     },
     async created() {
       this.items = await this.$api.getRadioStations()

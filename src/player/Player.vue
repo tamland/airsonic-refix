@@ -103,7 +103,6 @@
 </template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
-  import { mapState, mapGetters } from 'vuex'
   import ProgressBar from '@/player/ProgressBar.vue'
 
   export default defineComponent({
@@ -111,20 +110,32 @@
       ProgressBar,
     },
     computed: {
-      ...mapState('player', {
-        isPlaying: (state: any) => state.isPlaying,
-        repeatActive: (state: any) => state.repeat,
-        shuffleActive: (state: any) => state.shuffle,
-        visible: (state: any) => state.queue.length > 0,
-        volume: (state: any) => state.volume,
-        isMuted: (state: any) => state.volume <= 0.0,
-        streamTitle: (state: any) => state.streamTitle,
-      }),
-      ...mapGetters('player', [
-        'track',
-      ]),
+      visible() {
+        return this.$store.state.player.queue.length > 0
+      },
+      isPlaying() {
+        return this.$store.state.player.isPlaying
+      },
+      volume() {
+        return this.$store.state.player.volume
+      },
+      isMuted() {
+        return this.$store.state.player.volume <= 0.0
+      },
+      repeatActive(): boolean {
+        return this.$store.state.player.repeat
+      },
+      shuffleActive(): boolean {
+        return this.$store.state.player.shuffle
+      },
       isFavourite(): boolean {
         return this.track && !!this.$store.state.favourites.tracks[this.track.id]
+      },
+      track() {
+        return this.$store.getters['player/track']
+      },
+      streamTitle() {
+        return this.$store.state.streamTitle
       },
       documentTitle(): string {
         return [

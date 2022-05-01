@@ -21,14 +21,15 @@
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
   import Nav from './Nav.vue'
-  import { mapState } from 'vuex'
 
   export default defineComponent({
     components: {
       Nav,
     },
     computed: {
-      ...mapState(['showMenu'])
+      showMenu() {
+        return this.$store.state.showMenu
+      }
     },
     methods: {
       hideMenu() {

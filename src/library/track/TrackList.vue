@@ -33,7 +33,6 @@
 </template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
-  import { mapGetters } from 'vuex'
   import CellDuration from '@/library/track/CellDuration.vue'
   import CellArtist from '@/library/track/CellArtist.vue'
   import CellAlbum from '@/library/track/CellAlbum.vue'
@@ -61,10 +60,12 @@
       noDuration: { type: Boolean, default: false },
     },
     computed: {
-      ...mapGetters({
-        playingTrackId: 'player/trackId',
-        isPlaying: 'player/isPlaying',
-      }),
+      isPlaying(): boolean {
+        return this.$store.getters['player/isPlaying']
+      },
+      playingTrackId(): any {
+        return this.$store.getters['player/trackId']
+      },
     },
     methods: {
       play(index: number) {

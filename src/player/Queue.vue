@@ -43,7 +43,6 @@
 </template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
-  import { mapState, mapGetters } from 'vuex'
   import BaseTable from '@/library/track/BaseTable.vue'
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
   import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
@@ -65,13 +64,15 @@
       BaseTable,
     },
     computed: {
-      ...mapState('player', {
-        tracks: 'queue',
-        queueIndex: 'queueIndex',
-      }),
-      ...mapGetters('player', {
-        isPlaying: 'isPlaying',
-      }),
+      isPlaying() {
+        return this.$store.getters['player/isPlaying']
+      },
+      tracks() {
+        return this.$store.state.player.queue
+      },
+      queueIndex() {
+        return this.$store.state.player.queueIndex
+      },
     },
     methods: {
       play(index: number) {
