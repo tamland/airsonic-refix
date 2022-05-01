@@ -4,7 +4,7 @@
       <Nav />
     </div>
     <b-sidebar
-      :visible="showMenu"
+      :visible="visible"
       class="d-md-none"
       sidebar-class="elevated"
       bg-variant=""
@@ -27,8 +27,8 @@
       Nav,
     },
     computed: {
-      showMenu() {
-        return this.$store.state.showMenu
+      visible() {
+        return this.$store.state.menuVisible
       }
     },
     methods: {

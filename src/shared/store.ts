@@ -9,7 +9,7 @@ interface State {
   isLoggedIn: boolean;
   username: null | string;
   server: null | string;
-  showMenu: boolean;
+  menuVisible: boolean;
   error: Error | null;
   playlists: null | Playlist[];
 }
@@ -19,7 +19,7 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
     isLoggedIn: false,
     username: null,
     server: null,
-    showMenu: false,
+    menuVisible: false,
     error: null,
     playlists: null,
   },
@@ -36,7 +36,7 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
       state.server = server
     },
     setMenuVisible(state, visible) {
-      state.showMenu = visible
+      state.menuVisible = visible
     },
     setPlaylists(state, playlists: Playlist[]) {
       state.playlists = playlists
