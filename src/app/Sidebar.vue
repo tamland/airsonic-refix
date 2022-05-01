@@ -21,7 +21,7 @@
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
   import Nav from './Nav.vue'
-  import { mapState, mapActions } from 'vuex'
+  import { mapState } from 'vuex'
 
   export default defineComponent({
     components: {
@@ -31,7 +31,9 @@
       ...mapState(['showMenu'])
     },
     methods: {
-      ...mapActions(['hideMenu']),
+      hideMenu() {
+        return this.$store.dispatch('hideMenu')
+      }
     },
   })
 </script>

@@ -33,7 +33,7 @@
 </template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
-  import { mapActions, mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'
   import CellDuration from '@/library/track/CellDuration.vue'
   import CellArtist from '@/library/track/CellArtist.vue'
   import CellAlbum from '@/library/track/CellAlbum.vue'
@@ -67,9 +67,6 @@
       }),
     },
     methods: {
-      ...mapActions({
-        playPause: 'player/playPause',
-      }),
       play(index: number) {
         if ((this.tracks as any)[index].id === this.playingTrackId) {
           return this.$store.dispatch('player/playPause')

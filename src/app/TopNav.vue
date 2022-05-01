@@ -42,7 +42,7 @@
 </template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
-  import { mapActions, mapState } from 'vuex'
+  import { mapState } from 'vuex'
   import About from './About.vue'
   import SearchForm from '@/search/SearchForm.vue'
 
@@ -63,9 +63,9 @@
       ]),
     },
     methods: {
-      ...mapActions([
-        'showMenu',
-      ]),
+      showMenu() {
+        return this.$store.dispatch('showMenu')
+      },
       scan() {
         return this.$api.scan()
       },

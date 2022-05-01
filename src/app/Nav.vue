@@ -54,7 +54,6 @@
   import { defineComponent } from '@vue/composition-api'
   import Logo from './Logo.vue'
   import PlaylistNav from '@/playlist/PlaylistNav.vue'
-  import { mapActions } from 'vuex'
 
   export default defineComponent({
     components: {
@@ -62,7 +61,9 @@
       PlaylistNav,
     },
     methods: {
-      ...mapActions(['hideMenu']),
+      hideMenu() {
+        return this.$store.dispatch('hideMenu')
+      }
     },
   })
 </script>

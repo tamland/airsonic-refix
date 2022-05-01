@@ -43,7 +43,7 @@
 </template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
-  import { mapState, mapMutations, mapGetters } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
   import BaseTable from '@/library/track/BaseTable.vue'
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
   import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
@@ -74,10 +74,6 @@
       }),
     },
     methods: {
-      ...mapMutations('player', {
-        remove: 'removeFromQueue',
-        clear: 'clearQueue',
-      }),
       play(index: number) {
         if (index === this.queueIndex) {
           return this.$store.dispatch('player/playPause')
@@ -89,6 +85,12 @@
       },
       dragstart(id: string, event: any) {
         event.dataTransfer.setData('id', id)
+      },
+      remove(idx: number) {
+        return this.$store.commit('player/removeFromQueue', idx)
+      },
+      clear() {
+        return this.$store.commit('player/clearQueue')
       },
     }
   })

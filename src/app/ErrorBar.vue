@@ -13,16 +13,17 @@
 </template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
-  import { mapState, mapMutations } from 'vuex'
 
   export default defineComponent({
     computed: {
-      ...mapState(['error'])
+      error(): any {
+        return this.$store.state.error
+      }
     },
     methods: {
-      ...mapMutations([
-        'clearError'
-      ]),
+      clearError() {
+        return this.$store.commit('clearError')
+      }
     },
   })
 </script>

@@ -103,7 +103,7 @@
 </template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
-  import { mapState, mapGetters, mapActions } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
   import ProgressBar from '@/player/ProgressBar.vue'
 
   export default defineComponent({
@@ -143,15 +143,23 @@
       }
     },
     methods: {
-      ...mapActions('player', [
-        'playPause',
-        'next',
-        'previous',
-        'toggleRepeat',
-        'toggleShuffle',
-      ]),
+      playPause() {
+        return this.$store.dispatch('player/playPause')
+      },
+      next() {
+        return this.$store.dispatch('player/next')
+      },
+      previous() {
+        return this.$store.dispatch('player/previous')
+      },
       setVolume(volume: any) {
         return this.$store.dispatch('player/setVolume', parseFloat(volume))
+      },
+      toggleRepeat() {
+        return this.$store.dispatch('player/toggleRepeat')
+      },
+      toggleShuffle() {
+        return this.$store.dispatch('player/toggleShuffle')
       },
       toggleFavourite() {
         return this.$store.dispatch('favourites/toggle', { id: this.track.id, type: 'track' })
