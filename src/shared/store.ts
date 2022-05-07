@@ -62,17 +62,17 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
       commit('setMenuVisible', false)
     },
     loadPlaylists({ commit }) {
-      api.getPlaylists().then(result => {
+      return api.getPlaylists().then(result => {
         commit('setPlaylists', result)
       })
     },
     createPlaylist({ commit }, name) {
-      api.createPlaylist(name).then(result => {
+      return api.createPlaylist(name).then(result => {
         commit('setPlaylists', result)
       })
     },
     updatePlaylist({ commit }, { id, name, comment }) {
-      api.editPlaylist(id, name, comment).then(() => {
+      return api.editPlaylist(id, name, comment).then(() => {
         commit('updatePlaylist', { id, name, comment })
       })
     },
