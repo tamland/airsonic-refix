@@ -1,7 +1,7 @@
 <template>
-  <div v-if="items">
+  <ContentLoader v-slot :loading="items === null">
     <h1>Radio</h1>
-    <BaseTable>
+    <BaseTable v-if="items.length > 0">
       <BaseTableHead />
       <tbody>
         <tr v-for="(item, index) in items" :key="index"
@@ -13,7 +13,8 @@
         </tr>
       </tbody>
     </BaseTable>
-  </div>
+    <EmptyIndicator v-else />
+  </ContentLoader>
 </template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
@@ -23,9 +24,11 @@
   import CellTitle from '@/library/track/CellTitle.vue'
   import BaseTable from '@/library/track/BaseTable.vue'
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
+  import ContentLoader from '@/shared/components/ContentLoader.vue'
 
   export default defineComponent({
     components: {
+      ContentLoader,
       BaseTableHead,
       BaseTable,
       CellTitle,
@@ -34,7 +37,7 @@
     },
     data() {
       return {
-        items: [] as RadioStation[],
+        items: null as null | RadioStation[],
       }
     },
     computed: {
@@ -50,7 +53,7 @@
     },
     methods: {
       play(index: number) {
-        if (this.items[index].id === this.playingTrackId) {
+        if (this.items && this.items[index].id === this.playingTrackId) {
           return this.$store.dispatch('player/playPause')
         }
         return this.$store.dispatch('player/playTrackList', {

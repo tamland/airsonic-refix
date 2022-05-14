@@ -20,7 +20,7 @@
       </OverflowMenu>
     </div>
     <ContentLoader v-slot :loading="loading">
-      <Tiles square>
+      <Tiles v-if="items.length > 0" square>
         <Tile v-for="item in sortedItems" :key="item.id"
               :image="item.image"
               :to="{name: 'podcast', params: { id: item.id } }"
@@ -30,6 +30,7 @@
           </template>
         </Tile>
       </Tiles>
+      <EmptyIndicator v-else />
     </ContentLoader>
   </div>
 </template>

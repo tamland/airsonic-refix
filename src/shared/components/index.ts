@@ -2,6 +2,7 @@ import Avatar from './Avatar.vue'
 import ContentLoader from './ContentLoader.vue'
 import ContextMenu from '@/shared/components/ContextMenu.vue'
 import ContextMenuItem from '@/shared/components/ContextMenuItem.vue'
+import EmptyIndicator from './EmptyIndicator.vue'
 import ExternalLink from './ExternalLink.vue'
 import Icon from './Icon.vue'
 import InfiniteLoader from './InfiniteLoader.vue'
@@ -41,6 +42,7 @@ export const components = {
   ContentLoader,
   ContextMenu,
   ContextMenuItem,
+  EmptyIndicator,
   ExternalLink,
   Icon,
   InfiniteLoader,

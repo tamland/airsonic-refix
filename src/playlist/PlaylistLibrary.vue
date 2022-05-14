@@ -17,7 +17,7 @@
         New
       </CreatePlaylistBtn>
     </div>
-    <Tiles square>
+    <Tiles v-if="items.length > 0" square>
       <Tile
         v-for="item in items" :key="item.id"
         :image="item.image"
@@ -28,6 +28,7 @@
         </template>
       </Tile>
     </Tiles>
+    <EmptyIndicator v-else />
   </div>
 </template>
 <script lang="ts">

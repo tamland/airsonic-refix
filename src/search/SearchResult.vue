@@ -12,6 +12,7 @@
       <h1>Tracks</h1>
       <TrackList :tracks="result.tracks" />
     </div>
+    <EmptyIndicator v-if="!hasResult" label="No results" />
   </ContentLoader>
 </template>
 <script lang="ts">
@@ -32,6 +33,14 @@
     data() {
       return {
         result: null as any,
+      }
+    },
+    computed: {
+      hasResult(): boolean {
+        return this.result && (
+          this.result.artists.length > 0 ||
+          this.result.albums.length > 0 ||
+          this.result.tracks.length > 0)
       }
     },
     watch: {

@@ -15,7 +15,7 @@
     <p v-if="playlist.comment" class="text-muted">
       {{ playlist.comment }}
     </p>
-    <TrackList :tracks="playlist.tracks">
+    <TrackList v-if="playlist.tracks.length > 0" :tracks="playlist.tracks">
       <template #context-menu="{index}">
         <b-dropdown-divider />
         <ContextMenuItem icon="x" variant="danger" @click="remove(index)">
@@ -23,6 +23,7 @@
         </ContextMenuItem>
       </template>
     </TrackList>
+    <EmptyIndicator v-else />
     <EditModal :visible.sync="showEditModal" :item="playlist" @confirm="updatePlaylist">
       <template #title>
         Edit playlist

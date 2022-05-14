@@ -8,7 +8,7 @@
         Clear
       </b-button>
     </div>
-    <BaseTable>
+    <BaseTable v-if="tracks.length > 0">
       <BaseTableHead>
         <th class="text-left d-none d-lg-table-cell">
           Artist
@@ -39,6 +39,7 @@
         </tr>
       </tbody>
     </BaseTable>
+    <EmptyIndicator v-else />
   </div>
 </template>
 <script lang="ts">
