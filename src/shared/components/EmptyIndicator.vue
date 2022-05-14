@@ -1,5 +1,5 @@
 <template functional>
-  <div class="d-flex flex-column +flex-grow-1 align-items-center pt-5" :class="[data.class, data.staticClass]">
+  <div class="d-flex flex-column align-items-center pt-5">
     <Icon icon="stack" class="empty-icon" />
     <div class="mt-4 text-muted">
       <slot>
