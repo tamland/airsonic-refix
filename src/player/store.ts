@@ -190,7 +190,7 @@ export const playerModule: Module<State, any> = {
     async resetQueue({ commit, getters }) {
       commit('setQueueIndex', 0)
       commit('setPaused')
-      await audio.changeTrack({ ...getters.url, paused: true })
+      await audio.changeTrack({ ...getters.track, paused: true })
     },
     toggleRepeat({ commit, state }) {
       commit('setRepeat', !state.repeat)
