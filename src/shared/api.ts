@@ -61,6 +61,12 @@ export interface RadioStation {
   url: string
 }
 
+export interface PodcastEpisode {
+  id: string
+  title: string
+  description: string
+}
+
 export interface Playlist {
   id: string
   name: string
@@ -419,20 +425,21 @@ export class API {
       url: podcast.url,
       trackCount: episodes.length,
       updatedAt: max(map(episodes, 'publishDate')),
-      tracks: episodes.map((item: any, index: number) => ({
+      tracks: episodes.map((item: any, index: number): Track & PodcastEpisode => ({
         id: item.id,
         title: item.title,
         duration: item.duration,
         favourite: false,
         track: episodes.length - index,
         album: podcast.title,
-        albumId: null,
         artist: '',
-        artistId: null,
+        albumId: undefined,
+        artistId: undefined,
         image,
-        url: item.streamId ? this.getStreamUrl(item.streamId) : null,
+        url: item.status === 'completed' && item.streamId
+          ? this.getStreamUrl(item.streamId)
+          : undefined,
         description: item.description,
-        playable: item.status === 'completed',
       })),
     }
   }

@@ -10,7 +10,7 @@
       </BaseTableHead>
       <tbody>
         <tr v-for="(item, index) in podcast.tracks" :key="index"
-            :class="{'active': item.id === playingTrackId, 'disabled': !item.playable}"
+            :class="{'active': item.id === playingTrackId, 'disabled': !item.url}"
             @click="play(item)">
           <CellTrackNumber :active="item.id === playingTrackId && isPlaying" :value="item.track" />
           <CellTitle :track="item" />
@@ -60,10 +60,10 @@
     },
     methods: {
       async play(track: any) {
-        if (!track.playable) {
+        if (!track.url) {
           return
         }
-        const tracks = this.podcast.tracks.filter((x: any) => x.playable)
+        const tracks = this.podcast.tracks.filter((x: any) => x.url)
         const index = tracks.findIndex((x: any) => x.id === track.id)
         return this.$store.dispatch('player/playTrackList', {
           index,

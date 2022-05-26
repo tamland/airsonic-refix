@@ -1,6 +1,6 @@
 <template>
   <td class="text-right" @click.stop="">
-    <OverflowMenu :disabled="track.playable === false">
+    <OverflowMenu :disabled="!track.url">
       <ContextMenuItem icon="plus" @click="setNextInQueue()">
         Play next
       </ContextMenuItem>
