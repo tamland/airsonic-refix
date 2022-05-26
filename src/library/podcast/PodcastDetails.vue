@@ -63,6 +63,9 @@
         if (!track.url) {
           return
         }
+        if (track.id === this.playingTrackId) {
+          return this.$store.dispatch('player/playPause')
+        }
         const tracks = this.podcast.tracks.filter((x: any) => x.url)
         const index = tracks.findIndex((x: any) => x.id === track.id)
         return this.$store.dispatch('player/playTrackList', {
