@@ -1,6 +1,6 @@
 <template functional>
   <td>
-    {{ props.track.title }}
+    <slot>{{ props.track.title }}</slot>
     <div v-if="props.track.description" class="text-muted">
       <small>{{ props.track.description }}</small>
     </div>

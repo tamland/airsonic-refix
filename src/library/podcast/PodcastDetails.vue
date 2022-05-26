@@ -13,7 +13,9 @@
             :class="{'active': item.id === playingTrackId, 'disabled': !item.url}"
             @click="play(item)">
           <CellTrackNumber :active="item.id === playingTrackId && isPlaying" :value="item.track" />
-          <CellTitle :track="item" />
+          <CellTitle :track="item">
+            {{ item.title }} <Icon v-if="item.playCount > 0" icon="check" />
+          </CellTitle>
           <CellDuration :track="item" />
           <CellActions :track="item" />
         </tr>

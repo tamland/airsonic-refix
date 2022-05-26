@@ -21,6 +21,7 @@ export interface Track {
   artist?: string
   artistId?: string
   isStream?: boolean
+  playCount? : number
 }
 
 export interface Album {
@@ -440,6 +441,7 @@ export class API {
           ? this.getStreamUrl(item.streamId)
           : undefined,
         description: item.description,
+        playCount: item.playCount || 0,
       })),
     }
   }
