@@ -2,7 +2,6 @@ import '@/style/main.scss'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Router from 'vue-router'
-import CompositionAPI, { createApp } from '@vue/composition-api'
 import App from '@/app/App.vue'
 import { components, formatDuration } from '@/shared/components'
 import { setupRouter } from '@/shared/router'
@@ -21,7 +20,17 @@ declare module 'vue/types/vue' {
   }
 }
 
-Vue.use(CompositionAPI)
+const createApp = (args: any) => {
+  const vm: any = new Vue(args)
+  vm.config = Vue.config
+  vm.config.globalProperties = Vue.prototype
+  vm.mount = vm.$mount
+  vm.component = (key: string, value: any) => {
+    Vue.component(key, value)
+  }
+  return vm
+}
+
 Vue.use(Vuex)
 Vue.use(Router)
 
@@ -37,7 +46,6 @@ const app = createApp({
   render: (h: any) => h(App),
 })
 
-app.config.globalProperties = Vue.prototype
 app.config.globalProperties.$auth = authService
 app.config.globalProperties.$api = api
 app.config.globalProperties.$formatDuration = formatDuration

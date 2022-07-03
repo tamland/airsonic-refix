@@ -32,7 +32,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from '@vue/composition-api'
+  import { defineComponent } from 'vue'
   import CreatePlaylistBtn from '@/playlist/CreatePlaylistBtn.vue'
   import { orderBy } from 'lodash-es'
 

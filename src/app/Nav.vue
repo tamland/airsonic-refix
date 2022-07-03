@@ -51,7 +51,7 @@
   </nav>
 </template>
 <script lang="ts">
-  import { defineComponent } from '@vue/composition-api'
+  import { defineComponent } from 'vue'
   import Logo from './Logo.vue'
   import PlaylistNav from '@/playlist/PlaylistNav.vue'
 

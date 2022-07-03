@@ -40,7 +40,7 @@
   </div>
 </template>>
 <script lang="ts">
-  import { defineComponent } from '@vue/composition-api'
+  import { defineComponent } from 'vue'
   import { config } from '@/shared/config'
   import Logo from '@/app/Logo.vue'
 

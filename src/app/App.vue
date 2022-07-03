@@ -7,7 +7,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from '@vue/composition-api'
+  import { defineComponent } from 'vue'
   import ErrorBar from './ErrorBar.vue'
   import Default from '@/app/layout/Default.vue'
   import Fullscreen from '@/app/layout/Fullscreen.vue'
