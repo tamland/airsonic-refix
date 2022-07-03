@@ -1,7 +1,7 @@
-<template functional>
+<template>
   <div class="d-flex align-items-end logo-container"
-       :class="data.staticClass || ''"
-       v-bind="data.attrs">
+       :class="$data.staticClass || ''"
+       v-bind="$data.attrs">
     <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="5.74 31.24 123.89 72.89">
       <g transform="matrix(1.0344 0 0 1.0869 -2.068 -181.521)">
         <rect width="5.994" height="23.366" x="9.929" y="224.55" rx="2.997" ry="2.997" />
