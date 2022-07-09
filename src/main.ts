@@ -1,5 +1,6 @@
 import '@/style/main.scss'
 import Vue from 'vue'
+import { VueConstructor } from 'vue/types/vue'
 import Vuex from 'vuex'
 import Router from 'vue-router'
 import App from '@/app/App.vue'
@@ -12,16 +13,20 @@ import { setupAudio } from './player/store'
 
 declare module 'vue/types/vue' {
   interface Vue {
+    config: VueConstructor['config']
+    component: (k: string, v: any) => void
+    mount: (arg: string) => void
     $auth: AuthService
     $api: API
+    $formatDuration: typeof formatDuration
   }
   interface VueConfiguration {
-    globalProperties: any
+    globalProperties: Vue
   }
 }
 
 const createApp = (args: any) => {
-  const vm: any = new Vue(args)
+  const vm = new Vue(args)
   vm.config = Vue.config
   vm.config.globalProperties = Vue.prototype
   vm.mount = vm.$mount
