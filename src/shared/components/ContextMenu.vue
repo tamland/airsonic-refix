@@ -12,7 +12,8 @@
   </div>
 </template>
 <script lang="ts">
-  import Vue, { defineComponent } from 'vue'
+  import Vue from 'vue'
+  import { defineComponent } from '@vue/composition-api'
 
   export default defineComponent({
     data() {

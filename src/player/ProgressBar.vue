@@ -13,7 +13,7 @@
   />
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import VueSlider from 'vue-slider-component'
   import { formatDuration } from '@/shared/components'
 

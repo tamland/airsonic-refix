@@ -16,7 +16,7 @@
   />
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import iconCheck from '@iconify-icons/bi/check'
   import iconChevronRight from '@iconify-icons/bi/chevron-compact-right'
   import iconDiscover from '@iconify-icons/bi/card-text'

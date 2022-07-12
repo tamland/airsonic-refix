@@ -9,12 +9,13 @@
   },
   "dependencies": {
     "@iconify-icons/bi": "^1.2.2",
+    "@vue/composition-api": "^1.7.0",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "icecast-metadata-stats": "^0.1.1",
     "lodash-es": "^4.17.21",
     "md5-es": "^1.8.2",
-    "vue": "^2.6.12",
+    "vue": "~2.6.14",
     "vue-infinite-loading": "^2.4.5",
     "vue-router": "^3.5.2",
     "vue-slider-component": "^3.2.15",
@@ -39,7 +40,7 @@
     "sass": "^1.34.0",
     "sass-loader": "^12.6.0",
     "typescript": "^4.6.3",
-    "vue-template-compiler": "^2.6.12"
+    "vue-template-compiler": "~2.6.14"
   },
   "postcss": {
     "plugins": {

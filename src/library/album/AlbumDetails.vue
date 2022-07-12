@@ -50,7 +50,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import TrackList from '@/library/track/TrackList.vue'
   import { Album } from '@/shared/api'
 

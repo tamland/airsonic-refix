@@ -12,7 +12,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import AlbumList from './AlbumList.vue'
   import { Album, AlbumSort } from '@/shared/api'
 

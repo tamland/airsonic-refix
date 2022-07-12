@@ -102,7 +102,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import ProgressBar from '@/player/ProgressBar.vue'
 
   export default defineComponent({

@@ -5,7 +5,7 @@
   </div>
 </template>
   <script lang="ts">
-  import { defineComponent, PropType } from 'vue'
+  import { defineComponent, PropType } from '@vue/composition-api'
 
   export default defineComponent({
     props: {

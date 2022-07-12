@@ -41,7 +41,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import About from './About.vue'
   import SearchForm from '@/search/SearchForm.vue'
 

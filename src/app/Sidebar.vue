@@ -19,7 +19,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import Nav from './Nav.vue'
 
   export default defineComponent({

@@ -18,7 +18,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent } from '@vue/composition-api'
   import ArtistList from './ArtistList.vue'
   import { Artist } from '@/shared/api'
   import { orderBy } from 'lodash-es'
