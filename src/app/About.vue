@@ -32,9 +32,15 @@
       visible: { type: Boolean, required: true },
     },
     computed: {
-      build: () => process.env.VUE_APP_BUILD,
-      buildDate: () => process.env.VUE_APP_BUILD_DATE,
-      url: () => 'https://github.com/tamland/airsonic-refix'
+      build() {
+        return import.meta.env.VITE_BUILD
+      },
+      buildDate() {
+        return import.meta.env.VITE_BUILD_DATE
+      },
+      url() {
+        return 'https://github.com/tamland/airsonic-refix'
+      }
     },
   })
 </script>

@@ -41,10 +41,10 @@
       }
     },
     computed: {
-      isPlaying() {
+      isPlaying(): boolean {
         return this.$store.getters['player/isPlaying']
       },
-      playingTrackId() {
+      playingTrackId(): string {
         return this.$store.getters['player/trackId']
       },
     },

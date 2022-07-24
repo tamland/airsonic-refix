@@ -1,4 +1,4 @@
-import '@/style/main.scss'
+// import '@/style/main.scss'
 import Vue from 'vue'
 import VueCompositionAPI from '@vue/composition-api'
 import { VueConstructor } from 'vue/types/vue'

@@ -10,9 +10,10 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": [
-      "webpack-env"
-    ],
+    "noImplicitThis": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "types": ["vite/client"],
     "paths": {
       "@/*": [
         "src/*"
@@ -25,12 +26,16 @@
       "scripthost"
     ]
   },
+  "vueCompilerOptions": {
+    "skipTemplateCodegen": true
+  },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "src/**/*.vue",
   ],
   "exclude": [
     "node_modules"

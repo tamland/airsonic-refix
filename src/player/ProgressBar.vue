@@ -14,6 +14,7 @@
 </template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
+  // import VueSlider from 'vue-slider-component/es/vue-slider'
   import VueSlider from 'vue-slider-component'
   import { formatDuration } from '@/shared/components'
 
@@ -39,7 +40,7 @@
   })
 </script>
 <style lang="scss" scoped>
-  @import '~vue-slider-component/theme/material.css';
+  @import 'vue-slider-component/theme/material.css';
 
   .vue-slider {
     height: 4px !important;

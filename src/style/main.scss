@@ -68,8 +68,8 @@ h1, h2, h3, h4, h5 {
 $enable-print-styles: false;
 $enable-responsive-font-sizes: true;
 
-@import '~bootstrap';
-@import '~bootstrap-vue';
+@import 'bootstrap';
+@import 'bootstrap-vue';
 
 .modal-header .close {
   color: $theme-text;
