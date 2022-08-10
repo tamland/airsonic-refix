@@ -20,8 +20,8 @@
     </ul>
     <ContentLoader v-slot :loading="details == null">
       <ArtistList v-if="section === 'artists'" :items="details.artists" />
-      <AlbumList v-else-if="section === 'tracks'" ::items="details.albums"  />
-      <TrackList TrackList v-else :tracks="details.tracks"  />
+      <AlbumList v-else-if="section === 'tracks'" ::items="details.albums" />
+      <TrackList v-else track-list :tracks="details.tracks" />
     </ContentLoader>
   </div>
 </template>
