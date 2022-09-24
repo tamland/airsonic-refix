@@ -399,7 +399,7 @@ export class API {
         : undefined,
       albums,
       similarArtist: (item.similarArtist || []).map(this.normalizeArtist, this),
-      image: item.coverArt ? this.getCoverArtUrl(item) : undefined
+      image: item.coverArt ? this.getCoverArtUrl(item) : item.artistImageUrl
     }
   }
 
