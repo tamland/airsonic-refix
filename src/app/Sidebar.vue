@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-container elevated">
     <div class="sidebar-fixed d-none d-md-block">
-      <Nav />
+      <SidebarNav />
     </div>
     <b-sidebar
       :visible="visible"
@@ -14,17 +14,17 @@
       backdrop-variant=""
       @hidden="hideMenu"
     >
-      <Nav />
+      <SidebarNav />
     </b-sidebar>
   </div>
 </template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
-  import Nav from './Nav.vue'
+  import SidebarNav from './SidebarNav.vue'
 
   export default defineComponent({
     components: {
-      Nav,
+      SidebarNav,
     },
     computed: {
       visible() {

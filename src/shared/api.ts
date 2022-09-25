@@ -422,7 +422,7 @@ export class API {
       id: podcast.id,
       name: podcast.title,
       description: podcast.description,
-      image: image,
+      image,
       url: podcast.url,
       trackCount: episodes.length,
       updatedAt: max(map(episodes, 'publishDate')),
