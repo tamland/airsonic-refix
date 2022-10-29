@@ -275,7 +275,7 @@ export function setupAudio(store: Store<any>, api: API) {
 
   audio.onchangetrack = () => {
     const id = store.getters['player/trackId']
-    api.scrobble(id, false) // no submission, just now playing
+    api.updateNowPlaying(id)
   }
 
   audio.setVolume(storedVolume)
