@@ -334,8 +334,8 @@ export class API {
     return this.fetch('rest/startScan')
   }
 
-  async scrobble(id: string): Promise<void> {
-    return this.fetch('rest/scrobble', { id })
+  async scrobble(id: string, submission = true): Promise<void> {
+    return this.fetch('rest/scrobble', { id, submission })
   }
 
   private normalizeRadioStation(item: any): Track & RadioStation {

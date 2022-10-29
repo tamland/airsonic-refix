@@ -273,6 +273,11 @@ export function setupAudio(store: Store<any>, api: API) {
     store.commit('setError', error)
   }
 
+  audio.onchangetrack = () => {
+    const id = store.getters['player/trackId']
+    api.scrobble(id, false) // no submission, just now playing
+  }
+
   audio.setVolume(storedVolume)
   const track = store.getters['player/track']
   if (track?.url) {
