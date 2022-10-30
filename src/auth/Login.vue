@@ -38,7 +38,7 @@
       </b-overlay>
     </div>
   </div>
-</template>>
+</template>
 <script lang="ts">
   import { defineComponent } from '@vue/composition-api'
   import { config } from '@/shared/config'
