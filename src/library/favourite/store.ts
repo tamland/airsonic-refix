@@ -1,6 +1,5 @@
 import { Module } from 'vuex'
 import { API } from '@/shared/api'
-import Vue from 'vue'
 
 interface State {
   albums: any
@@ -19,10 +18,10 @@ export const setupModule = (api: API): Module<State, any> => ({
       Object.assign(state, items)
     },
     add(state, { type, id }) {
-      Vue.set(state[getTypeKey(type)], id, true)
+      state[getTypeKey(type)][id] = true
     },
     remove(state, { type, id }) {
-      Vue.delete(state[getTypeKey(type)], id)
+      delete state[getTypeKey(type)][id]
     },
   },
   actions: {

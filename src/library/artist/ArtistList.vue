@@ -1,6 +1,6 @@
-<template functional>
+<template>
   <Tiles>
-    <Tile v-for="item in props.items" :key="item.id"
+    <Tile v-for="item in $attrs.items" :key="item.id"
           :to="{name: 'artist', params: { id: item.id } }"
           :title="item.name" :image="item.image">
       <template #text>
@@ -9,3 +9,7 @@
     </Tile>
   </Tiles>
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue'
+  export default defineComponent({})
+</script>

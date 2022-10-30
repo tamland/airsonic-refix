@@ -1,11 +1,15 @@
-<template functional>
+<template>
   <td>
-    <slot>{{ props.track.title }}</slot>
-    <div v-if="props.track.description" class="text-muted">
-      <small>{{ props.track.description }}</small>
+    <slot>{{ $attrs.track.title }}</slot>
+    <div v-if="$attrs.track.description" class="text-muted">
+      <small>{{ $attrs.track.description }}</small>
     </div>
-    <div v-else-if="props.track.artist" class="d-lg-none text-muted">
-      <small>{{ props.track.artist }}</small>
+    <div v-else-if="$attrs.track.artist" class="d-lg-none text-muted">
+      <small>{{ $attrs.track.artist }}</small>
     </div>
   </td>
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue'
+  export default defineComponent({})
+</script>

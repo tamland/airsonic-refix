@@ -4,7 +4,7 @@
       'd-flex justify-content-between text-nowrap',
       {[`text-${variant}`]: variant}
     ]"
-    v-on="$listeners"
+    v-bind="$attrs"
   >
     <slot>
       {{ text }}
@@ -13,7 +13,7 @@
   </BDropdownItemButton>
 </template>
 <script lang="ts">
-  import { defineComponent } from '@vue/composition-api'
+  import { defineComponent } from 'vue'
 
   export default defineComponent({
     props: {

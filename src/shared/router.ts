@@ -1,4 +1,4 @@
-import Router from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import Login from '@/auth/Login.vue'
 import Queue from '@/player/Queue.vue'
 import Home from '@/home/Home.vue'
@@ -18,10 +18,9 @@ import SearchResult from '@/search/SearchResult.vue'
 import { AuthService } from '@/auth/service'
 
 export function setupRouter(auth: AuthService) {
-  const router = new Router({
-    mode: 'history',
+  const router = createRouter({
+    history: createWebHistory(process.env.BASE_URL),
     linkExactActiveClass: 'active',
-    base: process.env.BASE_URL,
     routes: [
       {
         path: '/',

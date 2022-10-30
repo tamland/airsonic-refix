@@ -1,10 +1,10 @@
-<template functional>
-  <div class="tiles" :class="props.square ? 'tiles-square' : 'tiles-rect'">
+<template>
+  <div class="tiles" :class="square ? 'tiles-square' : 'tiles-rect'">
     <slot />
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from '@vue/composition-api'
+  import { defineComponent } from 'vue'
 
   export default defineComponent({
     props: {

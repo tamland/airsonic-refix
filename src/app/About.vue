@@ -21,7 +21,7 @@
   </b-modal>
 </template>
 <script lang="ts">
-  import { defineComponent } from '@vue/composition-api'
+  import { defineComponent } from 'vue'
   import Logo from './Logo.vue'
 
   export default defineComponent({

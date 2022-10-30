@@ -1,8 +1,12 @@
-<template functional>
+<template>
   <span class="bg-secondary text-white rounded-circle avatar">
     <slot />
   </span>
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue'
+  export default defineComponent({})
+</script>
 <style scoped>
   .avatar {
     display: inline-flex;

@@ -1,20 +1,20 @@
 <template>
   <infinite-loading ref="inf" force-use-infinite-wrapper @infinite="loadMore">
-    <template slot="spinner">
+    <template #spinner>
       <div class="d-flex justify-content-center my-4">
         <span class="spinner-border" />
       </div>
     </template>
-    <template slot="no-more">
+    <template #no-more>
       <span />
     </template>
-    <template slot="no-results">
+    <template #no-results>
       <span />
     </template>
   </infinite-loading>
 </template>
 <script lang="ts">
-  import { defineComponent } from '@vue/composition-api'
+  import { defineComponent } from 'vue'
   import InfiniteLoading from 'vue-infinite-loading'
 
   export default defineComponent({

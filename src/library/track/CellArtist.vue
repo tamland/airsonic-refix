@@ -1,12 +1,16 @@
-<template functional>
+<template>
   <td class="d-none d-lg-table-cell">
-    <template v-if="props.track.artistId">
-      <router-link :to="{name: 'artist', params: {id: props.track.artistId}}" @click.native.stop>
-        {{ props.track.artist }}
+    <template v-if="$attrs.track.artistId">
+      <router-link :to="{name: 'artist', params: {id: $attrs.track.artistId}}" @click.stop>
+        {{ $attrs.track.artist }}
       </router-link>
     </template>
     <template v-else>
-      {{ props.track.artist }}
+      {{ $attrs.track.artist }}
     </template>
   </td>
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue'
+  export default defineComponent({})
+</script>
