@@ -3,7 +3,7 @@
     <div v-if="!displayForm" class="mx-auto">
       <span class="spinner-border " />
     </div>
-    <div v-else class="mx-auto card " style="width: 22rem;">
+    <div v-else class="mx-auto card" style="width: 22rem">
       <b-overlay rounded :show="busy" opacity="0.1">
         <div class="card-body">
           <form @submit.prevent="login">

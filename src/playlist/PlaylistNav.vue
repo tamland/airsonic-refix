@@ -1,5 +1,5 @@
 <template>
-  <div style="max-width: 100%">
+  <div class="mw-100">
     <small class="sidebar-heading text-muted">
       Playlists
       <CreatePlaylistBtn class="btn btn-link btn-sm p-0 float-right">
