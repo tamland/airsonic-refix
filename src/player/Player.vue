@@ -8,8 +8,8 @@
         <div class="col p-0 d-flex flex-nowrap align-items-center justify-content-start" style="width: 0; min-width: 0">
           <template v-if="track">
             <router-link :to="{ name: 'queue' }" style="padding: 12px">
-              <img v-if="track.image" width="52px" height="52px" :src="track.image">
-              <img v-else width="52px" height="52px" src="@/shared/assets/fallback.svg">
+              <img v-if="track.image" width="52" height="52" :src="track.image">
+              <img v-else width="52" height="52" src="@/shared/assets/fallback.svg">
             </router-link>
             <div style="min-width: 0">
               <div class="text-truncate">
