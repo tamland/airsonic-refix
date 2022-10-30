@@ -13,7 +13,6 @@ export class AudioController {
   onpause: () => void = () => { /* do nothing */ }
   onstreamtitlechange: (value: string | null) => void = () => { /* do nothing */ }
   onended: () => void = () => { /* do nothing */ }
-  onchangetrack: () => void = () => { /* do nothing */ }
   onerror: (err: MediaError | null) => void = () => { /* do nothing */ }
 
   currentTime() {
@@ -107,8 +106,6 @@ export class AudioController {
       }
       this.fadeIn()
     }
-
-    this.onchangetrack()
   }
 
   private cancelFade() {

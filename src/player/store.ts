@@ -241,16 +241,6 @@ export const playerModule: Module<State, any> = {
 export function setupAudio(store: Store<any>, api: API) {
   audio.ontimeupdate = (value: number) => {
     store.commit('player/setCurrentTime', value)
-    // Scrobble
-    if (
-      store.state.player.scrobbled === false &&
-      store.state.player.duration > 30 &&
-      audio.currentTime() / store.state.player.duration > 0.7
-    ) {
-      const id = store.getters['player/trackId']
-      store.commit('player/setScrobbled')
-      api.scrobble(id)
-    }
   }
   audio.ondurationchange = (value: number) => {
     store.commit('player/setDuration', value)
@@ -271,11 +261,6 @@ export function setupAudio(store: Store<any>, api: API) {
   audio.onerror = (error: any) => {
     store.commit('player/setPaused')
     store.commit('setError', error)
-  }
-
-  audio.onchangetrack = () => {
-    const id = store.getters['player/trackId']
-    api.updateNowPlaying(id)
   }
 
   audio.setVolume(storedVolume)
@@ -323,5 +308,28 @@ export function setupAudio(store: Store<any>, api: API) {
     //     });
     //   }
     // }
+
+    // Update now playing
+    store.watch(
+      (state, getters) => getters['player/trackId'],
+      () => {
+        const id = store.getters['player/trackId']
+        return api.updateNowPlaying(id)
+      })
+
+    // Scrobble
+    store.watch(
+      (state) => state.player.currentTime,
+      () => {
+        if (
+          store.state.player.scrobbled === false &&
+          store.state.player.duration > 30 &&
+          store.state.player.currentTime / store.state.player.duration > 0.7
+        ) {
+          const id = store.getters['player/trackId']
+          store.commit('player/setScrobbled')
+          return api.scrobble(id)
+        }
+      })
   }
 }
