@@ -1,6 +1,5 @@
 import '@/style/main.scss'
 import Vue from 'vue'
-import VueCompositionAPI from '@vue/composition-api'
 import { VueConstructor } from 'vue/types/vue'
 import Vuex from 'vuex'
 import Router from 'vue-router'
@@ -36,7 +35,7 @@ const createApp = (args: any) => {
   }
   return vm
 }
-Vue.use(VueCompositionAPI)
+
 Vue.use(Vuex)
 Vue.use(Router)
 

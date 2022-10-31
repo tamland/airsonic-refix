@@ -11,7 +11,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from '@vue/composition-api'
+  import { defineComponent } from 'vue'
   import TopNav from '@/app/TopNav.vue'
   import Sidebar from '@/app/Sidebar.vue'
   import Player from '@/player/Player.vue'

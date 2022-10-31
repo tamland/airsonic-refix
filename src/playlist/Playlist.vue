@@ -42,7 +42,7 @@
   </ContentLoader>
 </template>
 <script lang="ts">
-  import { defineComponent } from '@vue/composition-api'
+  import { defineComponent } from 'vue'
   import TrackList from '@/library/track/TrackList.vue'
   import EditModal from '@/shared/components/EditModal.vue'
 
