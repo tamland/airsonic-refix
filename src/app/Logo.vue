@@ -18,7 +18,8 @@
         <rect width="5.994" height="22.372" x="119.04" y="230.78" rx="2.997" ry="2.997" />
       </g>
     </svg>
-    <span class="text-body ml-2 text-nowrap">airsonic&nbsp;
+    <span class="text-body ml-2 text-nowrap">
+      <span>airsonic&nbsp;</span>
       <span class="text-muted">(refix)</span>
     </span>
   </div>
