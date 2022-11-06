@@ -12,7 +12,7 @@
     </div>
     <p>{{ podcast.description }}</p>
 
-    <BaseTable>
+    <BaseTable v-if="podcast.tracks.length > 0">
       <BaseTableHead>
         <th class="text-right d-none d-md-table-cell">
           Duration
@@ -31,6 +31,7 @@
         </tr>
       </tbody>
     </BaseTable>
+    <EmptyIndicator v-else />
   </ContentLoader>
 </template>
 <script lang="ts">
