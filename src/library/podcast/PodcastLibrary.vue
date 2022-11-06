@@ -14,6 +14,9 @@
         </li>
       </ul>
       <OverflowMenu>
+        <ContextMenuItem icon="plus" @click="showAddModal = true">
+          Add
+        </ContextMenuItem>
         <ContextMenuItem icon="refresh" @click="refresh()">
           Refresh
         </ContextMenuItem>
@@ -32,19 +35,26 @@
       </Tiles>
       <EmptyIndicator v-else />
     </ContentLoader>
+
+    <AddPodcastModal :visible.sync="showAddModal" @confirm="add" />
   </div>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'
   import { orderBy } from 'lodash-es'
+  import AddPodcastModal from '@/library/podcast/AddPodcastModal.vue'
 
   export default defineComponent({
+    components: {
+      AddPodcastModal,
+    },
     props: {
       sort: { type: String, default: null },
     },
     data() {
       return {
         items: null as null | any[],
+        showAddModal: false,
       }
     },
     computed: {
@@ -64,7 +74,14 @@
       async refresh() {
         await this.$api.refreshPodcasts()
         this.items = await this.$api.getPodcasts()
-      }
+      },
+      async add(url: string) {
+        await this.$api.addPodcast(url)
+        this.items = await this.$api.getPodcasts()
+        // Backend doesn't always download metadata immediately. Wait and refresh again.
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        this.items = await this.$api.getPodcasts()
+      },
     }
   })
 </script>

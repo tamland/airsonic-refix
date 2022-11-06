@@ -326,8 +326,16 @@ export class API {
     return this.normalizePodcast(response?.podcasts?.channel[0])
   }
 
+  async addPodcast(url: string): Promise<any> {
+    return this.fetch('rest/createPodcastChannel', { url })
+  }
+
   async refreshPodcasts(): Promise<void> {
     return this.fetch('rest/refreshPodcasts')
+  }
+
+  async deletePodcast(id: string): Promise<any> {
+    return this.fetch('rest/deletePodcastChannel', { id })
   }
 
   async scan(): Promise<void> {

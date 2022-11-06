@@ -1,7 +1,17 @@
 <template>
   <ContentLoader v-slot :loading="podcast ==null">
-    <h1>{{ podcast.name }}</h1>
+    <div class="d-flex justify-content-between">
+      <h1 class="text-truncate">
+        {{ podcast.name }}
+      </h1>
+      <OverflowMenu>
+        <ContextMenuItem icon="x" variant="danger" @click="deletePodcast">
+          Delete
+        </ContextMenuItem>
+      </OverflowMenu>
+    </div>
     <p>{{ podcast.description }}</p>
+
     <BaseTable>
       <BaseTableHead>
         <th class="text-right d-none d-md-table-cell">
@@ -75,6 +85,11 @@
           tracks,
         })
       },
+      async deletePodcast() {
+        this.podcast = null
+        await this.$api.deletePodcast(this.id)
+        return this.$router.replace({ name: 'podcasts' })
+      }
     }
   })
 </script>
