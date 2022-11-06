@@ -13,9 +13,11 @@
           </router-link>
         </li>
       </ul>
-      <CreatePlaylistBtn class="btn btn-secondary">
-        New
-      </CreatePlaylistBtn>
+      <OverflowMenu>
+        <ContextMenuItem icon="plus" @click="showAddModal = true">
+          Add
+        </ContextMenuItem>
+      </OverflowMenu>
     </div>
     <Tiles v-if="items.length > 0" square>
       <Tile
@@ -29,19 +31,25 @@
       </Tile>
     </Tiles>
     <EmptyIndicator v-else />
+    <CreatePlaylistModal :visible.sync="showAddModal" />
   </div>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'
-  import CreatePlaylistBtn from '@/playlist/CreatePlaylistBtn.vue'
+  import CreatePlaylistModal from '@/playlist/CreatePlaylistModal.vue'
   import { orderBy } from 'lodash-es'
 
   export default defineComponent({
     components: {
-      CreatePlaylistBtn,
+      CreatePlaylistModal,
     },
     props: {
       sort: { type: String, default: null },
+    },
+    data() {
+      return {
+        showAddModal: false,
+      }
     },
     computed: {
       items(): any[] {

@@ -4,17 +4,14 @@
       <Icon icon="x" />
     </template>
     <template #modal-title>
-      Add podcast
+      New playlist
     </template>
     <div class="form-group">
-      <label>URL</label>
-      <input v-model="url" class="form-control" type="text" :class="{'is-invalid': hasError}">
-      <div class="invalid-feedback">
-        Required
-      </div>
+      <label>Name</label>
+      <input v-model="name" class="form-control" type="text">
     </div>
     <template #modal-ok>
-      Add
+      Create
     </template>
   </b-modal>
 </template>
@@ -27,22 +24,15 @@
     },
     data() {
       return {
-        url: '',
-        hasError: false,
+        name: '',
       }
     },
     methods: {
-      confirm(event: any) {
-        if (this.url.length === 0) {
-          this.hasError = true
-          event.preventDefault()
-          return
-        }
-        this.$emit('confirm', this.url)
+      confirm() {
+        return this.$store.dispatch('createPlaylist', this.name)
       },
       change() {
-        this.hasError = false
-        this.url = ''
+        this.name = ''
         this.$emit('update:visible', false)
       },
     }
