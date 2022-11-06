@@ -64,7 +64,7 @@
       sortedItems(): any[] {
         return this.sort === 'a-z'
           ? orderBy(this.items, 'name')
-          : orderBy(this.items, 'albumCount', 'desc')
+          : orderBy(this.items, 'updatedAt', 'desc')
       },
     },
     async created() {
