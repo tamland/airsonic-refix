@@ -313,8 +313,10 @@ export function setupAudio(store: Store<any>, api: API) {
     store.watch(
       (state, getters) => getters['player/trackId'],
       () => {
-        const id = store.getters['player/trackId']
-        return api.updateNowPlaying(id)
+        const { id, isStream } = store.getters['player/track']
+        if (!isStream) {
+          return api.updateNowPlaying(id)
+        }
       })
 
     // Scrobble
@@ -326,9 +328,11 @@ export function setupAudio(store: Store<any>, api: API) {
           store.state.player.duration > 30 &&
           store.state.player.currentTime / store.state.player.duration > 0.7
         ) {
-          const id = store.getters['player/trackId']
-          store.commit('player/setScrobbled')
-          return api.scrobble(id)
+          const { id, isStream } = store.getters['player/track']
+          if (!isStream) {
+            store.commit('player/setScrobbled')
+            return api.scrobble(id)
+          }
         }
       })
   }
