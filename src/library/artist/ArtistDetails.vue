@@ -15,10 +15,20 @@
         </ExternalLink>
       </div>
     </div>
-    <h3 class="pt-5">
-      Albums
-    </h3>
-    <AlbumList :items="item.albums" />
+
+    <template v-if="item.topTracks.length > 0">
+      <h3 class="pt-5">
+        Top tracks
+      </h3>
+      <TrackList :tracks="item.topTracks" no-artist />
+    </template>
+
+    <template v-if="item.albums.length > 0">
+      <h3 class="pt-5">
+        Albums
+      </h3>
+      <AlbumList :items="item.albums" />
+    </template>
 
     <template v-if="item.similarArtist.length > 0">
       <h3 class="pt-5">
@@ -32,11 +42,13 @@
   import { defineComponent } from 'vue'
   import AlbumList from '@/library/album/AlbumList.vue'
   import ArtistList from '@/library/artist/ArtistList.vue'
+  import TrackList from '@/library/track/TrackList.vue'
 
   export default defineComponent({
     components: {
       AlbumList,
       ArtistList,
+      TrackList,
     },
     props: {
       id: { type: String, required: true }

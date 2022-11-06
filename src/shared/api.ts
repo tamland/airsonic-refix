@@ -44,6 +44,7 @@ export interface Artist {
   favourite: boolean
   lastFmUrl?: string
   musicBrainzUrl?: string
+  topTracks?: Track[]
   similarArtist?: Artist[]
   albums?: Album[]
   image?: string
@@ -169,12 +170,11 @@ export class API {
   }
 
   async getArtistDetails(id: string): Promise<Artist> {
-    const params = { id }
-    const [info1, info2] = await Promise.all([
-      this.fetch('rest/getArtist', params).then(r => r.artist),
-      this.fetch('rest/getArtistInfo2', params).then(r => r.artistInfo2),
-    ])
-    return this.normalizeArtist({ ...info1, ...info2 })
+    const info2Promise = this.fetch('rest/getArtistInfo2', { id }).then(r => r.artistInfo2)
+    const artist = await this.fetch('rest/getArtist', { id }).then(r => r.artist)
+    const topSongs = await this.fetch('rest/getTopSongs', { artist: artist.name }).then(r => r.topSongs?.song)
+    const info2 = await info2Promise
+    return this.normalizeArtist({ ...artist, ...info2, topSongs })
   }
 
   async getAlbumDetails(id: string): Promise<Album> {
@@ -411,6 +411,7 @@ export class API {
         : undefined,
       albums,
       similarArtist: (item.similarArtist || []).map(this.normalizeArtist, this),
+      topTracks: (item.topSongs || []).slice(0, 5).map(this.normalizeTrack, this),
       image: item.coverArt ? this.getCoverArtUrl(item) : item.artistImageUrl
     }
   }
