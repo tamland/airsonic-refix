@@ -432,7 +432,7 @@ export class API {
     const episodes = podcast.episode || []
     return {
       id: podcast.id,
-      name: podcast.title,
+      name: podcast.title || podcast.url,
       description: podcast.description,
       image,
       url: podcast.url,
