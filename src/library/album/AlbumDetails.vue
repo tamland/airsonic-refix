@@ -1,6 +1,7 @@
 <template>
   <div v-if="album">
-    <div class="d-flex mb-3">
+    <div class="d-flex mb-3 position-relative">
+      <div class="backdrop" />
       <div class="mr-3 mr-md-4 image-container">
         <img v-if="album.image" class="img-fluid" height="300" width="300" :src="album.image">
         <img v-else class="img-fluid" height="300" width="300" src="@/shared/assets/fallback.svg">
@@ -53,6 +54,7 @@
   import { defineComponent } from 'vue'
   import TrackList from '@/library/track/TrackList.vue'
   import { Album } from '@/shared/api'
+  import fallbackImage from '@/shared/assets/fallback.svg'
 
   export default defineComponent({
     components: {
@@ -69,6 +71,9 @@
     computed: {
       isFavourite(): boolean {
         return !!this.$store.state.favourites.albums[this.id]
+      },
+      backgroundImage(): string {
+        return `url('${this.album?.image || fallbackImage}')`
       }
     },
     async created() {
@@ -101,5 +106,24 @@
 <style scoped>
   .image-container {
     max-width: 50%;
+  }
+  .backdrop {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    top: -50%;
+    height: calc(100% + 300px);
+
+    transform: scale(1.025);
+    filter: blur(8px);
+    opacity: 0.25;
+
+    background-size: max(100%, 1000px) auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    background-image:
+      linear-gradient(to bottom, transparent, black),
+      v-bind(backgroundImage);
   }
 </style>
