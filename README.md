@@ -3,7 +3,8 @@
 [![Build](https://img.shields.io/github/workflow/status/tamland/airsonic-refix/CI?style=flat-square)](https://github.com/tamland/airsonic-refix/actions)
 [![Docker Pulls](https://img.shields.io/docker/pulls/tamland/airsonic-refix?style=flat-square)](https://hub.docker.com/r/tamland/airsonic-refix)
 
-Modern responsive web frontend for [Airsonic](https://github.com/airsonic-advanced/airsonic-advanced) and other [Subsonic](https://github.com/topics/subsonic) based music servers.
+Modern responsive web frontend for [airsonic-advanced](https://github.com/airsonic-advanced/airsonic-advanced), [navidrome](https://github.com/navidrome/navidrome),
+[gonic](https://github.com/sentriz/gonic) and other [subsonic](https://github.com/topics/subsonic) compatible music servers.
 
 ## Features
 - Responsive UI for desktop and mobile
@@ -19,12 +20,20 @@ Modern responsive web frontend for [Airsonic](https://github.com/airsonic-advanc
 
 ## [Live demo](https://airsonic.netlify.com)
 
-Enter the following details:  
-Server: `/api`  
-Username: `guest4`, `guest5`, `guest6` etc.  
-Password:`guest`
+Enter the URL and credentials for your subsonic compatible server, or use one of the following public demo servers:
 
-You can try the demo with your own local server as well. Simply enter the full URL of your Airsonic server in the Server field (such as http://localhost:8080) with your credentials.  **Note**: if your server is using http only you must allow mixed content in your browser otherwise login will not work.
+**Subsonic**  
+  Server: `https://airsonic.netlify.app/api`  
+  Username: `guest4`, `guest5`, `guest6` etc.  
+  Password:`guest`
+
+**Navidrome**  
+  Server: `https://demo.navidrome.org`  
+  Username: `demo`  
+  Password:`demo`
+
+
+**Note**: if the server is using http only you must allow mixed content in your browser otherwise login will not work.
 
 ## Screenshots
 
