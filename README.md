@@ -39,8 +39,11 @@ Enter the URL and credentials for your subsonic compatible server, or use one of
 
 ![Screenshot](screenshots/album.png)
 
-![Screenshot](screenshots/albumlist.png)
+![Screenshot](screenshots/album-list.png)
 
+![Screenshot](screenshots/artist.png)
+
+![Screenshot](screenshots/artist-list.png)
 
 ## Install
 
