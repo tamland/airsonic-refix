@@ -4,6 +4,7 @@ import ContextMenu from '@/shared/components/ContextMenu.vue'
 import ContextMenuItem from '@/shared/components/ContextMenuItem.vue'
 import EmptyIndicator from './EmptyIndicator.vue'
 import ExternalLink from './ExternalLink.vue'
+import Hero from './Hero.vue'
 import Icon from './Icon.vue'
 import InfiniteLoader from './InfiniteLoader.vue'
 import OverflowMenu from './OverflowMenu.vue'
@@ -44,6 +45,7 @@ export const components = {
   ContextMenuItem,
   EmptyIndicator,
   ExternalLink,
+  Hero,
   Icon,
   InfiniteLoader,
   OverflowMenu,

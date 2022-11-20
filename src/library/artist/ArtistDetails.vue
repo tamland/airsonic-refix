@@ -1,20 +1,27 @@
 <template>
   <ContentLoader v-slot :loading="item == null">
-    <div class="row">
-      <div class="col col-xl-8">
-        <h1>{{ item.name }}</h1>
-        <p>{{ item.description }}</p>
-        <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="btn btn-secondary mr-2">
-          Last.fm
-        </ExternalLink>
-        <ExternalLink
-          v-if="item.musicBrainzUrl"
-          :href="item.musicBrainzUrl"
-          class="btn btn-secondary">
-          MusicBrainz
-        </ExternalLink>
+    <Hero :image="item.image">
+      <h1>
+        {{ item.name }}
+        <b-button variant="link" class="p-0" @click="toggleFavourite">
+          <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
+        </b-button>
+      </h1>
+      <p>{{ item.description }}</p>
+      <div class="d-flex flex-wrap align-items-center">
+        <b-button variant="secondary" class="mr-4" @click="play">
+          <Icon icon="play" /> Play
+        </b-button>
+        <div class="d-none d-lg-block">
+          <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="mr-4">
+            Last.fm <Icon icon="link" />
+          </ExternalLink>
+          <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl">
+            MusicBrainz <Icon icon="link" />
+          </ExternalLink>
+        </div>
       </div>
-    </div>
+    </Hero>
 
     <template v-if="item.topTracks.length > 0">
       <h3 class="pt-5">
@@ -58,6 +65,11 @@
         item: null as any,
       }
     },
+    computed: {
+      isFavourite(): boolean {
+        return !!this.$store.state.favourites.artists[this.id]
+      },
+    },
     watch: {
       id: {
         immediate: true,
@@ -66,6 +78,16 @@
           this.item = await this.$api.getArtistDetails(value)
         }
       }
+    },
+    methods: {
+      play() {
+        return this.$store.dispatch('player/playTrackList', {
+          tracks: this.item.topTracks,
+        })
+      },
+      toggleFavourite() {
+        return this.$store.dispatch('favourites/toggle', { id: this.id, type: 'artist' })
+      },
     }
   })
 </script>

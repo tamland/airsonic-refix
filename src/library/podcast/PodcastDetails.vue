@@ -1,16 +1,21 @@
 <template>
-  <ContentLoader v-slot :loading="podcast ==null">
-    <div class="d-flex justify-content-between">
-      <h1 class="text-truncate">
+  <ContentLoader v-slot :loading="podcast == null">
+    <Hero :image="podcast.image">
+      <h1>
         {{ podcast.name }}
       </h1>
-      <OverflowMenu>
-        <ContextMenuItem icon="x" variant="danger" @click="deletePodcast">
-          Delete
-        </ContextMenuItem>
-      </OverflowMenu>
-    </div>
-    <p>{{ podcast.description }}</p>
+      <p>{{ podcast.description }}</p>
+      <div>
+        <b-button variant="secondary" class="mr-2" :disabled="playableTracks.length === 0" @click="play">
+          <Icon icon="play" /> Play
+        </b-button>
+        <OverflowMenu class="px-1">
+          <ContextMenuItem icon="x" variant="danger" @click="deletePodcast">
+            Delete
+          </ContextMenuItem>
+        </OverflowMenu>
+      </div>
+    </Hero>
 
     <BaseTable v-if="podcast.tracks.length > 0">
       <BaseTableHead>
@@ -21,7 +26,7 @@
       <tbody>
         <tr v-for="(item, index) in podcast.tracks" :key="index"
             :class="{'active': item.id === playingTrackId, 'disabled': !item.url}"
-            @click="play(item)">
+            @click="playTrack(item)">
           <CellTrackNumber :active="item.id === playingTrackId && isPlaying" :value="item.track" />
           <CellTitle :track="item">
             {{ item.title }} <Icon v-if="item.playCount > 0" icon="check" />
@@ -67,23 +72,30 @@
       playingTrackId(): any {
         return this.$store.getters['player/trackId']
       },
+      playableTracks(): any[] {
+        return this.podcast.tracks.filter((x: any) => x.url)
+      }
     },
     async created() {
       this.podcast = await this.$api.getPodcast(this.id)
     },
     methods: {
-      async play(track: any) {
+      async play() {
+        return this.$store.dispatch('player/playTrackList', {
+          tracks: this.playableTracks,
+        })
+      },
+      async playTrack(track: any) {
         if (!track.url) {
           return
         }
         if (track.id === this.playingTrackId) {
           return this.$store.dispatch('player/playPause')
         }
-        const tracks = this.podcast.tracks.filter((x: any) => x.url)
-        const index = tracks.findIndex((x: any) => x.id === track.id)
+        const index = this.playableTracks.findIndex((x: any) => x.id === track.id)
         return this.$store.dispatch('player/playTrackList', {
           index,
-          tracks,
+          tracks: this.playableTracks,
         })
       },
       async deletePodcast() {
