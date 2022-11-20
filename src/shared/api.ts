@@ -489,7 +489,6 @@ export class API {
     const { server, username, salt, hash } = this.auth
     return `${server}/rest/stream` +
       `?id=${id}` +
-      '&format=raw' +
       '&v=1.15.0' +
       `&u=${username}` +
       `&s=${salt}` +
