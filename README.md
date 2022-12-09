@@ -56,15 +56,15 @@ $ docker run -d -p 8080:80 tamland/airsonic-refix:latest
 You can now access the application at http://localhost:8080/
 
 Environment variables:
-| Variable                   | Optional | Default            | Options                                                             | Description
-| -------------------------- | -------- | ------------------ | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| SERVER_URL                 | Yes      | (empty)            |                                                                     | The backend server URL. When set the server input on the login page will not be displayed. |
-| DEFAULT_ALBUM_SORT         | Yes      | `recently-added`   | `recently-added`, `recently-played`, `most-played`, `a-z`, `random` | The default sort order for Albums                                                          |
-| DEFAULT_ARTIST_SORT        | Yes      | `most-albums`      | `most-albums`, `a-z`                                                | The default sort order for Artists                                                         |
-| DEFAULT_FAVOURITES_SECTION | Yes      | `artists`          | `artists`, `albums`, `tracks`                                       | The default section for Favourites                                                         |
-| DEFAULT_GENRE_SORT         | Yes      | `most-albums`      | `most-albums`, `a-z`                                                | The default sort order for Genres                                                          |
-| DEFAULT_PODCAST_SORT       | Yes      | `recently-updated` | `recently-updated`, `a-z`                                           | The default sort order for Podcasts                                                        |
-| DEFAULT_PLAYLIST_SORT      | Yes      | `recently-added`   | `recently-added`, `a-z`                                             | The default sort order for Playlists                                                       |
+| Variable                   | Default            | Options                                                             | Description
+| -------------------------- | ------------------ | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| SERVER_URL                 | (empty)            |                                                                     | The backend server URL. When set the server input on the login page will not be displayed. |
+| DEFAULT_ALBUM_SORT         | `recently-added`   | `recently-added`, `recently-played`, `most-played`, `a-z`, `random` | The default sort order for Albums                                                          |
+| DEFAULT_ARTIST_SORT        | `most-albums`      | `most-albums`, `a-z`                                                | The default sort order for Artists                                                         |
+| DEFAULT_FAVOURITES_SECTION | `artists`          | `artists`, `albums`, `tracks`                                       | The default section for Favourites                                                         |
+| DEFAULT_GENRE_SORT         | `most-albums`      | `most-albums`, `a-z`                                                | The default sort order for Genres                                                          |
+| DEFAULT_PODCAST_SORT       | `recently-updated` | `recently-updated`, `a-z`                                           | The default sort order for Podcasts                                                        |
+| DEFAULT_PLAYLIST_SORT      | `recently-added`   | `recently-added`, `a-z`                                             | The default sort order for Playlists                                                       |
 
 ### Pre-built bundle
 
