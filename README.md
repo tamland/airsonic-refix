@@ -57,6 +57,12 @@ You can now access the application at http://localhost:8080/
 
 Environment variables:
 - `SERVER_URL` (Optional): The backend server URL. When set the server input on the login page will not be displayed.
+- `DEFAULT_ALBUM_SORT` (Optional): The default selected tab for albums (defaults to `recently-added`, options: [`recently-added`, `recently-played`, `most-played`, `a-z`, `random`])
+- `DEFAULT_ARTIST_SORT` (Optional): The default selected tab for artists (defaults to `most-albums`, options: [`most-albums`, `a-z`])
+- `DEFAULT_FAVOURITES_SECTION` (Optional): The default selected tab for favourites (defaults to `artists`, options: [`artists`, `albums`, `tracks`])
+- `DEFAULT_GENRE_SORT` (Optional): The default selected tab for genres (defaults to `most-albums`, options: [`most-albums`, `a-z`])
+- `DEFAULT_PODCAST_SORT` (Optional): The default selected tab for podcasts (defaults to `recently-updated`, options: [`recently-updated`, `a-z`])
+- `DEFAULT_PLAYLIST_SORT` (Optional): The default selected tab for playlists (defaults to `recently-added`, options: [`recently-added`, `a-z`])
 
 
 ### Pre-built bundle
