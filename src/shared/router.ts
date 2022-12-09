@@ -1,21 +1,22 @@
-import Router from 'vue-router'
 import Login from '@/auth/Login.vue'
-import Queue from '@/player/Queue.vue'
+import { AuthService } from '@/auth/service'
 import Discover from '@/discover/Discover.vue'
-import ArtistDetails from '@/library/artist/ArtistDetails.vue'
-import ArtistLibrary from '@/library/artist/ArtistLibrary.vue'
 import AlbumDetails from '@/library/album/AlbumDetails.vue'
 import AlbumLibrary from '@/library/album/AlbumLibrary.vue'
+import ArtistDetails from '@/library/artist/ArtistDetails.vue'
+import ArtistLibrary from '@/library/artist/ArtistLibrary.vue'
+import Favourites from '@/library/favourite/Favourites.vue'
 import GenreDetails from '@/library/genre/GenreDetails.vue'
 import GenreLibrary from '@/library/genre/GenreLibrary.vue'
-import Favourites from '@/library/favourite/Favourites.vue'
-import RadioStations from '@/library/radio/RadioStations.vue'
 import PodcastDetails from '@/library/podcast/PodcastDetails.vue'
 import PodcastLibrary from '@/library/podcast/PodcastLibrary.vue'
+import RadioStations from '@/library/radio/RadioStations.vue'
+import Queue from '@/player/Queue.vue'
 import Playlist from '@/library/playlist/Playlist.vue'
 import PlaylistLibrary from '@/library/playlist/PlaylistLibrary.vue'
 import SearchResult from '@/library/search/SearchResult.vue'
-import { AuthService } from '@/auth/service'
+import { config } from '@/shared/config'
+import Router from 'vue-router'
 
 export function setupRouter(auth: AuthService) {
   const router = new Router({
@@ -49,7 +50,7 @@ export function setupRouter(auth: AuthService) {
         path: '/albums',
         redirect: ({
           name: 'albums',
-          params: { sort: 'recently-added' }
+          params: { sort: config.defaultAlbumSort }
         }),
       },
       {
@@ -65,8 +66,16 @@ export function setupRouter(auth: AuthService) {
         props: true,
       },
       {
+        name: 'artists-default',
+        path: '/artists',
+        redirect: ({
+          name: 'artists',
+          params: { sort: config.defaultArtistSort }
+        }),
+      },
+      {
         name: 'artists',
-        path: '/artists/:sort?',
+        path: '/artists/:sort',
         component: ArtistLibrary,
         props: true,
       },
@@ -77,8 +86,16 @@ export function setupRouter(auth: AuthService) {
         props: true,
       },
       {
+        name: 'genres-default',
+        path: '/genres',
+        redirect: ({
+          name: 'genres',
+          params: { sort: config.defaultGenreSort }
+        }),
+      },
+      {
         name: 'genres',
-        path: '/genres/:sort?',
+        path: '/genres/:sort',
         component: GenreLibrary,
         props: true,
       },
@@ -89,8 +106,16 @@ export function setupRouter(auth: AuthService) {
         props: true,
       },
       {
+        name: 'favourites-default',
+        path: '/favourites',
+        redirect: ({
+          name: 'favourites',
+          params: { section: config.defaultFavouritesSection }
+        }),
+      },
+      {
         name: 'favourites',
-        path: '/favourites/:section?',
+        path: '/favourites/:section',
         component: Favourites,
         props: true,
       },
@@ -100,8 +125,16 @@ export function setupRouter(auth: AuthService) {
         component: RadioStations,
       },
       {
+        name: 'podcasts-default',
+        path: '/podcasts',
+        redirect: ({
+          name: 'podcasts',
+          params: { sort: config.defaultPodcastSort }
+        }),
+      },
+      {
         name: 'podcasts',
-        path: '/podcasts/:sort?',
+        path: '/podcasts/:sort',
         component: PodcastLibrary,
         props: true,
       },
@@ -112,8 +145,16 @@ export function setupRouter(auth: AuthService) {
         props: true,
       },
       {
+        name: 'playlists-default',
+        path: '/playlists',
+        redirect: ({
+          name: 'playlists',
+          params: { sort: config.defaultPlaylistSort }
+        }),
+      },
+      {
         name: 'playlists',
-        path: '/playlists/:sort?',
+        path: '/playlists/:sort',
         component: PlaylistLibrary,
         props: true,
       },

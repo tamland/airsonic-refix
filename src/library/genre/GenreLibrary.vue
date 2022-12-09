@@ -1,14 +1,9 @@
 <template>
   <div>
     <ul class="nav-underlined mb-3">
-      <li>
-        <router-link :to="{... $route, params: {... $route.params, sort: null }}">
-          Most albums
-        </router-link>
-      </li>
-      <li>
-        <router-link :to="{... $route, params: {... $route.params, sort: 'a-z' }}">
-          A-Z
+      <li v-for="{ value, text } in options" :key="value">
+        <router-link :to="{... $route, params: {... $route.params, sort: value }}">
+          {{ text }}
         </router-link>
       </li>
     </ul>
@@ -41,10 +36,16 @@
       }
     },
     computed: {
+      options() {
+        return [
+          { text: 'Most albums', value: 'most-albums' },
+          { text: 'A-Z', value: 'a-z' },
+        ]
+      },
       sortedItems(): any[] {
-        return this.sort === 'a-z'
-          ? orderBy(this.items, 'name')
-          : orderBy(this.items, 'albumCount', 'desc')
+        return this.sort === 'most-albums'
+          ? orderBy(this.items, 'albumCount', 'desc')
+          : orderBy(this.items, 'name')
       },
     },
     async created() {
