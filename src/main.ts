@@ -45,6 +45,11 @@ const router = setupRouter(authService)
 const store = setupStore(authService, api)
 setupAudio(store, api)
 
+router.beforeEach((to, from, next) => {
+  store.commit('clearError')
+  next()
+})
+
 const app = createApp({
   router,
   store,
