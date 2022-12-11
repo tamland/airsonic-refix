@@ -80,6 +80,8 @@ export interface Playlist {
   tracks?: Track[]
 }
 
+export class UnsupportedOperationError extends Error { }
+
 export class API {
   private readonly fetch: (path: string, params?: any) => Promise<any>
   private readonly clientName = window.origin || 'web'
@@ -100,16 +102,24 @@ export class API {
           method: 'GET',
           headers: { Accept: 'application/json' }
         })
-        .then(response => response.ok
-          ? response.json()
-          : Promise.reject(new Error(response.statusText)))
+        .then(response => {
+          if (response.ok) {
+            return response.json()
+          }
+          const message = `Request failed with status ${response.status}`
+          // Handle non-standard Navidrome response
+          if (response.status === 501) {
+            return Promise.reject(new UnsupportedOperationError(message))
+          }
+          return Promise.reject(new Error(message))
+        })
         .then(response => {
           const subsonicResponse = response['subsonic-response']
-          if (subsonicResponse.status !== 'ok') {
-            const message = subsonicResponse.error?.message || subsonicResponse.status
-            throw new Error(message)
+          if (subsonicResponse.status === 'ok') {
+            return subsonicResponse
           }
-          return subsonicResponse
+          const message = subsonicResponse.error?.message || subsonicResponse.status
+          throw new Error(message)
         })
     }
   }

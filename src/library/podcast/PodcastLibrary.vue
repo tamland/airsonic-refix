@@ -22,7 +22,7 @@
         </ContextMenuItem>
       </OverflowMenu>
     </div>
-    <ContentLoader v-slot :loading="loading">
+    <ContentLoader v-slot :loading="items === null">
       <Tiles v-if="items.length > 0" square>
         <Tile v-for="item in sortedItems" :key="item.id"
               :image="item.image"
@@ -33,6 +33,7 @@
           </template>
         </Tile>
       </Tiles>
+      <EmptyIndicator v-else-if="unsupported" label="Not supported" />
       <EmptyIndicator v-else />
     </ContentLoader>
 
@@ -43,6 +44,7 @@
   import { defineComponent } from 'vue'
   import { orderBy } from 'lodash-es'
   import AddPodcastModal from '@/library/podcast/AddPodcastModal.vue'
+  import { UnsupportedOperationError } from '@/shared/api'
 
   export default defineComponent({
     components: {
@@ -55,12 +57,10 @@
       return {
         items: null as null | any[],
         showAddModal: false,
+        unsupported: false,
       }
     },
     computed: {
-      loading(): boolean {
-        return this.items === null
-      },
       sortedItems(): any[] {
         return this.sort === 'a-z'
           ? orderBy(this.items, 'name')
@@ -68,7 +68,16 @@
       },
     },
     async created() {
-      this.items = await this.$api.getPodcasts()
+      try {
+        this.items = await this.$api.getPodcasts()
+      } catch (err) {
+        if (err instanceof UnsupportedOperationError) {
+          this.items = []
+          this.unsupported = true
+          return
+        }
+        throw err
+      }
     },
     methods: {
       async refresh() {

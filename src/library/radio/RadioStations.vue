@@ -13,12 +13,13 @@
         </tr>
       </tbody>
     </BaseTable>
+    <EmptyIndicator v-else-if="unsupported" label="Not supported" />
     <EmptyIndicator v-else />
   </ContentLoader>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'
-  import { RadioStation } from '@/shared/api'
+  import { RadioStation, UnsupportedOperationError } from '@/shared/api'
   import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
   import CellActions from '@/library/track/CellActions.vue'
   import CellTitle from '@/library/track/CellTitle.vue'
@@ -38,18 +39,28 @@
     data() {
       return {
         items: null as null | RadioStation[],
+        unsupported: false,
       }
     },
     computed: {
-      isPlaying() {
+      isPlaying(): boolean {
         return this.$store.getters['player/isPlaying']
       },
-      playingTrackId() {
+      playingTrackId(): null | string {
         return this.$store.getters['player/trackId']
       },
     },
     async created() {
-      this.items = await this.$api.getRadioStations()
+      try {
+        this.items = await this.$api.getRadioStations()
+      } catch (err) {
+        if (err instanceof UnsupportedOperationError) {
+          this.items = []
+          this.unsupported = true
+          return
+        }
+        throw err
+      }
     },
     methods: {
       play(index: number) {
