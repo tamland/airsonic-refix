@@ -9,7 +9,7 @@
       </h1>
       <p>{{ item.description }}</p>
       <div class="d-flex flex-wrap align-items-center">
-        <b-button variant="secondary" class="mr-4" @click="play">
+        <b-button variant="secondary" class="mr-4" :disabled="item.topTracks.length === 0" @click="play">
           <Icon icon="play" /> Play
         </b-button>
         <div class="d-none d-lg-block">
