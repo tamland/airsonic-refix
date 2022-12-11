@@ -24,6 +24,7 @@ import {
   BOverlay,
   BPopover,
   BSidebar,
+  BToast,
 } from 'bootstrap-vue'
 
 export const components = {
@@ -40,6 +41,7 @@ export const components = {
   BOverlay,
   BPopover,
   BSidebar,
+  BToast,
   ContentLoader,
   ContextMenu,
   ContextMenuItem,

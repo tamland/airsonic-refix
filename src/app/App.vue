@@ -1,20 +1,20 @@
 <template>
   <div>
-    <ErrorBar />
     <component :is="layout">
       <router-view />
     </component>
+    <ErrorToast />
   </div>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'
-  import ErrorBar from './ErrorBar.vue'
+  import ErrorToast from './ErrorToast.vue'
   import Default from '@/app/layout/Default.vue'
   import Fullscreen from '@/app/layout/Fullscreen.vue'
 
   export default defineComponent({
     components: {
-      ErrorBar,
+      ErrorToast,
       Default,
       Fullscreen,
     },

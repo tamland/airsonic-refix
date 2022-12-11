@@ -1,15 +1,19 @@
 <template>
-  <b-alert
-    class="fixed-top m-0 rounded-0"
+  <b-toast
+    v-if="error"
+    visible
+    title="Error"
     variant="danger"
-    :show="error != null"
-    dismissible
-    @dismissed="clearError">
+    solid
+    no-fade
+    no-auto-hide
+    @change="clearError"
+  >
     <template v-if="error">
-      <strong>{{ error.message }}</strong><br>
-      {{ error.stack }}
+      <strong>{{ error.message }}</strong>
+      <div>{{ error.stack }}</div>
     </template>
-  </b-alert>
+  </b-toast>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'
