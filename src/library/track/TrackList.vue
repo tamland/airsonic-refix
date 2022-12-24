@@ -78,7 +78,7 @@
         })
       },
       dragstart(id: string, event: any) {
-        event.dataTransfer.setData('id', id)
+        event.dataTransfer.setData('application/x-track-id', id)
       },
     }
   })

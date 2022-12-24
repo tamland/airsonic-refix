@@ -45,10 +45,20 @@
       },
     },
     methods: {
-      onDrop(playlistId: string, event: any) {
+      async onDrop(playlistId: string, event: any) {
         event.preventDefault()
-        const trackId = event.dataTransfer.getData('id')
-        return this.$store.dispatch('addTrackToPlaylist', { playlistId, trackId })
+        const trackId = event.dataTransfer.getData('application/x-track-id')
+        if (trackId) {
+          return this.$store.dispatch('addTracksToPlaylist', { playlistId, trackIds: [trackId] })
+        }
+        const albumId = event.dataTransfer.getData('application/x-album-id')
+        if (albumId) {
+          const album = await this.$api.getAlbumDetails(albumId)
+          return this.$store.dispatch('addTracksToPlaylist', {
+            playlistId,
+            trackIds: album.tracks?.map(item => item.id)
+          })
+        }
       },
       onDragover(event: any) {
         event.preventDefault()

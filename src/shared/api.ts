@@ -1,5 +1,6 @@
 import { AuthService } from '@/auth/service'
-import { map, max } from 'lodash-es'
+import { keys, map, max, orderBy } from 'lodash-es'
+import { toQueryString } from '@/shared/utils'
 
 export type AlbumSort =
   'a-z' |
@@ -88,7 +89,7 @@ export class API {
 
   constructor(private auth: AuthService) {
     this.fetch = (path: string, params: any) => {
-      const url = `${this.auth.server}/${path}?${new URLSearchParams({
+      const url = `${this.auth.server}/${path}?${toQueryString({
         ...params,
         u: this.auth.username,
         s: this.auth.salt,
@@ -231,10 +232,10 @@ export class API {
     await this.fetch('rest/deletePlaylist', { id })
   }
 
-  async addToPlaylist(playlistId: string, trackId: string) {
+  async addToPlaylist(playlistId: string, tracks: string[]) {
     const params = {
       playlistId,
-      songIdToAdd: trackId,
+      songIdToAdd: tracks,
     }
     await this.fetch('rest/updatePlaylist', params)
   }

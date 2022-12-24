@@ -5,6 +5,7 @@
       :image="item.image"
       :to="{name: 'album', params: { id: item.id } }"
       :title="item.name"
+      :draggable="true" @dragstart="dragstart(item.id, $event)"
     >
       <template #text>
         <router-link :to="{name: 'artist', params: { id: item.artistId } }" class="text-muted">
@@ -59,7 +60,10 @@
       },
       toggleFavourite(id: string) {
         return this.$store.dispatch('favourites/toggle', { id, type: 'album' })
-      }
+      },
+      dragstart(id: string, event: any) {
+        event.dataTransfer.setData('application/x-album-id', id)
+      },
     }
   })
 </script>

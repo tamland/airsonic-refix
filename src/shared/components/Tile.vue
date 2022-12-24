@@ -1,5 +1,5 @@
 <template functional>
-  <div class="tile card">
+  <div class="tile card" v-bind="data.attrs" v-on="data.on">
     <ContextMenu class="tile-img">
       <router-link :to="props.to">
         <img v-if="props.image" :src="props.image">

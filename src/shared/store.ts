@@ -76,9 +76,9 @@ const setupRootModule = (authService: AuthService, api: API): Module<State, any>
         commit('updatePlaylist', { id, name, comment })
       })
     },
-    addTrackToPlaylist({ state, commit }, { playlistId, trackId }) {
+    addTracksToPlaylist({ state, commit }, { playlistId, trackIds }) {
       const playlist = state.playlists?.find(x => x.id === playlistId)
-      return api.addToPlaylist(playlistId, trackId).then(() => {
+      return api.addToPlaylist(playlistId, trackIds).then(() => {
         commit('updatePlaylist', {
           id: playlistId,
           updatedAt: new Date().toISOString(),

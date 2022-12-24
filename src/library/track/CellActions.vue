@@ -74,9 +74,9 @@
       },
       addToPlaylist(playlistId: string) {
         this.showPlaylistSelect = false
-        return this.$store.dispatch('addTrackToPlaylist', {
+        return this.$store.dispatch('addTracksToPlaylist', {
           playlistId,
-          trackId: this.track.id
+          trackIds: [this.track.id]
         })
       },
     }
