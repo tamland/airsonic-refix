@@ -60,8 +60,14 @@
           })
         }
       },
-      onDragover(event: any) {
-        event.preventDefault()
+      onDragover(event: DragEvent) {
+        if (
+          event.dataTransfer?.types.includes('application/x-track-id') ||
+          event.dataTransfer?.types.includes('application/x-album-id')
+        ) {
+          event.dataTransfer.dropEffect = 'copy'
+          event.preventDefault()
+        }
       },
     }
   })
