@@ -1,11 +1,9 @@
 <template>
-  <div class="d-flex flex-nowrap mb-3 position-relative row">
+  <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start position-relative mb-3">
     <div class="backdrop" />
-    <div class="col-auto img-container">
-      <img v-if="image" :src="image">
-      <img v-else src="@/shared/assets/fallback.svg">
-    </div>
-    <div class="col pl-xl-4">
+    <img v-if="image" :src="image">
+    <img v-else src="@/shared/assets/fallback.svg">
+    <div class="pt-4 pt-md-0 pl-md-4 text-center text-md-left">
       <slot />
     </div>
   </div>
@@ -26,33 +24,31 @@
   })
 </script>
 <style scoped>
-.img-container {
-  max-width: 50%
-}
-.img-container img {
-  width: 300px;
-  height: auto;
-  max-width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-}
-.backdrop {
-  position: absolute;
-  z-index: -1;
-  width: 100%;
-  top: -50%;
-  height: calc(100% + 300px);
+  img {
+    display: block;
+    width: 300px;
+    height: auto;
+    max-width: 75%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+  .backdrop {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    top: -50%;
+    height: calc(100% + 300px);
 
-  transform: scale(1.025);
-  filter: blur(8px);
-  opacity: 0.25;
+    transform: scale(1.025);
+    filter: blur(8px);
+    opacity: 0.25;
 
-  background-size: max(100%, 1000px) auto;
-  background-position: center center;
-  background-repeat: no-repeat;
+    background-size: max(100%, 1000px) auto;
+    background-position: center center;
+    background-repeat: no-repeat;
 
-  background-image:
-    linear-gradient(to bottom, transparent, black),
-    v-bind(backgroundImage);
-}
+    background-image:
+      linear-gradient(to bottom, transparent, black),
+      v-bind(backgroundImage);
+  }
 </style>

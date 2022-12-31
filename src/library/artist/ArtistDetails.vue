@@ -22,18 +22,16 @@
       <p class="d-none d-sm-block">
         {{ item.description }}
       </p>
-      <div class="d-flex flex-wrap align-items-center">
-        <b-button variant="secondary" class="mr-4" :disabled="item.topTracks.length === 0" @click="play">
-          <Icon icon="play" /> Play
-        </b-button>
-        <div class="d-none d-lg-block">
-          <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="mr-4">
-            Last.fm <Icon icon="link" />
-          </ExternalLink>
-          <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl">
-            MusicBrainz <Icon icon="link" />
-          </ExternalLink>
-        </div>
+      <b-button variant="secondary" :disabled="item.topTracks.length === 0" @click="play">
+        <Icon icon="play" /> Play
+      </b-button>
+      <div class="d-none d-lg-inline-block">
+        <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="ml-4">
+          Last.fm <Icon icon="link" />
+        </ExternalLink>
+        <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl" class="ml-4">
+          MusicBrainz <Icon icon="link" />
+        </ExternalLink>
       </div>
     </Hero>
 
