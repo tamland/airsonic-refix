@@ -19,7 +19,9 @@
           </span>
         </div>
       </div>
-      <p>{{ item.description }}</p>
+      <p class="d-none d-sm-block">
+        {{ item.description }}
+      </p>
       <div class="d-flex flex-wrap align-items-center">
         <b-button variant="secondary" class="mr-4" :disabled="item.topTracks.length === 0" @click="play">
           <Icon icon="play" /> Play
