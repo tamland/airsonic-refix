@@ -1,5 +1,5 @@
 import { AuthService } from '@/auth/service'
-import { keys, map, max, orderBy } from 'lodash-es'
+import { keys, map, max, orderBy, uniq } from 'lodash-es'
 import { toQueryString } from '@/shared/utils'
 
 export type AlbumSort =
@@ -40,8 +40,10 @@ export interface Album {
 export interface Artist {
   id: string
   name: string
-  albumCount: number
   description?: string
+  genres: string[]
+  albumCount: number
+  trackCount: number
   favourite: boolean
   lastFmUrl?: string
   musicBrainzUrl?: string
@@ -406,16 +408,18 @@ export class API {
   }
 
   private normalizeArtist(item: any): Artist {
-    const albums = item.album
-      ?.map(this.normalizeAlbum, this)
+    const albums = (item.album || [])
+      .map(this.normalizeAlbum, this)
       .sort((a: any, b: any) => b.year - a.year)
 
     return {
       id: item.id,
       name: item.name,
       description: (item.biography || '').replace(/<a[^>]*>.*?<\/a>/gm, ''),
-      favourite: !!item.starred,
+      genres: uniq((item.album || []).flatMap((album: any) => album.genre || [])),
       albumCount: item.albumCount,
+      trackCount: (item.album || []).reduce((acc: number, album: any) => acc + (album.songCount || 0), 0),
+      favourite: !!item.starred,
       lastFmUrl: item.lastFmUrl,
       musicBrainzUrl: item.musicBrainzId
         ? `https://musicbrainz.org/artist/${item.musicBrainzId}`

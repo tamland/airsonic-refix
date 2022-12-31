@@ -7,6 +7,18 @@
           <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
         </b-button>
       </h1>
+      <div class="mb-3">
+        <strong>{{ item.albumCount }}</strong> albums •
+        <strong>{{ item.trackCount }}</strong> tracks
+        <div v-if="item.genres.length > 0">
+          <span v-for="(genre, index) in item.genres" :key="genre">
+            <span v-if="index > 0">•</span>
+            <router-link :to="{name: 'genre', params: { id: genre }}">
+              {{ genre }}
+            </router-link>
+          </span>
+        </div>
+      </div>
       <p>{{ item.description }}</p>
       <div class="d-flex flex-wrap align-items-center">
         <b-button variant="secondary" class="mr-4" :disabled="item.topTracks.length === 0" @click="play">
