@@ -1,47 +1,30 @@
-import { Module } from 'vuex'
-import { API } from '@/shared/api'
 import Vue from 'vue'
+import { defineStore } from 'pinia'
 
-interface State {
-  albums: any
-  artists: any
-  tracks: any
-}
+type MediaType = 'track' | 'album' | 'artist'
 
-export const setupModule = (api: API): Module<State, any> => ({
-  state: {
+export const useFavouriteStore = defineStore('favourite', {
+  state: () => ({
     albums: {} as any,
     artists: {} as any,
     tracks: {} as any,
-  },
-  mutations: {
-    set(state, items: State) {
-      Object.assign(state, items)
-    },
-    add(state, { type, id }) {
-      Vue.set(state[getTypeKey(type)], id, true)
-    },
-    remove(state, { type, id }) {
-      Vue.delete(state[getTypeKey(type)], id)
-    },
-  },
+  }),
   actions: {
-    load({ commit }) {
-      api.getFavourites().then(result => {
-        commit('set', {
-          albums: createIdMap(result.albums),
-          artists: createIdMap(result.artists),
-          tracks: createIdMap(result.tracks),
-        })
+    load() {
+      return this.api.getFavourites().then(result => {
+        this.albums = createIdMap(result.albums)
+        this.artists = createIdMap(result.artists)
+        this.tracks = createIdMap(result.tracks)
       })
     },
-    toggle({ state, commit }, { type, id }) {
-      if (state[getTypeKey(type)][id]) {
-        commit('remove', { id, type })
-        return api.removeFavourite(id, type)
+    toggle(type: MediaType, id: string) {
+      const field = getTypeKey(type)
+      if (this[field][id]) {
+        Vue.delete(this[field], id)
+        return this.api.removeFavourite(id, type)
       } else {
-        commit('add', { id, type })
-        return api.addFavourite(id, type)
+        Vue.set(this[field], id, true)
+        return this.api.addFavourite(id, type)
       }
     },
   },
@@ -51,7 +34,7 @@ function createIdMap(items: [{ id: string }]) {
   return Object.assign({}, ...items.map((item) => ({ [item.id]: true })))
 }
 
-function getTypeKey(type: string): keyof State {
+function getTypeKey(type: string): 'albums' | 'artists' |'tracks' {
   switch (type) {
     case 'album': return 'albums'
     case 'artist': return 'artists'

@@ -25,10 +25,12 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent, ref, watch } from 'vue'
   import AlbumList from '@/library/album/AlbumList.vue'
   import ArtistList from '@/library/artist/ArtistList.vue'
   import TrackList from '@/library/track/TrackList.vue'
+  import { useFavouriteStore } from '@/library/favourite/store'
+  import { useApi } from '@/shared'
 
   export default defineComponent({
     components: {
@@ -39,25 +41,25 @@
     props: {
       section: { type: String, default: '' },
     },
-    data() {
+    setup() {
+      const api = useApi()
+      const favouriteStore = useFavouriteStore()
+      const details = ref<any>(null)
+      watch(
+        () => [favouriteStore],
+        async() => {
+          const result = await api.getFavourites()
+          details.value = {
+            albums: result.albums.filter((item: any) => favouriteStore.albums[item.id]),
+            artists: result.artists.filter((item: any) => favouriteStore.artists[item.id]),
+            tracks: result.tracks.filter((item: any) => favouriteStore.tracks[item.id]),
+          }
+        },
+        { deep: true, immediate: true }
+      )
       return {
-        details: null as any,
+        details
       }
     },
-    watch: {
-      '$store.state.favourites': {
-        immediate: true,
-        deep: true,
-        async handler() {
-          const result = await this.$api.getFavourites()
-          const index = this.$store.state.favourites
-          this.details = {
-            albums: result.albums.filter((item: any) => index.albums[item.id]),
-            artists: result.artists.filter((item: any) => index.artists[item.id]),
-            tracks: result.tracks.filter((item: any) => index.tracks[item.id]),
-          }
-        }
-      }
-    }
   })
 </script>

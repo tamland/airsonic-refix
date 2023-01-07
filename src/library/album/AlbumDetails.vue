@@ -44,6 +44,7 @@
   import { defineComponent } from 'vue'
   import TrackList from '@/library/track/TrackList.vue'
   import { Album } from '@/shared/api'
+  import { useFavouriteStore } from '@/library/favourite/store'
 
   export default defineComponent({
     components: {
@@ -52,6 +53,11 @@
     props: {
       id: { type: String, required: true }
     },
+    setup() {
+      return {
+        favouriteStore: useFavouriteStore()
+      }
+    },
     data() {
       return {
         album: null as null | Album,
@@ -59,7 +65,7 @@
     },
     computed: {
       isFavourite(): boolean {
-        return !!this.$store.state.favourites.albums[this.id]
+        return !!this.favouriteStore.albums[this.id]
       },
     },
     async created() {
@@ -84,7 +90,7 @@
         }
       },
       toggleFavourite() {
-        return this.$store.dispatch('favourites/toggle', { id: this.id, type: 'album' })
+        return this.favouriteStore.toggle('album', this.id)
       },
     }
   })

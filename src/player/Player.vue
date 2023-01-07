@@ -104,10 +104,16 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import ProgressBar from '@/player/ProgressBar.vue'
+  import { useFavouriteStore } from '@/library/favourite/store'
 
   export default defineComponent({
     components: {
       ProgressBar,
+    },
+    setup() {
+      return {
+        favouriteStore: useFavouriteStore()
+      }
     },
     computed: {
       visible() {
@@ -129,7 +135,7 @@
         return this.$store.state.player.shuffle
       },
       isFavourite(): boolean {
-        return this.track && !!this.$store.state.favourites.tracks[this.track.id]
+        return this.track && !!this.favouriteStore.tracks[this.track.id]
       },
       track() {
         return this.$store.getters['player/track']
@@ -173,7 +179,7 @@
         return this.$store.dispatch('player/toggleShuffle')
       },
       toggleFavourite() {
-        return this.$store.dispatch('favourites/toggle', { id: this.track.id, type: 'track' })
+        return this.favouriteStore.toggle('track', this.track.id)
       },
     }
   })

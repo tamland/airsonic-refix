@@ -1,7 +1,5 @@
 import Vuex, { Module } from 'vuex'
-
 import { playerModule } from '@/player/store'
-import { setupModule as setupFavouritesModule } from '@/library/favourite/store'
 import { AuthService } from '@/auth/service'
 import { API, Playlist } from './api'
 
@@ -103,10 +101,6 @@ export function setupStore(authService: AuthService, api: API) {
         namespaced: true,
         ...playerModule
       },
-      favourites: {
-        namespaced: true,
-        ...setupFavouritesModule(api)
-      }
     }
   })
 
@@ -114,7 +108,6 @@ export function setupStore(authService: AuthService, api: API) {
     (state) => state.isLoggedIn,
     () => {
       store.dispatch('loadPlaylists')
-      store.dispatch('favourites/load')
     }
   )
 

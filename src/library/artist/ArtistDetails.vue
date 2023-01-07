@@ -62,6 +62,7 @@
   import AlbumList from '@/library/album/AlbumList.vue'
   import ArtistList from '@/library/artist/ArtistList.vue'
   import TrackList from '@/library/track/TrackList.vue'
+  import { useFavouriteStore } from '@/library/favourite/store'
 
   export default defineComponent({
     components: {
@@ -72,6 +73,11 @@
     props: {
       id: { type: String, required: true }
     },
+    setup() {
+      return {
+        favouriteStore: useFavouriteStore()
+      }
+    },
     data() {
       return {
         item: null as any,
@@ -79,7 +85,7 @@
     },
     computed: {
       isFavourite(): boolean {
-        return !!this.$store.state.favourites.artists[this.id]
+        return !!this.favouriteStore.artists[this.id]
       },
     },
     watch: {
@@ -98,7 +104,7 @@
         })
       },
       toggleFavourite() {
-        return this.$store.dispatch('favourites/toggle', { id: this.id, type: 'artist' })
+        return this.favouriteStore.toggle('artist', this.id)
       },
     }
   })

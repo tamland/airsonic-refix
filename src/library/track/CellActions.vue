@@ -41,10 +41,16 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'
+  import { useFavouriteStore } from '@/library/favourite/store'
 
   export default defineComponent({
     props: {
       track: { type: Object, required: true },
+    },
+    setup() {
+      return {
+        favouriteStore: useFavouriteStore()
+      }
     },
     data() {
       return {
@@ -53,7 +59,7 @@
     },
     computed: {
       isFavourite(): boolean {
-        return !!this.$store.state.favourites.tracks[this.track.id]
+        return !!this.favouriteStore.tracks[this.track.id]
       },
       playlists(): any[] {
         return this.$store.state.playlists
@@ -61,7 +67,7 @@
     },
     methods: {
       toggleFavourite() {
-        return this.$store.dispatch('favourites/toggle', { id: this.track.id, type: 'track' })
+        return this.favouriteStore.toggle('track', this.track.id)
       },
       download() {
         window.location.href = this.$api.getDownloadUrl(this.track.id)
