@@ -1,7 +1,7 @@
 # Airsonic (refix) UI
 
-[![Build](https://img.shields.io/github/workflow/status/tamland/airsonic-refix/CI?style=flat-square)](https://github.com/tamland/airsonic-refix/actions)
-[![Docker Pulls](https://img.shields.io/docker/pulls/tamland/airsonic-refix?style=flat-square)](https://hub.docker.com/r/tamland/airsonic-refix)
+[![Build](https://img.shields.io/github/actions/workflow/status/tamland/airsonic-refix/ci.yml?style=flat-square)](https://github.com/tamland/airsonic-refix/actions)
+[![Docker Pulls](https://img.shields.io/docker/pulls/tamland/airsonic-refix?branch=master&style=flat-square)](https://hub.docker.com/r/tamland/airsonic-refix)
 
 Modern responsive web frontend for [airsonic-advanced](https://github.com/airsonic-advanced/airsonic-advanced), [navidrome](https://github.com/navidrome/navidrome),
 [gonic](https://github.com/sentriz/gonic) and other [subsonic](https://github.com/topics/subsonic) compatible music servers.
