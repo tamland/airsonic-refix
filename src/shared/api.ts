@@ -1,5 +1,5 @@
 import { AuthService } from '@/auth/service'
-import { keys, map, max, orderBy, uniq } from 'lodash-es'
+import { map, max, uniq } from 'lodash-es'
 import { toQueryString } from '@/shared/utils'
 
 export type AlbumSort =
