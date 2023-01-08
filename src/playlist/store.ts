@@ -21,15 +21,21 @@ export const usePlaylistStore = defineStore('playlist', {
       this._replacePlaylist(playlist)
       return this.api.editPlaylist(playlist.id, playlist.name, playlist.comment)
     },
-    addTracks(playlistId: string, trackIds: string[]) {
+    async addTracks(playlistId: string, trackIds: string[]) {
       const playlist = this.playlists?.find(x => x.id === playlistId)
-      return this.api.addToPlaylist(playlistId, trackIds).then(() => {
-        this._replacePlaylist({
-          id: playlistId,
-          updatedAt: new Date().toISOString(),
-          trackCount: (playlist?.trackCount || 0) + 1,
-        })
-      })
+      if (playlist) {
+        await this.api.addToPlaylist(playlistId, trackIds)
+        playlist.updatedAt = new Date().toISOString()
+        playlist.trackCount = (playlist?.trackCount || 0) + trackIds.length
+      }
+    },
+    async removeTrack(playlistId: string, index: number) {
+      const playlist = this.playlists?.find(x => x.id === playlistId)
+      if (playlist) {
+        await this.api.removeFromPlaylist(playlistId, index)
+        playlist.updatedAt = new Date().toISOString()
+        playlist.trackCount = (playlist?.trackCount || 0) - 1
+      }
     },
     deletePlaylist(id: string) {
       return this.api.deletePlaylist(id).then(() => {

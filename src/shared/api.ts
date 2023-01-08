@@ -242,7 +242,7 @@ export class API {
     await this.fetch('rest/updatePlaylist', params)
   }
 
-  async removeFromPlaylist(playlistId: string, index: string) {
+  async removeFromPlaylist(playlistId: string, index: number) {
     const params = {
       playlistId,
       songIndexToRemove: index,

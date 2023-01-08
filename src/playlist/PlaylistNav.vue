@@ -26,7 +26,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { computed, defineComponent, ref } from 'vue'
+  import { computed, defineComponent } from 'vue'
   import CreatePlaylistModal from '@/playlist/CreatePlaylistModal.vue'
   import { usePlaylistStore } from '@/playlist/store'
 

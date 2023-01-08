@@ -42,7 +42,7 @@
   </ContentLoader>
 </template>
 <script lang="ts">
-  import { computed, defineComponent } from 'vue'
+  import { defineComponent } from 'vue'
   import TrackList from '@/library/track/TrackList.vue'
   import EditModal from '@/shared/components/EditModal.vue'
   import { usePlaylistStore } from '@/playlist/store'
@@ -78,7 +78,7 @@
     methods: {
       remove(index: number) {
         this.playlist.tracks.splice(index, 1)
-        return this.$api.removeFromPlaylist(this.id, index.toString())
+        return this.playlistStore.removeTrack(this.id, index)
       },
       updatePlaylist(value: any) {
         this.playlist = value
