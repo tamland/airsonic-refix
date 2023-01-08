@@ -32,7 +32,7 @@
   </BaseTable>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent, PropType } from 'vue'
   import CellDuration from '@/library/track/CellDuration.vue'
   import CellArtist from '@/library/track/CellArtist.vue'
   import CellAlbum from '@/library/track/CellAlbum.vue'
@@ -41,6 +41,7 @@
   import CellTitle from '@/library/track/CellTitle.vue'
   import BaseTable from '@/library/track/BaseTable.vue'
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
+  import { Track } from '@/shared/api'
 
   export default defineComponent({
     components: {
@@ -54,7 +55,7 @@
       CellDuration,
     },
     props: {
-      tracks: { type: Array, required: true },
+      tracks: { type: Array as PropType<Track[]>, required: true },
       noAlbum: { type: Boolean, default: false },
       noArtist: { type: Boolean, default: false },
       noDuration: { type: Boolean, default: false },
@@ -69,7 +70,7 @@
     },
     methods: {
       play(index: number) {
-        if ((this.tracks as any)[index].id === this.playingTrackId) {
+        if (this.tracks[index].id === this.playingTrackId) {
           return this.$store.dispatch('player/playPause')
         }
         return this.$store.dispatch('player/playTrackList', {
