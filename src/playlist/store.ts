@@ -17,9 +17,13 @@ export const usePlaylistStore = defineStore('playlist', {
         this.playlists = orderBy(result, 'createdAt')
       })
     },
-    update(playlist: {id: string, name: string, comment: string}) {
-      this._replacePlaylist(playlist)
-      return this.api.editPlaylist(playlist.id, playlist.name, playlist.comment)
+    async update({ id, name, comment }: Playlist) {
+      const playlist = this.playlists?.find(x => x.id === id)
+      if (playlist) {
+        playlist.name = name
+        playlist.comment = comment
+        await this.api.editPlaylist(id, name, comment)
+      }
     },
     async addTracks(playlistId: string, trackIds: string[]) {
       const playlist = this.playlists?.find(x => x.id === playlistId)
@@ -37,16 +41,9 @@ export const usePlaylistStore = defineStore('playlist', {
         playlist.trackCount = (playlist?.trackCount || 0) - 1
       }
     },
-    deletePlaylist(id: string) {
-      return this.api.deletePlaylist(id).then(() => {
-        this.playlists = this.playlists!.filter(p => p.id !== id)
-      })
-    },
-    _replacePlaylist(playlist: any) {
-      if (this.playlists) {
-        const idx = this.playlists?.findIndex(x => x.id === playlist.id)
-        this.playlists.splice(idx, 1, { ...this.playlists[idx], ...playlist })
-      }
+    async delete(id: string) {
+      await this.api.deletePlaylist(id)
+      this.playlists = this.playlists!.filter(p => p.id !== id)
     },
   },
 })

@@ -18,7 +18,7 @@
     <TrackList v-if="playlist.tracks.length > 0" :tracks="playlist.tracks">
       <template #context-menu="{index}">
         <b-dropdown-divider />
-        <ContextMenuItem icon="x" variant="danger" @click="remove(index)">
+        <ContextMenuItem icon="x" variant="danger" @click="removeTrack(index)">
           Remove
         </ContextMenuItem>
       </template>
@@ -76,7 +76,7 @@
       }
     },
     methods: {
-      remove(index: number) {
+      removeTrack(index: number) {
         this.playlist.tracks.splice(index, 1)
         return this.playlistStore.removeTrack(this.id, index)
       },
@@ -85,7 +85,7 @@
         return this.playlistStore.update(this.playlist)
       },
       deletePlaylist() {
-        return this.playlistStore.deletePlaylist(this.id).then(() => {
+        return this.playlistStore.delete(this.id).then(() => {
           this.$router.replace({ name: 'playlists' })
         })
       },
