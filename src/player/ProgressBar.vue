@@ -15,7 +15,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import VueSlider from 'vue-slider-component'
-  import { formatDuration } from '@/shared/components'
+  import { formatDuration } from '@/shared/utils'
 
   export default defineComponent({
     components: {

@@ -39,3 +39,12 @@ export function toQueryString(params: Record<string, string | string[]>): string
     .flat()
   return new URLSearchParams(list).toString()
 }
+
+export function formatDuration(value: number): string {
+  if (!isFinite(value)) {
+    return '∞'
+  }
+  const minutes = Math.floor(value / 60)
+  const seconds = Math.floor(value % 60)
+  return (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds
+}

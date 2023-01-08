@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import Router from 'vue-router'
 import AppComponent from '@/app/App.vue'
 import { createApp } from '@/shared/compat'
-import { components, formatDuration } from '@/shared/components'
+import { components } from '@/shared/components'
 import { setupRouter } from '@/shared/router'
 import { useMainStore } from '@/shared/store'
 import { API } from '@/shared/api'
@@ -19,7 +19,6 @@ declare module 'vue/types/vue' {
   interface Vue {
     $auth: AuthService
     $api: API
-    $formatDuration: typeof formatDuration
   }
 }
 
@@ -64,7 +63,6 @@ router.beforeEach((to, from, next) => {
 const app = createApp(AppComponent, { router, pinia, store: playerStore })
 
 app.config.globalProperties.$auth = authService
-app.config.globalProperties.$formatDuration = formatDuration
 app.config.errorHandler = (err: Error) => {
   // eslint-disable-next-line
   console.error(err)
