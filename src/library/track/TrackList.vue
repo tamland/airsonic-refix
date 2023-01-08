@@ -14,7 +14,7 @@
     <tbody>
       <tr v-for="(item, index) in tracks" :key="index"
           :class="{'active': item.id === playingTrackId}"
-          :draggable="true" @dragstart="dragstart(item.id, $event)"
+          :draggable="true" @dragstart="dragstart(item, $event)"
           @click="play(index)">
         <CellTrackNumber
           :active="item.id === playingTrackId && isPlaying"
@@ -77,8 +77,10 @@
           tracks: this.tracks,
         })
       },
-      dragstart(id: string, event: any) {
-        event.dataTransfer.setData('application/x-track-id', id)
+      dragstart(item: any, event: any) {
+        if (!item.isStream) {
+          event.dataTransfer.setData('application/x-track-id', item.id)
+        }
       },
     }
   })

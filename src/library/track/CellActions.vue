@@ -7,13 +7,13 @@
       <ContextMenuItem icon="plus" @click="addToQueue()">
         Add to queue
       </ContextMenuItem>
-      <ContextMenuItem icon="plus" @click="showPlaylistSelect = true">
+      <ContextMenuItem v-if="!track.isStream" icon="plus" @click="showPlaylistSelect = true">
         Add to playlist
       </ContextMenuItem>
-      <ContextMenuItem :icon="isFavourite ? 'heart-fill' : 'heart'" @click="toggleFavourite()">
+      <ContextMenuItem v-if="!track.isStream" :icon="isFavourite ? 'heart-fill' : 'heart'" @click="toggleFavourite()">
         Favourite
       </ContextMenuItem>
-      <ContextMenuItem icon="download" @click="download()">
+      <ContextMenuItem v-if="!track.isStream" icon="download" @click="download()">
         Download
       </ContextMenuItem>
       <slot :item="track" />

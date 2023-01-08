@@ -39,9 +39,12 @@
         <div class="col-auto col-sm p-0">
           <div class="d-flex flex-nowrap justify-content-end pr-3">
             <div class="m-0 d-none d-md-inline-flex align-items-center">
-              <b-button title="Favourite"
-                        variant="link" class="m-0"
-                        @click="toggleFavourite">
+              <b-button
+                title="Favourite"
+                variant="link" class="m-0"
+                :disabled="track && track.isStream"
+                @click="toggleFavourite"
+              >
                 <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
               </b-button>
               <b-button id="player-volume-btn" variant="link" title="Volume">
