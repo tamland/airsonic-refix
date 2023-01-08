@@ -13,6 +13,7 @@ import { setupAudio } from './player/store'
 import { createApi } from '@/shared'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import { useFavouriteStore } from '@/library/favourite/store'
+import { usePlaylistStore } from '@/playlist/store'
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -35,7 +36,7 @@ Vue.use(PiniaVuePlugin)
 const authService = new AuthService()
 const api = createApi(authService)
 const router = setupRouter(authService)
-const store = setupStore(authService, api)
+const store = setupStore()
 const pinia = createPinia()
   .use(({ store }) => {
     store.api = markRaw(api)
@@ -43,9 +44,10 @@ const pinia = createPinia()
 
 store.watch(
   (state) => state.isLoggedIn,
-  () => {
-    useFavouriteStore().load()
-  })
+  () => Promise.all([
+    useFavouriteStore().load(),
+    usePlaylistStore().load(),
+  ]))
 
 setupAudio(store, api)
 

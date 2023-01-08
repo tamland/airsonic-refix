@@ -29,7 +29,7 @@
       </template>
       <div class="list-group list-group-flush">
         <button
-          v-for="item in playlists" :key="item.id"
+          v-for="item in playlistStore.playlists" :key="item.id"
           type="button" class="list-group-item list-group-item-action text-truncate"
           @click="addToPlaylist(item.id)"
         >
@@ -42,6 +42,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import { useFavouriteStore } from '@/library/favourite/store'
+  import { usePlaylistStore } from '@/playlist/store'
 
   export default defineComponent({
     props: {
@@ -49,7 +50,8 @@
     },
     setup() {
       return {
-        favouriteStore: useFavouriteStore()
+        favouriteStore: useFavouriteStore(),
+        playlistStore: usePlaylistStore(),
       }
     },
     data() {
@@ -60,9 +62,6 @@
     computed: {
       isFavourite(): boolean {
         return !!this.favouriteStore.tracks[this.track.id]
-      },
-      playlists(): any[] {
-        return this.$store.state.playlists
       },
     },
     methods: {
@@ -80,10 +79,7 @@
       },
       addToPlaylist(playlistId: string) {
         this.showPlaylistSelect = false
-        return this.$store.dispatch('addTracksToPlaylist', {
-          playlistId,
-          trackIds: [this.track.id]
-        })
+        return this.playlistStore.addTracks(playlistId, [this.track.id])
       },
     }
   })

@@ -42,9 +42,10 @@
   </ContentLoader>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { computed, defineComponent } from 'vue'
   import TrackList from '@/library/track/TrackList.vue'
   import EditModal from '@/shared/components/EditModal.vue'
+  import { usePlaylistStore } from '@/playlist/store'
 
   export default defineComponent({
     components: {
@@ -53,6 +54,9 @@
     },
     props: {
       id: { type: String, required: true }
+    },
+    setup() {
+      return { playlistStore: usePlaylistStore() }
     },
     data() {
       return {
@@ -66,7 +70,7 @@
         handler(value: string) {
           this.playlist = null
           this.$api.getPlaylist(value).then(playlist => {
-            this.playlist = playlist// .sort((a: any, b:any) => a.created.localeCompare(b.created));
+            this.playlist = playlist
           })
         }
       }
@@ -78,10 +82,10 @@
       },
       updatePlaylist(value: any) {
         this.playlist = value
-        return this.$store.dispatch('updatePlaylist', this.playlist)
+        return this.playlistStore.update(this.playlist)
       },
       deletePlaylist() {
-        return this.$store.dispatch('deletePlaylist', this.id).then(() => {
+        return this.playlistStore.deletePlaylist(this.id).then(() => {
           this.$router.replace({ name: 'playlists' })
         })
       },

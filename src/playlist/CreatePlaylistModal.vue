@@ -16,25 +16,26 @@
   </b-modal>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent, ref } from 'vue'
+  import { usePlaylistStore } from '@/playlist/store'
 
   export default defineComponent({
     props: {
       visible: { type: Boolean, required: true },
     },
-    data() {
+    setup(props, { emit }) {
+      const name = ref('')
+      const store = usePlaylistStore()
       return {
-        name: '',
+        name,
+        confirm: () => {
+          store.create(name.value)
+        },
+        change: () => {
+          name.value = ''
+          emit('update:visible', false)
+        },
       }
     },
-    methods: {
-      confirm() {
-        return this.$store.dispatch('createPlaylist', this.name)
-      },
-      change() {
-        this.name = ''
-        this.$emit('update:visible', false)
-      },
-    }
   })
 </script>

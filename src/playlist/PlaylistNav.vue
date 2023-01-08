@@ -26,12 +26,23 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { computed, defineComponent, ref } from 'vue'
   import CreatePlaylistModal from '@/playlist/CreatePlaylistModal.vue'
+  import { usePlaylistStore } from '@/playlist/store'
 
   export default defineComponent({
     components: {
       CreatePlaylistModal
+    },
+    setup() {
+      const store = usePlaylistStore()
+      const playlists = computed(() => {
+        return store.playlists?.slice(0, 10)
+      })
+      return {
+        playlists,
+        addTracks: store.addTracks
+      }
     },
     data() {
       return {
@@ -39,25 +50,19 @@
         showAddModal: false,
       }
     },
-    computed: {
-      playlists(): any[] | null {
-        return this.$store.state.playlists?.slice(0, 10)
-      },
-    },
     methods: {
       async onDrop(playlistId: string, event: any) {
         event.preventDefault()
         const trackId = event.dataTransfer.getData('application/x-track-id')
         if (trackId) {
-          return this.$store.dispatch('addTracksToPlaylist', { playlistId, trackIds: [trackId] })
+          return this.addTracks(playlistId, [trackId])
         }
         const albumId = event.dataTransfer.getData('application/x-album-id')
         if (albumId) {
           const album = await this.$api.getAlbumDetails(albumId)
-          return this.$store.dispatch('addTracksToPlaylist', {
-            playlistId,
-            trackIds: album.tracks?.map(item => item.id)
-          })
+          return this.addTracks(
+            playlistId, album.tracks!.map(item => item.id)
+          )
         }
       },
       onDragover(event: DragEvent) {

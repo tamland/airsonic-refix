@@ -35,9 +35,10 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { computed, defineComponent, ref } from 'vue'
   import CreatePlaylistModal from '@/playlist/CreatePlaylistModal.vue'
   import { orderBy } from 'lodash-es'
+  import { usePlaylistStore } from '@/playlist/store'
 
   export default defineComponent({
     components: {
@@ -46,20 +47,15 @@
     props: {
       sort: { type: String, default: null },
     },
-    data() {
+    setup(props) {
+      const store = usePlaylistStore()
       return {
-        showAddModal: false,
-      }
-    },
-    computed: {
-      items(): any[] {
-        const playlists = this.$store.state.playlists
-        return this.sort === 'a-z'
-          ? orderBy(playlists, 'name')
-          : orderBy(playlists, 'createdAt', 'desc')
-      },
-      loading(): boolean {
-        return this.$store.state.playlists === null
+        showAddModal: ref(false),
+        loading: computed(() => store.playlists === null),
+        items: computed(() =>
+          props.sort === 'a-z'
+            ? orderBy(store.playlists, 'name')
+            : orderBy(store.playlists, 'createdAt', 'desc'))
       }
     },
   })
