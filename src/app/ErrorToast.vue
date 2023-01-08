@@ -16,17 +16,15 @@
   </b-toast>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { computed, defineComponent } from 'vue'
+  import { useMainStore } from '@/shared/store'
 
   export default defineComponent({
-    computed: {
-      error(): any {
-        return this.$store.state.error
-      }
-    },
-    methods: {
-      clearError() {
-        return this.$store.commit('clearError')
+    setup() {
+      const store = useMainStore()
+      return {
+        error: computed(() => store.error),
+        clearError: store.clearError,
       }
     },
   })

@@ -1,15 +1,15 @@
 import '@/style/main.scss'
-import Vue, { markRaw } from 'vue'
+import Vue, { markRaw, watch } from 'vue'
 import Vuex from 'vuex'
 import Router from 'vue-router'
 import AppComponent from '@/app/App.vue'
 import { createApp } from '@/shared/compat'
 import { components, formatDuration } from '@/shared/components'
 import { setupRouter } from '@/shared/router'
-import { setupStore } from '@/shared/store'
+import { useMainStore } from '@/shared/store'
 import { API } from '@/shared/api'
 import { AuthService } from '@/auth/service'
-import { setupAudio } from './player/store'
+import { createPlayerStore } from './player/store'
 import { createApi } from '@/shared'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import { useFavouriteStore } from '@/library/favourite/store'
@@ -36,34 +36,39 @@ Vue.use(PiniaVuePlugin)
 const authService = new AuthService()
 const api = createApi(authService)
 const router = setupRouter(authService)
-const store = setupStore()
+
 const pinia = createPinia()
   .use(({ store }) => {
     store.api = markRaw(api)
   })
 
-store.watch(
-  (state) => state.isLoggedIn,
-  () => Promise.all([
-    useFavouriteStore().load(),
-    usePlaylistStore().load(),
-  ]))
+const mainStore = useMainStore(pinia)
+const playerStore = createPlayerStore(mainStore, api)
 
-setupAudio(store, api)
+watch(
+  () => mainStore.isLoggedIn,
+  (value) => {
+    if (value) {
+      return Promise.all([
+        useFavouriteStore().load(),
+        usePlaylistStore().load(),
+      ])
+    }
+  })
 
 router.beforeEach((to, from, next) => {
-  store.commit('clearError')
+  mainStore.clearError()
   next()
 })
 
-const app = createApp(AppComponent, { router, store, pinia })
+const app = createApp(AppComponent, { router, pinia, store: playerStore })
 
 app.config.globalProperties.$auth = authService
 app.config.globalProperties.$formatDuration = formatDuration
 app.config.errorHandler = (err: Error) => {
   // eslint-disable-next-line
   console.error(err)
-  store.commit('setError', err)
+  mainStore.setError(err)
 }
 
 app.use(api)

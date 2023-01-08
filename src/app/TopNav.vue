@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex align-items-center mb-2">
-    <button class="navbar-toggler text-white d-md-none" @click="showMenu">
+    <button class="navbar-toggler text-white d-md-none" @click="store.showMenu">
       <Icon icon="nav" />
     </button>
 
@@ -8,7 +8,7 @@
 
     <SearchForm />
 
-    <template v-if="username">
+    <template v-if="store.username">
       <b-dropdown variant="link" right no-caret>
         <template #button-content>
           <Avatar>
@@ -16,13 +16,13 @@
           </Avatar>
         </template>
         <b-dropdown-text>
-          {{ server }}
+          {{ store.server }}
         </b-dropdown-text>
         <b-dropdown-text>
-          {{ username }}
+          {{ store.username }}
         </b-dropdown-text>
         <b-dropdown-divider />
-        <b-dropdown-item :href="`${server}/settings.view`" target="_blank">
+        <b-dropdown-item :href="`${store.server}/settings.view`" target="_blank">
           Server settings
         </b-dropdown-item>
         <b-dropdown-item-button @click="scan">
@@ -44,29 +44,24 @@
   import { defineComponent } from 'vue'
   import About from './About.vue'
   import SearchForm from '@/search/SearchForm.vue'
+  import { useMainStore } from '@/shared/store'
 
   export default defineComponent({
     components: {
       About,
       SearchForm,
     },
+    setup() {
+      return {
+        store: useMainStore(),
+      }
+    },
     data() {
       return {
         showAboutModal: false
       }
     },
-    computed: {
-      server() {
-        return this.$store.state.server
-      },
-      username() {
-        return this.$store.state.username
-      }
-    },
     methods: {
-      showMenu() {
-        return this.$store.dispatch('showMenu')
-      },
       scan() {
         return this.$api.scan()
       },

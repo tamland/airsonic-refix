@@ -43,6 +43,7 @@
   import { defineComponent } from 'vue'
   import { config } from '@/shared/config'
   import Logo from '@/app/Logo.vue'
+  import { useMainStore } from '@/shared/store'
 
   export default defineComponent({
     components: {
@@ -50,6 +51,11 @@
     },
     props: {
       returnTo: { type: String, required: true },
+    },
+    setup() {
+      return {
+        store: useMainStore(),
+      }
     },
     data() {
       return {
@@ -73,11 +79,8 @@
       this.username = this.$auth.username
       const success = await this.$auth.autoLogin()
       if (success) {
-        this.$store.commit('setLoginSuccess', {
-          username: this.username,
-          server: this.server,
-        })
-        this.$router.replace(this.returnTo)
+        this.store.setLoginSuccess(this.username, this.server)
+        await this.$router.replace(this.returnTo)
       } else {
         this.displayForm = true
       }
@@ -88,10 +91,7 @@
         this.busy = true
         this.$auth.loginWithPassword(this.server, this.username, this.password, this.rememberLogin)
           .then(() => {
-            this.$store.commit('setLoginSuccess', {
-              username: this.username,
-              server: this.server,
-            })
+            this.store.setLoginSuccess(this.username, this.server)
             this.$router.replace(this.returnTo)
           })
           .catch(err => {

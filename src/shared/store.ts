@@ -1,60 +1,30 @@
-import Vuex, { Module } from 'vuex'
-import { playerModule } from '@/player/store'
-import { Playlist } from './api'
+import { defineStore } from 'pinia'
 
-interface State {
-  isLoggedIn: boolean;
-  username: null | string;
-  server: null | string;
-  menuVisible: boolean;
-  error: Error | null;
-  playlists: null | Playlist[];
-}
-
-const setupRootModule = (): Module<State, any> => ({
-  state: {
+export const useMainStore = defineStore('main', {
+  state: () => ({
     isLoggedIn: false,
-    username: null,
-    server: null,
+    username: null as null | string,
+    server: null as null | string,
     menuVisible: false,
-    error: null,
-    playlists: null,
-  },
-  mutations: {
-    setError(state, error) {
-      state.error = error
-    },
-    clearError(state) {
-      state.error = null
-    },
-    setLoginSuccess(state, { username, server }) {
-      state.isLoggedIn = true
-      state.username = username
-      state.server = server
-    },
-    setMenuVisible(state, visible) {
-      state.menuVisible = visible
-    },
-  },
+    error: null as null | Error,
+  }),
   actions: {
-    showMenu({ commit }) {
-      commit('setMenuVisible', true)
+    setError(error: Error) {
+      this.error = error
     },
-    hideMenu({ commit }) {
-      commit('setMenuVisible', false)
+    clearError() {
+      this.error = null
+    },
+    setLoginSuccess(username: string, server: string) {
+      this.isLoggedIn = true
+      this.username = username
+      this.server = server
+    },
+    showMenu() {
+      this.menuVisible = true
+    },
+    hideMenu() {
+      this.menuVisible = false
     },
   },
 })
-
-export function setupStore() {
-  return new Vuex.Store({
-    strict: true,
-    ...setupRootModule(),
-    modules: {
-      player: {
-        namespaced: true,
-        ...playerModule
-      },
-    }
-  })
-}

@@ -2,7 +2,7 @@
   <nav class="nav flex-column">
     <div class="sidebar-brand d-flex justify-content-between align-items-end">
       <Logo />
-      <button class="btn btn-link btn-lg p-0 m-0 d-md-none" @click="hideMenu">
+      <button class="btn btn-link btn-lg p-0 m-0 d-md-none" @click="store.hideMenu">
         <Icon icon="x" />
       </button>
     </div>
@@ -54,15 +54,16 @@
   import { defineComponent } from 'vue'
   import Logo from './Logo.vue'
   import PlaylistNav from '@/playlist/PlaylistNav.vue'
+  import { useMainStore } from '@/shared/store'
 
   export default defineComponent({
     components: {
       Logo,
       PlaylistNav,
     },
-    methods: {
-      hideMenu() {
-        return this.$store.dispatch('hideMenu')
+    setup() {
+      return {
+        store: useMainStore(),
       }
     },
   })

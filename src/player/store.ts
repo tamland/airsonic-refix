@@ -1,7 +1,8 @@
-import { Store, Module } from 'vuex'
+import Vuex, { Store, Module } from 'vuex'
 import { shuffle, trackListEquals } from '@/shared/utils'
 import { API } from '@/shared/api'
 import { AudioController } from '@/player/audio'
+import { useMainStore } from '@/shared/store'
 
 localStorage.removeItem('player.mute')
 const storedQueue = JSON.parse(localStorage.getItem('queue') || '[]')
@@ -238,7 +239,21 @@ export const playerModule: Module<State, any> = {
   },
 }
 
-export function setupAudio(store: Store<any>, api: API) {
+export function createPlayerStore(mainStore: ReturnType<typeof useMainStore>, api: API) {
+  const store = new Vuex.Store({
+    strict: true,
+    modules: {
+      player: {
+        namespaced: true,
+        ...playerModule
+      },
+    }
+  })
+  setupAudio(store, mainStore, api)
+  return store
+}
+
+function setupAudio(store: Store<any>, mainStore: ReturnType<typeof useMainStore>, api: API) {
   audio.ontimeupdate = (value: number) => {
     store.commit('player/setCurrentTime', value)
   }
@@ -260,7 +275,7 @@ export function setupAudio(store: Store<any>, api: API) {
   }
   audio.onerror = (error: any) => {
     store.commit('player/setPaused')
-    store.commit('setError', error)
+    mainStore.setError(error)
   }
 
   audio.setVolume(storedVolume)

@@ -4,7 +4,7 @@
       <SidebarNav />
     </div>
     <b-sidebar
-      :visible="visible"
+      :visible="store.menuVisible"
       class="d-md-none"
       sidebar-class="elevated"
       bg-variant=""
@@ -12,7 +12,7 @@
       no-header
       backdrop
       backdrop-variant=""
-      @hidden="hideMenu"
+      @hidden="store.hideMenu"
     >
       <SidebarNav />
     </b-sidebar>
@@ -21,19 +21,15 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import SidebarNav from './SidebarNav.vue'
+  import { useMainStore } from '@/shared/store'
 
   export default defineComponent({
     components: {
       SidebarNav,
     },
-    computed: {
-      visible() {
-        return this.$store.state.menuVisible
-      }
-    },
-    methods: {
-      hideMenu() {
-        return this.$store.dispatch('hideMenu')
+    setup() {
+      return {
+        store: useMainStore(),
       }
     },
   })
