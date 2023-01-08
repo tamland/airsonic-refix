@@ -25,7 +25,7 @@
       </BaseTableHead>
       <tbody>
         <tr v-for="(item, index) in podcast.tracks" :key="index"
-            :class="{'active': item.id === playingTrackId, 'disabled': !item.url}"
+            :class="{'active': item.id === playingTrackId, 'disabled': item.isUnavailable}"
             @click="playTrack(item)">
           <CellTrackNumber :active="item.id === playingTrackId && isPlaying" :value="item.track" />
           <CellTitle :track="item">
@@ -47,6 +47,7 @@
   import CellTitle from '@/library/track/CellTitle.vue'
   import BaseTable from '@/library/track/BaseTable.vue'
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
+  import { Track } from '@/shared/api'
 
   export default defineComponent({
     components: {
@@ -72,8 +73,8 @@
       playingTrackId(): any {
         return this.$store.getters['player/trackId']
       },
-      playableTracks(): any[] {
-        return this.podcast.tracks.filter((x: any) => x.url)
+      playableTracks(): Track[] {
+        return this.podcast.tracks.filter((x: any) => !x.isUnavailable)
       }
     },
     async created() {
@@ -86,7 +87,7 @@
         })
       },
       async playTrack(track: any) {
-        if (!track.url) {
+        if (track.isUnavailable) {
           return
         }
         if (track.id === this.playingTrackId) {

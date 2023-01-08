@@ -22,6 +22,7 @@ export interface Track {
   artist?: string
   artistId?: string
   isStream?: boolean
+  isUnavailable?: boolean
   playCount? : number
 }
 
@@ -465,6 +466,7 @@ export class API {
         albumId: undefined,
         artistId: undefined,
         image,
+        isUnavailable: item.status !== 'completed' || !item.streamId,
         url: item.status === 'completed' && item.streamId
           ? this.getStreamUrl(item.streamId)
           : undefined,

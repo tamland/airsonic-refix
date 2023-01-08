@@ -1,10 +1,10 @@
 <template>
   <td class="text-right" @click.stop="">
-    <OverflowMenu :disabled="!track.url">
-      <ContextMenuItem icon="plus" @click="setNextInQueue()">
+    <OverflowMenu>
+      <ContextMenuItem v-if="!track.isUnavailable" icon="plus" @click="setNextInQueue()">
         Play next
       </ContextMenuItem>
-      <ContextMenuItem icon="plus" @click="addToQueue()">
+      <ContextMenuItem v-if="!track.isUnavailable" icon="plus" @click="addToQueue()">
         Add to queue
       </ContextMenuItem>
       <ContextMenuItem v-if="!track.isStream" icon="plus" @click="showPlaylistSelect = true">
