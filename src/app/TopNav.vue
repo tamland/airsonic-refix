@@ -45,6 +45,7 @@
   import About from './About.vue'
   import SearchForm from '@/search/SearchForm.vue'
   import { useMainStore } from '@/shared/store'
+  import { useAuth } from '@/auth/service'
 
   export default defineComponent({
     components: {
@@ -54,6 +55,7 @@
     setup() {
       return {
         store: useMainStore(),
+        auth: useAuth(),
       }
     },
     data() {
@@ -66,7 +68,7 @@
         return this.$api.scan()
       },
       logout() {
-        this.$auth.logout()
+        this.auth.logout()
         this.$router.go(0)
       }
     }

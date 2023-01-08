@@ -8,7 +8,7 @@ import { components } from '@/shared/components'
 import { setupRouter } from '@/shared/router'
 import { useMainStore } from '@/shared/store'
 import { API } from '@/shared/api'
-import { AuthService } from '@/auth/service'
+import { createAuth } from '@/auth/service'
 import { createPlayerStore } from './player/store'
 import { createApi } from '@/shared'
 import { createPinia, PiniaVuePlugin } from 'pinia'
@@ -17,7 +17,6 @@ import { usePlaylistStore } from '@/playlist/store'
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $auth: AuthService
     $api: API
   }
 }
@@ -32,9 +31,9 @@ Vue.use(Vuex)
 Vue.use(Router)
 Vue.use(PiniaVuePlugin)
 
-const authService = new AuthService()
-const api = createApi(authService)
-const router = setupRouter(authService)
+const auth = createAuth()
+const api = createApi(auth)
+const router = setupRouter(auth)
 
 const pinia = createPinia()
   .use(({ store }) => {
@@ -62,13 +61,13 @@ router.beforeEach((to, from, next) => {
 
 const app = createApp(AppComponent, { router, pinia, store: playerStore })
 
-app.config.globalProperties.$auth = authService
 app.config.errorHandler = (err: Error) => {
   // eslint-disable-next-line
   console.error(err)
   mainStore.setError(err)
 }
 
+app.use(auth)
 app.use(api)
 
 Object.entries(components).forEach(([key, value]) => {

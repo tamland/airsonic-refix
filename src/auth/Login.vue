@@ -44,6 +44,7 @@
   import { config } from '@/shared/config'
   import Logo from '@/app/Logo.vue'
   import { useMainStore } from '@/shared/store'
+  import { useAuth } from '@/auth/service'
 
   export default defineComponent({
     components: {
@@ -55,6 +56,7 @@
     setup() {
       return {
         store: useMainStore(),
+        auth: useAuth(),
       }
     },
     data() {
@@ -75,9 +77,9 @@
       config: () => config
     },
     async created() {
-      this.server = this.$auth.server
-      this.username = this.$auth.username
-      const success = await this.$auth.autoLogin()
+      this.server = this.auth.server
+      this.username = this.auth.username
+      const success = await this.auth.autoLogin()
       if (success) {
         this.store.setLoginSuccess(this.username, this.server)
         await this.$router.replace(this.returnTo)
@@ -89,7 +91,7 @@
       login() {
         this.error = null
         this.busy = true
-        this.$auth.loginWithPassword(this.server, this.username, this.password, this.rememberLogin)
+        this.auth.loginWithPassword(this.server, this.username, this.password, this.rememberLogin)
           .then(() => {
             this.store.setLoginSuccess(this.username, this.server)
             this.$router.replace(this.returnTo)

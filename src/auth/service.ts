@@ -1,5 +1,7 @@
-import { randomString, md5 } from '@/shared/utils'
+import { md5, randomString } from '@/shared/utils'
 import { config } from '@/shared/config'
+import { inject } from 'vue'
+import { App, PluginObject } from '@/shared/compat'
 
 export class AuthService {
   public server = ''
@@ -76,4 +78,19 @@ export class AuthService {
   isAuthenticated() {
     return this.authenticated
   }
+}
+
+const apiSymbol = Symbol('')
+
+export function useAuth(): AuthService {
+  return inject(apiSymbol) as AuthService
+}
+
+export function createAuth(): AuthService & PluginObject<never> {
+  const instance = new AuthService()
+  return Object.assign(instance, {
+    install: (app: App) => {
+      app.provide(apiSymbol, instance)
+    }
+  })
 }
