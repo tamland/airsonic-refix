@@ -5,7 +5,7 @@
         Playing
       </h1>
       <b-button variant="secondary" @click="clear()">
-        Clear
+        <Icon icon="x" /> Clear
       </b-button>
     </div>
     <BaseTable v-if="tracks.length > 0">
