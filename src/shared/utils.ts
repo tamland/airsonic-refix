@@ -9,12 +9,22 @@ export function randomString(): string {
   return String.fromCharCode.apply(null, Array.from(arr))
 }
 
-export function shuffle(a: any[]) {
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]]
+export function shuffle<T>(list: T[], moveFirst?: number): void {
+  if (moveFirst !== undefined) {
+    [list[0], list[moveFirst]] = [list[moveFirst], list[0]]
   }
-  return a
+  const start = moveFirst !== undefined ? 1 : 0
+  const end = list.length - 1
+  for (let i = end; i > start; i--) {
+    const j = Math.floor(Math.random() * (i - start + 1) + start);
+    [list[i], list[j]] = [list[j], list[i]]
+  }
+}
+
+export function shuffled<T>(list: T[]): T[] {
+  list = [...list]
+  shuffle(list)
+  return list
 }
 
 export function md5(str: string): string {

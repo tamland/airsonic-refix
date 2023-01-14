@@ -80,10 +80,7 @@
         if (index === this.queueIndex) {
           return this.$store.dispatch('player/playPause')
         }
-        return this.$store.dispatch('player/playTrackList', {
-          index,
-          tracks: this.tracks,
-        })
+        return this.$store.dispatch('player/playTrackListIndex', { index })
       },
       dragstart(id: string, event: any) {
         event.dataTransfer.setData('application/x-track-id', id)

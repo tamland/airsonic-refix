@@ -1,5 +1,5 @@
 import Vuex, { Store, Module } from 'vuex'
-import { shuffle, trackListEquals } from '@/shared/utils'
+import { shuffle, shuffled, trackListEquals } from '@/shared/utils'
 import { API } from '@/shared/api'
 import { AudioController } from '@/player/audio'
 import { useMainStore } from '@/shared/store'
@@ -138,27 +138,24 @@ export const playerModule: Module<State, any> = {
   },
 
   actions: {
+    async playTrackListIndex({ commit, getters }, { index }) {
+      commit('setQueueIndex', index)
+      commit('setPlaying')
+      await audio.changeTrack(getters.track)
+    },
     async playTrackList({ commit, state, getters }, { tracks, index }) {
-      if (trackListEquals(state.queue, tracks)) {
-        commit('setQueueIndex', index || 0)
-        commit('setPlaying')
-        await audio.changeTrack(getters.track)
-        return
-      }
       if (index == null) {
         index = state.shuffle ? Math.floor(Math.random() * tracks.length) : 0
       }
-      tracks = [...tracks]
       if (state.shuffle) {
-        const first = tracks[index]
-        tracks.splice(index, 1)
-        tracks = [first, ...shuffle(tracks)]
-        commit('setQueue', tracks)
-        commit('setQueueIndex', 0)
-      } else {
-        commit('setQueue', tracks)
-        commit('setQueueIndex', index)
+        tracks = [...tracks]
+        shuffle(tracks, index)
+        index = 0
       }
+      if (!trackListEquals(state.queue, tracks)) {
+        commit('setQueue', tracks)
+      }
+      commit('setQueueIndex', index)
       commit('setPlaying')
       await audio.changeTrack(getters.track)
     },
@@ -199,11 +196,14 @@ export const playerModule: Module<State, any> = {
     toggleShuffle({ commit, state }) {
       commit('setShuffle', !state.shuffle)
     },
+    setShuffle({ commit }, enable: boolean) {
+      commit('setShuffle', enable)
+    },
     addToQueue({ state, commit }, tracks) {
-      commit('addToQueue', state.shuffle ? shuffle([...tracks]) : tracks)
+      commit('addToQueue', state.shuffle ? shuffled(tracks) : tracks)
     },
     setNextInQueue({ state, commit }, tracks) {
-      commit('setNextInQueue', state.shuffle ? shuffle([...tracks]) : tracks)
+      commit('setNextInQueue', state.shuffle ? shuffled(tracks) : tracks)
     },
     setVolume({ commit }, value) {
       audio.setVolume(value)
