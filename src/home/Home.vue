@@ -11,7 +11,7 @@
             <Icon icon="chevron-right" />
           </router-link>
         </h1>
-        <AlbumList :items="result[section.key]" />
+        <AlbumList :items="result[section.key]" allow-h-scroll />
       </template>
     </div>
   </div>
@@ -47,7 +47,7 @@
       }
     },
     created() {
-      const size = 10
+      const size = 18
       this.$api.getAlbums('recently-added', size).then(result => {
         this.result['recently-added'] = result
         this.loading = false
