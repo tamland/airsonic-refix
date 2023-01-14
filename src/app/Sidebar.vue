@@ -47,6 +47,7 @@
   }
 
   .sidebar-container .sidebar-heading {
+    margin-top: 1.25em;
     padding: 0.5rem 1rem;
     font-weight: bold;
     text-transform: uppercase;
