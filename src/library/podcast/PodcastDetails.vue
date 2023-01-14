@@ -6,8 +6,11 @@
       </h1>
       <p>{{ podcast.description }}</p>
       <div>
-        <b-button variant="secondary" class="mr-2" :disabled="playableTracks.length === 0" @click="play">
+        <b-button variant="secondary" class="mr-2" :disabled="playableTracks.length === 0" @click="playNow">
           <Icon icon="play" /> Play
+        </b-button>
+        <b-button variant="secondary" :disabled="playableTracks.length === 0" @click="shuffleNow">
+          <Icon icon="shuffle" /> Shuffle
         </b-button>
         <OverflowMenu class="px-1">
           <ContextMenuItem icon="x" variant="danger" @click="deletePodcast">
@@ -81,8 +84,13 @@
       this.podcast = await this.$api.getPodcast(this.id)
     },
     methods: {
-      async play() {
-        return this.$store.dispatch('player/playTrackList', {
+      async playNow() {
+        return this.$store.dispatch('player/playNow', {
+          tracks: this.playableTracks,
+        })
+      },
+      async shuffleNow() {
+        return this.$store.dispatch('player/shuffleNow', {
           tracks: this.playableTracks,
         })
       },

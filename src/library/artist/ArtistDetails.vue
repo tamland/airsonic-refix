@@ -22,8 +22,11 @@
       <p class="d-none d-sm-block">
         {{ item.description }}
       </p>
-      <b-button variant="secondary" :disabled="item.topTracks.length === 0" @click="play">
+      <b-button variant="secondary" :disabled="item.topTracks.length === 0" class="mr-2" @click="playNow">
         <Icon icon="play" /> Play
+      </b-button>
+      <b-button variant="secondary" :disabled="item.topTracks.length === 0" @click="shuffleNow">
+        <Icon icon="shuffle" /> Shuffle
       </b-button>
       <div class="d-none d-lg-inline-block">
         <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="ml-4">
@@ -98,8 +101,13 @@
       }
     },
     methods: {
-      play() {
-        return this.$store.dispatch('player/playTrackList', {
+      playNow() {
+        return this.$store.dispatch('player/playNow', {
+          tracks: this.item.topTracks,
+        })
+      },
+      shuffleNow() {
+        return this.$store.dispatch('player/shuffleNow', {
           tracks: this.item.topTracks,
         })
       },

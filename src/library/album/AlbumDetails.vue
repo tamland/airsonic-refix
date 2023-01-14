@@ -20,8 +20,11 @@
         </span>
       </p>
       <div class="text-nowrap">
-        <b-button variant="secondary" class="mr-2" @click="play">
+        <b-button variant="secondary" class="mr-2" @click="playNow">
           <Icon icon="play" /> Play
+        </b-button>
+        <b-button variant="secondary" class="mr-2" @click="shuffleNow">
+          <Icon icon="shuffle" /> Shuffle
         </b-button>
         <OverflowMenu class="px-1">
           <ContextMenuItem icon="plus" @click="setNextInQueue">
@@ -72,12 +75,15 @@
       this.album = await this.$api.getAlbumDetails(this.id)
     },
     methods: {
-      play() {
-        if (this.album) {
-          return this.$store.dispatch('player/playTrackList', {
-            tracks: this.album.tracks,
-          })
-        }
+      playNow() {
+        return this.$store.dispatch('player/playNow', {
+          tracks: this.album!.tracks,
+        })
+      },
+      shuffleNow() {
+        return this.$store.dispatch('player/shuffleNow', {
+          tracks: this.album!.tracks,
+        })
       },
       setNextInQueue() {
         if (this.album) {

@@ -138,6 +138,14 @@ export const playerModule: Module<State, any> = {
   },
 
   actions: {
+    async playNow({ commit, dispatch }, { tracks }) {
+      commit('setShuffle', false)
+      dispatch('playTrackList', { tracks, index: 0 })
+    },
+    async shuffleNow({ commit, dispatch }, { tracks }) {
+      commit('setShuffle', true)
+      dispatch('playTrackList', { tracks })
+    },
     async playTrackListIndex({ commit, getters }, { index }) {
       commit('setQueueIndex', index)
       commit('setPlaying')
