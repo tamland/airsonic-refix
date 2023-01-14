@@ -28,6 +28,17 @@
         <template #text>
           <strong>{{ item.trackCount }}</strong> tracks
         </template>
+        <template #context-menu>
+          <ContextMenuItem icon="play" @click="playNow(item.id)">
+            Play
+          </ContextMenuItem>
+          <ContextMenuItem icon="plus" @click="playNext(item.id)">
+            Play next
+          </ContextMenuItem>
+          <ContextMenuItem icon="plus" @click="playLater(item.id)">
+            Add to queue
+          </ContextMenuItem>
+        </template>
       </Tile>
     </Tiles>
     <EmptyIndicator v-else />
@@ -55,8 +66,24 @@
         items: computed(() =>
           props.sort === 'a-z'
             ? orderBy(store.playlists, 'name')
-            : orderBy(store.playlists, 'createdAt', 'desc'))
+            : orderBy(store.playlists, 'createdAt', 'desc')),
       }
     },
+    methods: {
+      async playNow(id: string) {
+        const playlist = await this.$api.getPlaylist(id)
+        return this.$store.dispatch('player/playTrackList', {
+          tracks: playlist.tracks,
+        })
+      },
+      async playNext(id: string) {
+        const playlist = await this.$api.getPlaylist(id)
+        return this.$store.dispatch('player/setNextInQueue', playlist.tracks)
+      },
+      async playLater(id: string) {
+        const playlist = await this.$api.getPlaylist(id)
+        return this.$store.dispatch('player/addToQueue', playlist.tracks)
+      },
+    }
   })
 </script>
