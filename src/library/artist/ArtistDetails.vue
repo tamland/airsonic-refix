@@ -19,22 +19,24 @@
           </span>
         </div>
       </div>
-      <p class="d-none d-sm-block">
+      <OverflowFade v-if="item.description" class="mb-3">
         {{ item.description }}
-      </p>
-      <b-button variant="secondary" :disabled="item.topTracks.length === 0" class="mr-2" @click="playNow">
-        <Icon icon="play" /> Play
-      </b-button>
-      <b-button variant="secondary" :disabled="item.topTracks.length === 0" @click="shuffleNow">
-        <Icon icon="shuffle" /> Shuffle
-      </b-button>
-      <div class="d-none d-lg-inline-block">
-        <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="ml-4">
-          Last.fm <Icon icon="link" />
-        </ExternalLink>
-        <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl" class="ml-4">
-          MusicBrainz <Icon icon="link" />
-        </ExternalLink>
+      </OverflowFade>
+      <div class="text-nowrap">
+        <b-button variant="secondary" :disabled="item.topTracks.length === 0" class="mr-2" @click="playNow">
+          <Icon icon="play" /> Play
+        </b-button>
+        <b-button variant="secondary" :disabled="item.topTracks.length === 0" @click="shuffleNow">
+          <Icon icon="shuffle" /> Shuffle
+        </b-button>
+        <div class="d-none d-lg-inline-block">
+          <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="ml-4">
+            Last.fm <Icon icon="link" />
+          </ExternalLink>
+          <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl" class="ml-4">
+            MusicBrainz <Icon icon="link" />
+          </ExternalLink>
+        </div>
       </div>
     </Hero>
 
@@ -66,11 +68,13 @@
   import ArtistList from '@/library/artist/ArtistList.vue'
   import TrackList from '@/library/track/TrackList.vue'
   import { useFavouriteStore } from '@/library/favourite/store'
+  import OverflowFade from '@/shared/components/OverflowFade.vue'
 
   export default defineComponent({
     components: {
       AlbumList,
       ArtistList,
+      OverflowFade,
       TrackList,
     },
     props: {

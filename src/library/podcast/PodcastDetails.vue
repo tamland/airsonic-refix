@@ -4,8 +4,10 @@
       <h1>
         {{ podcast.name }}
       </h1>
-      <p>{{ podcast.description }}</p>
-      <div>
+      <OverflowFade v-if="podcast.description" class="mb-3">
+        {{ podcast.description }}
+      </OverflowFade>
+      <div class="text-nowrap">
         <b-button variant="secondary" class="mr-2" :disabled="playableTracks.length === 0" @click="playNow">
           <Icon icon="play" /> Play
         </b-button>
@@ -51,6 +53,7 @@
   import BaseTable from '@/library/track/BaseTable.vue'
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
   import { Track } from '@/shared/api'
+  import OverflowFade from '@/shared/components/OverflowFade.vue'
 
   export default defineComponent({
     components: {
@@ -59,7 +62,8 @@
       CellTitle,
       CellDuration,
       CellActions,
-      CellTrackNumber
+      CellTrackNumber,
+      OverflowFade,
     },
     props: {
       id: { type: String, required: true },
