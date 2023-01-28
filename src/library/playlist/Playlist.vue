@@ -45,7 +45,7 @@
   import { defineComponent } from 'vue'
   import TrackList from '@/library/track/TrackList.vue'
   import EditModal from '@/shared/components/EditModal.vue'
-  import { usePlaylistStore } from '@/playlist/store'
+  import { usePlaylistStore } from '@/library/playlist/store'
 
   export default defineComponent({
     components: {

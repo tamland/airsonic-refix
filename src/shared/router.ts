@@ -1,7 +1,7 @@
 import Router from 'vue-router'
 import Login from '@/auth/Login.vue'
 import Queue from '@/player/Queue.vue'
-import Home from '@/home/Home.vue'
+import Discover from '@/discover/Discover.vue'
 import ArtistDetails from '@/library/artist/ArtistDetails.vue'
 import ArtistLibrary from '@/library/artist/ArtistLibrary.vue'
 import AlbumDetails from '@/library/album/AlbumDetails.vue'
@@ -12,9 +12,9 @@ import Favourites from '@/library/favourite/Favourites.vue'
 import RadioStations from '@/library/radio/RadioStations.vue'
 import PodcastDetails from '@/library/podcast/PodcastDetails.vue'
 import PodcastLibrary from '@/library/podcast/PodcastLibrary.vue'
-import Playlist from '@/playlist/Playlist.vue'
-import PlaylistLibrary from '@/playlist/PlaylistLibrary.vue'
-import SearchResult from '@/search/SearchResult.vue'
+import Playlist from '@/library/playlist/Playlist.vue'
+import PlaylistLibrary from '@/library/playlist/PlaylistLibrary.vue'
+import SearchResult from '@/library/search/SearchResult.vue'
 import { AuthService } from '@/auth/service'
 
 export function setupRouter(auth: AuthService) {
@@ -26,7 +26,7 @@ export function setupRouter(auth: AuthService) {
       {
         path: '/',
         name: 'home',
-        component: Home
+        component: Discover
       },
       {
         name: 'login',

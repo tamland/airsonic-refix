@@ -47,9 +47,9 @@
 </template>
 <script lang="ts">
   import { computed, defineComponent, ref } from 'vue'
-  import CreatePlaylistModal from '@/playlist/CreatePlaylistModal.vue'
+  import CreatePlaylistModal from '@/library/playlist/CreatePlaylistModal.vue'
   import { orderBy } from 'lodash-es'
-  import { usePlaylistStore } from '@/playlist/store'
+  import { usePlaylistStore } from '@/library/playlist/store'
 
   export default defineComponent({
     components: {

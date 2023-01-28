@@ -43,7 +43,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import About from './About.vue'
-  import SearchForm from '@/search/SearchForm.vue'
+  import SearchForm from '@/library/search/SearchForm.vue'
   import { useMainStore } from '@/shared/store'
   import { useAuth } from '@/auth/service'
 

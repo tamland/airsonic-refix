@@ -42,7 +42,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import { useFavouriteStore } from '@/library/favourite/store'
-  import { usePlaylistStore } from '@/playlist/store'
+  import { usePlaylistStore } from '@/library/playlist/store'
 
   export default defineComponent({
     props: {

@@ -53,7 +53,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import Logo from './Logo.vue'
-  import PlaylistNav from '@/playlist/PlaylistNav.vue'
+  import PlaylistNav from '@/library/playlist/PlaylistNav.vue'
   import { useMainStore } from '@/shared/store'
 
   export default defineComponent({

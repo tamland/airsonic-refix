@@ -17,7 +17,7 @@
 </template>
 <script lang="ts">
   import { defineComponent, ref } from 'vue'
-  import { usePlaylistStore } from '@/playlist/store'
+  import { usePlaylistStore } from '@/library/playlist/store'
 
   export default defineComponent({
     props: {

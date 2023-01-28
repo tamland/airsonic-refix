@@ -13,7 +13,7 @@ import { createPlayerStore } from './player/store'
 import { createApi } from '@/shared'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import { useFavouriteStore } from '@/library/favourite/store'
-import { usePlaylistStore } from '@/playlist/store'
+import { usePlaylistStore } from '@/library/playlist/store'
 
 declare module 'vue/types/vue' {
   interface Vue {
