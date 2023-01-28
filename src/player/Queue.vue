@@ -4,9 +4,14 @@
       <h1 class="mb-0">
         Playing
       </h1>
-      <b-button variant="secondary" @click="clear()">
-        <Icon icon="x" /> Clear
-      </b-button>
+      <div>
+        <b-button variant="secondary" class="mr-2" @click="shuffle">
+          <Icon icon="shuffle" /> Shuffle
+        </b-button>
+        <b-button variant="secondary" @click="clear">
+          <Icon icon="x" /> Clear
+        </b-button>
+      </div>
     </div>
     <BaseTable v-if="tracks.length > 0">
       <BaseTableHead>
@@ -91,6 +96,9 @@
       clear() {
         return this.$store.commit('player/clearQueue')
       },
+      shuffle() {
+        return this.$store.commit('player/shuffleQueue')
+      }
     }
   })
 </script>

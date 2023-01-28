@@ -110,6 +110,13 @@ export const playerModule: Module<State, any> = {
         persistQueue(state)
       }
     },
+    shuffleQueue(state) {
+      if (state.queue.length > 0) {
+        state.queue = shuffled(state.queue, state.queueIndex)
+        state.queueIndex = 0
+        persistQueue(state)
+      }
+    },
     setNextInQueue(state, tracks) {
       state.queue.splice(state.queueIndex + 1, 0, ...tracks)
       persistQueue(state)

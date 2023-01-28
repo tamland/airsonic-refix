@@ -21,9 +21,9 @@ export function shuffle<T>(list: T[], moveFirst?: number): void {
   }
 }
 
-export function shuffled<T>(list: T[]): T[] {
+export function shuffled<T>(list: T[], moveFirst?: number): T[] {
   list = [...list]
-  shuffle(list)
+  shuffle(list, moveFirst)
   return list
 }
 
