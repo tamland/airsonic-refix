@@ -13,11 +13,9 @@
           </router-link>
         </li>
       </ul>
-      <OverflowMenu>
-        <ContextMenuItem icon="plus" @click="showAddModal = true">
-          Add
-        </ContextMenuItem>
-      </OverflowMenu>
+      <b-button variant="link" @click="showAddModal = true">
+        <Icon icon="plus" />
+      </b-button>
     </div>
     <Tiles v-if="items.length > 0" square>
       <Tile

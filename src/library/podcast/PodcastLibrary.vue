@@ -13,14 +13,14 @@
           </router-link>
         </li>
       </ul>
-      <OverflowMenu>
-        <ContextMenuItem icon="plus" @click="showAddModal = true">
-          Add
-        </ContextMenuItem>
-        <ContextMenuItem icon="refresh" @click="refresh()">
-          Refresh
-        </ContextMenuItem>
-      </OverflowMenu>
+      <div>
+        <b-button variant="link" class="mr-2" @click="showAddModal = true">
+          <Icon icon="plus" />
+        </b-button>
+        <b-button icon="refresh" variant="link" @click="refresh()">
+          <Icon icon="refresh" />
+        </b-button>
+      </div>
     </div>
     <ContentLoader v-slot :loading="items === null">
       <Tiles v-if="items.length > 0" square>
