@@ -5,10 +5,10 @@
         Playing
       </h1>
       <div>
-        <b-button variant="secondary" class="mr-2" @click="shuffle">
+        <b-button variant="link" class="mr-2" @click="shuffle">
           <Icon icon="shuffle" /> Shuffle
         </b-button>
-        <b-button variant="secondary" @click="clear">
+        <b-button variant="link" @click="clear">
           <Icon icon="x" /> Clear
         </b-button>
       </div>
