@@ -23,23 +23,23 @@
       <Icon icon="library" /> Albums
     </router-link>
 
-    <router-link class="nav-link" :to="{name: 'artists'}">
+    <router-link class="nav-link" :to="{name: 'artists-default'}">
       <Icon icon="library" /> Artists
     </router-link>
 
-    <router-link class="nav-item nav-link" :to="{name: 'genres'}">
+    <router-link class="nav-item nav-link" :to="{name: 'genres-default'}">
       <Icon icon="library" /> Genres
     </router-link>
 
-    <router-link class="nav-link" :to="{name: 'playlists'}">
+    <router-link class="nav-link" :to="{name: 'playlists-default'}">
       <Icon icon="list" /> Playlists
     </router-link>
 
-    <router-link class="nav-link" :to="{name: 'favourites'}">
+    <router-link class="nav-link" :to="{name: 'favourites-default'}">
       <Icon icon="heart" /> Favourites
     </router-link>
 
-    <router-link class="nav-link" :to="{name: 'podcasts'}">
+    <router-link class="nav-link" :to="{name: 'podcasts-default'}">
       <Icon icon="podcast" /> Podcasts
     </router-link>
 

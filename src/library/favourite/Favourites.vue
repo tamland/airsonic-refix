@@ -1,19 +1,9 @@
 <template>
   <div>
     <ul class="nav-underlined mb-3">
-      <li>
-        <router-link :to="{... $route, params: { }}">
-          Albums
-        </router-link>
-      </li>
-      <li>
-        <router-link :to="{... $route, params: { section: 'artists' }}">
-          Artists
-        </router-link>
-      </li>
-      <li>
-        <router-link :to="{... $route, params: { section: 'tracks' }}">
-          Tracks
+      <li v-for="{ value, text } in options" :key="value">
+        <router-link :to="{... $route, params: {... $route.params, section: value }}">
+          {{ text }}
         </router-link>
       </li>
     </ul>
@@ -40,6 +30,15 @@
     },
     props: {
       section: { type: String, default: '' },
+    },
+    computed: {
+      options() {
+        return [
+          { text: 'Artists', value: 'artists' },
+          { text: 'Albums', value: 'albums' },
+          { text: 'Tracks', value: 'tracks' },
+        ]
+      },
     },
     setup() {
       const api = useApi()

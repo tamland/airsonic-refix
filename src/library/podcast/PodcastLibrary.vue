@@ -2,14 +2,9 @@
   <div>
     <div class="d-flex justify-content-between align-items-center mb-3">
       <ul class="nav-underlined">
-        <li>
-          <router-link :to="{... $route, params: {... $route.params, sort: null }}">
-            Recently updated
-          </router-link>
-        </li>
-        <li>
-          <router-link :to="{... $route, params: {... $route.params, sort: 'a-z' }}">
-            A-Z
+        <li v-for="{ value, text } in options" :key="value">
+          <router-link :to="{... $route, params: {... $route.params, sort: value }}">
+            {{ text }}
           </router-link>
         </li>
       </ul>
@@ -61,6 +56,15 @@
       }
     },
     computed: {
+      options() {
+        return [
+          { text: 'Recently Updated', value: 'recently-updated' },
+          { text: 'A-Z', value: 'a-z' },
+        ]
+      },
+      loading(): boolean {
+        return this.items === null
+      },
       sortedItems(): any[] {
         return this.sort === 'a-z'
           ? orderBy(this.items, 'name')
