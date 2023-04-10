@@ -41,21 +41,26 @@
     </Hero>
 
     <template v-if="item.topTracks.length > 0">
-      <h3 class="pt-5">
-        Top tracks
-      </h3>
+      <div class="d-flex justify-content-between mt-5 mb-2">
+        <h3 class="my-0">
+          Top tracks
+        </h3>
+        <router-link :to="{name: 'artist-tracks', params: { id }}">
+          View all
+        </router-link>
+      </div>
       <TrackList :tracks="item.topTracks" no-artist />
     </template>
 
     <template v-if="item.albums.length > 0">
-      <h3 class="pt-5">
+      <h3 class="mt-5">
         Albums
       </h3>
       <AlbumList :items="item.albums" />
     </template>
 
     <template v-if="item.similarArtist.length > 0">
-      <h3 class="pt-5">
+      <h3 class="mt-5">
         Similar artists
       </h3>
       <ArtistList :items="item.similarArtist" />

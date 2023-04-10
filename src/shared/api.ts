@@ -1,5 +1,5 @@
 import { AuthService } from '@/auth/service'
-import { map, max, uniq } from 'lodash-es'
+import { map, max, orderBy, uniq } from 'lodash-es'
 import { toQueryString } from '@/shared/utils'
 
 export type AlbumSort =
@@ -189,6 +189,20 @@ export class API {
     const topSongs = await this.fetch('rest/getTopSongs', { artist: artist.name }).then(r => r.topSongs?.song)
     const info2 = await info2Promise
     return this.normalizeArtist({ ...artist, ...info2, topSongs })
+  }
+
+  async * getTracksByArtist(id: string): AsyncGenerator<Track[]> {
+    const artist = await this
+      .fetch('rest/getArtist', { id })
+      .then(r => r.artist)
+
+    const albumIds = orderBy(artist.album || [], x => x.year || 0, 'desc').map(x => x.id)
+    for (const id of albumIds) {
+      const { tracks } = await this.getAlbumDetails(id)
+      if (tracks && tracks.length > 0) {
+        yield tracks
+      }
+    }
   }
 
   async getAlbumDetails(id: string): Promise<Album> {

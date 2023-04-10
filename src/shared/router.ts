@@ -16,6 +16,7 @@ import Playlist from '@/library/playlist/Playlist.vue'
 import PlaylistLibrary from '@/library/playlist/PlaylistLibrary.vue'
 import SearchResult from '@/library/search/SearchResult.vue'
 import { AuthService } from '@/auth/service'
+import ArtistTracks from '@/library/artist/ArtistTracks.vue'
 
 export function setupRouter(auth: AuthService) {
   const router = new Router({
@@ -74,6 +75,12 @@ export function setupRouter(auth: AuthService) {
         name: 'artist',
         path: '/artists/id/:id',
         component: ArtistDetails,
+        props: true,
+      },
+      {
+        name: 'artist-tracks',
+        path: '/artists/id/:id/tracks',
+        component: ArtistTracks,
         props: true,
       },
       {
