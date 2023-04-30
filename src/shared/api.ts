@@ -94,13 +94,11 @@ export class API {
     this.fetch = (path: string, params: any) => {
       const url = `${this.auth.server}/${path}?${toQueryString({
         ...params,
-        u: this.auth.username,
-        s: this.auth.salt,
-        t: this.auth.hash,
-        c: this.clientName,
-        f: 'json',
         v: '1.15.0',
-      })}`
+        f: 'json',
+        c: this.clientName,
+      })}&${this.auth.urlParams}`
+
       return window
         .fetch(url, {
           method: 'GET',
@@ -491,13 +489,11 @@ export class API {
   }
 
   getDownloadUrl(id: any) {
-    const { server, username, salt, hash } = this.auth
+    const { server, urlParams } = this.auth
     return `${server}/rest/download` +
       `?id=${id}` +
       '&v=1.15.0' +
-      `&u=${username}` +
-      `&s=${salt}` +
-      `&t=${hash}` +
+      `&${urlParams}` +
       `&c=${this.clientName}`
   }
 
@@ -505,25 +501,21 @@ export class API {
     if (!item.coverArt) {
       return undefined
     }
-    const { server, username, salt, hash } = this.auth
+    const { server, urlParams } = this.auth
     return `${server}/rest/getCoverArt` +
       `?id=${item.coverArt}` +
       '&v=1.15.0' +
-      `&u=${username}` +
-      `&s=${salt}` +
-      `&t=${hash}` +
+      `&${urlParams}` +
       `&c=${this.clientName}` +
       '&size=300'
   }
 
   private getStreamUrl(id: any) {
-    const { server, username, salt, hash } = this.auth
+    const { server, urlParams } = this.auth
     return `${server}/rest/stream` +
       `?id=${id}` +
       '&v=1.15.0' +
-      `&u=${username}` +
-      `&s=${salt}` +
-      `&t=${hash}` +
+      `&${urlParams}` +
       `&c=${this.clientName}`
   }
 }

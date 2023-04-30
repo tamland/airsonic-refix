@@ -64,7 +64,6 @@
         server: '',
         username: '',
         password: '',
-        rememberLogin: true,
         busy: false,
         error: null,
         displayForm: false,
@@ -91,7 +90,7 @@
       login() {
         this.error = null
         this.busy = true
-        this.auth.loginWithPassword(this.server, this.username, this.password, this.rememberLogin)
+        this.auth.loginWithPassword(this.server, this.username, this.password)
           .then(() => {
             this.store.setLoginSuccess(this.username, this.server)
             this.$router.replace(this.returnTo)

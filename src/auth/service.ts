@@ -1,13 +1,17 @@
-import { md5, randomString } from '@/shared/utils'
+import { md5, randomString, toQueryString } from '@/shared/utils'
 import { config } from '@/shared/config'
 import { inject } from 'vue'
 import { App, PluginObject } from '@/shared/compat'
+import { pickBy } from 'lodash-es'
+
+type Auth = { password?: string, salt?: string, hash?: string }
 
 export class AuthService {
   public server = ''
   public username = ''
-  public salt = ''
-  public hash = ''
+  private salt = ''
+  private hash = ''
+  private password = ''
   private authenticated = false
 
   constructor() {
@@ -15,6 +19,7 @@ export class AuthService {
     this.username = localStorage.getItem('username') || ''
     this.salt = localStorage.getItem('salt') || ''
     this.hash = localStorage.getItem('hash') || ''
+    this.password = localStorage.getItem('password') || ''
   }
 
   private saveSession() {
@@ -24,50 +29,50 @@ export class AuthService {
     localStorage.setItem('username', this.username)
     localStorage.setItem('salt', this.salt)
     localStorage.setItem('hash', this.hash)
+    localStorage.setItem('password', this.password)
   }
 
   async autoLogin(): Promise<boolean> {
     if (!this.server || !this.username) {
       return false
     }
-    return this.loginWithHash(this.server, this.username, this.salt, this.hash, false)
-      .then(() => true)
-      .catch(() => false)
+    try {
+      const auth = { salt: this.salt, hash: this.hash, password: this.password }
+      await login(this.server, this.username, auth)
+      this.authenticated = true
+      return true
+    } catch {
+      return false
+    }
   }
 
-  async loginWithPassword(server: string, username: string, password: string, remember: boolean) {
+  async loginWithPassword(server: string, username: string, password: string): Promise<void> {
     const salt = randomString()
     const hash = md5(password + salt)
-    return this.loginWithHash(server, username, salt, hash, remember)
+    try {
+      await login(server, username, { hash, salt })
+      this.salt = salt
+      this.hash = hash
+      this.password = ''
+    } catch {
+      await login(server, username, { password })
+      this.salt = ''
+      this.hash = ''
+      this.password = password
+    }
+    this.server = server
+    this.username = username
+    this.authenticated = true
+    this.saveSession()
   }
 
-  private async loginWithHash(
-    server: string,
-    username: string,
-    salt: string,
-    hash: string,
-    remember: boolean
-  ) {
-    const url = `${server}/rest/ping?u=${username}&s=${salt}&t=${hash}&v=1.15.0&c=app&f=json`
-    return fetch(url)
-      .then(response => response.ok
-        ? response.json()
-        : Promise.reject(new Error(response.statusText)))
-      .then((response) => {
-        const subsonicResponse = response['subsonic-response']
-        if (!subsonicResponse || subsonicResponse.status !== 'ok') {
-          const message = subsonicResponse.error?.message || subsonicResponse.status
-          throw new Error(message)
-        }
-        this.authenticated = true
-        this.server = server
-        this.username = username
-        this.salt = salt
-        this.hash = hash
-        if (remember) {
-          this.saveSession()
-        }
-      })
+  get urlParams() {
+    return toQueryString(pickBy({
+      u: this.username,
+      s: this.salt,
+      t: this.hash,
+      p: this.password,
+    }))
   }
 
   logout() {
@@ -78,6 +83,26 @@ export class AuthService {
   isAuthenticated() {
     return this.authenticated
   }
+}
+
+async function login(server: string, username: string, auth: Auth) {
+  const qs = toQueryString(pickBy({
+    s: auth.salt,
+    t: auth.hash,
+    p: auth.password,
+  }, x => x !== undefined) as Record<string, string>)
+  const url = `${server}/rest/ping?u=${username}&${qs}&v=1.15.0&c=app&f=json`
+  return fetch(url)
+    .then(response => response.ok
+      ? response.json()
+      : Promise.reject(new Error(response.statusText)))
+    .then((response) => {
+      const subsonicResponse = response['subsonic-response']
+      if (!subsonicResponse || subsonicResponse.status !== 'ok') {
+        const message = subsonicResponse.error?.message || subsonicResponse.status
+        throw new Error(message)
+      }
+    })
 }
 
 const apiSymbol = Symbol('')
