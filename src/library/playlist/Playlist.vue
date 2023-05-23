@@ -12,8 +12,8 @@
         </ContextMenuItem>
       </OverflowMenu>
     </div>
-    <p v-if="playlist.comment" class="text-muted">
-      {{ playlist.comment }}
+    <p v-if="playlist.isPublic || playlist.comment" class="text-muted">
+      {{ playlist.comment | prependPublic(playlist.isPublic) }}
     </p>
     <TrackList v-if="playlist.tracks.length > 0" :tracks="playlist.tracks">
       <template #context-menu="{index}">
@@ -36,6 +36,12 @@
         <div class="form-group">
           <label>Comment</label>
           <textarea v-model="item.comment" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>
+            <input v-model="item.isPublic" type="checkbox">
+            Public
+          </label>
         </div>
       </template>
     </EditModal>
@@ -62,6 +68,11 @@
       return {
         playlist: null as any,
         showEditModal: false,
+      }
+    },
+    filters: {
+      prependPublic: function(value: string, isPublic: boolean) {
+        return isPublic ? '[Public] ' + value : value
       }
     },
     watch: {

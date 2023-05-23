@@ -17,12 +17,13 @@ export const usePlaylistStore = defineStore('playlist', {
         this.playlists = orderBy(result, 'createdAt')
       })
     },
-    async update({ id, name, comment }: Playlist) {
+    async update({ id, name, comment, isPublic }: Playlist) {
       const playlist = this.playlists?.find(x => x.id === id)
       if (playlist) {
         playlist.name = name
         playlist.comment = comment
-        await this.api.editPlaylist(id, name, comment)
+        playlist.isPublic = isPublic
+        await this.api.editPlaylist(id, name, comment, isPublic)
       }
     },
     async addTracks(playlistId: string, trackIds: string[]) {
