@@ -1,8 +1,13 @@
 <template>
   <ContentLoader v-slot :loading="playlist == null">
-    <div class="d-flex justify-content-between">
-      <h1>{{ playlist.name }}</h1>
-      <OverflowMenu>
+    <div class="d-flex align-items-center mb-2">
+      <h1 class="mb-0 mr-2 text-truncate">
+        {{ playlist.name }}
+      </h1>
+      <span v-if="playlist.isPublic" class="badge badge-light badge-pill mr-2">
+        Public
+      </span>
+      <OverflowMenu class="ml-auto">
         <ContextMenuItem icon="edit" @click="showEditModal = true">
           Edit
         </ContextMenuItem>
@@ -12,8 +17,8 @@
         </ContextMenuItem>
       </OverflowMenu>
     </div>
-    <p v-if="playlist.isPublic || playlist.comment" class="text-muted">
-      {{ playlist.comment | prependPublic(playlist.isPublic) }}
+    <p v-if="playlist.comment" class="text-muted">
+      {{ playlist.comment }}
     </p>
     <TrackList v-if="playlist.tracks.length > 0" :tracks="playlist.tracks">
       <template #context-menu="{index}">
@@ -66,11 +71,6 @@
       return {
         playlist: null as any,
         showEditModal: false,
-      }
-    },
-    filters: {
-      prependPublic: function(value: string, isPublic: boolean) {
-        return isPublic ? '[Public] ' + value : value
       }
     },
     watch: {
