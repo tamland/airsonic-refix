@@ -38,10 +38,8 @@
           <textarea v-model="item.comment" class="form-control" />
         </div>
         <div class="form-group">
-          <label>
-            <input v-model="item.isPublic" type="checkbox">
-            Public
-          </label>
+          <label class="mb-0">Public</label>
+          <b-form-checkbox v-model="item.isPublic" switch />
         </div>
       </template>
     </EditModal>
