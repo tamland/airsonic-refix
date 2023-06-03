@@ -1,8 +1,13 @@
 <template>
   <ContentLoader v-slot :loading="playlist == null">
-    <div class="d-flex justify-content-between">
-      <h1>{{ playlist.name }}</h1>
-      <OverflowMenu>
+    <div class="d-flex align-items-center mb-2">
+      <h1 class="mb-0 mr-2 text-truncate">
+        {{ playlist.name }}
+      </h1>
+      <span v-if="playlist.isPublic" class="badge badge-light badge-pill mr-2">
+        Public
+      </span>
+      <OverflowMenu class="ml-auto">
         <ContextMenuItem icon="edit" @click="showEditModal = true">
           Edit
         </ContextMenuItem>
@@ -36,6 +41,10 @@
         <div class="form-group">
           <label>Comment</label>
           <textarea v-model="item.comment" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label class="mb-0">Public</label>
+          <b-form-checkbox v-model="item.isPublic" switch />
         </div>
       </template>
     </EditModal>

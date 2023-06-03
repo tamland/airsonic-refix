@@ -77,6 +77,7 @@ export interface Playlist {
   id: string
   name: string
   comment: string
+  isPublic: boolean
   trackCount: number
   createdAt: string
   updatedAt: string
@@ -234,11 +235,12 @@ export class API {
     return this.getPlaylists()
   }
 
-  async editPlaylist(playlistId: string, name: string, comment: string) {
+  async editPlaylist(playlistId: string, name: string, comment: string, isPublic: boolean) {
     const params = {
       playlistId,
       name,
       comment,
+      public: isPublic,
     }
     await this.fetch('rest/updatePlaylist', params)
   }
@@ -453,6 +455,7 @@ export class API {
       updatedAt: response.changed || '',
       trackCount: response.songCount,
       image: response.songCount > 0 ? this.getCoverArtUrl(response) : undefined,
+      isPublic: response.public,
     }
   }
 

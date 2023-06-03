@@ -86,3 +86,8 @@ $enable-responsive-font-sizes: true;
   background-color: var(--primary) !important;
   border-color: var(--primary) !important;
 }
+
+/* Remove badge fade in */
+.badge {
+  transition: none !important;
+}
