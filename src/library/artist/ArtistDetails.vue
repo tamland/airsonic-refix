@@ -19,8 +19,14 @@
           </span>
         </div>
       </div>
-      <OverflowFade v-if="item.description" class="mb-3">
+      <OverflowFade v-if="item.description || item.lastFmUrl || item.musicBrainzUrl" class="mb-3">
         {{ item.description }}
+        <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl">
+          Last.fm <Icon icon="link" />
+        </ExternalLink>.
+        <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl">
+          MusicBrainz <Icon icon="link" />
+        </ExternalLink>
       </OverflowFade>
       <div class="text-nowrap">
         <b-button variant="secondary" :disabled="item.topTracks.length === 0" class="mr-2" @click="playNow">
@@ -29,14 +35,6 @@
         <b-button variant="secondary" :disabled="item.topTracks.length === 0" @click="shuffleNow">
           <Icon icon="shuffle" /> Shuffle
         </b-button>
-        <div class="d-none d-lg-inline-block">
-          <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="ml-4">
-            Last.fm <Icon icon="link" />
-          </ExternalLink>
-          <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl" class="ml-4">
-            MusicBrainz <Icon icon="link" />
-          </ExternalLink>
-        </div>
       </div>
     </Hero>
 
