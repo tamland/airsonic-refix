@@ -12,7 +12,6 @@ import Slider from './Slider.vue'
 import Tiles from './Tiles.vue'
 import Tile from './Tile.vue'
 import {
-  BAlert,
   BButton,
   BDropdown,
   BDropdownDivider,
@@ -21,15 +20,10 @@ import {
   BDropdownText,
   BFormCheckbox,
   BModal,
-  BOverlay,
-  BPopover,
-  BSidebar,
-  BToast,
 } from 'bootstrap-vue'
 
 export const components = {
   Avatar,
-  BAlert,
   BButton,
   BDropdown,
   BDropdownDivider,
@@ -38,10 +32,6 @@ export const components = {
   BDropdownText,
   BFormCheckbox,
   BModal,
-  BOverlay,
-  BPopover,
-  BSidebar,
-  BToast,
   ContentLoader,
   ContextMenu,
   ContextMenuItem,

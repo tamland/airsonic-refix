@@ -108,9 +108,11 @@
   import { defineComponent } from 'vue'
   import ProgressBar from '@/player/ProgressBar.vue'
   import { useFavouriteStore } from '@/library/favourite/store'
+  import { BPopover } from 'bootstrap-vue'
 
   export default defineComponent({
     components: {
+      BPopover,
       ProgressBar,
     },
     setup() {

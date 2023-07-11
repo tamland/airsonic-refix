@@ -25,11 +25,9 @@
               <input v-model="password" name="password" type="password"
                      class="form-control" :class="{'is-invalid': hasError}">
             </div>
-            <b-alert :show="error != null" variant="danger">
-              <template v-if="error != null">
-                Could not log in. ({{ error.message }})
-              </template>
-            </b-alert>
+            <div v-if="error != null" class="alert alert-danger">
+              Could not log in. ({{ error.message }})
+            </div>
             <button class="btn btn-primary btn-block" :disabled="busy" @click="login">
               <span v-show="false" class="spinner-border spinner-border-sm" /> Log in
             </button>
@@ -45,9 +43,11 @@
   import Logo from '@/app/Logo.vue'
   import { useMainStore } from '@/shared/store'
   import { useAuth } from '@/auth/service'
+  import { BOverlay } from 'bootstrap-vue'
 
   export default defineComponent({
     components: {
+      BOverlay,
       Logo,
     },
     props: {

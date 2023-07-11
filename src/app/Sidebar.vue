@@ -22,9 +22,11 @@
   import { defineComponent } from 'vue'
   import SidebarNav from './SidebarNav.vue'
   import { useMainStore } from '@/shared/store'
+  import { BSidebar } from 'bootstrap-vue'
 
   export default defineComponent({
     components: {
+      BSidebar,
       SidebarNav,
     },
     setup() {

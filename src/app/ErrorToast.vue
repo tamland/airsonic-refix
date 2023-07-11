@@ -18,8 +18,12 @@
 <script lang="ts">
   import { computed, defineComponent } from 'vue'
   import { useMainStore } from '@/shared/store'
+  import { BToast } from 'bootstrap-vue'
 
   export default defineComponent({
+    components: {
+      BToast,
+    },
     setup() {
       const store = useMainStore()
       return {

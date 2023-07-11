@@ -20,6 +20,12 @@
     <p v-if="playlist.comment" class="text-muted">
       {{ playlist.comment }}
     </p>
+    <b-button variant="secondary" :disabled="playlist.tracks.length === 0" class="mr-2" @click="playNow">
+      <Icon icon="play" /> Play
+    </b-button>
+    <b-button variant="secondary" :disabled="playlist.tracks.length === 0" @click="shuffleNow">
+      <Icon icon="shuffle" /> Shuffle
+    </b-button>
     <TrackList v-if="playlist.tracks.length > 0" :tracks="playlist.tracks">
       <template #context-menu="{index}">
         <b-dropdown-divider />
