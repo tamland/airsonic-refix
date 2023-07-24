@@ -1,7 +1,7 @@
 <template>
   <Tiles square :allow-h-scroll="allowHScroll">
     <Tile
-      v-for="item in items" :key="item.id"
+      v-for="item in sortedItems" :key="item.id"
       :image="item.image"
       :to="{name: 'album', params: { id: item.id } }"
       :title="item.name"
@@ -36,10 +36,12 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import { useFavouriteStore } from '@/library/favourite/store'
+  import { orderBy } from 'lodash-es'
 
   export default defineComponent({
     props: {
       items: { type: Array, required: true },
+      orderBy: { type: String },
       allowHScroll: { type: Boolean, default: false },
     },
     setup() {
@@ -50,6 +52,10 @@
     computed: {
       favourites(): any {
         return this.favouriteStore.albums
+      },
+      sortedItems() {
+        if (!this.orderBy) return this.items
+        return orderBy(this.items, this.orderBy)
       },
     },
     methods: {

@@ -54,7 +54,7 @@
       <h3 class="mt-5">
         Albums
       </h3>
-      <AlbumList :items="item.albums" />
+      <AlbumList :items="item.albums" orderBy="year" />
     </template>
 
     <template v-if="item.similarArtist.length > 0">
