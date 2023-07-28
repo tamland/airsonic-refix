@@ -50,11 +50,16 @@
       <TrackList :tracks="item.topTracks" no-artist />
     </template>
 
-    <template v-if="item.albums.length > 0">
-      <h3 class="mt-5">
-        Albums
-      </h3>
-      <AlbumList :items="item.albums" />
+    <template v-if="albums.length > 0">
+      <div class="d-flex justify-content-between mt-5 mb-2">
+        <h3 class="my-0">
+          Albums
+        </h3>
+        <b-button variant="link" class="p-0" @click="toggleAlbumSortOrder">
+          <Icon icon="arrow-up-down" />
+        </b-button>
+      </div>
+      <AlbumList :items="albums" />
     </template>
 
     <template v-if="item.similarArtist.length > 0">
@@ -72,6 +77,9 @@
   import TrackList from '@/library/track/TrackList.vue'
   import { useFavouriteStore } from '@/library/favourite/store'
   import OverflowFade from '@/shared/components/OverflowFade.vue'
+  import { Album } from '@/shared/api'
+  import { orderBy } from 'lodash-es'
+  import { useMainStore } from '@/shared/store'
 
   export default defineComponent({
     components: {
@@ -85,6 +93,7 @@
     },
     setup() {
       return {
+        mainStore: useMainStore(),
         favouriteStore: useFavouriteStore()
       }
     },
@@ -96,6 +105,9 @@
     computed: {
       isFavourite(): boolean {
         return !!this.favouriteStore.artists[this.id]
+      },
+      albums(): Album[] {
+        return orderBy(this.item?.albums ?? [], 'year', this.mainStore.artistAlbumSortOrder)
       },
     },
     watch: {
@@ -121,6 +133,9 @@
       toggleFavourite() {
         return this.favouriteStore.toggle('artist', this.id)
       },
+      toggleAlbumSortOrder() {
+        this.mainStore.toggleArtistAlbumSortOrder()
+      }
     }
   })
 </script>

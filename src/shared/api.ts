@@ -423,10 +423,6 @@ export class API {
   }
 
   private normalizeArtist(item: any): Artist {
-    const albums = (item.album || [])
-      .map(this.normalizeAlbum, this)
-      .sort((a: any, b: any) => b.year - a.year)
-
     return {
       id: item.id,
       name: item.name,
@@ -439,7 +435,7 @@ export class API {
       musicBrainzUrl: item.musicBrainzId
         ? `https://musicbrainz.org/artist/${item.musicBrainzId}`
         : undefined,
-      albums,
+      albums: (item.album || []).map(this.normalizeAlbum, this),
       similarArtist: (item.similarArtist || []).map(this.normalizeArtist, this),
       topTracks: (item.topSongs || []).slice(0, 5).map(this.normalizeTrack, this),
       image: item.coverArt ? this.getCoverArtUrl(item) : item.artistImageUrl

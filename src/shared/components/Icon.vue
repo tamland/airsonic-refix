@@ -17,6 +17,7 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'
+  import iconArrowUpDown from '@iconify-icons/bi/arrow-up-down'
   import iconCheck from '@iconify-icons/bi/check'
   import iconChevronRight from '@iconify-icons/bi/chevron-compact-right'
   import iconDiscover from '@iconify-icons/bi/card-text'
@@ -47,6 +48,7 @@
   import iconX from '@iconify-icons/bi/x'
 
   const icons = {
+    'arrow-up-down': iconArrowUpDown.body,
     check: iconCheck.body,
     'chevron-right': iconChevronRight.body,
     discover: iconDiscover.body,

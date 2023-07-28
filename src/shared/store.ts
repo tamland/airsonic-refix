@@ -1,12 +1,14 @@
 import { defineStore } from 'pinia'
+import { useLocalStorage } from '@vueuse/core'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
     isLoggedIn: false,
     username: null as null | string,
     server: null as null | string,
-    menuVisible: false,
     error: null as null | Error,
+    menuVisible: false,
+    artistAlbumSortOrder: useLocalStorage<'desc' | 'asc'>('settings.artistAlbumSortOrder', 'desc')
   }),
   actions: {
     setError(error: Error) {
@@ -26,5 +28,8 @@ export const useMainStore = defineStore('main', {
     hideMenu() {
       this.menuVisible = false
     },
+    toggleArtistAlbumSortOrder() {
+      this.artistAlbumSortOrder = this.artistAlbumSortOrder === 'asc' ? 'desc' : 'asc'
+    }
   },
 })
