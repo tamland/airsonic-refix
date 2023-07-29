@@ -42,6 +42,9 @@
     padding-right: 0.5rem;
     padding-bottom: 180px;
     width: 250px;
+
+    position: sticky;
+	  top: 0;
   }
 
   .sidebar-container .sidebar-brand {
