@@ -33,6 +33,10 @@ export class AudioController {
     this.audio.volume = value
   }
 
+  setPlaybackRate(value: number) {
+    this.audio.playbackRate = value
+  }
+
   async pause() {
     await this.fadeOut()
     this.audio.pause()
@@ -51,7 +55,7 @@ export class AudioController {
     await this.fadeIn(this.fadeDuration / 2.0)
   }
 
-  async changeTrack(options: { url: string, paused?: boolean, isStream?: boolean }) {
+  async changeTrack(options: { url: string, paused?: boolean, isStream?: boolean, playbackRate?: number }) {
     if (this.audio) {
       this.cancelFade()
       endPlayback(this.audio, this.fadeDuration)
@@ -76,6 +80,7 @@ export class AudioController {
     this.ontimeupdate(this.audio.currentTime)
     this.onstreamtitlechange(null)
     this.audio.volume = 0.0
+    this.audio.playbackRate = options.playbackRate ?? 1.0
 
     this.statsListener?.stop()
     if (options.isStream) {

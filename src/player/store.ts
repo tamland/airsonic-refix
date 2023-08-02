@@ -8,6 +8,7 @@ localStorage.removeItem('player.mute')
 const storedQueue = JSON.parse(localStorage.getItem('queue') || '[]')
 const storedQueueIndex = parseInt(localStorage.getItem('queueIndex') || '-1')
 const storedVolume = parseFloat(localStorage.getItem('player.volume') || '1.0')
+const storedPodcastPlaybackRate = parseFloat(localStorage.getItem('player.podcastPlaybackRate') || '1.0')
 const mediaSession: MediaSession | undefined = navigator.mediaSession
 const audio = new AudioController()
 
@@ -22,6 +23,7 @@ interface State {
   repeat: boolean;
   shuffle: boolean;
   volume: number; // integer between 0 and 1 representing the volume of the player
+  podcastPlaybackRate: number;
 }
 
 function persistQueue(state: State) {
@@ -42,6 +44,7 @@ export const playerModule: Module<State, any> = {
     repeat: localStorage.getItem('player.repeat') !== 'false',
     shuffle: localStorage.getItem('player.shuffle') === 'true',
     volume: storedVolume,
+    podcastPlaybackRate: storedPodcastPlaybackRate,
   },
 
   mutations: {
@@ -142,6 +145,10 @@ export const playerModule: Module<State, any> = {
       state.volume = value
       localStorage.setItem('player.volume', String(value))
     },
+    setPodcastPlaybackRate(state, value) {
+      state.podcastPlaybackRate = value
+      localStorage.setItem('player.podcastPlaybackRate', String(value))
+    }
   },
 
   actions: {
@@ -156,7 +163,7 @@ export const playerModule: Module<State, any> = {
     async playTrackListIndex({ commit, getters }, { index }) {
       commit('setQueueIndex', index)
       commit('setPlaying')
-      await audio.changeTrack(getters.track)
+      await audio.changeTrack({ ...getters.track, playbackRate: getters.playbackRate })
     },
     async playTrackList({ commit, state, getters }, { tracks, index }) {
       if (index == null) {
@@ -172,7 +179,7 @@ export const playerModule: Module<State, any> = {
       }
       commit('setQueueIndex', index)
       commit('setPlaying')
-      await audio.changeTrack(getters.track)
+      await audio.changeTrack({ ...getters.track, playbackRate: getters.playbackRate })
     },
     async resume({ commit }) {
       commit('setPlaying')
@@ -188,7 +195,7 @@ export const playerModule: Module<State, any> = {
     async next({ commit, state, getters }) {
       commit('setQueueIndex', state.queueIndex + 1)
       commit('setPlaying')
-      await audio.changeTrack(getters.track)
+      await audio.changeTrack({ ...getters.track, playbackRate: getters.playbackRate })
     },
     async previous({ commit, state, getters }) {
       commit('setQueueIndex', audio.currentTime() > 3 ? state.queueIndex : state.queueIndex - 1)
@@ -203,7 +210,7 @@ export const playerModule: Module<State, any> = {
     async resetQueue({ commit, getters }) {
       commit('setQueueIndex', 0)
       commit('setPaused')
-      await audio.changeTrack({ ...getters.track, paused: true })
+      await audio.changeTrack({ ...getters.track, paused: true, playbackRate: getters.playbackRate })
     },
     toggleRepeat({ commit, state }) {
       commit('setRepeat', !state.repeat)
@@ -223,6 +230,12 @@ export const playerModule: Module<State, any> = {
     setVolume({ commit }, value) {
       audio.setVolume(value)
       commit('setVolume', value)
+    },
+    setPlaybackRate({ commit, getters }, value) {
+      commit('setPodcastPlaybackRate', value)
+      if (getters.track?.isPodcast) {
+        audio.setPlaybackRate(value)
+      }
     },
   },
 
@@ -250,6 +263,9 @@ export const playerModule: Module<State, any> = {
     },
     hasPrevious(state) {
       return state.queueIndex > 0
+    },
+    playbackRate(state, getters): number {
+      return getters.track?.isPodcast ? state.podcastPlaybackRate : 1.0
     },
   },
 }
@@ -298,6 +314,7 @@ function setupAudio(store: Store<any>, mainStore: ReturnType<typeof useMainStore
   if (track?.url) {
     audio.changeTrack({ ...track, paused: true })
   }
+  audio.setPlaybackRate(store.getters['player/playbackRate'])
 
   if (mediaSession) {
     mediaSession.setActionHandler('play', () => {

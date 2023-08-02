@@ -39,6 +39,18 @@
         <div class="col-auto col-sm p-0">
           <div class="d-flex flex-nowrap justify-content-end pr-3">
             <div class="m-0 d-none d-md-inline-flex align-items-center">
+              <template v-if="track.isPodcast">
+                <b-button id="player-playback-rate-btn" variant="icon" title="Speed" class="mb-1">
+                  {{ playbackRate }}x
+                </b-button>
+                <b-popover target="player-playback-rate-btn" placement="top" triggers="click blur" no-fade>
+                  <Slider class="pt-2" style="height: 120px;" direction="btt"
+                          :min="0.8" :max="2" :step="0.1"
+                          :value="playbackRate"
+                          @input="setPlaybackRate"
+                  />
+                </b-popover>
+              </template>
               <b-button
                 title="Favourite"
                 variant="link" class="m-0"
@@ -74,6 +86,15 @@
                   <Slider class="px-3" style="width: 120px;"
                           :min="0" :max="1" :step="0.01" percent
                           :value="volume" @input="setVolume"
+                  />
+                </div>
+              </b-dropdown-text>
+              <b-dropdown-text v-if="track.isPodcast">
+                <div class="d-flex justify-content-between align-items-center">
+                  <strong>Speed</strong>
+                  <Slider class="px-3" style="width: 120px;"
+                          :min="0.7" :max="2" :step="0.1"
+                          :value="playbackRate" @input="setPlaybackRate"
                   />
                 </div>
               </b-dropdown-text>
@@ -139,6 +160,9 @@
       shuffleActive(): boolean {
         return this.$store.state.player.shuffle
       },
+      playbackRate(): number {
+        return this.$store.getters['player/playbackRate']
+      },
       isFavourite(): boolean {
         return this.track && !!this.favouriteStore.tracks[this.track.id]
       },
@@ -176,6 +200,9 @@
       },
       setVolume(volume: any) {
         return this.$store.dispatch('player/setVolume', parseFloat(volume))
+      },
+      setPlaybackRate(value: number) {
+        return this.$store.dispatch('player/setPlaybackRate', value)
       },
       toggleRepeat() {
         return this.$store.dispatch('player/toggleRepeat')

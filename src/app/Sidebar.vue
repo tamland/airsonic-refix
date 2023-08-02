@@ -40,8 +40,18 @@
   .sidebar-container .sidebar-fixed {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    padding-bottom: 180px;
+    padding-bottom: 100px;
     width: 250px;
+
+    position: sticky;
+    top: 0;
+    max-height: 100vh;
+    overflow-y: scroll;
+    scrollbar-width: none;
+  }
+
+  .sidebar-container .sidebar-fixed::-webkit-scrollbar {
+    display: none;
   }
 
   .sidebar-container .sidebar-brand {
