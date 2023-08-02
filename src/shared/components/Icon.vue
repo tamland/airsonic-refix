@@ -46,6 +46,7 @@
   import iconThreeDotsVertical from '@iconify-icons/bi/three-dots-vertical'
   import iconVolume from '@iconify-icons/bi/volume-up-fill'
   import iconX from '@iconify-icons/bi/x'
+  import iconTrash from '@iconify-icons/bi/trash'
 
   const icons = {
     'arrow-up-down': iconArrowUpDown.body,
@@ -77,6 +78,7 @@
     'three-dots-vertical': iconThreeDotsVertical.body,
     volume: iconVolume.body,
     x: iconX.body,
+    trash: iconTrash.body,
   } as {[key: string]: string}
 
   export default defineComponent({

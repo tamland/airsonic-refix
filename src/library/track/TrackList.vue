@@ -10,6 +10,9 @@
       <th v-if="!noDuration" class="text-right d-none d-md-table-cell">
         Duration
       </th>
+      <th v-if="homepageUrl" class="text-left d-none d-md-table-cell">
+        Home Page
+      </th>
     </BaseTableHead>
     <tbody>
       <tr v-for="(item, index) in tracks" :key="index"
@@ -24,6 +27,7 @@
         <CellArtist v-if="!noArtist" :track="item" />
         <CellAlbum v-if="!noAlbum" :track="item" />
         <CellDuration v-if="!noDuration" :track="item" />
+        <CellHomePageUrl v-if="homepageUrl" :track="item" />
         <CellActions :track="item">
           <slot name="context-menu" :index="index" :item="item" />
         </CellActions>
@@ -39,6 +43,7 @@
   import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
   import CellActions from '@/library/track/CellActions.vue'
   import CellTitle from '@/library/track/CellTitle.vue'
+  import CellHomePageUrl from '@/library/track/CellHomePageUrl.vue'
   import BaseTable from '@/library/track/BaseTable.vue'
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
   import { Track } from '@/shared/api'
@@ -53,12 +58,14 @@
       CellAlbum,
       CellArtist,
       CellDuration,
+      CellHomePageUrl,
     },
     props: {
       tracks: { type: Array as PropType<Track[]>, required: true },
       noAlbum: { type: Boolean, default: false },
       noArtist: { type: Boolean, default: false },
       noDuration: { type: Boolean, default: false },
+      homepageUrl: { type: Boolean, default: false },
     },
     computed: {
       isPlaying(): boolean {
