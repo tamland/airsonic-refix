@@ -10,6 +10,7 @@ import GenreDetails from '@/library/genre/GenreDetails.vue'
 import GenreLibrary from '@/library/genre/GenreLibrary.vue'
 import Favourites from '@/library/favourite/Favourites.vue'
 import RadioStations from '@/library/radio/RadioStations.vue'
+import Files from '@/library/files/Files.vue'
 import PodcastDetails from '@/library/podcast/PodcastDetails.vue'
 import PodcastLibrary from '@/library/podcast/PodcastLibrary.vue'
 import Playlist from '@/library/playlist/Playlist.vue'
@@ -105,6 +106,11 @@ export function setupRouter(auth: AuthService) {
         name: 'radio',
         path: '/radio',
         component: RadioStations,
+      },
+      {
+        name: 'files',
+        path: '/files',
+        component: Files,
       },
       {
         name: 'podcasts',

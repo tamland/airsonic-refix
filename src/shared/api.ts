@@ -86,6 +86,30 @@ export interface Playlist {
   tracks?: Track[]
 }
 
+export interface File {
+  name: string
+
+  id: string
+  title: string
+  isVideo: boolean
+  parent: string
+  path: string
+  // suffix: string,
+  type: string,
+
+  // duration: number
+  // album?: string
+  // artist?: string
+}
+
+export interface FileDirectory {
+  id: string
+  name: string
+  dirs?: FileDirectory[]
+  files?: File[]
+  isTop: boolean
+}
+
 export class UnsupportedOperationError extends Error { }
 
 export class API {
@@ -343,6 +367,41 @@ export class API {
 
   async deleteRadioStation(id: string): Promise<void> {
     return this.fetch('rest/deleteInternetRadioStation', { id })
+  }
+
+  async getFilesRoot(): Promise<FileDirectory> {
+    const response = await this.fetch('rest/getMusicFolders')
+    const result = <FileDirectory>{ isTop: true };
+    (response?.musicFolders?.musicFolder || []).forEach((mf: any) => {
+      if (!result.dirs) result.dirs = <FileDirectory[]>[]
+      if (mf && mf?.name) result.dirs.push({ id: `${mf?.id}`, name: mf?.name, isTop: true })
+    })
+    return result
+  }
+
+  async getFiles(fd: FileDirectory) {
+    if (fd.isTop) {
+      const response = await this.fetch('rest/getIndexes', { musicFolderId: Number(fd.id) });
+      (response?.indexes?.index || []).forEach((idx: any) => {
+        (idx?.artist || []).forEach((i: any) => {
+          if (!fd.dirs) fd.dirs = <FileDirectory[]>[]
+          if (i && i?.name) fd.dirs.push({ id: i.id, name: i.name, isTop: false })
+        })
+      })
+      return
+    }
+
+    const response = await this.fetch('rest/getMusicDirectory', { id: fd.id });
+    (response?.directory?.child || []).forEach((ch: any) => {
+      if (ch.isDir) {
+        if (!fd.dirs) fd.dirs = <FileDirectory[]>[]
+        if (ch && ch?.id) fd.dirs.push({ id: ch.id, name: ch.title, isTop: false })
+      } else {
+        if (ch.type !== 'music') return
+        if (!fd.files) fd.files = <File[]>[]
+        if (ch && ch?.id) fd.files.push({ name: ch.path.split('/').pop(), id: ch.id, title: ch.title, isVideo: ch.isVideo, parent: ch.parent, path: ch.path, type: ch.type })
+      }
+    })
   }
 
   async getPodcasts(): Promise<any[]> {
