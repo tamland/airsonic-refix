@@ -73,10 +73,10 @@ $ yarn build
 
 Bundle can be found in the `dist` folder.
 
-Build docker image:
+### Build docker image:
 
 ```
-$ docker build -f docker/Dockerfile .
+$ docker build -t airsonic-refix -f docker/Dockerfile .
 ```
 
 ## Develop
