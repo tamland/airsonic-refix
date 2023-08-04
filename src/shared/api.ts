@@ -86,16 +86,16 @@ export interface Playlist {
   tracks?: Track[]
 }
 
-export interface File {
+export interface File extends Track {
   name: string
 
-  id: string
-  title: string
-  isVideo: boolean
-  parent: string
-  path: string
+  // id: string
+  // title: string
+  // isVideo: boolean
+  // parent: string
+  // path: string
   // suffix: string,
-  type: string,
+  // type: string,
 
   // duration: number
   // album?: string
@@ -397,9 +397,10 @@ export class API {
         if (!fd.dirs) fd.dirs = <FileDirectory[]>[]
         if (ch && ch?.id) fd.dirs.push({ id: ch.id, name: ch.title, isTop: false })
       } else {
-        if (ch.type !== 'music') return
+        // check duration of track for ignoring files maked by Mac OS index files, as example: `._Artist - Trackname.mp3`
+        if (ch?.type !== 'music' || !ch?.duration) return
         if (!fd.files) fd.files = <File[]>[]
-        if (ch && ch?.id) fd.files.push({ name: ch.path.split('/').pop(), id: ch.id, title: ch.title, isVideo: ch.isVideo, parent: ch.parent, path: ch.path, type: ch.type })
+        if (ch && ch?.id) fd.files.push({ name: ch.path.split('/').pop(), id: ch.id, title: ch.title, duration: ch.duration, favourite: false, url: this.getStreamUrl(ch.id) }) // , isVideo: ch.isVideo, parent: ch.parent, path: ch.path, type: ch.type })
       }
     })
   }

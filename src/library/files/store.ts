@@ -34,7 +34,7 @@ export const useFilesStore = defineStore('files', {
       this.pathID = [...this.pathID.split('/'), id].join('/')
       this.load()
     },
-    pathShift() {
+    pathPop() {
       this.pathID = this.pathID.split('/').slice(0, -1).join('/')
       this.load()
     }
