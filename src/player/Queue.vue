@@ -25,7 +25,7 @@
           Duration
         </th>
       </BaseTableHead>
-      <tbody>
+      <tbody class="text-break">
         <tr v-for="(item, index) in tracks" :key="index"
             :class="{'active': index === queueIndex}"
             :draggable="true" @dragstart="dragstart(item.id, $event)"

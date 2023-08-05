@@ -28,7 +28,7 @@
           Duration
         </th>
       </BaseTableHead>
-      <tbody>
+      <tbody class="text-break">
         <tr v-for="(item, index) in podcast.tracks" :key="index"
             :class="{'active': item.id === playingTrackId, 'disabled': item.isUnavailable}"
             @click="playTrack(item)">

@@ -18,7 +18,7 @@
     </div>
     <BaseTable>
       <BaseTableHead />
-      <tbody>
+      <tbody class="text-break">
         <template v-if="files.id">
           <tr @click="filesStore.pathPop()">
             <td><Icon icon="folder" /></td>
@@ -34,7 +34,7 @@
         <template v-if="files.files">
           <tr v-for="item in files.files" :key="item.id" :class="{'active': item.id === playingTrackId}" @click="playTrack(item)">
             <CellTrackNumber :active="item.id === playingTrackId && isPlaying" :value="item.track" />
-            <td>{{ item.name }}</td>
+            <CellTitle :track="item" />
             <CellActions :track="item" />
           </tr>
         </template>
@@ -51,6 +51,7 @@
   import BaseTable from '@/library/track/BaseTable.vue'
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
   import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
+  import CellTitle from '@/library/track/CellTitle.vue'
   import CellActions from '@/library/track/CellActions.vue'
 
   export default defineComponent({
@@ -58,6 +59,7 @@
       BaseTable,
       BaseTableHead,
       CellTrackNumber,
+      CellTitle,
       CellActions
     },
     setup() {
