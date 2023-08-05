@@ -13,22 +13,35 @@
         </b-button>
       </div>
     </div>
-    <div class="d-flex justify-content-between align-items-center mb-2">
-    {{ path }}
+    <div class="bc align-items-center mb-2">
+      <span v-for="p, i in path" :key="i" class="bc-item">
+        <b-button variant="link" class="px-1 py-0" @click="filesStore.pathSlice(i+1)">
+          <template v-if="!!p">{{ p }}</template>
+          <template v-else><Icon icon="home" /></template>
+        </b-button>
+      </span>
     </div>
     <BaseTable>
       <BaseTableHead />
       <tbody class="text-break">
         <template v-if="files.id">
           <tr @click="filesStore.pathPop()">
-            <td><Icon icon="folder" /></td>
-            <td colspan="2">..</td>
+            <td>
+              <Icon icon="folder" />
+            </td>
+            <td colspan="2">
+              ..
+            </td>
           </tr>
         </template>
         <template v-if="files.dirs">
           <tr v-for="item in files.dirs" :key="item.id" @click="filesStore.pathPush(item.id)">
-            <td><Icon icon="folder" /></td>
-            <td colspan="2">{{ item.name }}</td>
+            <td>
+              <Icon icon="folder" />
+            </td>
+            <td colspan="2">
+              {{ item.name }}
+            </td>
           </tr>
         </template>
         <template v-if="files.files">
@@ -64,20 +77,13 @@
     },
     setup() {
       const filesStore = useFilesStore()
-      const { files, pathString: path } = storeToRefs(filesStore)
-      return { filesStore, files, path }
+      const { files, pathString } = storeToRefs(filesStore)
+      return { filesStore, files, pathString }
     },
     data() {
       return {
         unsupported: false,
       }
-    },
-    async created() {
-      this.filesStore.load().catch(err => {
-        if (err instanceof UnsupportedOperationError) {
-          this.unsupported = true
-        }
-      })
     },
     computed: {
       isPlaying(): boolean {
@@ -88,7 +94,17 @@
       },
       playableTracks(): Track[] {
         return (this.files?.files || [])
+      },
+      path() {
+        return this.pathString.split('/')
       }
+    },
+    async created() {
+      this.filesStore.load().catch(err => {
+        if (err instanceof UnsupportedOperationError) {
+          this.unsupported = true
+        }
+      })
     },
     methods: {
       async playNow() {
@@ -115,3 +131,19 @@
 
   })
 </script>
+
+<style scoped>
+.bc {
+  display: flex;
+  overflow-x: overlay;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bc-item + .bc-item::before {
+    padding-right: 0.3rem;
+    padding-left: 0.3rem;
+    color: #6c757d;
+    content: "/";
+}
+</style>

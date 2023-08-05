@@ -1,10 +1,9 @@
-import { defineStore, storeToRefs } from 'pinia'
+import { defineStore } from 'pinia'
 import { FileDirectory } from '@/shared/api'
-import { orderBy } from 'lodash-es'
 
 export const useFilesStore = defineStore('files', {
   state: () => ({
-    pathID: '',
+    pathID: localStorage.getItem('files_path') || '',
     files: null as null | FileDirectory,
 
     _library: null as null | FileDirectory,
@@ -32,19 +31,23 @@ export const useFilesStore = defineStore('files', {
     },
     pathPush(id: string) {
       this.pathID = [...this.pathID.split('/'), id].join('/')
+      localStorage.setItem('files_path', this.pathID)
       this.load()
     },
     pathPop() {
       this.pathID = this.pathID.split('/').slice(0, -1).join('/')
+      localStorage.setItem('files_path', this.pathID)
+      this.load()
+    },
+    pathSlice(idx: number) {
+      this.pathID = this.pathID.split('/').slice(0, idx).join('/')
+      localStorage.setItem('files_path', this.pathID)
       this.load()
     }
-    // async pathChange(path: string) {
-
-    // }
   },
   getters: {
     pathString(store): string {
-      if (!store._library) return '/'
+      if (!store._library) return ''
 
       const result = []
       const path = store.pathID.split('/')
@@ -57,7 +60,7 @@ export const useFilesStore = defineStore('files', {
           break
         }
       }
-      return result.join(' / ') || '/'
+      return result.join('/') || ''
     }
   },
 })

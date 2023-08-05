@@ -48,6 +48,7 @@
   import iconX from '@iconify-icons/bi/x'
   import iconFiles from '@iconify-icons/bi/files'
   import iconFolder from '@iconify-icons/bi/folder'
+  import iconHome from '@iconify-icons/bi/house'
 
   const icons = {
     'arrow-up-down': iconArrowUpDown.body,
@@ -81,6 +82,8 @@
     x: iconX.body,
     files: iconFiles.body,
     folder: iconFolder.body,
+    home: iconHome.body,
+
   } as {[key: string]: string}
 
   export default defineComponent({
