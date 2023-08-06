@@ -39,7 +39,7 @@
           <CellDuration :track="item" />
           <CellActions :track="item">
             <template v-if="item.isUnavailable">
-              <ContextMenuItem v-if="item.podcastStatus === 'downloading'" icon="repeat" variant="warning" spin>
+              <ContextMenuItem v-if="item.podcastStatus === 'downloading'" icon="repeat" variant="warning" spin @click="()=>{}">
                 Downloading Episode
               </ContextMenuItem>
               <ContextMenuItem v-else icon="download" variant="warning" @click="downloadEpisode(item)">

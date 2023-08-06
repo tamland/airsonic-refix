@@ -1,6 +1,7 @@
 import { AuthService } from '@/auth/service'
 import { map, max, orderBy, uniq } from 'lodash-es'
 import { toQueryString } from '@/shared/utils'
+import sanitizeHtml from 'sanitize-html'
 
 export type AlbumSort =
   'a-z' |
@@ -471,7 +472,7 @@ export class API {
     return {
       id: podcast.id,
       name: podcast.title || podcast.url,
-      description: podcast.description,
+      description: sanitizeHtml(podcast.description),
       image,
       url: podcast.url,
       trackCount: episodes.length,
@@ -493,7 +494,7 @@ export class API {
         url: item.status === 'completed' && item.streamId
           ? this.getStreamUrl(item.streamId)
           : undefined,
-        description: item.description,
+        description: sanitizeHtml(item.description, { allowedTags: [], allowedAttributes: {}, allowedStyles: {} }),
         playCount: item.playCount || 0,
       })),
     }
