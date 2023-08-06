@@ -10,7 +10,7 @@
     fill="currentColor"
     preserveAspectRatio="xMidYMid meet"
     viewBox="0 0 16 16"
-    class="bi icon"
+    :class="{'bi icon': true, 'spin': spin}"
     v-bind="$attrs"
     v-html="path"
   />
@@ -46,6 +46,7 @@
   import iconThreeDotsVertical from '@iconify-icons/bi/three-dots-vertical'
   import iconVolume from '@iconify-icons/bi/volume-up-fill'
   import iconX from '@iconify-icons/bi/x'
+  import iconTrash from '@iconify-icons/bi/trash'
 
   const icons = {
     'arrow-up-down': iconArrowUpDown.body,
@@ -77,11 +78,13 @@
     'three-dots-vertical': iconThreeDotsVertical.body,
     volume: iconVolume.body,
     x: iconX.body,
+    trash: iconTrash.body,
   } as {[key: string]: string}
 
   export default defineComponent({
     props: {
-      icon: { type: String, required: true }
+      icon: { type: String, required: true },
+      spin: { type: Boolean, default: false }
     },
     computed: {
       path(): string {
@@ -108,5 +111,10 @@
   .nav-link .icon.bi {
     font-size: 125%;
     vertical-align: text-bottom;
+  }
+
+  .spin {
+    transform-origin: center;
+    animation: b-icon-animation-spin 2s linear infinite normal;
   }
 </style>

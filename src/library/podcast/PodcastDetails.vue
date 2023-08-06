@@ -37,13 +37,29 @@
             {{ item.title }} <Icon v-if="item.playCount > 0" icon="check" />
           </CellTitle>
           <CellDuration :track="item" />
-          <CellActions :track="item" />
+          <CellActions :track="item">
+            <template v-if="item.isUnavailable">
+              <ContextMenuItem v-if="item.podcastStatus === 'downloading'" icon="repeat" variant="warning" spin>
+                Downloading Episode
+              </ContextMenuItem>
+              <ContextMenuItem v-else icon="download" variant="warning" @click="downloadEpisode(item)">
+                Download Episode
+              </ContextMenuItem>
+            </template>
+            <template v-else>
+              <b-dropdown-divider />
+              <ContextMenuItem icon="trash" variant="danger" @click="deleteEpisode(item)">
+                Delete Episode
+              </ContextMenuItem>
+            </template>
+          </CellActions>
         </tr>
       </tbody>
     </BaseTable>
     <EmptyIndicator v-else />
   </ContentLoader>
 </template>
+
 <script lang="ts">
   import { defineComponent } from 'vue'
   import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
@@ -115,7 +131,13 @@
         this.podcast = null
         await this.$api.deletePodcast(this.id)
         return this.$router.replace({ name: 'podcasts' })
-      }
+      },
+      async downloadEpisode(item: any) {
+        await this.$api.downloadPodcastEpisode(item.id)
+      },
+      async deleteEpisode(item: any) {
+        await this.$api.deletePodcastEpisode(item.id)
+      },
     }
   })
 </script>
