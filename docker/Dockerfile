@@ -1,8 +1,13 @@
 FROM node:16-alpine AS builder
+ARG VERSION
+RUN apk add git
 WORKDIR /src
 COPY . .
 RUN yarn install
-RUN yarn build
+ENV VERSION=$VERSION
+RUN export VUE_APP_BUILD=${VERSION:-$(git rev-parse HEAD)} && \
+    export VUE_APP_BUILD_DATE=$(date -I) && \
+    yarn build
 
 FROM nginx:alpine
 RUN apk add gettext
