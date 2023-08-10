@@ -26,7 +26,6 @@ export interface Track {
   isPodcast?: boolean
   isUnavailable?: boolean
   playCount? : number
-  podcastStatus? : string
 }
 
 export interface Album {
@@ -74,6 +73,18 @@ export interface PodcastEpisode {
   id: string
   title: string
   description: string
+  episodeStatus? : string
+}
+
+export interface Podcast {
+  id: string
+  name: string
+  description: string
+  image: string
+  url: string
+  trackCount: number,
+  updatedAt: string,
+  tracks: (Track & PodcastEpisode)[]
 }
 
 export interface Playlist {
@@ -347,12 +358,12 @@ export class API {
     return this.fetch('rest/deleteInternetRadioStation', { id })
   }
 
-  async getPodcasts(): Promise<any[]> {
+  async getPodcasts(): Promise<Podcast[]> {
     const response = await this.fetch('rest/getPodcasts')
     return (response?.podcasts?.channel || []).map(this.normalizePodcast, this)
   }
 
-  async getPodcast(id: string): Promise<any> {
+  async getPodcast(id: string): Promise<Podcast> {
     const response = await this.fetch('rest/getPodcasts', { id })
     return this.normalizePodcast(response?.podcasts?.channel[0])
   }
@@ -466,7 +477,7 @@ export class API {
     }
   }
 
-  private normalizePodcast(podcast: any): any {
+  private normalizePodcast(podcast: any): Podcast {
     const image = podcast.originalImageUrl
     const episodes = podcast.episode || []
     return {
@@ -489,7 +500,7 @@ export class API {
         artistId: undefined,
         image,
         isPodcast: true,
-        podcastStatus: item.status,
+        episodeStatus: item.status,
         isUnavailable: item.status !== 'completed' || !item.streamId,
         url: item.status === 'completed' && item.streamId
           ? this.getStreamUrl(item.streamId)

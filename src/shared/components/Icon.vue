@@ -84,7 +84,7 @@
   export default defineComponent({
     props: {
       icon: { type: String, required: true },
-      spin: { type: Boolean, default: false }
+      spin: { type: Boolean, default: false },
     },
     computed: {
       path(): string {

@@ -15,37 +15,33 @@
           <Icon icon="shuffle" /> Shuffle
         </b-button>
         <OverflowMenu class="px-1">
-          <ContextMenuItem icon="x" variant="danger" @click="deletePodcast">
+          <ContextMenuItem icon="trash" variant="danger" @click="deletePodcast">
             Delete
           </ContextMenuItem>
         </OverflowMenu>
       </div>
     </Hero>
 
-    <BaseTable v-if="podcast.tracks.length > 0">
+    <BaseTable v-if="podcast?.tracks.length > 0" ref="el">
       <BaseTableHead>
         <th class="text-right d-none d-md-table-cell">
           Duration
         </th>
       </BaseTableHead>
       <tbody>
-        <tr v-for="(item, index) in podcast.tracks" :key="index"
-            :class="{'active': item.id === playingTrackId, 'disabled': item.isUnavailable}"
-            @click="playTrack(item)">
-          <CellTrackNumber :active="item.id === playingTrackId && isPlaying" :value="item.track" />
+        <tr v-for="item in podcast?.tracks.slice(0, tracksEnd)" :key="`${item.id}-${item.episodeStatus}`" :class="{'active': item.id === playingTrackId, 'disabled': item.isUnavailable}" @click="playTrack(item)">
+          <td v-if="item.episodeStatus === 'downloading'" class="">
+            <Icon icon="repeat" spin class="text-warning h4" />
+          </td>
+          <CellTrackNumber v-else :active="item.id === playingTrackId && isPlaying" :value="item.track" />
           <CellTitle :track="item">
             {{ item.title }} <Icon v-if="item.playCount > 0" icon="check" />
           </CellTitle>
           <CellDuration :track="item" />
           <CellActions :track="item">
-            <template v-if="item.isUnavailable">
-              <ContextMenuItem v-if="item.podcastStatus === 'downloading'" icon="repeat" variant="warning" spin @click="()=>{}">
-                Downloading Episode
-              </ContextMenuItem>
-              <ContextMenuItem v-else icon="download" variant="warning" @click="downloadEpisode(item)">
-                Download Episode
-              </ContextMenuItem>
-            </template>
+            <ContextMenuItem v-if="item.isUnavailable" icon="download" variant="warning" @click="downloadEpisode(item, item.episodeStatus === 'downloading')">
+              {{ item.episodeStatus === 'downloading' ? 'ReDownload' : 'Download' }} Episode
+            </ContextMenuItem>
             <template v-else>
               <b-dropdown-divider />
               <ContextMenuItem icon="trash" variant="danger" @click="deleteEpisode(item)">
@@ -57,19 +53,21 @@
       </tbody>
     </BaseTable>
     <EmptyIndicator v-else />
+    <InfiniteLoader :loading="loading" :has-more="hasMore" @load-more="loadMore" />
   </ContentLoader>
 </template>
 
 <script lang="ts">
   import { defineComponent } from 'vue'
+  import { usePodcastStore } from '@/library/podcast/store'
   import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
   import CellActions from '@/library/track/CellActions.vue'
   import CellDuration from '@/library/track/CellDuration.vue'
   import CellTitle from '@/library/track/CellTitle.vue'
   import BaseTable from '@/library/track/BaseTable.vue'
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
-  import { Track } from '@/shared/api'
   import OverflowFade from '@/shared/components/OverflowFade.vue'
+  import { Podcast, Track, UnsupportedOperationError } from '@/shared/api'
 
   export default defineComponent({
     components: {
@@ -84,12 +82,23 @@
     props: {
       id: { type: String, required: true },
     },
+    setup() {
+      return { podcastStore: usePodcastStore() }
+    },
     data() {
       return {
-        podcast: null as null | any,
+        loading: false,
+        hasMore: true,
+        tracksEnd: 25,
+        traksStep: 25,
+        showAddModal: false,
+        unsupported: false,
       }
     },
     computed: {
+      podcast(): null | Podcast {
+        return this.podcastStore.getPodcast(this.id) || null
+      },
       isPlaying(): boolean {
         return this.$store.getters['player/isPlaying']
       },
@@ -97,13 +106,29 @@
         return this.$store.getters['player/trackId']
       },
       playableTracks(): Track[] {
-        return this.podcast.tracks.filter((x: any) => !x.isUnavailable)
+        return this.podcast?.tracks?.filter((x: any) => !x.isUnavailable) || []
       }
     },
     async created() {
-      this.podcast = await this.$api.getPodcast(this.id)
+      try {
+        await this.podcastStore.load()
+      } catch (err) {
+        if (err instanceof UnsupportedOperationError) {
+          this.unsupported = true
+          return
+        }
+        throw err
+      }
     },
     methods: {
+      async loadMore() {
+        this.loading = true
+        const tracks = this.podcast?.tracks || []
+        const tracksLen = tracks?.length || 0
+        this.tracksEnd = this.tracksEnd + this.traksStep < tracksLen ? this.tracksEnd + this.traksStep : tracksLen
+        this.hasMore = tracksLen > this.tracksEnd
+        setTimeout(() => { this.loading = false }, 500)
+      },
       async playNow() {
         return this.$store.dispatch('player/playNow', {
           tracks: this.playableTracks,
@@ -128,15 +153,18 @@
         })
       },
       async deletePodcast() {
-        this.podcast = null
-        await this.$api.deletePodcast(this.id)
+        await this.podcastStore.delete(this.id)
         return this.$router.replace({ name: 'podcasts' })
       },
-      async downloadEpisode(item: any) {
-        await this.$api.downloadPodcastEpisode(item.id)
+      async downloadEpisode(item: any, reDownload: boolean) {
+        if (reDownload) {
+          await this.podcastStore.redownloadEpisode(this.id, item.id)
+          return
+        }
+        await this.podcastStore.downloadEpisode(this.id, item.id)
       },
       async deleteEpisode(item: any) {
-        await this.$api.deletePodcastEpisode(item.id)
+        await this.podcastStore.deleteEpisode(this.id, item.id)
       },
     }
   })

@@ -22,8 +22,8 @@
         </b-button>
       </div>
     </div>
-    <ContentLoader v-slot :loading="items === null">
-      <Tiles v-if="items.length > 0" square>
+    <ContentLoader v-slot :loading="podcasts === null">
+      <Tiles v-if="podcasts.length > 0" square>
         <Tile v-for="item in sortedItems" :key="item.id"
               :image="item.image"
               :to="{name: 'podcast', params: { id: item.id } }"
@@ -42,6 +42,8 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'
+  import { storeToRefs } from 'pinia'
+  import { usePodcastStore } from '@/library/podcast/store'
   import { orderBy } from 'lodash-es'
   import AddPodcastModal from '@/library/podcast/AddPodcastModal.vue'
   import { UnsupportedOperationError } from '@/shared/api'
@@ -53,9 +55,13 @@
     props: {
       sort: { type: String, default: null },
     },
+    setup() {
+      const podcastStore = usePodcastStore()
+      const { podcasts } = storeToRefs(podcastStore)
+      return { podcasts, podcastStore }
+    },
     data() {
       return {
-        items: null as null | any[],
         showAddModal: false,
         unsupported: false,
       }
@@ -63,16 +69,15 @@
     computed: {
       sortedItems(): any[] {
         return this.sort === 'a-z'
-          ? orderBy(this.items, 'name')
-          : orderBy(this.items, 'updatedAt', 'desc')
+          ? orderBy(this.podcasts, 'name')
+          : orderBy(this.podcasts, 'updatedAt', 'desc')
       },
     },
     async created() {
       try {
-        this.items = await this.$api.getPodcasts()
+        this.podcastStore.load()
       } catch (err) {
         if (err instanceof UnsupportedOperationError) {
-          this.items = []
           this.unsupported = true
           return
         }
@@ -81,15 +86,18 @@
     },
     methods: {
       async refresh() {
-        await this.$api.refreshPodcasts()
-        this.items = await this.$api.getPodcasts()
+        try {
+          await this.podcastStore.refresh()
+        } catch (err) {
+          console.log(err)
+        }
       },
       async add(url: string) {
-        await this.$api.addPodcast(url)
-        this.items = await this.$api.getPodcasts()
-        // Backend doesn't always download metadata immediately. Wait and refresh again.
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        this.items = await this.$api.getPodcasts()
+        try {
+          await this.podcastStore.add(url)
+        } catch (err) {
+          console.log(err)
+        }
       },
     }
   })
