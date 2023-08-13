@@ -20,7 +20,7 @@
         <rect width="5.994" height="22.372" x="119.04" y="230.78" rx="2.997" ry="2.997" />
       </g>
     </svg>
-    <span class="text-body ml-2 text-nowrap">Can't find a name&nbsp; </span>
+    <span class="text-body ml-2 text-nowrap">Music&nbsp; </span>
   </div>
 </template>
 <style scoped>
