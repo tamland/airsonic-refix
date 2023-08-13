@@ -3,5 +3,5 @@ export interface Config {
 }
 
 export const config: Config = {
-  serverUrl: 'https://navidrome.antogin.dev',
+  serverUrl: 'https://navi.antogin.dev',
 }
