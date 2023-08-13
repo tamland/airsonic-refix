@@ -3,11 +3,8 @@
   <head data-build="<%= process.env.VUE_APP_BUILD %>">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <% if (process.env.NODE_ENV === "production") { %>
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src *; img-src *; media-src *; manifest-src 'self'; style-src 'self' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-624gmqlO23N0g1Ru4tkjuaPEoL/hXP4w7tUqel4WM98=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-5uOIRR03mYcVoiexgzGGALQ0p1Babe2XxbeIl9t1UpA=' 'sha256-lM8P08IzH0mbT5Tvlm1F5BY3h0gPsb0qNpnZW9YHc7A='; script-src 'self'; base-uri 'self';">
-    <% } else { %>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src *; img-src *; media-src *; manifest-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; base-uri 'self';">
-    <% } %>
+  
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000" />
     <link rel="icon" href="<%= BASE_URL %>icon.ico">
