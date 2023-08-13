@@ -16,15 +16,9 @@
           </b-avatar>
         </template>
         <b-dropdown-text>
-          {{ server }}
-        </b-dropdown-text>
-        <b-dropdown-text>
           {{ username }}
         </b-dropdown-text>
         <b-dropdown-divider />
-        <b-dropdown-item :href="`${server}/settings.view`" target="_blank">
-          Server settings
-        </b-dropdown-item>
         <b-dropdown-item-button @click="scan">
           Scan media folders
         </b-dropdown-item-button>
