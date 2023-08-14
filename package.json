@@ -48,5 +48,8 @@
     "defaults",
     "not IE 11",
     "not IE_Mob 11"
-  ]
+  ],
+  "volta": {
+    "node": "14.21.3"
+  }
 }
