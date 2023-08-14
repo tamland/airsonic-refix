@@ -1,15 +1,15 @@
-// $theme-elevation-0: hsl(0, 0%, 0%);
-// $theme-elevation-1: hsl(0, 0%, 10%);
-// $theme-elevation-2: hsl(0, 0%, 20%);
-// $theme-text: #ccc;
-// $theme-text-muted: #999;
+$theme-elevation-0: hsl(0, 0%, 0%);
+$theme-elevation-1: hsl(0, 0%, 10%);
+$theme-elevation-2: hsl(0, 0%, 20%);
+$theme-text: #050202;
+$theme-text-muted: #3b3b3b;
 
-// $primary: #fde68a;
-// $danger: #ff4141;
-// $secondary: $theme-elevation-2;
+$primary: #fde68a;
+$danger: #ff4141;
+$secondary: $theme-elevation-2;
 
-// $body-bg: $theme-elevation-0;
-// $body-color: $theme-text;
-// $link-color: $theme-text;
-// $text-muted: $theme-text-muted;
-// $border-color: $theme-elevation-2;
+$body-bg: #fff;
+$body-color: $theme-text;
+$link-color: $theme-text;
+$text-muted: $theme-text-muted;
+$border-color: $primary;
