@@ -69,26 +69,27 @@ $enable-responsive-font-sizes: true;
 }
 
 
-.card {
-  border-radius: 11px;
-  box-shadow: bisque;
-  box-shadow: 3px 3px #fde68a;
-}
+// .card {
+//   border-radius: 11px;
+//   box-shadow: bisque;
+//   box-shadow: 6px 6px #fde68a;
+// }
 
 
-.tile-img img {
-  border-radius: 17px;
-}
+// .tile-img img {
+//   border-radius: 17px;
+// }
 
 
-.tiles {
-  display: grid;
-  grid-gap: 24px!important;
-  grid-template-columns: repeat(auto-fill,minmax(172px,1fr))!important;
-}
-@media (max-width: 442px) {
-  .tiles {
-    grid-gap: 22px!important;
-    grid-template-columns: repeat(2,minmax(1px,1fr))!important;
-  }
-}
+// .tiles {
+//   display: grid;
+//   grid-gap: 24px!important;
+//   grid-template-columns: repeat(auto-fill,minmax(172px,1fr))!important;
+// }
+
+// @media (max-width: 442px) {
+//   .tiles {
+//     grid-gap: 22px!important;
+//     grid-template-columns: repeat(2,minmax(1px,1fr))!important;
+//   }
+// }
