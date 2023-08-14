@@ -83,7 +83,7 @@ $enable-responsive-font-sizes: true;
 @media (max-width: 442px) {
   .tiles {
     grid-gap: 22px!important;
-    grid-template-columns: repeat(2,minmax(1px,1fr));
+    grid-template-columns: repeat(2,minmax(1px,1fr))!important;
   }
 }
 
