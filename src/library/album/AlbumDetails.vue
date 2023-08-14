@@ -25,7 +25,7 @@
           </span>
         </p>
         <div class="text-nowrap">
-          <b-button variant="secondary" class="mr-2" @click="play">
+          <b-button variant="primary" class="mr-2" @click="play">
             <Icon icon="play" /> Play
           </b-button>
           <b-dropdown variant="secondary" no-caret toggle-class="px-1">

@@ -11,7 +11,7 @@
     <template v-if="username">
       <b-dropdown variant="link" right no-caret>
         <template #button-content>
-          <b-avatar variant="secondary">
+          <b-avatar variant="primary">
             <Icon icon="person" />
           </b-avatar>
         </template>
