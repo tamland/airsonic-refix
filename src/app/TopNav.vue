@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex align-items-center mb-2">
-    <button class="navbar-toggler text-white d-md-none" @click="showMenu">
+    <button class="navbar-toggler text-primary d-md-none" @click="showMenu">
       <Icon icon="nav" />
     </button>
 
