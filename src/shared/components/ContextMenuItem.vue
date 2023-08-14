@@ -9,7 +9,7 @@
     <slot>
       {{ text }}
     </slot>
-    <Icon v-if="icon" :icon="icon" class="ml-4" :spin="spin"/>
+    <Icon v-if="icon" :icon="icon" class="ml-4" :spin="spin" />
   </BDropdownItemButton>
 </template>
 <script lang="ts">

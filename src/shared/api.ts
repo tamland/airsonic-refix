@@ -104,6 +104,13 @@ export class UnsupportedOperationError extends Error { }
 export class API {
   private readonly fetch: (path: string, params?: any) => Promise<any>
   private readonly clientName = window.origin || 'web'
+  private readonly sanitiser = {
+    allowedTags: ['address', 'h5', 'h6', 'dd', 'dl', 'dt', 'div', 'hr', 'li', 'ol', 'ul', 'p', 'a', 'abbr', 'b', 'br', 'em', 'i', 'small', 'span', 'strong', 'sub', 'u'],
+    allowedAttributes: sanitizeHtml.defaults.allowedAttributes,
+    transformTags: {
+      a: (tagName: any, attribs: any) => ({ tagName, attribs: { ...attribs, target: '_blank' } })
+    }
+  }
 
   constructor(private auth: AuthService) {
     this.fetch = (path: string, params: any) => {
@@ -483,7 +490,7 @@ export class API {
     return {
       id: podcast.id,
       name: podcast.title || podcast.url,
-      description: sanitizeHtml(podcast.description),
+      description: sanitizeHtml(podcast.description, this.sanitiser),
       image,
       url: podcast.url,
       trackCount: episodes.length,
@@ -505,7 +512,7 @@ export class API {
         url: item.status === 'completed' && item.streamId
           ? this.getStreamUrl(item.streamId)
           : undefined,
-        description: sanitizeHtml(item.description, { allowedTags: [], allowedAttributes: {}, allowedStyles: {} }),
+        description: sanitizeHtml(item.description, this.sanitiser),
         playCount: item.playCount || 0,
       })),
     }
