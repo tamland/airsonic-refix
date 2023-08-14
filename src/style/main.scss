@@ -67,3 +67,15 @@ $enable-responsive-font-sizes: true;
   color: $theme-text;
   opacity: 1;
 }
+
+
+.card {
+  border-radius: 11px;
+  box-shadow: bisque;
+  box-shadow: 3px 3px #fde68a;
+}
+
+
+.tile-img img {
+  border-radius: 17px;
+}
