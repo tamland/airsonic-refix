@@ -82,7 +82,13 @@ $enable-responsive-font-sizes: true;
 
 @media (max-width: 442px) {
   .tiles {
-    grid-gap: 22px;
+    grid-gap: 22px!important;
     grid-template-columns: repeat(2,minmax(1px,1fr));
   }
+}
+
+.tiles {
+  display: grid;
+  grid-gap: 24px!important;
+  grid-template-columns: repeat(auto-fill,minmax(172px,1fr))!important;
 }
