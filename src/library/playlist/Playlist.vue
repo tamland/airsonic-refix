@@ -8,7 +8,17 @@
         <span v-if="playlist.isPublic" class="badge badge-light badge-pill mr-2">
           Public
         </span>
-        <OverflowMenu class="ml-auto">
+        <div class="ml-auto">
+          <div class="d-none d-sm-block">
+            <b-button variant="secondary" :disabled="playlist.tracks.length === 0" class="mr-2" @click="playNow">
+              <Icon icon="play" /> Play
+            </b-button>
+            <b-button variant="secondary" :disabled="playlist.tracks.length === 0" @click="shuffleNow">
+              <Icon icon="shuffle" /> Shuffle
+            </b-button>
+          </div>
+        </div>
+        <OverflowMenu v-if="id != 'random'" class="ml-3">
           <ContextMenuItem icon="edit" @click="showEditModal = true">
             Edit
           </ContextMenuItem>
@@ -21,12 +31,14 @@
       <p v-if="playlist.comment" class="text-muted">
         {{ playlist.comment }}
       </p>
-      <b-button variant="secondary" :disabled="playlist.tracks.length === 0" class="mr-2" @click="playNow">
-        <Icon icon="play" /> Play
-      </b-button>
-      <b-button variant="secondary" :disabled="playlist.tracks.length === 0" @click="shuffleNow">
-        <Icon icon="shuffle" /> Shuffle
-      </b-button>
+      <div class="d-block d-sm-none my-2">
+        <b-button variant="secondary" :disabled="playlist.tracks.length === 0" class="mr-2" @click="playNow">
+          <Icon icon="play" /> Play
+        </b-button>
+        <b-button variant="secondary" :disabled="playlist.tracks.length === 0" @click="shuffleNow">
+          <Icon icon="shuffle" /> Shuffle
+        </b-button>
+      </div>
       <TrackList v-if="playlist.tracks.length > 0" :tracks="playlist.tracks">
         <template #context-menu="{index}">
           <b-dropdown-divider />
