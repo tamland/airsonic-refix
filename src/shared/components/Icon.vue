@@ -34,7 +34,8 @@
   import iconPerson from '@iconify-icons/bi/person-fill'
   import iconPlay from '@iconify-icons/bi/play-fill'
   import iconPlaylist from '@iconify-icons/bi/music-note-list'
-  import iconPlus from '@iconify-icons/bi/plus'
+  import iconPlus from '@iconify-icons/bi/plus-lg'
+  import iconMinus from '@iconify-icons/bi/dash-lg'
   import iconPodcast from '@iconify-icons/bi/rss'
   import iconRadio from '@iconify-icons/bi/broadcast'
   import iconRefresh from '@iconify-icons/bi/arrow-counterclockwise'
@@ -46,11 +47,15 @@
   import iconThreeDotsVertical from '@iconify-icons/bi/three-dots-vertical'
   import iconVolume from '@iconify-icons/bi/volume-up-fill'
   import iconX from '@iconify-icons/bi/x'
+  import iconChevronUp from '@iconify-icons/bi/chevron-up'
+  import iconChevronDown from '@iconify-icons/bi/chevron-down'
 
   const icons = {
     'arrow-up-down': iconArrowUpDown.body,
     check: iconCheck.body,
     'chevron-right': iconChevronRight.body,
+    'chevron-up': iconChevronUp.body,
+    'chevron-down': iconChevronDown.body,
     discover: iconDiscover.body,
     download: iconDownload.body,
     edit: iconEdit.body,
@@ -77,6 +82,7 @@
     'three-dots-vertical': iconThreeDotsVertical.body,
     volume: iconVolume.body,
     x: iconX.body,
+    minus: iconMinus.body,
   } as {[key: string]: string}
 
   export default defineComponent({

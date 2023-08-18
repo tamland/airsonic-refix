@@ -42,6 +42,7 @@
   import { config } from '@/shared/config'
   import Logo from '@/app/Logo.vue'
   import { useMainStore } from '@/shared/store'
+  import { useSettingsStore } from '@/settings/store'
   import { useAuth } from '@/auth/service'
   import { BOverlay } from 'bootstrap-vue'
 
@@ -56,6 +57,7 @@
     setup() {
       return {
         store: useMainStore(),
+        settings: useSettingsStore(),
         auth: useAuth(),
       }
     },
@@ -93,7 +95,7 @@
         this.auth.loginWithPassword(this.server, this.username, this.password)
           .then(() => {
             this.store.setLoginSuccess(this.username, this.server)
-            this.$router.replace(this.returnTo)
+            this.$router.replace(this.settings.get('ui.return_to') || this.returnTo)
           })
           .catch(err => {
             this.error = err

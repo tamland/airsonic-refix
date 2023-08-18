@@ -20,6 +20,10 @@ import {
   BDropdownText,
   BFormCheckbox,
   BModal,
+  BCard,
+  BCardHeader,
+  BCardBody,
+  BCollapse,
 } from 'bootstrap-vue'
 
 export const components = {
@@ -32,6 +36,10 @@ export const components = {
   BDropdownText,
   BFormCheckbox,
   BModal,
+  BCard,
+  BCardHeader,
+  BCardBody,
+  BCollapse,
   ContentLoader,
   ContextMenu,
   ContextMenuItem,

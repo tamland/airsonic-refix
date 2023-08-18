@@ -15,8 +15,10 @@ import PodcastLibrary from '@/library/podcast/PodcastLibrary.vue'
 import Playlist from '@/library/playlist/Playlist.vue'
 import PlaylistLibrary from '@/library/playlist/PlaylistLibrary.vue'
 import SearchResult from '@/library/search/SearchResult.vue'
+import Settings from '@/settings/Settings.vue'
 import { AuthService } from '@/auth/service'
 import ArtistTracks from '@/library/artist/ArtistTracks.vue'
+import { useSettingsStore } from '@/settings/store'
 
 export function setupRouter(auth: AuthService) {
   const router = new Router({
@@ -27,6 +29,13 @@ export function setupRouter(auth: AuthService) {
       {
         path: '/',
         name: 'home',
+        redirect: to => {
+          return { path: useSettingsStore().get('ui.root') || '/discover' }
+        }
+      },
+      {
+        path: '/discover',
+        name: 'discover',
         component: Discover
       },
       {
@@ -41,8 +50,8 @@ export function setupRouter(auth: AuthService) {
         }
       },
       {
-        name: 'queue',
-        path: '/queue',
+        name: 'playing',
+        path: '/playing',
         component: Queue,
       },
       {
@@ -137,6 +146,12 @@ export function setupRouter(auth: AuthService) {
         props: (route) => ({
           query: route.query.q,
         })
+      },
+      {
+        name: 'settings',
+        path: '/settings',
+        component: Settings,
+        props: true,
       },
     ]
   })

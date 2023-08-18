@@ -22,6 +22,9 @@
           {{ store.username }}
         </b-dropdown-text>
         <b-dropdown-divider />
+        <b-dropdown-item :to="{name: 'settings'}">
+          Client settings
+        </b-dropdown-item>
         <b-dropdown-item :href="`${store.server}/settings.view`" target="_blank">
           Server settings
         </b-dropdown-item>
@@ -45,6 +48,7 @@
   import About from './About.vue'
   import SearchForm from '@/library/search/SearchForm.vue'
   import { useMainStore } from '@/shared/store'
+  import { useSettingsStore } from '@/settings/store'
   import { useAuth } from '@/auth/service'
 
   export default defineComponent({
@@ -56,6 +60,7 @@
       return {
         store: useMainStore(),
         auth: useAuth(),
+        settings: useSettingsStore()
       }
     },
     data() {
@@ -68,6 +73,7 @@
         return this.$api.scan()
       },
       logout() {
+        this.settings.set('ui.return_to', this.$route.fullPath)
         this.auth.logout()
         this.$router.go(0)
       }

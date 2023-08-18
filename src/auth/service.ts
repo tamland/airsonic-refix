@@ -76,7 +76,7 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.clear()
+    Object.keys(localStorage).forEach((e: string) => !['client_settings'].includes(e) && localStorage.removeItem(e))
     sessionStorage.clear()
   }
 
