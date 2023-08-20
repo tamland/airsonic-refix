@@ -105,10 +105,10 @@ export class API {
   private readonly fetch: (path: string, params?: any) => Promise<any>
   private readonly clientName = window.origin || 'web'
   private readonly sanitiser = {
-    allowedTags: ['address', 'h5', 'h6', 'dd', 'dl', 'dt', 'div', 'hr', 'li', 'ol', 'ul', 'p', 'a', 'abbr', 'b', 'br', 'em', 'i', 'small', 'span', 'strong', 'sub', 'u'],
+    allowedTags: ['address', 'dd', 'dl', 'dt', 'div', 'hr', 'li', 'ol', 'ul', 'p', 'a', 'abbr', 'b', 'br', 'em', 'i', 'small', 'span', 'strong', 'sub', 'u'],
     allowedAttributes: sanitizeHtml.defaults.allowedAttributes,
     transformTags: {
-      a: (tagName: any, attribs: any) => ({ tagName, attribs: { ...attribs, target: '_blank' } })
+      a: (tagName: any, attribs: any) => ({ tagName, attribs: { ...attribs, target: '_blank', rel: 'noopener noreferrer' } })
     }
   }
 
