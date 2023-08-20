@@ -91,6 +91,16 @@
       }
     },
     methods: {
+      playNow() {
+        return this.$store.dispatch('player/playNow', {
+          tracks: this.playlist.tracks,
+        })
+      },
+      shuffleNow() {
+        return this.$store.dispatch('player/shuffleNow', {
+          tracks: this.playlist.tracks,
+        })
+      },
       removeTrack(index: number) {
         this.playlist.tracks.splice(index, 1)
         return this.playlistStore.removeTrack(this.id, index)
