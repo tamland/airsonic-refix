@@ -109,8 +109,9 @@ export function setupRouter(auth: AuthService) {
       },
       {
         name: 'files',
-        path: '/files',
+        path: '/files/:pathID*',
         component: Files,
+        props: true,
       },
       {
         name: 'podcasts',

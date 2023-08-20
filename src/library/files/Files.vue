@@ -15,7 +15,7 @@
     </div>
     <div class="bc align-items-center mb-2">
       <span v-for="p, i in path" :key="i" class="bc-item">
-        <b-button variant="link" class="px-1 py-0" @click="filesStore.pathSlice(i+1)">
+        <b-button variant="link" class="px-1 py-0" @click="pathSlice(i)" :disabled="i === path.length-1">
           <template v-if="!!p">{{ p }}</template>
           <template v-else><Icon icon="home" /></template>
         </b-button>
@@ -25,7 +25,7 @@
       <BaseTableHead />
       <tbody class="text-break">
         <template v-if="files.id">
-          <tr @click="filesStore.pathPop()">
+          <tr @click="pathPop()">
             <td>
               <Icon icon="folder" />
             </td>
@@ -35,7 +35,7 @@
           </tr>
         </template>
         <template v-if="files.dirs">
-          <tr v-for="item in files.dirs" :key="item.id" @click="filesStore.pathPush(item.id)">
+          <tr v-for="item in files.dirs" :key="item.id" @click="pathPush(item.id)">
             <td>
               <Icon icon="folder" />
             </td>
@@ -75,6 +75,9 @@
       CellTitle,
       CellActions
     },
+    props: {
+      pathID: { type: String, default: '' }
+    },
     setup() {
       const filesStore = useFilesStore()
       const { files, pathString } = storeToRefs(filesStore)
@@ -99,12 +102,17 @@
         return this.pathString.split('/')
       }
     },
-    async created() {
-      this.filesStore.load().catch(err => {
-        if (err instanceof UnsupportedOperationError) {
-          this.unsupported = true
+    watch: {
+      pathID: {
+        immediate: true,
+        handler(value: string) {
+          this.filesStore.load(value === '' ? '' : '/' + value).catch(err => {
+            if (err instanceof UnsupportedOperationError) {
+              this.unsupported = true
+            }
+          })
         }
-      })
+      }
     },
     methods: {
       async playNow() {
@@ -127,6 +135,18 @@
           tracks: this.playableTracks,
         })
       },
+      pathPush(id: string) {
+        const pathID = this.pathID === '' ? id : [...this.pathID.split('/'), id].join('/')
+        this.$router.push({ path: `/files/${pathID}` })
+      },
+      pathPop() {
+        const pathID = this.pathID.split('/').slice(0, -1).join('/')
+        this.$router.push({ path: `/files/${pathID}` })
+      },
+      pathSlice(idx: number) {
+        const pathID = this.pathID.split('/').slice(0, idx).join('/')
+        this.$router.push({ path: `/files/${pathID}` })
+      }
     }
 
   })
