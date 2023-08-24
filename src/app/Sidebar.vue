@@ -80,14 +80,17 @@
   .sidebar-container .nav-link:not(.router-link-active) .icon {
     color: var(--text-muted);
   }
+
   .sidebar-container .nav-link:hover {
     color: inherit;
-    background-color: rgba(255, 255, 255, 0.045);
+    background-color: var(--hover)
   }
+
   .sidebar-container .nav-link.router-link-active {
     color: var(--primary);
-    background-color: rgba(255, 255, 255, 0.045);
+    background-color: var(--hover)
   }
+
   .sidebar-container .nav-link.router-link-active:hover {
     color: var(--primary);
   }

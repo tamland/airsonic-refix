@@ -1,9 +1,14 @@
-$table-hover-bg: rgba(#fff, .1);
+// $table-hover-bg: rgba(#fff, .1);
+
+.table-hover tbody tr:hover {
+  color: var(--text-body) !important;
+  background-color: var(--hover) !important;
+}
 
 table thead tr {
   font-size: 80%;
   text-transform: uppercase;
-  color: $theme-text-muted;
+  color:  var(--text-muted);
 }
 
 table.table {

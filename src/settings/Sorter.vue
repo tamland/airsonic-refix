@@ -1,5 +1,5 @@
 <template>
-  <b-list-group variant="secondary" class="m-0">
+  <b-list-group class="m-0">
     <b-list-group-item v-for="option, idx in options" :key="idx" class="p-0">
       <div class="d-flex justify-content-between align-items-center">
         <b-form-checkbox :checked="list.includes(option)" @change="toggleOption(option)">

@@ -28,3 +28,11 @@ ul.nav-underlined {
 ul.nav-underlined::-webkit-scrollbar {
   display: none;
 }
+
+.nav-link .icon {
+  color: var(--icons) !important;
+}
+
+.nav-link.active .icon, .nav-link.router-link-active .icon {
+  color: var(--primary) !important;
+}
