@@ -1,7 +1,7 @@
 <template>
   <div :class="{'visible': visible}" class="player elevated d-flex">
     <div class="flex-fill">
-      <ProgressBar style="margin-bottom: -5px; margin-top: -9px" />
+      <ProgressBar v-if="track" style="margin-bottom: -5px; margin-top: -9px" />
 
       <div class="row align-items-center m-0" style="padding-top: -10px">
         <!-- Track info --->
