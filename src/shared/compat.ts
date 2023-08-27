@@ -25,10 +25,10 @@ export const createApp = (component: any, options: any): App => {
       (plugin as any).install(this, options)
       return this
     },
-    config: {
-      ...Vue.config,
-      globalProperties: Vue.prototype
-    },
+    config: Object.assign(
+      Vue.config,
+      { globalProperties: Vue.prototype }
+    ),
     component: Vue.component.bind(Vue),
     provide<T>(key: symbol | string, value: T) {
       provide[key as any] = value
