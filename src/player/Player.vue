@@ -39,7 +39,7 @@
         <div class="col-auto col-sm p-0">
           <div class="d-flex flex-nowrap justify-content-end pr-3">
             <div class="m-0 d-none d-md-inline-flex align-items-center">
-              <template v-if="track.isPodcast">
+              <template v-if="track && track.isPodcast">
                 <b-button id="player-playback-rate-btn" variant="icon" title="Speed" class="mb-1">
                   {{ playbackRate }}x
                 </b-button>
@@ -89,7 +89,7 @@
                   />
                 </div>
               </b-dropdown-text>
-              <b-dropdown-text v-if="track.isPodcast">
+              <b-dropdown-text v-if="track && track.isPodcast">
                 <div class="d-flex justify-content-between align-items-center">
                   <strong>Speed</strong>
                   <Slider class="px-3" style="width: 120px;"
