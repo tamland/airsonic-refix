@@ -320,29 +320,29 @@ export class API {
       .map(this.normalizeRadioStation, this)
   }
 
-  async addRadioStation(title: string, url: string): Promise<RadioStation> {
+  async addRadioStation(title: string, url: string, description?: string): Promise<RadioStation[]> {
     const params = {
-      name: title,
+      name: title ?? '',
       streamUrl: url,
+      homepageUrl: description?.trim() === '' ? undefined : description,
     }
-    return this
-      .fetch('rest/createInternetRadioStation', params)
-      .then(this.normalizeRadioStation)
+    await this.fetch('rest/createInternetRadioStation', params)
+    return await this.getRadioStations()
   }
 
-  async updateRadioStation(item: RadioStation): Promise<RadioStation> {
+  async updateRadioStation(item: RadioStation): Promise<RadioStation[]> {
     const params = {
-      id: item.id,
-      name: item.title,
+      id: item.id.replace('radio-', ''),
+      name: item.title ?? '',
       streamUrl: item.url,
+      homepageUrl: item.description?.trim() === '' ? undefined : item.description
     }
-    return this
-      .fetch('rest/updateInternetRadioStation', params)
-      .then(this.normalizeRadioStation)
+    await this.fetch('rest/updateInternetRadioStation', params)
+    return await this.getRadioStations()
   }
 
   async deleteRadioStation(id: string): Promise<void> {
-    return this.fetch('rest/deleteInternetRadioStation', { id })
+    return this.fetch('rest/deleteInternetRadioStation', { id: id.replace('radio-', '') })
   }
 
   async getPodcasts(): Promise<any[]> {
@@ -383,7 +383,8 @@ export class API {
     return {
       id: `radio-${item.id}`,
       title: item.name,
-      description: item.homePageUrl,
+      // Workaround: airsonic-advanced does not use correct name
+      description: item.homepageUrl || item.homePageUrl,
       album: item.name,
       track: item.track,
       url: item.streamUrl,
