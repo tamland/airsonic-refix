@@ -30,8 +30,7 @@ export interface Track {
 export interface Album {
   id: string
   name: string
-  artist: string
-  artistId: string
+  artists: {name: string, id: string}[]
   year: number
   favourite: boolean
   genreId?: string
@@ -414,8 +413,9 @@ export class API {
     return {
       id: item.id,
       name: item.name,
-      artist: item.artist,
-      artistId: item.artistId,
+      artists: item.artists?.length
+        ? item.artists
+        : [{ id: item.artistId, name: item.artist }],
       image: this.getCoverArtUrl(item),
       year: item.year || 0,
       favourite: !!item.starred,
