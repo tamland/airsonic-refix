@@ -11,7 +11,7 @@
         <strong>{{ item.albumCount }}</strong> albums •
         <strong>{{ item.trackCount }}</strong> tracks
         <div v-if="item.genres.length > 0">
-          <span v-for="(genre, index) in item.genres" :key="genre">
+          <span v-for="({ name: genre }, index) in item.genres" :key="genre">
             <span v-if="index > 0">•</span>
             <router-link :to="{name: 'genre', params: { id: genre }}">
               {{ genre }}
