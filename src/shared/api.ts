@@ -73,6 +73,16 @@ export interface PodcastEpisode {
   description: string
 }
 
+export interface Directory {
+  id: string
+  name: string
+  tracks: Track[]
+  directories: {
+    id: string
+    name: string
+  }[]
+}
+
 export interface Playlist {
   id: string
   name: string
@@ -364,6 +374,55 @@ export class API {
 
   async deletePodcast(id: string): Promise<any> {
     return this.fetch('rest/deletePodcastChannel', { id })
+  }
+
+  async getDirectory(path: string): Promise<Directory> {
+    const parts = path.split('/')
+    const musicFolderId = parts[0]
+    const id = parts.length > 1 ? parts[parts.length - 1] : ''
+
+    if (musicFolderId === '') {
+      const response = await this.fetch('rest/getMusicFolders')
+      const items = response?.musicFolders?.musicFolder ?? []
+      return {
+        id: '',
+        name: '',
+        tracks: [],
+        directories: items.map((item: any) => ({ id: `${item?.id}`, name: item?.name, })),
+      }
+    }
+
+    if (id === '') {
+      const response = await this.fetch('rest/getIndexes', { musicFolderId })
+      const directories = (response?.indexes?.index ?? []).flatMap((item: any) => [
+        ...(item?.artist || []).map((i: any) => ({ id: i.id, name: i.name }))
+      ])
+      const tracks = (response?.indexes?.child ?? []).map(this.normalizeTrack, this)
+      return {
+        id: musicFolderId,
+        name: musicFolderId,
+        tracks,
+        directories
+      }
+    }
+
+    const response = await this.fetch('rest/getMusicDirectory', { id })
+    const items = response?.directory?.child ?? []
+
+    const directories = items
+      .filter((item: any) => item.isDir)
+      .map((item: any) => ({ id: item.id, name: item.title }))
+
+    const tracks = items
+      .filter((item: any) => !item.isDir && item.type === 'music' && item?.duration > 0)
+      .map(this.normalizeTrack, this)
+
+    return {
+      id: response.directory.id,
+      name: response.directory.name,
+      tracks,
+      directories,
+    }
   }
 
   async scan(): Promise<void> {

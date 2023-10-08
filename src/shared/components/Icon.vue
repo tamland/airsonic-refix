@@ -23,6 +23,8 @@
   import iconDiscover from '@iconify-icons/bi/card-text'
   import iconDownload from '@iconify-icons/bi/download'
   import iconEdit from '@iconify-icons/bi/pencil-square'
+  import iconFiles from '@iconify-icons/bi/files'
+  import iconFolder from '@iconify-icons/bi/folder'
   import iconHeart from '@iconify-icons/bi/heart'
   import iconHeartFill from '@iconify-icons/bi/heart-fill'
   import iconLibrary from '@iconify-icons/bi/collection'
@@ -54,6 +56,8 @@
     discover: iconDiscover.body,
     download: iconDownload.body,
     edit: iconEdit.body,
+    files: iconFiles.body,
+    folder: iconFolder.body,
     heart: iconHeart.body,
     'heart-fill': iconHeartFill.body,
     library: iconLibrary.body,
