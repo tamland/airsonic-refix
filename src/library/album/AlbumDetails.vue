@@ -17,7 +17,7 @@
         <span v-if="album.genres.length"> •
           <template v-for="({ name: genre }, index) in album.genres">
             <span v-if="index > 0" :key="genre" class="text-muted">, </span>
-            <router-link :key="genre" :to="{name: 'genre', params: { id: genre }}">{{ genre }}</router-link>
+            <router-link :key="`${genre}-link`" :to="{name: 'genre', params: { id: genre }}">{{ genre }}</router-link>
           </template>
         </span>
       </p>
