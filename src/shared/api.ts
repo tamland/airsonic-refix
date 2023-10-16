@@ -1,5 +1,5 @@
 import { AuthService } from '@/auth/service'
-import { map, max, orderBy, uniq } from 'lodash-es'
+import { map, max, orderBy, uniq, uniqBy } from 'lodash-es'
 import { toQueryString } from '@/shared/utils'
 
 export type AlbumSort =
@@ -27,13 +27,17 @@ export interface Track {
   playCount? : number
 }
 
+export interface Genre {
+  name: string
+}
+
 export interface Album {
   id: string
   name: string
   artists: {name: string, id: string}[]
   year: number
   favourite: boolean
-  genreId?: string
+  genres: Genre[]
   image?: string
   tracks?: Track[]
 }
@@ -42,7 +46,7 @@ export interface Artist {
   id: string
   name: string
   description?: string
-  genres: string[]
+  genres: Genre[]
   albumCount: number
   trackCount: number
   favourite: boolean
@@ -468,6 +472,12 @@ export class API {
     }
   }
 
+  private normalizeGenres(item: any): Genre[] {
+    return item.genres?.length
+      ? item.genres
+      : [{ name: item.genre }]
+  }
+
   private normalizeAlbum(item: any): Album {
     return {
       id: item.id,
@@ -478,7 +488,7 @@ export class API {
       image: this.getCoverArtUrl(item),
       year: item.year || 0,
       favourite: !!item.starred,
-      genreId: item.genre,
+      genres: this.normalizeGenres(item),
       tracks: (item.song || []).map(this.normalizeTrack, this)
     }
   }
@@ -488,7 +498,7 @@ export class API {
       id: item.id,
       name: item.name,
       description: (item.biography || '').replace(/<a[^>]*>.*?<\/a>/gm, ''),
-      genres: uniq((item.album || []).flatMap((album: any) => album.genre || [])),
+      genres: uniqBy([...(item.album || []).flatMap(this.normalizeGenres, this)], 'name'),
       albumCount: item.albumCount,
       trackCount: (item.album || []).reduce((acc: number, album: any) => acc + (album.songCount || 0), 0),
       favourite: !!item.starred,
