@@ -18,9 +18,18 @@
       </li>
     </ul>
     <ContentLoader v-slot :loading="details == null">
-      <ArtistList v-if="section === 'artists'" :items="details.artists" />
-      <TrackList v-else-if="section === 'tracks'" :tracks="details.tracks" />
-      <AlbumList v-else :items="details.albums" />
+      <template v-if="section === 'artists'">
+        <ArtistList v-if="details.artists.length > 0" :items="details.artists" />
+        <EmptyIndicator v-else />
+      </template>
+      <template v-else-if="section === 'tracks'">
+        <TrackList v-if="details.tracks.length > 0" :tracks="details.tracks" />
+        <EmptyIndicator v-else />
+      </template>
+      <template v-else>
+        <AlbumList v-if="details.albums.length > 0" :items="details.albums" />
+        <EmptyIndicator v-else />
+      </template>
     </ContentLoader>
   </div>
 </template>
