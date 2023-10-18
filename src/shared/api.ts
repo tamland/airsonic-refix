@@ -147,8 +147,8 @@ export class API {
       .map((item: any) => ({
         id: item.value,
         name: item.value,
-        albumCount: item.albumCount,
-        trackCount: item.songCount,
+        albumCount: item.albumCount ?? 0,
+        trackCount: item.songCount ?? 0,
       }))
       .sort((a: any, b:any) => b.albumCount - a.albumCount)
   }
