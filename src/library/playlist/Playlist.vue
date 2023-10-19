@@ -8,11 +8,11 @@
         Public
       </span>
       <OverflowMenu class="ml-auto">
-        <ContextMenuItem icon="edit" @click="showEditModal = true">
+        <ContextMenuItem icon="edit" :disabled="playlist.isReadOnly" @click="showEditModal = true">
           Edit
         </ContextMenuItem>
         <b-dropdown-divider />
-        <ContextMenuItem icon="x" variant="danger" @click="deletePlaylist()">
+        <ContextMenuItem icon="x" variant="danger" :disabled="playlist.isReadOnly" @click="deletePlaylist()">
           Delete
         </ContextMenuItem>
       </OverflowMenu>
@@ -29,7 +29,7 @@
     <TrackList v-if="playlist.tracks.length > 0" :tracks="playlist.tracks">
       <template #context-menu="{index}">
         <b-dropdown-divider />
-        <ContextMenuItem icon="x" variant="danger" @click="removeTrack(index)">
+        <ContextMenuItem icon="x" variant="danger" :disabled="playlist.isReadOnly" @click="removeTrack(index)">
           Remove
         </ContextMenuItem>
       </template>

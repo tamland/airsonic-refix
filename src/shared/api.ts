@@ -92,6 +92,7 @@ export interface Playlist {
   name: string
   comment: string
   isPublic: boolean
+  isReadOnly: boolean
   trackCount: number
   createdAt: string
   updatedAt: string
@@ -229,12 +230,19 @@ export class API {
     return (response.playlists?.playlist || []).map(this.normalizePlaylist, this)
   }
 
-  async getPlaylist(id: string) {
+  async getPlaylist(id: string): Promise<Playlist> {
     if (id === 'random') {
+      const tracks = await this.getRandomSongs()
       return {
         id,
         name: 'Random',
-        tracks: await this.getRandomSongs(),
+        comment: '',
+        createdAt: '',
+        updatedAt: '',
+        tracks,
+        trackCount: tracks.length,
+        isPublic: false,
+        isReadOnly: true,
       }
     }
     const response = await this.fetch('rest/getPlaylist', { id })
@@ -523,6 +531,7 @@ export class API {
       trackCount: response.songCount,
       image: response.songCount > 0 ? this.getCoverArtUrl(response) : undefined,
       isPublic: response.public,
+      isReadOnly: false,
     }
   }
 

@@ -1,5 +1,6 @@
 <template>
   <BDropdownItemButton
+    :disabled="disabled"
     :button-class="[
       'd-flex justify-content-between text-nowrap',
       {[`text-${variant}`]: variant}
@@ -20,6 +21,7 @@
       text: { type: String, default: '' },
       icon: { type: String, default: null },
       variant: { type: String, default: '' },
+      disabled: { type: Boolean, default: false },
     }
   })
 </script>
