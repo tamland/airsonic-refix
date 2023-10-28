@@ -11,7 +11,7 @@
         by
         <template v-for="(artist, index) in album.artists">
           <span v-if="index > 0" :key="artist.id" class="text-muted">, </span>
-          <router-link :key="artist.id" :to="{name: 'artist', params: { id: artist.id }}">{{ artist.name }}</router-link>
+          <router-link :key="`${artist.id}-link`" :to="{name: 'artist', params: { id: artist.id }}">{{ artist.name }}</router-link>
         </template>
         <span v-if="album.year"> • {{ album.year }}</span>
         <span v-if="album.genres.length"> •
