@@ -1,5 +1,5 @@
 import MD5 from 'md5-es'
-import { Track } from '@/shared/api'
+import { Artist, Track } from '@/shared/api'
 
 export function randomString(): string {
   let arr = new Uint8Array(16)
@@ -41,6 +41,10 @@ export function trackListEquals(a: Track[], b: Track[]): boolean {
     }
   }
   return true
+}
+
+export function formatArtists(artists: Artist[]): string {
+  return artists.map(ar => ar.name).join(', ')
 }
 
 export function toQueryString(params: Record<string, string | string[]>): string {
