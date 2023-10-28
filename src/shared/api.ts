@@ -19,7 +19,7 @@ export interface Track {
   track?: number
   album?: string
   albumId?: string
-  artist?: string
+  artists?: string
   artistId?: string
   isStream?: boolean
   isPodcast?: boolean
@@ -473,7 +473,9 @@ export class API {
       track: item.track,
       album: item.album,
       albumId: item.albumId,
-      artist: item.artist,
+      artists: item.artists?.length
+        ? item.artists
+        : [{ id: item.artistId, name: item.artist }],
       artistId: item.artistId,
       url: this.getStreamUrl(item.id),
       image: this.getCoverArtUrl(item),
@@ -553,7 +555,6 @@ export class API {
         favourite: false,
         track: episodes.length - index,
         album: podcast.title,
-        artist: '',
         albumId: undefined,
         artistId: undefined,
         image,
