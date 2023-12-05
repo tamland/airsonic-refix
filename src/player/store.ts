@@ -1,5 +1,5 @@
 import Vuex, { Store, Module } from 'vuex'
-import { shuffle, shuffled, trackListEquals } from '@/shared/utils'
+import { shuffle, shuffled, trackListEquals, formatArtists } from '@/shared/utils'
 import { API } from '@/shared/api'
 import { AudioController } from '@/player/audio'
 import { useMainStore } from '@/shared/store'
@@ -89,7 +89,7 @@ export const playerModule: Module<State, any> = {
       if (mediaSession) {
         mediaSession.metadata = new MediaMetadata({
           title: track.title,
-          artist: track.artist,
+          artist: formatArtists(track.artists),
           album: track.album,
           artwork: track.image ? [{ src: track.image, sizes: '300x300' }] : undefined,
         })

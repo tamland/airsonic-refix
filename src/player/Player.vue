@@ -16,7 +16,7 @@
                 {{ streamTitle || track.title }}
               </div>
               <div class="text-truncate text-muted">
-                {{ track.artist || track.album }}
+                {{ formatArtists(track.artists) || track.album }}
               </div>
             </div>
           </template>
@@ -129,6 +129,7 @@
   import { defineComponent } from 'vue'
   import ProgressBar from '@/player/ProgressBar.vue'
   import { useFavouriteStore } from '@/library/favourite/store'
+  import { formatArtists } from '@/shared/utils'
   import { BPopover } from 'bootstrap-vue'
 
   export default defineComponent({
@@ -138,7 +139,7 @@
     },
     setup() {
       return {
-        favouriteStore: useFavouriteStore()
+        favouriteStore: useFavouriteStore(),
       }
     },
     computed: {
@@ -175,7 +176,7 @@
       documentTitle(): string {
         return [
           this.streamTitle || this.track?.title,
-          this.track?.artist || this.track?.album,
+          formatArtists(this.track?.artists || []) || this.track?.album,
           'Airsonic (refix)'
         ].filter(x => !!x).join(' • ')
       }
@@ -213,6 +214,7 @@
       toggleFavourite() {
         return this.favouriteStore.toggle('track', this.track.id)
       },
+      formatArtists
     }
   })
 </script>

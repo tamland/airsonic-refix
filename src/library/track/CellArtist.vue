@@ -7,7 +7,16 @@
       </template>
     </template>
     <template v-else>
-      {{ props.track.artist }}
+      {{ formatArtists(props.track.artists) }}
     </template>
   </td>
 </template>
+<script lang="ts">
+  import { formatArtists } from '@/shared/utils'
+
+  export default {
+    methods: {
+      formatArtists,
+    },
+  }
+</script>

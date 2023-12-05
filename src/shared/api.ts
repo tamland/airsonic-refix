@@ -19,8 +19,7 @@ export interface Track {
   track?: number
   album?: string
   albumId?: string
-  artists?: string
-  artistId?: string
+  artists: {name: string, id: string}[]
   isStream?: boolean
   isPodcast?: boolean
   isUnavailable?: boolean
@@ -461,6 +460,7 @@ export class API {
       duration: 0,
       favourite: false,
       isStream: true,
+      artists: [],
     }
   }
 
@@ -476,7 +476,6 @@ export class API {
       artists: item.artists?.length
         ? item.artists
         : [{ id: item.artistId, name: item.artist }],
-      artistId: item.artistId,
       url: this.getStreamUrl(item.id),
       image: this.getCoverArtUrl(item),
     }
@@ -556,7 +555,6 @@ export class API {
         track: episodes.length - index,
         album: podcast.title,
         albumId: undefined,
-        artistId: undefined,
         image,
         isPodcast: true,
         isUnavailable: item.status !== 'completed' || !item.streamId,
@@ -565,6 +563,7 @@ export class API {
           : undefined,
         description: item.description,
         playCount: item.playCount || 0,
+        artists: [],
       })),
     }
   }
