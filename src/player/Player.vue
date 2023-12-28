@@ -101,13 +101,13 @@
               <b-dropdown-text>
                 <div class="d-flex justify-content-between">
                   <strong>Repeat</strong>
-                  <b-form-checkbox switch :checked="repeatActive" @change="toggleRepeat" />
+                  <SwitchInput :value="repeatActive" @input="toggleRepeat" />
                 </div>
               </b-dropdown-text>
               <b-dropdown-text>
                 <div class="d-flex justify-content-between">
                   <strong>Shuffle</strong>
-                  <b-form-checkbox switch :checked="shuffleActive" @change="toggleShuffle" />
+                  <SwitchInput :value="shuffleActive" @input="toggleShuffle" />
                 </div>
               </b-dropdown-text>
               <b-dropdown-text>
@@ -131,9 +131,11 @@
   import { useFavouriteStore } from '@/library/favourite/store'
   import { formatArtists } from '@/shared/utils'
   import { BPopover } from 'bootstrap-vue'
+  import SwitchInput from '@/shared/components/SwitchInput.vue'
 
   export default defineComponent({
     components: {
+      SwitchInput,
       BPopover,
       ProgressBar,
     },

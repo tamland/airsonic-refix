@@ -50,7 +50,7 @@
         </div>
         <div class="form-group">
           <label class="mb-0">Public</label>
-          <b-form-checkbox v-model="item.isPublic" switch />
+          <SwitchInput v-model="item.isPublic" />
         </div>
       </template>
     </EditModal>
@@ -61,9 +61,11 @@
   import TrackList from '@/library/track/TrackList.vue'
   import EditModal from '@/shared/components/EditModal.vue'
   import { usePlaylistStore } from '@/library/playlist/store'
+  import SwitchInput from '@/shared/components/SwitchInput.vue'
 
   export default defineComponent({
     components: {
+      SwitchInput,
       TrackList,
       EditModal,
     },

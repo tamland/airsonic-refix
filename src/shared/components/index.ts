@@ -18,7 +18,6 @@ import {
   BDropdownItem,
   BDropdownItemButton,
   BDropdownText,
-  BFormCheckbox,
   BModal,
 } from 'bootstrap-vue'
 
@@ -30,7 +29,6 @@ export const components = {
   BDropdownItem,
   BDropdownItemButton,
   BDropdownText,
-  BFormCheckbox,
   BModal,
   ContentLoader,
   ContextMenu,
