@@ -482,9 +482,13 @@ export class API {
   }
 
   private normalizeGenres(item: any): Genre[] {
-    return item.genres?.length
-      ? item.genres
-      : [{ name: item.genre }]
+    if (item.genres?.length) {
+      return item.genres
+    }
+    if (item.genre) {
+      return [{ name: item.genre }]
+    }
+    return []
   }
 
   private normalizeAlbum(item: any): Album {
