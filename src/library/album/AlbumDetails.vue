@@ -23,6 +23,7 @@
               {{ album.genreId }}
             </router-link>
           </span>
+          <span v-if="album.duration"> • {{ duration }}</span>
         </p>
         <div class="text-nowrap">
           <b-button variant="primary" class="mr-2" @click="play">
@@ -53,6 +54,7 @@
   import Vue from 'vue'
   import TrackList from '@/library/track/TrackList.vue'
   import { Album } from '@/shared/api'
+  import { secondsToText } from '@/shared/utils'
 
   export default Vue.extend({
     components: {
@@ -69,6 +71,9 @@
     computed: {
       isFavourite(): boolean {
         return !!this.$store.state.favourites.albums[this.id]
+      },
+      duration(): string {
+        return secondsToText(this?.album?.duration ?? 0)
       }
     },
     async created() {
