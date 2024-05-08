@@ -18,7 +18,7 @@ Modern responsive web frontend for [airsonic-advanced](https://github.com/airson
 - Internet radio
 - Podcasts
 
-## [Live demo](https://airsonic.netlify.com)
+## [Live demo](https://airsonic.netlify.app)
 
 Enter the URL and credentials for your subsonic compatible server, or use one of the following public demo servers:
 
