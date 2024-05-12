@@ -19,11 +19,25 @@
       </g>
     </svg>
     <span class="text-body ml-2 text-nowrap">
-      <span>airsonic&nbsp;</span>
-      <span class="text-muted">(refix)</span>
+      <span>{{instanceName}}&nbsp;</span>
+      <span v-if="!disableSubName" class="text-muted">({{instanceSubName}})</span>
     </span>
   </div>
 </template>
+<script lang="ts">
+  import { defineComponent } from 'vue'
+  import { config } from '@/shared/config'
+
+  export default defineComponent({
+    data() {
+      return {
+        instanceName: config.instanceName,
+        instanceSubName: config.instanceSubName,
+        disableSubName: config.disableSubName
+      }
+    },
+  })
+</script>
 <style scoped>
   svg {
     fill: var(--primary);
