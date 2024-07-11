@@ -292,20 +292,28 @@ export class API {
     await this.fetch('rest/updatePlaylist', params)
   }
 
-  async savePlayQueue(queue: PlayQueue) {
-    const params = {
-      id: queue.tracks,
-      current: queue.currentTrack,
-      position: queue.currentTrackPosition,
+  async savePlayQueue(tracks: string[], current: number, position: number) {
+    if (tracks.length !== 0) {
+      const params = {
+        id: tracks,
+        current: tracks[current],
+        position: position,
+      }
+      await this.fetch('rest/savePlayQueue', params)
     }
-    await this.fetch('rest/savePlayQueue', params)
   }
 
   async getPlayQueue(): Promise<PlayQueue> {
     const response = await this.fetch('rest/getPlayQueue')
+    let i = 0
+    for (i = 0; i < response.playQueue?.entry?.length; i++) {
+      if (response.playQueue.entry[i].id === response.playQueue.current) {
+        break
+      }
+    }
     return {
       tracks: (response.playQueue?.entry || []).map(this.normalizeTrack, this),
-      currentTrack: response.playQueue?.current || 0,
+      currentTrack: i,
       currentTrackPosition: response.playQueue?.position || 0,
     }
   }

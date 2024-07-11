@@ -287,6 +287,16 @@ export function createPlayerStore(mainStore: ReturnType<typeof useMainStore>, ap
     }
   })
   setupAudio(store, mainStore, api)
+  if (!store.state.player.queue.length) {
+    const pq = api.getPlayQueue()
+    pq.then((pq) => {
+      if (pq.tracks.length) {
+        store.commit('player/setQueue', pq.tracks)
+        store.commit('player/setQueueIndex', pq.currentTrack)
+        audio.seek(pq.currentTrackPosition / 1000)
+      }
+    })
+  }
   return store
 }
 
@@ -395,9 +405,9 @@ function setupAudio(store: Store<any>, mainStore: ReturnType<typeof useMainStore
       () => {
         store.commit('player/setLastSavePlayQueueTime', Date.now())
         const tracks = store.state.player.queue.map((track: any) => track.id)
-        const currentTrack = tracks[store.state.player.queueIndex]
+        const currentTrack = store.state.player.queueIndex
         const currentTrackPosition = store.state.player.currentTime * 1000
-        return api.savePlayQueue({ tracks, currentTrack, currentTrackPosition })
+        return api.savePlayQueue(tracks, currentTrack, currentTrackPosition)
       })
 
     // Save play queue on current time change but only if no save in last 30s
@@ -407,9 +417,9 @@ function setupAudio(store: Store<any>, mainStore: ReturnType<typeof useMainStore
         if (Date.now() - store.state.player.lastSavePlayQueueTime >= 30000) {
           store.commit('player/setLastSavePlayQueueTime', Date.now())
           const tracks = store.state.player.queue.map((track: any) => track.id)
-          const currentTrack = tracks[store.state.player.queueIndex]
+          const currentTrack = store.state.player.queueIndex
           const currentTrackPosition = store.state.player.currentTime * 1000
-          return api.savePlayQueue({ tracks, currentTrack, currentTrackPosition })
+          return api.savePlayQueue(tracks, currentTrack, currentTrackPosition)
         }
       })
   }
