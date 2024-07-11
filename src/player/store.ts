@@ -3,6 +3,7 @@ import { shuffle, shuffled, trackListEquals, formatArtists } from '@/shared/util
 import { API } from '@/shared/api'
 import { AudioController } from '@/player/audio'
 import { useMainStore } from '@/shared/store'
+import { last } from 'lodash-es'
 
 localStorage.removeItem('player.mute')
 const storedQueue = JSON.parse(localStorage.getItem('queue') || '[]')
@@ -24,6 +25,7 @@ interface State {
   shuffle: boolean;
   volume: number; // integer between 0 and 1 representing the volume of the player
   podcastPlaybackRate: number;
+  lastSavePlayQueueTime: number;
 }
 
 function persistQueue(state: State) {
@@ -45,6 +47,7 @@ export const playerModule: Module<State, any> = {
     shuffle: localStorage.getItem('player.shuffle') === 'true',
     volume: storedVolume,
     podcastPlaybackRate: storedPodcastPlaybackRate,
+    lastSavePlayQueueTime: Date.now(),
   },
 
   mutations: {
@@ -148,7 +151,10 @@ export const playerModule: Module<State, any> = {
     setPodcastPlaybackRate(state, value) {
       state.podcastPlaybackRate = value
       localStorage.setItem('player.podcastPlaybackRate', String(value))
-    }
+    },
+    setLastSavePlayQueueTime(state, value: any) {
+      state.lastSavePlayQueueTime = value
+    },
   },
 
   actions: {
@@ -380,6 +386,30 @@ function setupAudio(store: Store<any>, mainStore: ReturnType<typeof useMainStore
             store.commit('player/setScrobbled')
             return api.scrobble(id)
           }
+        }
+      })
+
+    // Save play queue on queue change, current track change, play/pause
+    store.watch(
+      (state) => [state.player.queue, state.player.queueIndex, state.player.isPlaying],
+      () => {
+        store.commit('player/setLastSavePlayQueueTime', Date.now())
+        const tracks = store.state.player.queue.map((track: any) => track.id)
+        const currentTrack = tracks[store.state.player.queueIndex]
+        const currentTrackPosition = store.state.player.currentTime * 1000
+        return api.savePlayQueue({ tracks, currentTrack, currentTrackPosition })
+      })
+
+    // Save play queue on current time change but only if no save in last 30s
+    store.watch(
+      (state) => [state.player.currentTime],
+      () => {
+        if (Date.now() - store.state.player.lastSavePlayQueueTime >= 30000) {
+          store.commit('player/setLastSavePlayQueueTime', Date.now())
+          const tracks = store.state.player.queue.map((track: any) => track.id)
+          const currentTrack = tracks[store.state.player.queueIndex]
+          const currentTrackPosition = store.state.player.currentTime * 1000
+          return api.savePlayQueue({ tracks, currentTrack, currentTrackPosition })
         }
       })
   }

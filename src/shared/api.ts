@@ -99,6 +99,12 @@ export interface Playlist {
   tracks?: Track[]
 }
 
+export interface PlayQueue {
+  tracks: Track[]
+  currentTrack: number
+  currentTrackPosition: number
+}
+
 export class UnsupportedOperationError extends Error { }
 
 export class API {
@@ -284,6 +290,24 @@ export class API {
       songIndexToRemove: index,
     }
     await this.fetch('rest/updatePlaylist', params)
+  }
+
+  async savePlayQueue(queue: PlayQueue) {
+    const params = {
+      id: queue.tracks,
+      current: queue.currentTrack,
+      position: queue.currentTrackPosition,
+    }
+    await this.fetch('rest/savePlayQueue', params)
+  }
+
+  async getPlayQueue(): Promise<PlayQueue> {
+    const response = await this.fetch('rest/getPlayQueue')
+    return {
+      tracks: (response.playQueue?.entry || []).map(this.normalizeTrack, this),
+      currentTrack: response.playQueue?.current || 0,
+      currentTrackPosition: response.playQueue?.position || 0,
+    }
   }
 
   async getRandomSongs(): Promise<Track[]> {
