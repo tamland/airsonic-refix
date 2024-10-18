@@ -86,6 +86,10 @@ $ yarn install
 $ yarn serve
 ```
 
+## OpenSubsonic support
+
+- HTTP form POST extension
+- Multiple artists/genres
 
 ## License
 
