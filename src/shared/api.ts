@@ -107,18 +107,26 @@ export class API {
 
   constructor(private auth: AuthService) {
     this.fetch = (path: string, params: any) => {
-      const url = `${this.auth.server}/${path}?${toQueryString({
-        ...params,
-        v: '1.15.0',
-        f: 'json',
-        c: this.clientName,
-      })}&${this.auth.urlParams}`
+      params = { ...params, v: '1.15.0', f: 'json', c: this.clientName }
+
+      const request = auth.serverInfo?.extensions.includes('formPost')
+        ? new Request(`${this.auth.server}/${path}`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `${toQueryString(params)}&${this.auth.urlParams}`
+        })
+        : new Request(`${this.auth.server}/${path}?${toQueryString(params)}&${this.auth.urlParams}`, {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+          }
+        })
 
       return window
-        .fetch(url, {
-          method: 'GET',
-          headers: { Accept: 'application/json' }
-        })
+        .fetch(request)
         .then(response => {
           if (response.ok) {
             return response.json()
