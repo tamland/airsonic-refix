@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@iconify-icons/bi": "^1.2.2",
-    "@vueuse/core": "^10.2.1",
+    "@vueuse/core": "^11.1.0",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.23.1",
     "icecast-metadata-stats": "^0.1.1",
