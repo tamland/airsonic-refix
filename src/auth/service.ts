@@ -6,8 +6,16 @@ import { pickBy } from 'lodash-es'
 
 type Auth = { password?: string, salt?: string, hash?: string }
 
+interface ServerInfo {
+  name: string
+  version: string
+  openSubsonic: boolean
+  extensions: string[]
+}
+
 export class AuthService {
   public server = ''
+  public serverInfo = null as null | ServerInfo
   public username = ''
   private salt = ''
   private hash = ''
@@ -40,6 +48,7 @@ export class AuthService {
       const auth = { salt: this.salt, hash: this.hash, password: this.password }
       await login(this.server, this.username, auth)
       this.authenticated = true
+      this.serverInfo = await fetchServerInfo(this.server, this.username, auth)
       return true
     } catch {
       return false
@@ -63,6 +72,7 @@ export class AuthService {
     this.server = server
     this.username = username
     this.authenticated = true
+    this.serverInfo = await fetchServerInfo(server, username, { hash, salt, password })
     this.saveSession()
   }
 
@@ -103,6 +113,29 @@ async function login(server: string, username: string, auth: Auth) {
         throw new Error(message)
       }
     })
+}
+
+async function fetchServerInfo(server: string, username: string, auth: Auth): Promise<ServerInfo> {
+  const qs = toQueryString(pickBy({
+    s: auth.salt,
+    t: auth.hash,
+    p: auth.password,
+  }, x => x !== undefined) as Record<string, string>)
+  const url = `${server}/rest/getOpenSubsonicExtensions?u=${username}&${qs}&v=1.15.0&c=app&f=json`
+  const response = await fetch(url)
+  if (response.ok) {
+    const body = await response.json()
+    const subsonicResponse = body['subsonic-response']
+    if (subsonicResponse?.status === 'ok') {
+      return {
+        name: subsonicResponse.type,
+        version: subsonicResponse.version,
+        openSubsonic: true,
+        extensions: subsonicResponse.openSubsonicExtensions.map((ext: any) => ext.name)
+      }
+    }
+  }
+  return { name: 'Subsonic', version: 'Unknown', openSubsonic: false, extensions: [] }
 }
 
 const apiSymbol = Symbol('')

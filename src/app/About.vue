@@ -12,6 +12,16 @@
       </p>
       <div>Build: {{ build }}</div>
       <div>Build date: {{ buildDate }}</div>
+
+      <div class="mt-4">
+        <div>Server name: {{ auth.serverInfo?.name }}</div>
+        <div>Server version: {{ auth.serverInfo?.version }}</div>
+        <div>Server URL: {{ auth.server }}</div>
+        <div>OpenSubsonic: {{ auth.serverInfo?.openSubsonic ?? false }}</div>
+        <div v-if="auth.serverInfo?.openSubsonic">
+          OpenSubsonic extensions: {{ auth.serverInfo?.extensions?.join(", ") }}
+        </div>
+      </div>
     </div>
     <div class="d-flex justify-content-end">
       <button class="btn btn-secondary" @click="$emit('close')">
@@ -23,6 +33,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import Logo from './Logo.vue'
+  import { useAuth } from '@/auth/service'
 
   export default defineComponent({
     components: {
@@ -30,6 +41,11 @@
     },
     props: {
       visible: { type: Boolean, required: true },
+    },
+    setup() {
+      return {
+        auth: useAuth()
+      }
     },
     computed: {
       build: () => process.env.VUE_APP_BUILD,
