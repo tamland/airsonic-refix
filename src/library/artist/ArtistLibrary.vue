@@ -14,6 +14,7 @@
     </ul>
     <ContentLoader v-slot :loading="loading">
       <ArtistList :items="sortedItems" />
+      <EmptyIndicator v-if="items.length === 0" />
     </ContentLoader>
   </div>
 </template>

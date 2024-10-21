@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!loading">
+  <ContentLoader :loading="loading">
     <div v-for="section in sections" :key="section.key" class="mb-4">
       <template v-if="result[section.key].length > 0">
         <h1>
@@ -14,7 +14,8 @@
         <AlbumList :items="result[section.key]" allow-h-scroll />
       </template>
     </div>
-  </div>
+    <EmptyIndicator v-if="empty" />
+  </ContentLoader>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'
@@ -44,6 +45,9 @@
           { name: 'Most played', key: 'most-played' },
           { name: 'Random', key: 'random' },
         ]
+      },
+      empty() {
+        return Object.values(this.result).findIndex(x => x.length > 0) === -1
       }
     },
     created() {

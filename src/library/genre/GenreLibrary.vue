@@ -13,7 +13,7 @@
       </li>
     </ul>
     <ContentLoader v-slot :loading="loading">
-      <Tiles>
+      <Tiles v-if="sortedItems.length > 0">
         <Tile v-for="item in sortedItems" :key="item.id"
               :to="{name: 'genre', params: { id: item.id } }"
               :title="item.name" :image="item.image">
@@ -23,6 +23,7 @@
           </template>
         </Tile>
       </Tiles>
+      <EmptyIndicator v-else />
     </ContentLoader>
   </div>
 </template>

@@ -9,6 +9,7 @@
     </ul>
     <AlbumList :items="albums" />
     <InfiniteLoader :key="sort" :loading="loading" :has-more="hasMore" @load-more="loadMore" />
+    <EmptyIndicator v-if="!loading && albums.length === 0" />
   </div>
 </template>
 <script lang="ts">
@@ -26,7 +27,7 @@
     data() {
       return {
         albums: [] as | Album[],
-        loading: false,
+        loading: true,
         offset: 0 as number,
         hasMore: true,
       }
