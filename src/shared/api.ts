@@ -323,10 +323,10 @@ export class API {
   }
 
   async savePlayQueue(tracks: Track[], currentTrack: Track, currentTime: number) {
-    const tracksIds = tracks.filter(track => !track.isStream).map(track => track.id)
+    const tracksIds = tracks.filter(track => !track.isStream && !track.isPodcast).map(track => track.id)
     const params = {
       id: tracksIds,
-      current: currentTrack.isStream ? null : currentTrack.id,
+      current: !currentTrack.isStream && !currentTrack.isPodcast ? currentTrack.id : undefined,
       position: Math.round(currentTime * 1000),
     }
     try {
