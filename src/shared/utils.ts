@@ -43,7 +43,7 @@ export function trackListEquals(a: Track[], b: Track[]): boolean {
   return true
 }
 
-export function formatArtists(artists: Artist[]): string {
+export function formatArtists(artists: { name: string }[]): string {
   return artists.map(ar => ar.name).join(', ')
 }
 

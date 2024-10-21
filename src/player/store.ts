@@ -1,19 +1,21 @@
 import Vuex, { Store, Module } from 'vuex'
 import { shuffle, shuffled, trackListEquals, formatArtists } from '@/shared/utils'
-import { API } from '@/shared/api'
+import { API, Track } from '@/shared/api'
 import { AudioController } from '@/player/audio'
 import { useMainStore } from '@/shared/store'
+import { ref } from 'vue'
 
 localStorage.removeItem('player.mute')
-const storedQueue = JSON.parse(localStorage.getItem('queue') || '[]')
-const storedQueueIndex = parseInt(localStorage.getItem('queueIndex') || '-1')
+localStorage.removeItem('queue')
+localStorage.removeItem('queueIndex')
+
 const storedVolume = parseFloat(localStorage.getItem('player.volume') || '1.0')
 const storedPodcastPlaybackRate = parseFloat(localStorage.getItem('player.podcastPlaybackRate') || '1.0')
 const mediaSession: MediaSession | undefined = navigator.mediaSession
 const audio = new AudioController()
 
 interface State {
-  queue: any[];
+  queue: null | Track[];
   queueIndex: number;
   scrobbled: boolean;
   isPlaying: boolean;
@@ -26,248 +28,248 @@ interface State {
   podcastPlaybackRate: number;
 }
 
-function persistQueue(state: State) {
-  localStorage.setItem('queue', JSON.stringify(state.queue))
-  localStorage.setItem('queueIndex', state.queueIndex.toString())
-}
+function createPlayerModule(api: API): Module<State, any> {
+  return {
+    namespaced: true,
+    state: {
+      queue: null,
+      queueIndex: -1,
+      scrobbled: false,
+      isPlaying: false,
+      duration: 0,
+      currentTime: 0,
+      streamTitle: null,
+      repeat: localStorage.getItem('player.repeat') !== 'false',
+      shuffle: localStorage.getItem('player.shuffle') === 'true',
+      volume: storedVolume,
+      podcastPlaybackRate: storedPodcastPlaybackRate,
+    },
 
-export const playerModule: Module<State, any> = {
-  namespaced: true,
-  state: {
-    queue: storedQueue,
-    queueIndex: storedQueueIndex,
-    scrobbled: false,
-    isPlaying: false,
-    duration: 0,
-    currentTime: 0,
-    streamTitle: null,
-    repeat: localStorage.getItem('player.repeat') !== 'false',
-    shuffle: localStorage.getItem('player.shuffle') === 'true',
-    volume: storedVolume,
-    podcastPlaybackRate: storedPodcastPlaybackRate,
-  },
+    mutations: {
+      setPlaying(state) {
+        state.isPlaying = true
+        if (mediaSession) {
+          mediaSession.playbackState = 'playing'
+        }
+      },
+      setPaused(state) {
+        state.isPlaying = false
+        if (mediaSession) {
+          mediaSession.playbackState = 'paused'
+        }
+      },
+      setRepeat(state, enable) {
+        state.repeat = enable
+        localStorage.setItem('player.repeat', enable)
+      },
+      setShuffle(state, enable) {
+        state.shuffle = enable
+        localStorage.setItem('player.shuffle', enable)
+      },
+      setQueue(state, queue) {
+        state.queue = queue
+        state.queueIndex = -1
+      },
+      setQueueIndex(state, index) {
+        if (!state.queue || state.queue.length === 0) {
+          return
+        }
+        index = Math.max(0, index)
+        index = index < state.queue.length ? index : 0
+        state.queueIndex = index
+        state.scrobbled = false
+        const track = state.queue[index]
+        state.duration = track.duration
+        const next = (index + 1) % state.queue.length
+        audio.setBuffer(state.queue[next].url!)
+        if (mediaSession) {
+          mediaSession.metadata = new MediaMetadata({
+            title: track.title,
+            artist: formatArtists(track.artists),
+            album: track.album,
+            artwork: track.image ? [{ src: track.image, sizes: '300x300' }] : undefined,
+          })
+        }
+      },
+      addToQueue(state, tracks) {
+        state.queue?.push(...tracks)
+      },
+      removeFromQueue(state, index) {
+        state.queue?.splice(index, 1)
+        if (index < state.queueIndex) {
+          state.queueIndex--
+        }
+      },
+      clearQueue(state) {
+        if (state.queue && state.queueIndex >= 0) {
+          state.queue = [state.queue[state.queueIndex]]
+          state.queueIndex = 0
+        }
+      },
+      shuffleQueue(state) {
+        if (state.queue && state.queue.length > 0) {
+          state.queue = shuffled(state.queue, state.queueIndex)
+          state.queueIndex = 0
+        }
+      },
+      setNextInQueue(state, tracks) {
+        state.queue?.splice(state.queueIndex + 1, 0, ...tracks)
+      },
+      setCurrentTime(state, value: any) {
+        state.currentTime = value
+      },
+      setDuration(state, value: any) {
+        if (isFinite(value)) {
+          state.duration = value
+        }
+      },
+      setStreamTitle(state, value: string | null) {
+        state.streamTitle = value
+        if (value && mediaSession?.metadata) {
+          mediaSession.metadata.title = value
+        }
+      },
+      setScrobbled(state) {
+        state.scrobbled = true
+      },
+      setVolume(state, value: number) {
+        state.volume = value
+        localStorage.setItem('player.volume', String(value))
+      },
+      setPodcastPlaybackRate(state, value) {
+        state.podcastPlaybackRate = value
+        localStorage.setItem('player.podcastPlaybackRate', String(value))
+      },
+    },
 
-  mutations: {
-    setPlaying(state) {
-      state.isPlaying = true
-      if (mediaSession) {
-        mediaSession.playbackState = 'playing'
-      }
-    },
-    setPaused(state) {
-      state.isPlaying = false
-      if (mediaSession) {
-        mediaSession.playbackState = 'paused'
-      }
-    },
-    setRepeat(state, enable) {
-      state.repeat = enable
-      localStorage.setItem('player.repeat', enable)
-    },
-    setShuffle(state, enable) {
-      state.shuffle = enable
-      localStorage.setItem('player.shuffle', enable)
-    },
-    setQueue(state, queue) {
-      state.queue = queue
-      state.queueIndex = -1
-      persistQueue(state)
-    },
-    setQueueIndex(state, index) {
-      if (state.queue.length === 0) {
-        return
-      }
-      index = Math.max(0, index)
-      index = index < state.queue.length ? index : 0
-      state.queueIndex = index
-      persistQueue(state)
-      state.scrobbled = false
-      const track = state.queue[index]
-      state.duration = track.duration
-      const next = (index + 1) % state.queue.length
-      audio.setBuffer(state.queue[next].url)
-      if (mediaSession) {
-        mediaSession.metadata = new MediaMetadata({
-          title: track.title,
-          artist: formatArtists(track.artists),
-          album: track.album,
-          artwork: track.image ? [{ src: track.image, sizes: '300x300' }] : undefined,
-        })
-      }
-    },
-    addToQueue(state, tracks) {
-      state.queue.push(...tracks)
-      persistQueue(state)
-    },
-    removeFromQueue(state, index) {
-      state.queue.splice(index, 1)
-      if (index < state.queueIndex) {
-        state.queueIndex--
-      }
-      persistQueue(state)
-    },
-    clearQueue(state) {
-      if (state.queueIndex >= 0) {
-        state.queue = [state.queue[state.queueIndex]]
-        state.queueIndex = 0
-        persistQueue(state)
-      }
-    },
-    shuffleQueue(state) {
-      if (state.queue.length > 0) {
-        state.queue = shuffled(state.queue, state.queueIndex)
-        state.queueIndex = 0
-        persistQueue(state)
-      }
-    },
-    setNextInQueue(state, tracks) {
-      state.queue.splice(state.queueIndex + 1, 0, ...tracks)
-      persistQueue(state)
-    },
-    setCurrentTime(state, value: any) {
-      state.currentTime = value
-    },
-    setDuration(state, value: any) {
-      if (isFinite(value)) {
-        state.duration = value
-      }
-    },
-    setStreamTitle(state, value: string | null) {
-      state.streamTitle = value
-      if (value && mediaSession?.metadata) {
-        mediaSession.metadata.title = value
-      }
-    },
-    setScrobbled(state) {
-      state.scrobbled = true
-    },
-    setVolume(state, value: number) {
-      state.volume = value
-      localStorage.setItem('player.volume', String(value))
-    },
-    setPodcastPlaybackRate(state, value) {
-      state.podcastPlaybackRate = value
-      localStorage.setItem('player.podcastPlaybackRate', String(value))
-    }
-  },
+    actions: {
+      async playNow({ commit, dispatch }, { tracks }) {
+        commit('setShuffle', false)
+        dispatch('playTrackList', { tracks, index: 0 })
+      },
+      async shuffleNow({ commit, dispatch }, { tracks }) {
+        commit('setShuffle', true)
+        dispatch('playTrackList', { tracks })
+      },
+      async playTrackListIndex({ commit, getters }, { index }) {
+        commit('setQueueIndex', index)
+        commit('setPlaying')
+        await audio.changeTrack({ ...getters.track, playbackRate: getters.playbackRate })
+      },
+      async playTrackList({ commit, state, getters }, { tracks, index }) {
+        if (index == null) {
+          index = state.shuffle ? Math.floor(Math.random() * tracks.length) : 0
+        }
+        if (state.shuffle) {
+          tracks = [...tracks]
+          shuffle(tracks, index)
+          index = 0
+        }
+        if (!trackListEquals(state.queue || [], tracks)) {
+          commit('setQueue', tracks)
+        }
+        commit('setQueueIndex', index)
+        commit('setPlaying')
+        await audio.changeTrack({ ...getters.track, playbackRate: getters.playbackRate })
+      },
+      async resume({ commit }) {
+        commit('setPlaying')
+        await audio.resume()
+      },
+      async pause({ commit }) {
+        audio.pause()
+        commit('setPaused')
+      },
+      async playPause({ state, dispatch }) {
+        return state.isPlaying ? dispatch('pause') : dispatch('resume')
+      },
+      async next({ commit, state, getters }) {
+        commit('setQueueIndex', state.queueIndex + 1)
+        commit('setPlaying')
+        await audio.changeTrack({ ...getters.track, playbackRate: getters.playbackRate })
+      },
+      async previous({ commit, state, getters }) {
+        commit('setQueueIndex', audio.currentTime() > 3 ? state.queueIndex : state.queueIndex - 1)
+        commit('setPlaying')
+        await audio.changeTrack(getters.track)
+      },
+      seek({ state }, value) {
+        if (isFinite(state.duration)) {
+          audio.seek(state.duration * value)
+        }
+      },
 
-  actions: {
-    async playNow({ commit, dispatch }, { tracks }) {
-      commit('setShuffle', false)
-      dispatch('playTrackList', { tracks, index: 0 })
-    },
-    async shuffleNow({ commit, dispatch }, { tracks }) {
-      commit('setShuffle', true)
-      dispatch('playTrackList', { tracks })
-    },
-    async playTrackListIndex({ commit, getters }, { index }) {
-      commit('setQueueIndex', index)
-      commit('setPlaying')
-      await audio.changeTrack({ ...getters.track, playbackRate: getters.playbackRate })
-    },
-    async playTrackList({ commit, state, getters }, { tracks, index }) {
-      if (index == null) {
-        index = state.shuffle ? Math.floor(Math.random() * tracks.length) : 0
-      }
-      if (state.shuffle) {
-        tracks = [...tracks]
-        shuffle(tracks, index)
-        index = 0
-      }
-      if (!trackListEquals(state.queue, tracks)) {
+      async loadQueue({ commit, getters }) {
+        const { tracks, currentTrack, currentTrackPosition } = await api.getPlayQueue()
         commit('setQueue', tracks)
-      }
-      commit('setQueueIndex', index)
-      commit('setPlaying')
-      await audio.changeTrack({ ...getters.track, playbackRate: getters.playbackRate })
-    },
-    async resume({ commit }) {
-      commit('setPlaying')
-      await audio.resume()
-    },
-    async pause({ commit }) {
-      audio.pause()
-      commit('setPaused')
-    },
-    async playPause({ state, dispatch }) {
-      return state.isPlaying ? dispatch('pause') : dispatch('resume')
-    },
-    async next({ commit, state, getters }) {
-      commit('setQueueIndex', state.queueIndex + 1)
-      commit('setPlaying')
-      await audio.changeTrack({ ...getters.track, playbackRate: getters.playbackRate })
-    },
-    async previous({ commit, state, getters }) {
-      commit('setQueueIndex', audio.currentTime() > 3 ? state.queueIndex : state.queueIndex - 1)
-      commit('setPlaying')
-      await audio.changeTrack(getters.track)
-    },
-    seek({ state }, value) {
-      if (isFinite(state.duration)) {
-        audio.seek(state.duration * value)
-      }
-    },
-    async resetQueue({ commit, getters }) {
-      commit('setQueueIndex', 0)
-      commit('setPaused')
-      await audio.changeTrack({ ...getters.track, paused: true, playbackRate: getters.playbackRate })
-    },
-    toggleRepeat({ commit, state }) {
-      commit('setRepeat', !state.repeat)
-    },
-    toggleShuffle({ commit, state }) {
-      commit('setShuffle', !state.shuffle)
-    },
-    setShuffle({ commit }, enable: boolean) {
-      commit('setShuffle', enable)
-    },
-    addToQueue({ state, commit }, tracks) {
-      commit('addToQueue', state.shuffle ? shuffled(tracks) : tracks)
-    },
-    setNextInQueue({ state, commit }, tracks) {
-      commit('setNextInQueue', state.shuffle ? shuffled(tracks) : tracks)
-    },
-    setVolume({ commit }, value) {
-      audio.setVolume(value)
-      commit('setVolume', value)
-    },
-    setPlaybackRate({ commit, getters }, value) {
-      commit('setPodcastPlaybackRate', value)
-      if (getters.track?.isPodcast) {
-        audio.setPlaybackRate(value)
-      }
-    },
-  },
+        commit('setQueueIndex', currentTrack)
+        commit('setPaused')
+        await audio.changeTrack({ ...getters.track, paused: true, playbackRate: getters.playbackRate })
+        await audio.seek(currentTrackPosition)
+      },
 
-  getters: {
-    track(state) {
-      if (state.queueIndex !== -1) {
-        return state.queue[state.queueIndex]
-      }
-      return null
+      async resetQueue({ commit, getters }) {
+        commit('setQueueIndex', 0)
+        commit('setPaused')
+        await audio.changeTrack({ ...getters.track, paused: true, playbackRate: getters.playbackRate })
+      },
+      toggleRepeat({ commit, state }) {
+        commit('setRepeat', !state.repeat)
+      },
+      toggleShuffle({ commit, state }) {
+        commit('setShuffle', !state.shuffle)
+      },
+      setShuffle({ commit }, enable: boolean) {
+        commit('setShuffle', enable)
+      },
+      addToQueue({ state, commit }, tracks) {
+        commit('addToQueue', state.shuffle ? shuffled(tracks) : tracks)
+      },
+      setNextInQueue({ state, commit }, tracks) {
+        commit('setNextInQueue', state.shuffle ? shuffled(tracks) : tracks)
+      },
+      setVolume({ commit }, value) {
+        audio.setVolume(value)
+        commit('setVolume', value)
+      },
+      setPlaybackRate({ commit, getters }, value) {
+        commit('setPodcastPlaybackRate', value)
+        if (getters.track?.isPodcast) {
+          audio.setPlaybackRate(value)
+        }
+      },
     },
-    trackId(state, getters): number {
-      return getters.track ? getters.track.id : -1
+
+    getters: {
+      track(state) {
+        if (state.queue && state.queueIndex !== -1) {
+          return state.queue[state.queueIndex]
+        }
+        return null
+      },
+      trackId(state, getters): number {
+        return getters.track ? getters.track.id : -1
+      },
+      isPlaying(state): boolean {
+        return state.isPlaying
+      },
+      progress(state): number {
+        if (state.currentTime > -1 && state.duration > 0) {
+          return state.currentTime / state.duration
+        }
+        return 0
+      },
+      hasNext(state) {
+        return state.queue && state.queueIndex < state.queue.length - 1
+      },
+      hasPrevious(state) {
+        return state.queueIndex > 0
+      },
+      playbackRate(state, getters): number {
+        return getters.track?.isPodcast ? state.podcastPlaybackRate : 1.0
+      },
     },
-    isPlaying(state): boolean {
-      return state.isPlaying
-    },
-    progress(state): number {
-      if (state.currentTime > -1 && state.duration > 0) {
-        return state.currentTime / state.duration
-      }
-      return 0
-    },
-    hasNext(state) {
-      return state.queueIndex < state.queue.length - 1
-    },
-    hasPrevious(state) {
-      return state.queueIndex > 0
-    },
-    playbackRate(state, getters): number {
-      return getters.track?.isPodcast ? state.podcastPlaybackRate : 1.0
-    },
-  },
+  }
 }
 
 export function createPlayerStore(mainStore: ReturnType<typeof useMainStore>, api: API) {
@@ -276,7 +278,7 @@ export function createPlayerStore(mainStore: ReturnType<typeof useMainStore>, ap
     modules: {
       player: {
         namespaced: true,
-        ...playerModule
+        ...createPlayerModule(api)
       },
     }
   })
@@ -380,6 +382,35 @@ function setupAudio(store: Store<any>, mainStore: ReturnType<typeof useMainStore
             store.commit('player/setScrobbled')
             return api.scrobble(id)
           }
+        }
+      })
+
+    // Save play queue
+    const maxDuration = 10_000
+    const lastSaved = ref(Date.now())
+
+    store.watch(
+      (state) => [
+        state.player.queue,
+        state.player.queueIndex,
+      ],
+      (_: any, [oldQueue]) => {
+        if (oldQueue !== null) {
+          lastSaved.value = Date.now()
+          const { queue, queueIndex, currentTime } = store.state.player
+          return api.savePlayQueue(queue, queueIndex, currentTime)
+        }
+      })
+
+    store.watch(
+      (state) => [state.player.currentTime],
+      () => {
+        const now = Date.now()
+        const duration = now - lastSaved.value
+        if (duration >= maxDuration) {
+          lastSaved.value = now
+          const { queue, queueIndex, currentTime } = store.state.player
+          return api.savePlayQueue(queue, queueIndex, currentTime)
         }
       })
   }

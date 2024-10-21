@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'visible': visible}" class="player elevated d-flex">
+  <div :class="{'visible': track}" class="player elevated d-flex">
     <div class="flex-fill">
       <ProgressBar v-if="track" style="margin-bottom: -5px; margin-top: -9px" />
 
@@ -145,9 +145,6 @@
       }
     },
     computed: {
-      visible() {
-        return this.$store.state.player.queue.length > 0
-      },
       isPlaying() {
         return this.$store.state.player.isPlaying
       },

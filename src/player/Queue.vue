@@ -13,38 +13,40 @@
         </b-button>
       </div>
     </div>
-    <BaseTable v-if="tracks.length > 0">
-      <BaseTableHead>
-        <th class="text-left d-none d-lg-table-cell">
-          Artist
-        </th>
-        <th class="text-left d-none d-md-table-cell">
-          Album
-        </th>
-        <th class="text-right d-none d-md-table-cell">
-          Duration
-        </th>
-      </BaseTableHead>
-      <tbody>
-        <tr v-for="(item, index) in tracks" :key="index"
-            :class="{'active': index === queueIndex}"
-            :draggable="true" @dragstart="dragstart(item.id, $event)"
-            @click="play(index)">
-          <CellTrackNumber :active="index === queueIndex && isPlaying" :value="item.track" />
-          <CellTitle :track="item" />
-          <CellArtist :track="item" />
-          <CellAlbum :track="item" />
-          <CellDuration :track="item" />
-          <CellActions :track="item">
-            <b-dropdown-divider />
-            <ContextMenuItem icon="x" variant="danger" @click="remove(index)">
-              Remove
-            </ContextMenuItem>
-          </CellActions>
-        </tr>
-      </tbody>
-    </BaseTable>
-    <EmptyIndicator v-else />
+    <ContentLoader v-slot :loading="loading">
+      <BaseTable v-if="tracks.length > 0">
+        <BaseTableHead>
+          <th class="text-left d-none d-lg-table-cell">
+            Artist
+          </th>
+          <th class="text-left d-none d-md-table-cell">
+            Album
+          </th>
+          <th class="text-right d-none d-md-table-cell">
+            Duration
+          </th>
+        </BaseTableHead>
+        <tbody>
+          <tr v-for="(item, index) in tracks" :key="index"
+              :class="{'active': index === queueIndex}"
+              :draggable="true" @dragstart="dragstart(item.id, $event)"
+              @click="play(index)">
+            <CellTrackNumber :active="index === queueIndex && isPlaying" :value="item.track" />
+            <CellTitle :track="item" />
+            <CellArtist :track="item" />
+            <CellAlbum :track="item" />
+            <CellDuration :track="item" />
+            <CellActions :track="item">
+              <b-dropdown-divider />
+              <ContextMenuItem icon="x" variant="danger" @click="remove(index)">
+                Remove
+              </ContextMenuItem>
+            </CellActions>
+          </tr>
+        </tbody>
+      </BaseTable>
+      <EmptyIndicator v-else />
+    </ContentLoader>
   </div>
 </template>
 <script lang="ts">
@@ -70,6 +72,9 @@
       BaseTable,
     },
     computed: {
+      loading() {
+        return this.$store.state.player.queue === null
+      },
       isPlaying() {
         return this.$store.getters['player/isPlaying']
       },

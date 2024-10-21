@@ -50,6 +50,7 @@ watch(
       return Promise.all([
         useFavouriteStore().load(),
         usePlaylistStore().load(),
+        playerStore.dispatch('player/loadQueue'),
       ])
     }
   })

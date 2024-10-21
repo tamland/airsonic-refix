@@ -99,7 +99,22 @@ export interface Playlist {
   tracks?: Track[]
 }
 
+export interface PlayQueue {
+  tracks: Track[]
+  currentTrack: number
+  currentTrackPosition: number
+}
+
 export class UnsupportedOperationError extends Error { }
+
+export class SubsonicError extends Error {
+  readonly code: string | null
+  constructor(message: string, code: string | null) {
+    super(message)
+    this.name = 'SubsonicError'
+    this.code = code
+  }
+}
 
 export class API {
   private readonly fetch: (path: string, params?: any) => Promise<any>
@@ -143,8 +158,9 @@ export class API {
           if (subsonicResponse.status === 'ok') {
             return subsonicResponse
           }
+          const code = subsonicResponse.error?.code
           const message = subsonicResponse.error?.message || subsonicResponse.status
-          throw new Error(message)
+          throw new SubsonicError(message, code)
         })
     }
   }
@@ -292,6 +308,35 @@ export class API {
       songIndexToRemove: index,
     }
     await this.fetch('rest/updatePlaylist', params)
+  }
+
+  async getPlayQueue(): Promise<PlayQueue> {
+    const response = await this.fetch('rest/getPlayQueue')
+    const tracks = (response.playQueue?.entry || []).map(this.normalizeTrack, this) as Track[]
+    const currentTrackId = response.playQueue?.current?.toString()
+    const currentTrack = tracks.findIndex(track => track.id === currentTrackId) ?? 0
+    return {
+      tracks,
+      currentTrack,
+      currentTrackPosition: (response.playQueue?.position || 0) / 1000,
+    }
+  }
+
+  async savePlayQueue(tracks: Track[], current: number, currentTime: number) {
+    const params = {
+      id: tracks.map(track => track.id),
+      current: tracks[current]?.id,
+      position: Math.round(currentTime * 1000),
+    }
+    try {
+      await this.fetch('rest/savePlayQueue', params)
+    } catch (err: any) {
+      // ignore missing required parameter error
+      if (err.code === 10) {
+        return
+      }
+      throw err
+    }
   }
 
   async getRandomSongs(): Promise<Track[]> {
