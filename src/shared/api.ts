@@ -333,7 +333,7 @@ export class API {
       await this.fetch('rest/savePlayQueue', params)
     } catch (err: any) {
       // ignore missing required parameter error
-      if (err.code === 10) {
+      if (err.code === 0 || err.code === 10) {
         return
       }
       throw err
