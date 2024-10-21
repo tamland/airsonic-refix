@@ -397,8 +397,8 @@ function setupAudio(store: Store<any>, mainStore: ReturnType<typeof useMainStore
       (_: any, [oldQueue]) => {
         if (oldQueue !== null) {
           lastSaved.value = Date.now()
-          const { queue, queueIndex, currentTime } = store.state.player
-          return api.savePlayQueue(queue, queueIndex, currentTime)
+          const { queue, currentTime } = store.state.player
+          return api.savePlayQueue(queue, store.getters['player/track'], currentTime)
         }
       })
 
@@ -409,8 +409,8 @@ function setupAudio(store: Store<any>, mainStore: ReturnType<typeof useMainStore
         const duration = now - lastSaved.value
         if (duration >= maxDuration) {
           lastSaved.value = now
-          const { queue, queueIndex, currentTime } = store.state.player
-          return api.savePlayQueue(queue, queueIndex, currentTime)
+          const { queue, currentTime } = store.state.player
+          return api.savePlayQueue(queue, store.getters['player/track'], currentTime)
         }
       })
   }
