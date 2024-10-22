@@ -323,10 +323,10 @@ export class API {
   }
 
   async savePlayQueue(tracks: Track[], currentTrack: Track, currentTime: number) {
-    const tracksIds = tracks.filter(track => !track.isStream && !track.isPodcast).map(track => track.id)
+    const tracksIds = tracks.filter(track => !track.isStream).map(track => track.id)
     const params = {
       id: tracksIds,
-      current: !currentTrack.isStream && !currentTrack.isPodcast ? currentTrack.id : undefined,
+      current: !currentTrack.isStream ? currentTrack.id : undefined,
       position: Math.round(currentTime * 1000),
     }
     try {
@@ -606,7 +606,7 @@ export class API {
       trackCount: episodes.length,
       updatedAt: max(map(episodes, 'publishDate')),
       tracks: episodes.map((item: any, index: number): Track & PodcastEpisode => ({
-        id: item.id,
+        id: item.streamId,
         title: item.title,
         duration: item.duration,
         favourite: false,
