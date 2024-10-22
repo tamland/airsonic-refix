@@ -16,14 +16,11 @@
           </Avatar>
         </template>
         <b-dropdown-text>
-          {{ store.server }}
-        </b-dropdown-text>
-        <b-dropdown-text>
           {{ store.username }}
         </b-dropdown-text>
         <b-dropdown-divider />
-        <b-dropdown-item :href="`${store.server}/settings.view`" target="_blank">
-          Server settings
+        <b-dropdown-item :href="store.server" target="_blank" rel="noopener noreferrer">
+          Server <Icon icon="link" />
         </b-dropdown-item>
         <b-dropdown-item-button @click="scan">
           Scan media folders

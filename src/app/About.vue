@@ -16,7 +16,12 @@
       <div class="mt-4">
         <div>Server name: {{ auth.serverInfo?.name }}</div>
         <div>Server version: {{ auth.serverInfo?.version }}</div>
-        <div>Server URL: {{ auth.server }}</div>
+        <div>
+          Server URL:
+          <ExternalLink :href="auth.server">
+            {{ auth.server }}
+          </ExternalLink>
+        </div>
         <div>OpenSubsonic: {{ auth.serverInfo?.openSubsonic ?? false }}</div>
         <div v-if="auth.serverInfo?.openSubsonic">
           OpenSubsonic extensions: {{ auth.serverInfo?.extensions?.join(", ") }}
