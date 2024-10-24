@@ -565,7 +565,7 @@ export class API {
       genres: this.normalizeGenres(item),
       lastFmUrl: item.lastFmUrl,
       musicBrainzUrl: item.musicBrainzId
-        ? `https://musicbrainz.org/album/${item.musicBrainzId}`
+        ? `https://musicbrainz.org/release/${item.musicBrainzId}`
         : undefined,
       tracks: (item.song || []).map(this.normalizeTrack, this)
     }
