@@ -7,28 +7,37 @@
           <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
         </b-button>
       </h1>
-      <div class="mb-3">
-        <strong>{{ item.albumCount }}</strong> albums •
-        <strong>{{ item.trackCount }}</strong> tracks
-        <div v-if="item.genres.length > 0">
-          <span v-for="({ name: genre }, index) in item.genres" :key="genre">
-            <span v-if="index > 0">•</span>
-            <router-link :to="{name: 'genre', params: { id: genre }}">
-              {{ genre }}
-            </router-link>
-          </span>
+      <div class="d-flex flex-wrap align-items-center">
+        <span class="text-nowrap">
+          <strong>{{ item.albumCount }}</strong> albums
+        </span>
+        <span class="mx-1">•</span>
+        <span class="text-nowrap mr-3">
+          <strong>{{ item.trackCount }}</strong> tracks
+        </span>
+        <div class="d-flex flex-nowrap">
+          <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="btn btn-link p-0 mr-2" title="Last.fm">
+            <IconLastFm />
+          </ExternalLink>
+          <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl" class="btn btn-link mr-2 p-0" title="MusicBrainz">
+            <IconMusicBrainz />
+          </ExternalLink>
         </div>
       </div>
-      <OverflowFade v-if="item.description || item.lastFmUrl || item.musicBrainzUrl" class="mb-3">
+      <div v-if="item.genres.length > 0">
+        <span v-for="({ name: genre }, index) in item.genres" :key="genre">
+          <span v-if="index > 0">•</span>
+          <router-link :to="{name: 'genre', params: { id: genre }}">
+            {{ genre }}
+          </router-link>
+        </span>
+      </div>
+
+      <OverflowFade v-if="item.description" class="mt-3">
         {{ item.description }}
-        <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl">
-          Last.fm <Icon icon="link" />
-        </ExternalLink>.
-        <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl">
-          MusicBrainz <Icon icon="link" />
-        </ExternalLink>
       </OverflowFade>
-      <div class="text-nowrap">
+
+      <div class="text-nowrap mt-3">
         <b-button variant="secondary" :disabled="item.topTracks.length === 0" class="mr-2" @click="playNow">
           <Icon icon="play" /> Play
         </b-button>
@@ -80,9 +89,13 @@
   import { Album } from '@/shared/api'
   import { orderBy } from 'lodash-es'
   import { useMainStore } from '@/shared/store'
+  import IconLastFm from '@/shared/components/IconLastFm.vue'
+  import IconMusicBrainz from '@/shared/components/IconMusicBrainz.vue'
 
   export default defineComponent({
     components: {
+      IconMusicBrainz,
+      IconLastFm,
       AlbumList,
       ArtistList,
       OverflowFade,
