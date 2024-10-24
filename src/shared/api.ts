@@ -33,11 +33,14 @@ export interface Genre {
 export interface Album {
   id: string
   name: string
+  description?: string
   artists: {name: string, id: string}[]
   year: number
   favourite: boolean
   genres: Genre[]
   image?: string
+  lastFmUrl?: string
+  musicBrainzUrl?: string
   tracks?: Track[]
 }
 
@@ -244,8 +247,11 @@ export class API {
 
   async getAlbumDetails(id: string): Promise<Album> {
     const params = { id }
-    const data = await this.fetch('rest/getAlbum', params)
-    return this.normalizeAlbum(data.album)
+    const [info, info2] = await Promise.all([
+      this.fetch('rest/getAlbum', params),
+      this.fetch('rest/getAlbumInfo2', params),
+    ])
+    return this.normalizeAlbum({ ...info.album, ...info2.albumInfo })
   }
 
   async getPlaylists() {
@@ -549,6 +555,7 @@ export class API {
     return {
       id: item.id,
       name: item.name,
+      description: (item.notes || '').replace(/<a[^>]*>.*?<\/a>/gm, ''),
       artists: item.artists?.length
         ? item.artists
         : [{ id: item.artistId, name: item.artist }],
@@ -556,6 +563,10 @@ export class API {
       year: item.year || 0,
       favourite: !!item.starred,
       genres: this.normalizeGenres(item),
+      lastFmUrl: item.lastFmUrl,
+      musicBrainzUrl: item.musicBrainzId
+        ? `https://musicbrainz.org/album/${item.musicBrainzId}`
+        : undefined,
       tracks: (item.song || []).map(this.normalizeTrack, this)
     }
   }
