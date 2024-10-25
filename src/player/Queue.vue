@@ -38,7 +38,7 @@
             <CellDuration :track="item" />
             <CellActions :track="item">
               <b-dropdown-divider />
-              <ContextMenuItem icon="x" variant="danger" @click="remove(index)">
+              <ContextMenuItem icon="x" variant="danger" :disabled="index === queueIndex" @click="remove(index)">
                 Remove
               </ContextMenuItem>
             </CellActions>
