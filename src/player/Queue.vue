@@ -99,7 +99,7 @@
         return this.$store.commit('player/removeFromQueue', idx)
       },
       clear() {
-        return this.$store.commit('player/clearQueue')
+        return this.$store.dispatch('player/clearQueue')
       },
       shuffle() {
         return this.$store.commit('player/shuffleQueue')

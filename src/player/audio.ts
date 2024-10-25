@@ -55,7 +55,7 @@ export class AudioController {
     await this.fadeIn(this.fadeDuration / 2.0)
   }
 
-  async changeTrack(options: { url: string, paused?: boolean, isStream?: boolean, playbackRate?: number }) {
+  async changeTrack(options: { url?: string, paused?: boolean, isStream?: boolean, playbackRate?: number }) {
     if (this.audio) {
       this.cancelFade()
       endPlayback(this.audio, this.fadeDuration)

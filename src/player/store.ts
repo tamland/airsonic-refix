@@ -72,6 +72,12 @@ function createPlayerModule(api: API): Module<State, any> {
       },
       setQueueIndex(state, index) {
         if (!state.queue || state.queue.length === 0) {
+          state.queueIndex = -1
+          state.duration = 0
+          if (mediaSession) {
+            mediaSession.metadata = null
+            mediaSession.playbackState = 'none'
+          }
           return
         }
         index = Math.max(0, index)
@@ -98,12 +104,6 @@ function createPlayerModule(api: API): Module<State, any> {
         state.queue?.splice(index, 1)
         if (index < state.queueIndex) {
           state.queueIndex--
-        }
-      },
-      clearQueue(state) {
-        if (state.queue && state.queueIndex >= 0) {
-          state.queue = [state.queue[state.queueIndex]]
-          state.queueIndex = 0
         }
       },
       shuffleQueue(state) {
@@ -198,7 +198,6 @@ function createPlayerModule(api: API): Module<State, any> {
           audio.seek(state.duration * value)
         }
       },
-
       async loadQueue({ commit, getters }) {
         const { tracks, currentTrack, currentTrackPosition } = await api.getPlayQueue()
         commit('setQueue', tracks)
@@ -207,11 +206,24 @@ function createPlayerModule(api: API): Module<State, any> {
         await audio.changeTrack({ ...getters.track, paused: true, playbackRate: getters.playbackRate })
         await audio.seek(currentTrackPosition)
       },
-
       async resetQueue({ commit, getters }) {
         commit('setQueueIndex', 0)
         commit('setPaused')
         await audio.changeTrack({ ...getters.track, paused: true, playbackRate: getters.playbackRate })
+      },
+      async clearQueue({ state, commit }) {
+        if (!state.queue) {
+          return
+        }
+        if (state.queue.length > 1) {
+          commit('setQueue', [state.queue[state.queueIndex]])
+          commit('setQueueIndex', 0)
+        } else {
+          commit('setQueue', [])
+          commit('setQueueIndex', -1)
+          commit('setPaused')
+          await audio.changeTrack({ })
+        }
       },
       toggleRepeat({ commit, state }) {
         commit('setRepeat', !state.repeat)
@@ -362,9 +374,9 @@ function setupAudio(store: Store<any>, mainStore: ReturnType<typeof useMainStore
     store.watch(
       (state, getters) => getters['player/trackId'],
       () => {
-        const { id, isStream } = store.getters['player/track']
-        if (!isStream) {
-          return api.updateNowPlaying(id)
+        const track = store.getters['player/track']
+        if (track && !track.isStream) {
+          return api.updateNowPlaying(track.id)
         }
       })
 
@@ -373,6 +385,7 @@ function setupAudio(store: Store<any>, mainStore: ReturnType<typeof useMainStore
       (state) => state.player.currentTime,
       () => {
         if (
+          store.getters['player/track'] &&
           store.state.player.scrobbled === false &&
           store.state.player.duration > 30 &&
           store.state.player.currentTime / store.state.player.duration > 0.7
