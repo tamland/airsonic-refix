@@ -4,9 +4,6 @@
       <h1 class="mb-0 mr-2 text-truncate">
         {{ playlist.name }}
       </h1>
-      <span v-if="playlist.isPublic" class="badge badge-light badge-pill mr-2">
-        Public
-      </span>
       <OverflowMenu class="ml-auto">
         <ContextMenuItem icon="edit" :disabled="playlist.isReadOnly" @click="showEditModal = true">
           Edit
@@ -17,16 +14,37 @@
         </ContextMenuItem>
       </OverflowMenu>
     </div>
-    <p v-if="playlist.comment" class="text-muted">
+
+    <div class="d-flex flex-wrap align-items-center">
+      <span class="text-nowrap">
+        <strong>{{ playlist.trackCount }}</strong> tracks
+      </span>
+      <template v-if="playlist.duration != null">
+        <span class="mx-1">•</span>
+        <strong>{{ formatDuration(playlist.duration) }}</strong>
+      </template>
+      <template v-if="playlist.isPublic">
+        <span class="mx-1">•</span>
+        <span  class="badge badge-secondary badge-pill">
+          Public
+        </span>
+      </template>
+    </div>
+
+    <div v-if="playlist.comment"  class="mt-3">
       {{ playlist.comment }}
-    </p>
+    </div>
+
+    <div class="text-nowrap mt-3">
     <b-button variant="secondary" :disabled="playlist.tracks.length === 0" class="mr-2" @click="playNow">
       <Icon icon="play" /> Play
     </b-button>
     <b-button variant="secondary" :disabled="playlist.tracks.length === 0" @click="shuffleNow">
       <Icon icon="shuffle" /> Shuffle
     </b-button>
-    <TrackList v-if="playlist.tracks.length > 0" :tracks="playlist.tracks">
+    </div>
+
+    <TrackList v-if="playlist.tracks.length > 0" :tracks="playlist.tracks" class="mt-3">
       <template #context-menu="{index}">
         <b-dropdown-divider />
         <ContextMenuItem icon="x" variant="danger" :disabled="playlist.isReadOnly" @click="removeTrack(index)">
@@ -62,6 +80,7 @@
   import EditModal from '@/shared/components/EditModal.vue'
   import { usePlaylistStore } from '@/library/playlist/store'
   import SwitchInput from '@/shared/components/SwitchInput.vue'
+  import { formatDuration } from '@/shared/utils'
 
   export default defineComponent({
     components: {
@@ -73,7 +92,10 @@
       id: { type: String, required: true }
     },
     setup() {
-      return { playlistStore: usePlaylistStore() }
+      return {
+        playlistStore: usePlaylistStore(),
+        formatDuration,
+      }
     },
     data() {
       return {

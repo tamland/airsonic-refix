@@ -1,5 +1,5 @@
 import { AuthService } from '@/auth/service'
-import { map, max, orderBy, uniq, uniqBy } from 'lodash-es'
+import { map, max, orderBy, sumBy, uniq, uniqBy } from 'lodash-es'
 import { toQueryString } from '@/shared/utils'
 
 export type AlbumSort =
@@ -96,6 +96,7 @@ export interface Playlist {
   isPublic: boolean
   isReadOnly: boolean
   trackCount: number
+  duration: number
   createdAt: string
   updatedAt: string
   image?: string
@@ -262,6 +263,7 @@ export class API {
   async getPlaylist(id: string): Promise<Playlist> {
     if (id === 'random') {
       const tracks = await this.getRandomSongs()
+      const duration = sumBy(tracks, 'duration')
       return {
         id,
         name: 'Random',
@@ -270,6 +272,7 @@ export class API {
         updatedAt: '',
         tracks,
         trackCount: tracks.length,
+        duration,
         isPublic: false,
         isReadOnly: true,
       }
@@ -599,6 +602,7 @@ export class API {
       createdAt: response.created || '',
       updatedAt: response.changed || '',
       trackCount: response.songCount,
+      duration: response.duration,
       image: response.songCount > 0 ? this.getCoverArtUrl(response) : undefined,
       isPublic: response.public,
       isReadOnly: false,
