@@ -331,12 +331,12 @@ export class API {
     }
   }
 
-  async savePlayQueue(tracks: Track[], currentTrack: Track, currentTime: number) {
+  async savePlayQueue(tracks: Track[], currentTrack: Track | null, currentTime: number | null) {
     const tracksIds = tracks.filter(track => !track.isStream).map(track => track.id)
     const params = {
       id: tracksIds,
-      current: !currentTrack.isStream ? currentTrack.id : undefined,
-      position: Math.round(currentTime * 1000),
+      current: !currentTrack?.isStream ? currentTrack?.id : undefined,
+      position: currentTime != null ? Math.round(currentTime * 1000) : undefined,
     }
     try {
       await this.fetch('rest/savePlayQueue', params)
