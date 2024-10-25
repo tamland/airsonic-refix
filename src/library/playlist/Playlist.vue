@@ -19,10 +19,8 @@
       <span class="text-nowrap">
         <strong>{{ playlist.trackCount }}</strong> tracks
       </span>
-      <template v-if="playlist.duration != null">
-        <span class="mx-1">•</span>
-        <strong>{{ formatDuration(playlist.duration) }}</strong>
-      </template>
+      <span class="mx-1">•</span>
+      <strong>{{ formatDuration(playlist.duration) }}</strong>
       <template v-if="playlist.isPublic">
         <span class="mx-1">•</span>
         <span  class="badge badge-secondary badge-pill">
