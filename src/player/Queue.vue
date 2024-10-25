@@ -5,11 +5,16 @@
         Playing
       </h1>
       <div>
-        <b-button variant="link" class="mr-2" @click="shuffle">
+        <b-button variant="link" class="mr-2" :disabled="!tracks?.length" @click="shuffle">
           <Icon icon="shuffle" /> Shuffle
         </b-button>
-        <b-button variant="link" @click="clear">
+        <b-button class="clear-btn" variant="link" :disabled="!tracks?.length" @click="clear">
           <Icon icon="x" /> Clear
+          <div v-if="tracks?.length === 1 " class="tooltip bs-tooltip-bottom">
+            <div class="tooltip-inner">
+              Click again to clear current track
+            </div>
+          </div>
         </b-button>
       </div>
     </div>
@@ -107,3 +112,18 @@
     }
   })
 </script>
+<style scoped>
+  .clear-btn {
+    position: relative;
+  }
+
+  .tooltip-inner {
+    width: 300px;
+  }
+
+  .clear-btn:hover .tooltip {
+    display: block;
+    opacity: 1;
+    right: 0;
+  }
+</style>
