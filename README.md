@@ -57,6 +57,9 @@ You can now access the application at http://localhost:8080/
 
 Environment variables:
 - `SERVER_URL` (Optional): The backend server URL. When set the server input on the login page will not be displayed.
+- `INSTANCE_NAME` (Optional): The name of this airsonic-refix instance. Will be displayed in the UI.
+- `INSTANCE_SUBNAME` (Optional): The second name that follow INSTANCE_NAME on the right of the logo. Will be displayed in the UI.
+- `DISABLE_SUBNAME` (Optional): Values `true`, `false`. Ability to disable the subname in the navbar.
 
 
 ### Pre-built bundle
