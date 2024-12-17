@@ -1,7 +1,7 @@
 import Vuex, { Store, Module } from 'vuex'
 import { shuffle, shuffled, trackListEquals, formatArtists } from '@/shared/utils'
 import { API, Track } from '@/shared/api'
-import { AudioController } from '@/player/audio'
+import { AudioController, ReplayGainMode } from '@/player/audio'
 import { useMainStore } from '@/shared/store'
 import { ref } from 'vue'
 
@@ -10,6 +10,7 @@ localStorage.removeItem('queue')
 localStorage.removeItem('queueIndex')
 
 const storedVolume = parseFloat(localStorage.getItem('player.volume') || '1.0')
+const storedReplayGainMode = parseInt(localStorage.getItem('player.replayGainMode') ?? '0')
 const storedPodcastPlaybackRate = parseFloat(localStorage.getItem('player.podcastPlaybackRate') || '1.0')
 const mediaSession: MediaSession | undefined = navigator.mediaSession
 const audio = new AudioController()
@@ -22,6 +23,7 @@ interface State {
   duration: number; // duration of current track in seconds
   currentTime: number; // position of current track in seconds
   streamTitle: string | null;
+  replayGainMode: ReplayGainMode;
   repeat: boolean;
   shuffle: boolean;
   volume: number; // integer between 0 and 1 representing the volume of the player
@@ -39,6 +41,7 @@ function createPlayerModule(api: API): Module<State, any> {
       duration: 0,
       currentTime: 0,
       streamTitle: null,
+      replayGainMode: storedReplayGainMode,
       repeat: localStorage.getItem('player.repeat') !== 'false',
       shuffle: localStorage.getItem('player.shuffle') === 'true',
       volume: storedVolume,
@@ -57,6 +60,10 @@ function createPlayerModule(api: API): Module<State, any> {
         if (mediaSession) {
           mediaSession.playbackState = 'paused'
         }
+      },
+      setReplayGainMode(state, mode: ReplayGainMode) {
+        state.replayGainMode = mode
+        localStorage.setItem('player.replayGainMode', `${mode}`)
       },
       setRepeat(state, enable) {
         state.repeat = enable
@@ -225,6 +232,11 @@ function createPlayerModule(api: API): Module<State, any> {
           await audio.changeTrack({ })
         }
       },
+      toggleReplayGain({ commit, state }) {
+        const mode = (state.replayGainMode + 1) % ReplayGainMode._Length
+        audio.setReplayGainMode(mode)
+        commit('setReplayGainMode', mode)
+      },
       toggleRepeat({ commit, state }) {
         commit('setRepeat', !state.repeat)
       },
@@ -323,7 +335,9 @@ function setupAudio(store: Store<any>, mainStore: ReturnType<typeof useMainStore
     mainStore.setError(error)
   }
 
+  audio.setReplayGainMode(storedReplayGainMode)
   audio.setVolume(storedVolume)
+
   const track = store.getters['player/track']
   if (track?.url) {
     audio.changeTrack({ ...track, paused: true })

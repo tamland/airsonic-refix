@@ -68,6 +68,13 @@
                         :value="volume" @input="setVolume"
                 />
               </b-popover>
+              <b-button title="ReplayGain"
+                        variant="link" class="m-0"
+                        @click="toggleReplayGain">
+                <IconReplayGain v-if="replayGainMode === ReplayGainMode.None" />
+                <IconReplayGainTrack v-else-if="replayGainMode === ReplayGainMode.Track" />
+                <IconReplayGainAlbum v-else-if="replayGainMode === ReplayGainMode.Album" />
+              </b-button>
               <b-button title="Shuffle"
                         variant="link" class="m-0" :class="{ 'text-primary': shuffleActive }"
                         @click="toggleShuffle">
@@ -127,21 +134,29 @@
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'
+  import { ReplayGainMode } from './audio'
   import ProgressBar from '@/player/ProgressBar.vue'
   import { useFavouriteStore } from '@/library/favourite/store'
   import { formatArtists } from '@/shared/utils'
   import { BPopover } from 'bootstrap-vue'
   import SwitchInput from '@/shared/components/SwitchInput.vue'
+  import IconReplayGain from '@/shared/components/IconReplayGain.vue'
+  import IconReplayGainTrack from '@/shared/components/IconReplayGainTrack.vue'
+  import IconReplayGainAlbum from '@/shared/components/IconReplayGainAlbum.vue'
 
   export default defineComponent({
     components: {
       SwitchInput,
       BPopover,
       ProgressBar,
+      IconReplayGain,
+      IconReplayGainTrack,
+      IconReplayGainAlbum,
     },
     setup() {
       return {
         favouriteStore: useFavouriteStore(),
+        ReplayGainMode,
       }
     },
     computed: {
@@ -153,6 +168,9 @@
       },
       isMuted() {
         return this.$store.state.player.volume <= 0.0
+      },
+      replayGainMode(): ReplayGainMode {
+        return this.$store.state.player.replayGainMode
       },
       repeatActive(): boolean {
         return this.$store.state.player.repeat
@@ -200,6 +218,9 @@
       },
       setVolume(volume: any) {
         return this.$store.dispatch('player/setVolume', parseFloat(volume))
+      },
+      toggleReplayGain() {
+        return this.$store.dispatch('player/toggleReplayGain')
       },
       setPlaybackRate(value: number) {
         return this.$store.dispatch('player/setPlaybackRate', value)
