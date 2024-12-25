@@ -1,14 +1,14 @@
 {
-  "name": "Airsonic (refix)",
-  "short_name": "Airsonic (refix)",
+  "name": "Λατέρνα | 1431AM",
+  "short_name": "Λατέρνα | 1431AM",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#000",
   "background_color": "#000",
   "icons": [
     {
-      "src": "./icon.svg",
-      "type": "image/svg+xml",
+      "src": "./1431_favico.png",
+      "type": "image/png",
       "sizes": "any",
       "purpose": "any"
     }

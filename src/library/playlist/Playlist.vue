@@ -23,23 +23,23 @@
       <strong>{{ formatDuration(playlist.duration) }}</strong>
       <template v-if="playlist.isPublic">
         <span class="mx-1">•</span>
-        <span  class="badge badge-secondary badge-pill">
+        <span class="badge badge-secondary badge-pill">
           Public
         </span>
       </template>
     </div>
 
-    <div v-if="playlist.comment"  class="mt-3">
+    <div v-if="playlist.comment" class="mt-3">
       {{ playlist.comment }}
     </div>
 
     <div class="text-nowrap mt-3">
-    <b-button variant="secondary" :disabled="playlist.tracks.length === 0" class="mr-2" @click="playNow">
-      <Icon icon="play" /> Play
-    </b-button>
-    <b-button variant="secondary" :disabled="playlist.tracks.length === 0" @click="shuffleNow">
-      <Icon icon="shuffle" /> Shuffle
-    </b-button>
+      <b-button variant="secondary" :disabled="playlist.tracks.length === 0" class="mr-2" @click="playNow">
+        <Icon icon="play" /> Play
+      </b-button>
+      <b-button variant="secondary" :disabled="playlist.tracks.length === 0" @click="shuffleNow">
+        <Icon icon="shuffle" /> Shuffle
+      </b-button>
     </div>
 
     <TrackList v-if="playlist.tracks.length > 0" :tracks="playlist.tracks" class="mt-3">

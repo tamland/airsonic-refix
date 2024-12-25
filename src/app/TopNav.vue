@@ -19,18 +19,8 @@
           {{ store.username }}
         </b-dropdown-text>
         <b-dropdown-divider />
-        <b-dropdown-item :href="store.server" target="_blank" rel="noopener noreferrer">
-          Server <Icon icon="link" />
-        </b-dropdown-item>
-        <b-dropdown-item-button @click="scan">
-          Scan media folders
-        </b-dropdown-item-button>
         <b-dropdown-item-button @click="showAboutModal = true">
           About
-        </b-dropdown-item-button>
-        <b-dropdown-divider />
-        <b-dropdown-item-button @click="logout">
-          Log out
         </b-dropdown-item-button>
       </b-dropdown>
     </template>

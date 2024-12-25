@@ -176,7 +176,7 @@
         return [
           this.streamTitle || this.track?.title,
           formatArtists(this.track?.artists || []) || this.track?.album,
-          'Airsonic (refix)'
+          'Λατέρνα | 1431AM'
         ].filter(x => !!x).join(' • ')
       }
     },
@@ -218,21 +218,21 @@
   })
 </script>
 <style scoped>
-  .player {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 0;
-    max-height: 0;
-    transition: max-height 0.5s;
-  }
-  .visible {
-    height: auto;
-    max-height: 100px;
-  }
-  .icon {
-    display: flex;
-    align-items: center;
-  }
+.player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  max-height: 0;
+  transition: max-height 0.5s;
+}
+.visible {
+  height: auto;
+  max-height: 100px;
+}
+.icon {
+  display: flex;
+  align-items: center;
+}
 </style>
