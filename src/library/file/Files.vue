@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center mb-2">
-      <h1 class="mb-0 mr-2 text-truncate">
+      <h1 class="mb-0 me-2 text-truncate">
         Files
       </h1>
     </div>

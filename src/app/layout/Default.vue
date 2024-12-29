@@ -24,7 +24,7 @@
     },
   })
 </script>
-<style lang="scss">
+<style scoped>
   main {
     margin-bottom: 80px;
     overflow-x: hidden;

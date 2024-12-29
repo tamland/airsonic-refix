@@ -1,13 +1,13 @@
 <template>
   <b-modal :visible="visible" @ok="confirm" @change="change">
-    <template #modal-header-close>
-      <Icon icon="x" />
+    <template #modal-header>
+      <h5 class="modal-title">
+        New playlist
+      </h5>
+      <button class="btn-close" @click="change" />
     </template>
-    <template #modal-title>
-      New playlist
-    </template>
-    <div class="form-group">
-      <label>Name</label>
+    <div class="mb-3">
+      <label class="form-label">Name</label>
       <input v-model="name" class="form-control" type="text">
     </div>
     <template #modal-ok>

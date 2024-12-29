@@ -1,13 +1,13 @@
 <template>
   <BaseTable>
     <BaseTableHead>
-      <th v-if="!noArtist" class="text-left d-none d-lg-table-cell">
+      <th v-if="!noArtist" class="text-start d-none d-lg-table-cell">
         Artist
       </th>
-      <th v-if="!noAlbum" class="text-left d-none d-md-table-cell">
+      <th v-if="!noAlbum" class="text-start d-none d-md-table-cell">
         Album
       </th>
-      <th v-if="!noDuration" class="text-right d-none d-md-table-cell">
+      <th v-if="!noDuration" class="text-end d-none d-md-table-cell">
         Duration
       </th>
     </BaseTableHead>

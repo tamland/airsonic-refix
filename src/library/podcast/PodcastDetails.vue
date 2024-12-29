@@ -8,7 +8,7 @@
         {{ podcast.description }}
       </OverflowFade>
       <div class="text-nowrap">
-        <b-button variant="secondary" class="mr-2" :disabled="playableTracks.length === 0" @click="playNow">
+        <b-button variant="secondary" class="me-2" :disabled="playableTracks.length === 0" @click="playNow">
           <Icon icon="play" /> Play
         </b-button>
         <b-button variant="secondary" :disabled="playableTracks.length === 0" @click="shuffleNow">
@@ -24,7 +24,7 @@
 
     <BaseTable v-if="podcast.tracks.length > 0">
       <BaseTableHead>
-        <th class="text-right d-none d-md-table-cell">
+        <th class="text-end d-none d-md-table-cell">
           Duration
         </th>
       </BaseTableHead>

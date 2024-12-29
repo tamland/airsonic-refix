@@ -1,23 +1,23 @@
 <template>
   <div class="d-flex align-items-center mb-2">
-    <button class="navbar-toggler text-white d-md-none" @click="store.showMenu">
+    <button class="btn navbar-toggler text-white d-md-none" @click="store.showMenu">
       <Icon icon="nav" />
     </button>
 
-    <div class="ml-auto" />
+    <div class="ms-auto" />
 
-    <SearchForm />
+    <SearchForm class="mx-2" />
 
     <template v-if="store.username">
-      <b-dropdown variant="link" right no-caret>
+      <b-dropdown variant="link" right no-caret toggle-class="px-0">
         <template #button-content>
           <Avatar>
             <Icon icon="person" />
           </Avatar>
         </template>
-        <b-dropdown-text>
+        <div class="px-3 py-1">
           {{ store.username }}
-        </b-dropdown-text>
+        </div>
         <b-dropdown-divider />
         <b-dropdown-item :href="store.server" target="_blank" rel="noopener noreferrer">
           Server <Icon icon="link" />

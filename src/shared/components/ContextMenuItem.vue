@@ -2,15 +2,15 @@
   <BDropdownItemButton
     :disabled="disabled"
     :button-class="[
-      'd-flex justify-content-between text-nowrap',
-      {[`text-${variant}`]: variant}
+      'd-flex justify-content-between align-items-center text-nowrap',
+      {[`dropdown-item-${variant}`]: variant}
     ]"
     v-on="$listeners"
   >
     <slot>
       {{ text }}
     </slot>
-    <Icon v-if="icon" :icon="icon" class="ml-4" />
+    <Icon v-if="icon" :icon="icon" class="ms-4" />
   </BDropdownItemButton>
 </template>
 <script lang="ts">
@@ -25,3 +25,8 @@
     }
   })
 </script>
+<style>
+  .dropdown-item-danger:not(:disabled) {
+    color: var(--bs-danger);
+  }
+</style>

@@ -99,12 +99,6 @@
   })
 </script>
 <style>
-  .icon.bi {
-    display: inline-block;
-    overflow: visible;
-    vertical-align: -0.15em;
-  }
-
   .btn .icon.bi,
   .dropdown-item .icon.bi,
   .dropdown-toggle .icon.bi,

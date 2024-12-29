@@ -10,7 +10,7 @@
       </template>
     </ContextMenu>
     <div class="card-body">
-      <div class="text-truncate font-weight-bold">
+      <div class="text-truncate fw-bold">
         <slot name="title">
           <router-link :to="props.to">
             {{ props.title }}

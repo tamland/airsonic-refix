@@ -1,5 +1,5 @@
 <template>
-  <td class="text-right" @click.stop="">
+  <td class="text-end" @click.stop="">
     <OverflowMenu>
       <ContextMenuItem v-if="!track.isUnavailable" icon="plus" @click="setNextInQueue()">
         Play next
@@ -19,13 +19,12 @@
       <slot :item="track" />
     </OverflowMenu>
 
-    <b-modal
-      v-model="showPlaylistSelect"
-      title="Add to playlist" ok-only ok-variant="secondary" ok-title="Cancel"
-      size="md"
-    >
-      <template #modal-header-close>
-        <Icon icon="x" />
+    <b-modal v-model="showPlaylistSelect" ok-only ok-variant="secondary" ok-title="Cancel" size="md">
+      <template #modal-header>
+        <h5 class="modal-title">
+          Add to playlist
+        </h5>
+        <button class="btn-close" @click="showPlaylistSelect = false" />
       </template>
       <div class="list-group list-group-flush">
         <button

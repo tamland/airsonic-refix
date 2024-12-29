@@ -3,7 +3,7 @@
     <div class="backdrop" />
     <img v-if="image" :src="image">
     <img v-else src="@/shared/assets/fallback.svg">
-    <div class="body d-flex flex-column align-items-center align-items-md-start pt-4 pt-md-0 pl-md-4 pb-1 text-center text-md-left">
+    <div class="body d-flex flex-column align-items-center align-items-md-start pt-4 pt-md-0 ps-md-4 pb-1 text-center text-md-start">
       <slot />
     </div>
   </div>

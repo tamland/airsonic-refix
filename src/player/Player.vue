@@ -37,7 +37,7 @@
 
         <!-- Controls right --->
         <div class="col-auto col-sm p-0">
-          <div class="d-flex flex-nowrap justify-content-end pr-3">
+          <div class="d-flex flex-nowrap justify-content-end pe-3">
             <div class="m-0 d-none d-md-inline-flex align-items-center">
               <template v-if="track && track.isPodcast">
                 <b-button id="player-playback-rate-btn" variant="icon" title="Speed" class="mb-1">
@@ -89,44 +89,36 @@
               </b-button>
             </div>
             <OverflowMenu class="d-md-none">
-              <b-dropdown-text>
-                <div class="d-flex justify-content-between align-items-center">
-                  <strong>Volume</strong>
-                  <Slider class="px-3" style="width: 120px;"
-                          :min="0" :max="1" :step="0.01" percent
-                          :value="volume" @input="setVolume"
-                  />
-                </div>
-              </b-dropdown-text>
-              <b-dropdown-text v-if="track && track.isPodcast">
-                <div class="d-flex justify-content-between align-items-center">
-                  <strong>Speed</strong>
+              <div class="d-flex justify-content-between align-items-center px-3 py-1">
+                <span>Volume</span>
+                <Slider class="p-3" style="width: 120px;"
+                        :min="0" :max="1" :step="0.01" percent
+                        :value="volume" @input="setVolume"
+                />
+              </div>
+              <template v-if="track && track.isPodcast">
+                <div class="d-flex justify-content-between align-items-center px-3 py-1">
+                  <span>Speed</span>
                   <Slider class="px-3" style="width: 120px;"
                           :min="0.7" :max="2" :step="0.1"
                           :value="playbackRate" @input="setPlaybackRate"
                   />
                 </div>
-              </b-dropdown-text>
-              <b-dropdown-text>
-                <div class="d-flex justify-content-between">
-                  <strong>Repeat</strong>
-                  <SwitchInput :value="repeatActive" @input="toggleRepeat" />
-                </div>
-              </b-dropdown-text>
-              <b-dropdown-text>
-                <div class="d-flex justify-content-between">
-                  <strong>Shuffle</strong>
-                  <SwitchInput :value="shuffleActive" @input="toggleShuffle" />
-                </div>
-              </b-dropdown-text>
-              <b-dropdown-text>
-                <div class="d-flex justify-content-between">
-                  <strong>Favourite</strong>
-                  <b-button variant="link" class="m-0 px-2 py-0" @click.stop="toggleFavourite">
-                    <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
-                  </b-button>
-                </div>
-              </b-dropdown-text>
+              </template>
+              <div class="d-flex justify-content-between px-3 py-1">
+                <span>Repeat</span>
+                <SwitchInput :value="repeatActive" @input="toggleRepeat" />
+              </div>
+              <div class="d-flex justify-content-between px-3 py-1">
+                <span>Shuffle</span>
+                <SwitchInput :value="shuffleActive" @input="toggleShuffle" />
+              </div>
+              <div class="d-flex justify-content-between px-3 py-1">
+                <span>Favourite</span>
+                <b-button variant="link" class="m-0 px-2 py-0" @click.stop="toggleFavourite">
+                  <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
+                </b-button>
+              </div>
             </OverflowMenu>
           </div>
         </div>

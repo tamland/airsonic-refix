@@ -1,12 +1,12 @@
 <template>
   <b-modal ok-title="Save" :visible="visible" @ok="confirm" @change="change">
-    <template #modal-header-close>
-      <Icon icon="x" />
-    </template>
-    <template #modal-title>
-      <slot name="title" :item="copy">
-        {{ title }}
-      </slot>
+    <template #modal-header>
+      <h5 class="modal-title">
+        <slot name="title" :item="copy">
+          {{ title }}
+        </slot>
+      </h5>
+      <button class="btn-close" @click="change" />
     </template>
     <template v-if="visible">
       <slot :item="copy" />

@@ -1,13 +1,13 @@
 <template>
   <b-modal :visible="visible" @ok="confirm" @change="change">
-    <template #modal-header-close>
-      <Icon icon="x" />
+    <template #modal-header>
+      <h5 class="modal-title">
+        Add podcast
+      </h5>
+      <button class="btn-close" @click="change" />
     </template>
-    <template #modal-title>
-      Add podcast
-    </template>
-    <div class="form-group">
-      <label>URL</label>
+    <div class="mb-3">
+      <label class="form-label">URL</label>
       <input v-model="url" class="form-control" type="text" :class="{'is-invalid': hasError}">
       <div class="invalid-feedback">
         Required

@@ -1,5 +1,6 @@
 <template>
   <b-dropdown
+    right
     no-caret
     boundary="window"
     :variant="variant"

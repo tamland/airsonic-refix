@@ -18,12 +18,12 @@
           </span>
         </div>
         <span v-if="album.year" class="mx-1"> • {{ album.year }}</span>
-        <span class="mr-3" />
+        <span class="me-3" />
         <div class="d-flex flex-nowrap">
-          <ExternalLink v-if="album.lastFmUrl" :href="album.lastFmUrl" class="btn btn-link p-0 mr-2" title="Last.fm">
+          <ExternalLink v-if="album.lastFmUrl" :href="album.lastFmUrl" class="btn btn-link p-0 me-2" title="Last.fm">
             <IconLastFm />
           </ExternalLink>
-          <ExternalLink v-if="album.musicBrainzUrl" :href="album.musicBrainzUrl" class="btn btn-link mr-2 p-0" title="MusicBrainz">
+          <ExternalLink v-if="album.musicBrainzUrl" :href="album.musicBrainzUrl" class="btn btn-link me-2 p-0" title="MusicBrainz">
             <IconMusicBrainz />
           </ExternalLink>
         </div>
@@ -43,10 +43,10 @@
       </OverflowFade>
 
       <div class="text-nowrap mt-3">
-        <b-button variant="secondary" class="mr-2" @click="playNow">
+        <b-button variant="secondary" class="me-2" @click="playNow">
           <Icon icon="play" /> Play
         </b-button>
-        <b-button variant="secondary" class="mr-2" @click="shuffleNow">
+        <b-button variant="secondary" class="me-2" @click="shuffleNow">
           <Icon icon="shuffle" /> Shuffle
         </b-button>
         <OverflowMenu class="px-1">

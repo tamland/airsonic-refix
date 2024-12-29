@@ -1,24 +1,25 @@
-$table-hover-bg: rgba(#fff, .1);
-
 table thead tr {
   font-size: 80%;
   text-transform: uppercase;
-  color: $theme-text-muted;
+  color: var(--bs-secondary-color);
 }
 
 table.table {
+  th {
+    color: var(--bs-secondary-color);
+  }
   tr {
     cursor: pointer;
   }
   tr.active {
     td, td a, td button.dropdown-toggle {
-      color: var(--primary);
+      color: var(--bs-primary);
     }
   }
   tr.disabled {
     cursor: default;
     td, td a, td button.dropdown-toggle {
-      color: var(--text-muted);
+      color: var(--bs-secondary-color);
     }
     button {
       cursor: default;
@@ -33,7 +34,7 @@ table.table-numbered {
     width: 26px;
     max-width: 26px;
     text-align: center;
-    color: var(--text-muted);
+    color: var(--bs-secondary-color);
   }
   tr td:first-child button {
     border: none;

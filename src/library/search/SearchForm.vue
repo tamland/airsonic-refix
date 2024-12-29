@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <form class="form-inline my-2 my-lg-0" @submit.prevent="search">
-      <input
-        v-model="query"
-        class="form-control mr-sm-2" type="search"
-        placeholder="Search">
-    </form>
-  </div>
+  <form class="form-inline" @submit.prevent="search">
+    <input
+      v-model="query"
+      class="form-control" type="search"
+      placeholder="Search">
+  </form>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'

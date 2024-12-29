@@ -3,30 +3,25 @@
     <div class="sidebar-fixed d-none d-md-block">
       <SidebarNav />
     </div>
-    <b-sidebar
-      :visible="store.menuVisible"
-      class="d-md-none"
-      sidebar-class="elevated"
-      bg-variant=""
-      shadow="lg"
-      no-header
-      backdrop
-      backdrop-variant=""
-      @hidden="store.hideMenu"
+    <div
+      class="offcanvas offcanvas-start d-md-none"
+      tabindex="-1"
+      :class="store.menuVisible ? 'showing': 'hiding'"
+      @click="store.hideMenu"
     >
-      <SidebarNav />
-    </b-sidebar>
+      <div class="offcanvas-body p-0">
+        <SidebarNav />
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'
   import SidebarNav from './SidebarNav.vue'
   import { useMainStore } from '@/shared/store'
-  import { BSidebar } from 'bootstrap-vue'
 
   export default defineComponent({
     components: {
-      BSidebar,
       SidebarNav,
     },
     setup() {
@@ -37,12 +32,14 @@
   })
 </script>
 <style>
-  .sidebar-container .sidebar-fixed {
+  .sidebar-container .nav {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+  }
+
+  .sidebar-container .sidebar-fixed {
     padding-bottom: 100px;
     width: 250px;
-
     position: sticky;
     top: 0;
     max-height: 100vh;
@@ -78,17 +75,17 @@
   }
 
   .sidebar-container .nav-link:not(.router-link-active) .icon {
-    color: var(--text-muted);
+    color: var(--bs-secondary-color);
   }
   .sidebar-container .nav-link:hover {
     color: inherit;
     background-color: rgba(255, 255, 255, 0.045);
   }
   .sidebar-container .nav-link.router-link-active {
-    color: var(--primary);
+    color: var(--bs-primary);
     background-color: rgba(255, 255, 255, 0.045);
   }
   .sidebar-container .nav-link.router-link-active:hover {
-    color: var(--primary);
+    color: var(--bs-primary);
   }
 </style>

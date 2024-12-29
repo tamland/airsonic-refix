@@ -2,14 +2,14 @@
   <div class="mw-100">
     <small class="sidebar-heading text-muted">
       Playlists
-      <button type="button" class="btn btn-link btn-sm p-0 float-right" @click="showAddModal = true">
+      <button type="button" class="btn btn-link btn-sm p-0 float-end" @click="showAddModal = true">
         <Icon icon="plus" />
       </button>
       <CreatePlaylistModal :visible.sync="showAddModal" />
     </small>
 
     <router-link class="nav-link" :to="{name: 'playlist', params: { id: 'random' }}">
-      <Icon icon="playlist" class="mr-2" /> Random
+      <Icon icon="playlist" class="me-2" /> Random
     </router-link>
 
     <template v-if="playlists">
@@ -19,7 +19,7 @@
         class="nav-link"
       >
         <span @dragover="onDragover" @drop="onDrop(item.id, $event)">
-          <Icon icon="playlist" class="mr-2" /> {{ item.name }}
+          <Icon icon="playlist" class="me-2" /> {{ item.name }}
         </span>
       </router-link>
     </template>

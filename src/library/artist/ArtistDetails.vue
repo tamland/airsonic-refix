@@ -12,14 +12,14 @@
           <strong>{{ item.albumCount }}</strong> albums
         </span>
         <span class="mx-1">•</span>
-        <span class="text-nowrap mr-3">
+        <span class="text-nowrap me-3">
           <strong>{{ item.trackCount }}</strong> tracks
         </span>
         <div class="d-flex flex-nowrap">
-          <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="btn btn-link p-0 mr-2" title="Last.fm">
+          <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="btn btn-link p-0 me-2" title="Last.fm">
             <IconLastFm />
           </ExternalLink>
-          <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl" class="btn btn-link mr-2 p-0" title="MusicBrainz">
+          <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl" class="btn btn-link me-2 p-0" title="MusicBrainz">
             <IconMusicBrainz />
           </ExternalLink>
         </div>
@@ -38,7 +38,7 @@
       </OverflowFade>
 
       <div class="text-nowrap mt-3">
-        <b-button variant="secondary" :disabled="item.topTracks.length === 0" class="mr-2" @click="playNow">
+        <b-button variant="secondary" :disabled="item.topTracks.length === 0" class="me-2" @click="playNow">
           <Icon icon="play" /> Play
         </b-button>
         <b-button variant="secondary" :disabled="item.topTracks.length === 0" @click="shuffleNow">

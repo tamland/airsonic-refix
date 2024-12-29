@@ -1,7 +1,7 @@
 <template>
   <ContentLoader v-slot :loading="items === null">
     <div class="d-flex justify-content-between align-items-center mb-2">
-      <h1 class="mb-0 mr-2 text-truncate">
+      <h1 class="mb-0 me-2 text-truncate">
         Radio
       </h1>
       <b-button variant="link" :disabled="unsupported" @click="openAddModal">
@@ -28,16 +28,16 @@
         {{ item?.id ? "Edit" : "Add" }} Radio Station
       </template>
       <template #default="{ item }">
-        <div class="form-group">
-          <label>Name</label>
+        <div class="mb-3">
+          <label class="form-label">Name</label>
           <input v-model="item.title" class="form-control" type="text">
         </div>
-        <div class="form-group">
-          <label>Stream URL</label>
+        <div class="mb-3">
+          <label class="form-label">Stream URL</label>
           <input v-model="item.url" class="form-control" type="text">
         </div>
-        <div class="form-group">
-          <label class="mb-0">Home Page URL</label>
+        <div class="mb-3">
+          <label class="form-label">Home Page URL</label>
           <input v-model="item.description" class="form-control" type="text">
         </div>
       </template>

@@ -5,7 +5,7 @@
         Playing
       </h1>
       <div>
-        <b-button variant="link" class="mr-2" :disabled="!tracks?.length" @click="shuffle">
+        <b-button variant="link" class="me-2" :disabled="!tracks?.length" @click="shuffle">
           <Icon icon="shuffle" /> Shuffle
         </b-button>
         <b-button class="clear-btn" variant="link" :disabled="!tracks?.length" @click="clear">
@@ -21,13 +21,13 @@
     <ContentLoader v-slot :loading="loading">
       <BaseTable v-if="tracks.length > 0">
         <BaseTableHead>
-          <th class="text-left d-none d-lg-table-cell">
+          <th class="text-start d-none d-lg-table-cell">
             Artist
           </th>
-          <th class="text-left d-none d-md-table-cell">
+          <th class="text-start d-none d-md-table-cell">
             Album
           </th>
-          <th class="text-right d-none d-md-table-cell">
+          <th class="text-end d-none d-md-table-cell">
             Duration
           </th>
         </BaseTableHead>

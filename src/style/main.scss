@@ -1,21 +1,61 @@
-@import "./variables";
+$theme-elevation-0: hsl(0, 0%, 0%);
+$theme-elevation-1: hsl(0, 0%, 8%);
+$theme-elevation-2: hsl(0, 0%, 18%);
+$theme-text: #ccc;
+$theme-text-muted: #999;
+
+// Bootstrap overrides
+$primary: #09f;
+$danger: #ff4141;
+$secondary: $theme-elevation-2;
+
+$body-bg: $theme-elevation-0;
+$body-color: $theme-text;
+
+$grid-gutter-width: 2rem;
+
+$headings-color: #fff;
+
+$link-color: $theme-text;
+$link-decoration: none;
+$link-hover-decoration: underline;
+
+$text-muted: $theme-text-muted;
+$border-color: $theme-elevation-2;
+
+// Button
+.btn-primary {
+  --bs-btn-color: #fff !important;
+  --bs-btn-active-color: #fff !important;
+  --bs-btn-hover-color: #fff !important;
+}
+$btn-close-color: $theme-text;
 
 // Card
 $card-bg: $theme-elevation-1;
 $card-cap-bg: $theme-elevation-1;
+$card-spacer-y: 1.25rem;
+$card-spacer-x: 1.25rem;
 
 // Modal
 $modal-content-bg: $theme-elevation-1;
 $modal-content-border-color: $theme-elevation-2;
+.modal-backdrop {
+  opacity: .5;
+}
 
 // Dropdown
 $dropdown-bg: $theme-elevation-1;
 $dropdown-link-color: $theme-text;
-$dropdown-link-hover-bg: $theme-elevation-1;
-$dropdown-link-hover-color: $theme-text-muted;
-$dropdown-link-disabled-color: $theme-elevation-2 !important;
+$dropdown-link-hover-bg: $theme-elevation-2;
+$dropdown-link-hover-color: white;
 $dropdown-border-color: $theme-elevation-2;
 $dropdown-divider-bg: $theme-elevation-2;
+
+.dropdown-toggle.dropdown-toggle-no-caret::before,
+.dropdown-toggle.dropdown-toggle-no-caret::after {
+  display: none !important;
+}
 
 // Popover
 $popover-bg: $theme-elevation-1;
@@ -25,6 +65,10 @@ $popover-border-color: $theme-elevation-2;
 $tooltip-bg: $theme-elevation-1;
 $tooltip-color: $theme-text;
 
+.tooltip {
+  position: absolute;
+}
+
 // Form
 $input-bg: $theme-elevation-2;
 $input-border-color: $theme-elevation-2;
@@ -32,19 +76,28 @@ $input-color: $theme-text;
 $custom-range-track-height: 0.1rem;
 $custom-range-thumb-bg: $theme-text;
 $custom-range-track-bg: $theme-text-muted;
+$form-switch-color-dark: rgba(#fff, .25);
+$form-switch-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$form-switch-color-dark}'/></svg>");
 
 // List group
 $list-group-bg: rgba(#fff, 0);
 $list-group-hover-bg: rgba(#fff, .1);
 $list-group-color: $theme-text;
 $list-group-action-hover-color: $theme-text;
-$list-group-border-color: $border-color;
+$list-group-border-color: $theme-elevation-2;
 $list-group-action-active-bg: rgba(#fff, .1);
 
-:root {
-  --text-body: #{$theme-text};
-  --text-muted: #{$theme-text-muted};
-}
+// Offcanvas
+$offcanvas-bg-color:$theme-elevation-1;
+
+// Table
+$table-color: $theme-text;
+$table-bg: rgba(#fff, 0);
+$table-hover-bg: rgba(#fff, .1);
+
+$table-cell-padding-y: 0.75rem;
+$table-cell-padding-x: 0.75rem;
+@import './table';
 
 .elevated {
   background-color: $theme-elevation-1;
@@ -56,43 +109,12 @@ $list-group-action-active-bg: rgba(#fff, .1);
 }
 
 a.active {
-  color: var(--primary);
-}
-
-h1, h2, h3, h4, h5 {
-  color: #fff;
+  color: var(--bs-primary);
 }
 
 .btn-link:focus {
   box-shadow: none !important;
 }
 
-@import './nav';
-@import './table';
-
-$enable-print-styles: false;
-$enable-responsive-font-sizes: true;
-
-@import '~bootstrap';
-@import '~bootstrap-vue';
-
-.modal-header .close {
-  color: $theme-text;
-  opacity: 1;
-}
-
-/* Override bootstrap styles with var */
-
-.text-primary {
-  color: var(--primary) !important;
-}
-
-.btn-primary {
-  background-color: var(--primary) !important;
-  border-color: var(--primary) !important;
-}
-
-/* Remove badge fade in */
-.badge {
-  transition: none !important;
-}
+@import './nav-underlined';
+@import '~bootstrap/scss/bootstrap';

@@ -1,10 +1,10 @@
 <template>
   <ContentLoader v-slot :loading="playlist == null">
     <div class="d-flex align-items-center mb-2">
-      <h1 class="mb-0 mr-2 text-truncate">
+      <h1 class="mb-0 me-2 text-truncate">
         {{ playlist.name }}
       </h1>
-      <OverflowMenu class="ml-auto">
+      <OverflowMenu class="ms-auto">
         <ContextMenuItem icon="edit" :disabled="playlist.isReadOnly" @click="showEditModal = true">
           Edit
         </ContextMenuItem>
@@ -23,23 +23,23 @@
       <strong>{{ formatDuration(playlist.duration) }}</strong>
       <template v-if="playlist.isPublic">
         <span class="mx-1">•</span>
-        <span  class="badge badge-secondary badge-pill">
+        <span class="badge bg-secondary rounded-pill">
           Public
         </span>
       </template>
     </div>
 
-    <div v-if="playlist.comment"  class="mt-3">
+    <div v-if="playlist.comment" class="mt-3">
       {{ playlist.comment }}
     </div>
 
     <div class="text-nowrap mt-3">
-    <b-button variant="secondary" :disabled="playlist.tracks.length === 0" class="mr-2" @click="playNow">
-      <Icon icon="play" /> Play
-    </b-button>
-    <b-button variant="secondary" :disabled="playlist.tracks.length === 0" @click="shuffleNow">
-      <Icon icon="shuffle" /> Shuffle
-    </b-button>
+      <b-button variant="secondary" :disabled="playlist.tracks.length === 0" class="me-2" @click="playNow">
+        <Icon icon="play" /> Play
+      </b-button>
+      <b-button variant="secondary" :disabled="playlist.tracks.length === 0" @click="shuffleNow">
+        <Icon icon="shuffle" /> Shuffle
+      </b-button>
     </div>
 
     <TrackList v-if="playlist.tracks.length > 0" :tracks="playlist.tracks" class="mt-3">
@@ -56,16 +56,16 @@
         Edit playlist
       </template>
       <template #default="{ item }">
-        <div class="form-group">
-          <label>Name</label>
+        <div class="mb-3">
+          <label class="form-label">Name</label>
           <input v-model="item.name" class="form-control" type="text">
         </div>
-        <div class="form-group">
-          <label>Comment</label>
+        <div class="mb-3">
+          <label class="form-label">Comment</label>
           <textarea v-model="item.comment" class="form-control" />
         </div>
-        <div class="form-group">
-          <label class="mb-0">Public</label>
+        <div class="mb-3">
+          <label class="form-label">Public</label>
           <SwitchInput v-model="item.isPublic" />
         </div>
       </template>

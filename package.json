@@ -10,7 +10,7 @@
   "dependencies": {
     "@iconify-icons/bi": "^1.2.2",
     "@vueuse/core": "^11.1.0",
-    "bootstrap": "^4.6.0",
+    "bootstrap": "^5.3.3",
     "bootstrap-vue": "^2.23.1",
     "icecast-metadata-stats": "^0.1.1",
     "lodash-es": "^4.17.21",

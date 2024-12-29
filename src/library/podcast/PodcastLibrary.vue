@@ -14,7 +14,7 @@
         </li>
       </ul>
       <div>
-        <b-button variant="link" class="mr-2" @click="showAddModal = true">
+        <b-button variant="link" class="me-2" @click="showAddModal = true">
           <Icon icon="plus" />
         </b-button>
         <b-button icon="refresh" variant="link" @click="refresh()">

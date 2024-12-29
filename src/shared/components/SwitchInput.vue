@@ -1,13 +1,13 @@
 <template>
-  <div class="custom-control custom-switch">
+  <div class="form-check form-switch">
     <input
       :id="id"
-      type="checkbox"
-      class="custom-control-input"
+      type="checkbox" role="switch"
+      class="form-check-input"
       :checked="value"
       @change="$emit('input', $event.target.checked)"
     >
-    <label :for="id" class="custom-control-label" />
+    <label :for="id" class="form-check-label" />
   </div>
 </template>
 <script lang="ts">

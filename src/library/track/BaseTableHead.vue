@@ -2,11 +2,11 @@
   <thead>
     <tr>
       <th>#</th>
-      <th class="text-left">
+      <th class="text-start">
         Title
       </th>
       <slot />
-      <th class="text-right">
+      <th class="text-end">
         Actions
       </th>
     </tr>

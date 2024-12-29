@@ -1,5 +1,5 @@
 <template>
-  <td class="text-right d-none d-md-table-cell">
+  <td class="text-end d-none d-md-table-cell">
     {{ duration }}
   </td>
 </template>

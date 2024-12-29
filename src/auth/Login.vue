@@ -1,5 +1,5 @@
 <template>
-  <div class="row align-items-center h-100 mt-5">
+  <div class="d-flex align-items-center h-100 mt-5">
     <div v-if="!displayForm" class="mx-auto">
       <span class="spinner-border " />
     </div>
@@ -10,25 +10,25 @@
             <div class="d-flex mb-2">
               <Logo class="mx-auto" />
             </div>
-            <div v-if="!config.serverUrl" class="form-group">
-              <label>Server</label>
+            <div v-if="!config.serverUrl" class="mb-3">
+              <label class="form-label">Server</label>
               <input v-model="server" name="server" type="text"
                      class="form-control" :class="{'is-invalid': hasError}">
             </div>
-            <div class="form-group">
-              <label>Username</label>
+            <div class="mb-3">
+              <label class="form-label">Username</label>
               <input v-model="username" name="username" type="text"
                      class="form-control" :class="{'is-invalid': hasError}">
             </div>
-            <div class="form-group">
-              <label>Password</label>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
               <input v-model="password" name="password" type="password"
                      class="form-control" :class="{'is-invalid': hasError}">
             </div>
             <div v-if="error != null" class="alert alert-danger">
               Could not log in. ({{ error.message }})
             </div>
-            <button class="btn btn-primary btn-block" :disabled="busy" @click="login">
+            <button class="btn btn-primary w-100" :disabled="busy" @click="login">
               <span v-show="false" class="spinner-border spinner-border-sm" /> Log in
             </button>
           </form>
