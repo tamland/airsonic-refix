@@ -23,7 +23,8 @@ export interface Track {
   isStream?: boolean
   isPodcast?: boolean
   isUnavailable?: boolean
-  playCount? : number
+  playCount?: number
+  replayGain?: {trackGain: number, trackPeak: number, albumGain: number, albumPeak: number}
 }
 
 export interface Genre {
@@ -541,6 +542,7 @@ export class API {
         : [{ id: item.artistId, name: item.artist }],
       url: this.getStreamUrl(item.id),
       image: this.getCoverArtUrl(item),
+      replayGain: item.replayGain,
     }
   }
 

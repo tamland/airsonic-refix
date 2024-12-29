@@ -1,5 +1,19 @@
 import IcecastMetadataStats from 'icecast-metadata-stats'
 
+export enum ReplayGainMode {
+  None,
+  Track,
+  Album,
+  _Length
+}
+
+type ReplayGain = {
+  trackGain: number // dB
+  trackPeak: number // 0.0-1.0
+  albumGain: number // dB
+  albumPeak: number // 0.0-1.0
+}
+
 export class AudioController {
   private audio = new Audio()
   private handle = -1
@@ -7,6 +21,9 @@ export class AudioController {
   private fadeDuration = 200
   private buffer = new Audio()
   private statsListener : any = null
+  private replayGainMode = ReplayGainMode.None
+  private replayGain: ReplayGain | null = null
+  private preAmp = 0.0
 
   ontimeupdate: (value: number) => void = () => { /* do nothing */ }
   ondurationchange: (value: number) => void = () => { /* do nothing */ }
@@ -30,7 +47,12 @@ export class AudioController {
   setVolume(value: number) {
     this.cancelFade()
     this.volume = value
-    this.audio.volume = value
+    this.audio.volume = value * this.replayGainFactor()
+  }
+
+  setReplayGainMode(value: ReplayGainMode) {
+    this.replayGainMode = value
+    this.setVolume(this.volume)
   }
 
   setPlaybackRate(value: number) {
@@ -55,7 +77,9 @@ export class AudioController {
     await this.fadeIn(this.fadeDuration / 2.0)
   }
 
-  async changeTrack(options: { url?: string, paused?: boolean, isStream?: boolean, playbackRate?: number }) {
+  async changeTrack(options: { url?: string, paused?: boolean, replayGain?: ReplayGain, isStream?: boolean, playbackRate?: number }) {
+    this.replayGain = options.replayGain || null
+
     if (this.audio) {
       this.cancelFade()
       endPlayback(this.audio, this.fadeDuration)
@@ -128,6 +152,11 @@ export class AudioController {
   private fadeFromTo(from: number, to: number, duration: number) {
     console.info(`AudioController: start fade (${from}, ${to}, ${duration})`)
     const startTime = Date.now()
+
+    const replayGainFactor = this.replayGainFactor()
+    from *= replayGainFactor
+    to *= replayGainFactor
+
     const step = (to - from) / duration
     if (duration <= 0.0) {
       this.audio.volume = to
@@ -149,6 +178,39 @@ export class AudioController {
       }
       run()
     })
+  }
+
+  private replayGainFactor(): number {
+    if (this.replayGainMode === ReplayGainMode.None) {
+      return 1.0
+    }
+    if (!this.replayGain) {
+      console.warn('AudioController: no ReplayGain information')
+      return 1.0
+    }
+
+    const gain = this.replayGainMode === ReplayGainMode.Track
+      ? this.replayGain.trackGain
+      : this.replayGain.albumGain
+
+    const peak = this.replayGainMode === ReplayGainMode.Track
+      ? this.replayGain.trackPeak
+      : this.replayGain.albumPeak
+
+    if (!Number.isFinite(gain) || !Number.isFinite(peak) || peak <= 0) {
+      console.warn('AudioController: invalid ReplayGain settings', this.replayGain)
+      return 1.0
+    }
+
+    // Implementing min(10^((RG + Gpre-amp)/20), 1/peakamplitude)
+    // https://wiki.hydrogenaud.io/index.php?title=ReplayGain_2.0_specification
+    const gainFactor = Math.pow(10, (gain + this.preAmp) / 20)
+    const peakFactor = 1 / peak
+    const factor = Math.min(gainFactor, peakFactor)
+
+    console.info('AudioController: calculated ReplayGain factor', factor)
+
+    return factor
   }
 }
 
