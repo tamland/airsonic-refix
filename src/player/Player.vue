@@ -68,9 +68,11 @@
                         :value="volume" @input="setVolume"
                 />
               </b-popover>
-              <b-button title="ReplayGain"
-                        variant="link" class="m-0"
-                        @click="toggleReplayGain">
+              <b-button
+                v-if="track && track.replayGain"
+                title="ReplayGain"
+                variant="link" class="m-0"
+                @click="toggleReplayGain">
                 <IconReplayGain v-if="replayGainMode === ReplayGainMode.None" />
                 <IconReplayGainTrack v-else-if="replayGainMode === ReplayGainMode.Track" />
                 <IconReplayGainAlbum v-else-if="replayGainMode === ReplayGainMode.Album" />
