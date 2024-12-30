@@ -150,12 +150,12 @@ export class AudioController {
   }
 
   private fadeFromTo(from: number, to: number, duration: number) {
-    console.info(`AudioController: start fade (${from}, ${to}, ${duration})`)
-    const startTime = Date.now()
-
     const replayGainFactor = this.replayGainFactor()
     from *= replayGainFactor
     to *= replayGainFactor
+
+    console.info(`AudioController: start fade (${from}, ${to}, ${duration})`)
+    const startTime = Date.now()
 
     const step = (to - from) / duration
     if (duration <= 0.0) {
@@ -173,7 +173,7 @@ export class AudioController {
           return
         }
         const elapsed = Date.now() - startTime
-        this.audio.volume = clamp(0.0, this.volume, from + (elapsed * step))
+        this.audio.volume = clamp(0.0, Math.max(from, to), from + (elapsed * step))
         this.handle = setTimeout(run, 10)
       }
       run()
