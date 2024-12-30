@@ -71,8 +71,11 @@
               <b-button
                 v-if="track && track.replayGain"
                 title="ReplayGain"
-                variant="link" class="m-0"
-                @click="toggleReplayGain">
+                variant="link"
+                class="m-0"
+                :class="{ 'text-primary': replayGainMode !== ReplayGainMode.None }"
+                @click="toggleReplayGain"
+              >
                 <IconReplayGain v-if="replayGainMode === ReplayGainMode.None" />
                 <IconReplayGainTrack v-else-if="replayGainMode === ReplayGainMode.Track" />
                 <IconReplayGainAlbum v-else-if="replayGainMode === ReplayGainMode.Album" />
