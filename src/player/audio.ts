@@ -23,7 +23,6 @@ export class AudioController {
   private statsListener : any = null
   private replayGainMode = ReplayGainMode.None
   private replayGain: ReplayGain | null = null
-  private preAmp = 0.0
 
   ontimeupdate: (value: number) => void = () => { /* do nothing */ }
   ondurationchange: (value: number) => void = () => { /* do nothing */ }
@@ -181,14 +180,9 @@ export class AudioController {
   }
 
   private replayGainFactor(): number {
-    if (this.replayGainMode === ReplayGainMode.None) {
+    if (this.replayGainMode === ReplayGainMode.None || !this.replayGain) {
       return 1.0
     }
-    if (!this.replayGain) {
-      console.warn('AudioController: no ReplayGain information')
-      return 1.0
-    }
-
     const gain = this.replayGainMode === ReplayGainMode.Track
       ? this.replayGain.trackGain
       : this.replayGain.albumGain
@@ -204,7 +198,8 @@ export class AudioController {
 
     // Implementing min(10^((RG + Gpre-amp)/20), 1/peakamplitude)
     // https://wiki.hydrogenaud.io/index.php?title=ReplayGain_2.0_specification
-    const gainFactor = Math.pow(10, (gain + this.preAmp) / 20)
+    const preAmp = 0.0
+    const gainFactor = Math.pow(10, (gain + preAmp) / 20)
     const peakFactor = 1 / peak
     const factor = Math.min(gainFactor, peakFactor)
 

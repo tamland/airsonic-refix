@@ -24,7 +24,12 @@ export interface Track {
   isPodcast?: boolean
   isUnavailable?: boolean
   playCount?: number
-  replayGain?: {trackGain: number, trackPeak: number, albumGain: number, albumPeak: number}
+  replayGain?: {
+    trackGain: number
+    trackPeak: number
+    albumGain: number
+    albumPeak: number
+  }
 }
 
 export interface Genre {
@@ -529,6 +534,14 @@ export class API {
   }
 
   private normalizeTrack(item: any): Track {
+    const replayGain =
+      Number.isFinite(item.replayGain?.trackGain) &&
+      Number.isFinite(item.replayGain?.albumGain) &&
+      item.replayGain?.trackPeak > 0 &&
+      item.replayGain?.albumPeak > 0
+        ? item.replayGain
+        : null
+
     return {
       id: item.id,
       title: item.title,
@@ -542,7 +555,7 @@ export class API {
         : [{ id: item.artistId, name: item.artist }],
       url: this.getStreamUrl(item.id),
       image: this.getCoverArtUrl(item),
-      replayGain: item.replayGain,
+      replayGain,
     }
   }
 
