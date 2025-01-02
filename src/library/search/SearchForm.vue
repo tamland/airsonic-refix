@@ -1,5 +1,5 @@
 <template>
-  <form class="form-inline" @submit.prevent="search">
+  <form @submit.prevent="search">
     <input
       v-model="query"
       class="form-control" type="search"

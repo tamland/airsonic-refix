@@ -1,12 +1,10 @@
 <template>
   <div class="d-flex align-items-center mb-2">
-    <button class="btn navbar-toggler text-white d-md-none" @click="store.showMenu">
+    <button class="btn navbar-toggler text-white d-md-none me-2" @click="store.showMenu">
       <Icon icon="nav" />
     </button>
 
-    <div class="ms-auto" />
-
-    <SearchForm class="mx-2" />
+    <SearchForm class="flex-grow-1 flex-md-grow-0 ms-auto me-2" />
 
     <template v-if="store.username">
       <b-dropdown variant="link" right no-caret toggle-class="px-0">
