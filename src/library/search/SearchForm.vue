@@ -17,7 +17,7 @@
     },
     methods: {
       search(): void {
-        this.$router.push({ name: 'search', query: { q: this.query } })
+        this.$router.push({ name: 'search', query: { query: this.query } })
       }
     }
   })

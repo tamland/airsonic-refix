@@ -139,10 +139,11 @@ export function setupRouter(auth: AuthService) {
       },
       {
         name: 'search',
-        path: '/search',
+        path: '/search/:type?',
         component: SearchResult,
         props: (route) => ({
-          query: route.query.q,
+          ...route.params,
+          ...route.query,
         })
       },
     ]

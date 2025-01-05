@@ -390,15 +390,22 @@ export class API {
     await this.fetch('rest/unstar', params)
   }
 
-  async search(query: string): Promise<SearchResult> {
+  async search(query: string, type?: string, offset?: number): Promise<SearchResult> {
+    const size = 20
     const params = {
       query,
+      albumCount: !type || type === 'album' ? size : 0,
+      artistCount: !type || type === 'artist' ? size : 0,
+      songCount: !type || type === 'track' ? size : 0,
+      albumOffset: offset ?? 0,
+      artistOffset: offset ?? 0,
+      songOffset: offset ?? 0,
     }
     const data = await this.fetch('rest/search3', params)
     return {
-      tracks: (data.searchResult3.song || []).map(this.normalizeTrack, this),
       albums: (data.searchResult3.album || []).map(this.normalizeAlbum, this),
       artists: (data.searchResult3.artist || []).map(this.normalizeArtist, this),
+      tracks: (data.searchResult3.song || []).map(this.normalizeTrack, this),
     }
   }
 
