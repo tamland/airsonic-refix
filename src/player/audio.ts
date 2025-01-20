@@ -172,7 +172,7 @@ export class AudioController {
           return
         }
         const elapsed = Date.now() - startTime
-        this.audio.volume = clamp(0.0, Math.max(from, to), from + (elapsed * step))
+        this.audio.volume = clamp(0.0, Math.min(Math.max(from, to), 1), from + (elapsed * step))
         this.handle = setTimeout(run, 10)
       }
       run()
