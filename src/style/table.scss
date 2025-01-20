@@ -42,7 +42,7 @@ table.table-numbered {
     color: inherit;
     font: inherit;
     outline: inherit;
-    .number { display: inline; }
+    .number { display: inline; white-space: nowrap; }
     .icon { display: none; }
   }
   tr.active td:first-child button {
