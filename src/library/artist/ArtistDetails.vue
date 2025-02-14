@@ -91,6 +91,7 @@
   import { useMainStore } from '@/shared/store'
   import IconLastFm from '@/shared/components/IconLastFm.vue'
   import IconMusicBrainz from '@/shared/components/IconMusicBrainz.vue'
+  import { usePlayerStore } from '@/player/store'
 
   export default defineComponent({
     components: {
@@ -107,7 +108,8 @@
     setup() {
       return {
         mainStore: useMainStore(),
-        favouriteStore: useFavouriteStore()
+        favouriteStore: useFavouriteStore(),
+        playerStore: usePlayerStore(),
       }
     },
     data() {
@@ -134,14 +136,10 @@
     },
     methods: {
       playNow() {
-        return this.$store.dispatch('player/playNow', {
-          tracks: this.item.topTracks,
-        })
+        return this.playerStore.playNow(this.item.topTracks)
       },
       shuffleNow() {
-        return this.$store.dispatch('player/shuffleNow', {
-          tracks: this.item.topTracks,
-        })
+        return this.playerStore.shuffleNow(this.item.topTracks)
       },
       toggleFavourite() {
         return this.favouriteStore.toggle('artist', this.id)

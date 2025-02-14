@@ -64,6 +64,7 @@
   import CellArtist from '@/library/track/CellArtist.vue'
   import CellTitle from '@/library/track/CellTitle.vue'
   import CellActions from '@/library/track/CellActions.vue'
+  import { usePlayerStore } from '@/player/store'
 
   export default defineComponent({
     components: {
@@ -76,38 +77,43 @@
       BaseTableHead,
       BaseTable,
     },
+    setup() {
+      return {
+        playerStore: usePlayerStore(),
+      }
+    },
     computed: {
       loading() {
-        return this.$store.state.player.queue === null
+        return this.playerStore.queue === null
       },
       isPlaying() {
-        return this.$store.getters['player/isPlaying']
+        return this.playerStore.isPlaying
       },
       tracks() {
-        return this.$store.state.player.queue
+        return this.playerStore.queue
       },
       queueIndex() {
-        return this.$store.state.player.queueIndex
+        return this.playerStore.queueIndex
       },
     },
     methods: {
       play(index: number) {
         if (index === this.queueIndex) {
-          return this.$store.dispatch('player/playPause')
+          return this.playerStore.playPause()
         }
-        return this.$store.dispatch('player/playTrackListIndex', { index })
+        return this.playerStore.playTrackListIndex(index)
       },
       dragstart(id: string, event: any) {
         event.dataTransfer.setData('application/x-track-id', id)
       },
       remove(idx: number) {
-        return this.$store.commit('player/removeFromQueue', idx)
+        return this.playerStore.removeFromQueue(idx)
       },
       clear() {
-        return this.$store.dispatch('player/clearQueue')
+        return this.playerStore.clearQueue()
       },
       shuffle() {
-        return this.$store.commit('player/shuffleQueue')
+        return this.playerStore.shuffleQueue()
       }
     }
   })

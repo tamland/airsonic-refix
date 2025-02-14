@@ -140,6 +140,7 @@
   import IconReplayGain from '@/shared/components/IconReplayGain.vue'
   import IconReplayGainTrack from '@/shared/components/IconReplayGainTrack.vue'
   import IconReplayGainAlbum from '@/shared/components/IconReplayGainAlbum.vue'
+  import { usePlayerStore } from '@/player/store'
 
   export default defineComponent({
     components: {
@@ -152,40 +153,41 @@
     },
     setup() {
       return {
-        favouriteStore: useFavouriteStore(),
         ReplayGainMode,
+        favouriteStore: useFavouriteStore(),
+        playerStore: usePlayerStore(),
       }
     },
     computed: {
       isPlaying() {
-        return this.$store.state.player.isPlaying
+        return this.playerStore.isPlaying
       },
       volume() {
-        return this.$store.state.player.volume
+        return this.playerStore.volume
       },
       isMuted() {
-        return this.$store.state.player.volume <= 0.0
+        return this.playerStore.volume <= 0.0
       },
       replayGainMode(): ReplayGainMode {
-        return this.$store.state.player.replayGainMode
+        return this.playerStore.replayGainMode
       },
       repeatActive(): boolean {
-        return this.$store.state.player.repeat
+        return this.playerStore.repeat
       },
       shuffleActive(): boolean {
-        return this.$store.state.player.shuffle
+        return this.playerStore.shuffle
       },
       playbackRate(): number {
-        return this.$store.getters['player/playbackRate']
+        return this.playerStore.playbackRate
       },
       isFavourite(): boolean {
-        return this.track && !!this.favouriteStore.tracks[this.track.id]
+        return !!this.track && !!this.favouriteStore.tracks[this.track.id]
       },
       track() {
-        return this.$store.getters['player/track']
+        return this.playerStore.track
       },
       streamTitle() {
-        return this.$store.state.streamTitle
+        return this.playerStore.streamTitle
       },
       documentTitle(): string {
         return [
@@ -205,31 +207,31 @@
     },
     methods: {
       playPause() {
-        return this.$store.dispatch('player/playPause')
+        return this.playerStore.playPause()
       },
       next() {
-        return this.$store.dispatch('player/next')
+        return this.playerStore.next()
       },
       previous() {
-        return this.$store.dispatch('player/previous')
+        return this.playerStore.previous()
       },
       setVolume(volume: any) {
-        return this.$store.dispatch('player/setVolume', parseFloat(volume))
+        return this.playerStore.setVolume(parseFloat(volume))
       },
       toggleReplayGain() {
-        return this.$store.dispatch('player/toggleReplayGain')
+        return this.playerStore.toggleReplayGain()
       },
       setPlaybackRate(value: number) {
-        return this.$store.dispatch('player/setPlaybackRate', value)
+        return this.playerStore.setPlaybackRate(value)
       },
       toggleRepeat() {
-        return this.$store.dispatch('player/toggleRepeat')
+        return this.playerStore.toggleRepeat()
       },
       toggleShuffle() {
-        return this.$store.dispatch('player/toggleShuffle')
+        return this.playerStore.toggleShuffle()
       },
       toggleFavourite() {
-        return this.favouriteStore.toggle('track', this.track.id)
+        return this.favouriteStore.toggle('track', this.track!.id)
       },
       formatArtists
     }

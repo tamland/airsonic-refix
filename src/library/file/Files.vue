@@ -48,6 +48,7 @@
   import CellTitle from '@/library/track/CellTitle.vue'
   import CellActions from '@/library/track/CellActions.vue'
   import { orderBy } from 'lodash-es'
+  import { usePlayerStore } from '@/player/store'
 
   export default defineComponent({
     components: {
@@ -60,6 +61,11 @@
     props: {
       path: { type: String, default: '' }
     },
+    setup() {
+      return {
+        playerStore: usePlayerStore(),
+      }
+    },
     data() {
       return {
         item: null as null | Directory,
@@ -67,10 +73,10 @@
     },
     computed: {
       isPlaying(): boolean {
-        return this.$store.getters['player/isPlaying']
+        return this.playerStore.isPlaying
       },
-      playingTrackId(): any {
-        return this.$store.getters['player/trackId']
+      playingTrackId() {
+        return this.playerStore.trackId
       },
     },
     watch: {
@@ -86,24 +92,17 @@
     },
     methods: {
       async playNow() {
-        return this.$store.dispatch('player/playNow', {
-          tracks: this.item!.tracks,
-        })
+        return this.playerStore.playNow(this.item!.tracks)
       },
       async shuffleNow() {
-        return this.$store.dispatch('player/shuffleNow', {
-          tracks: this.item!.tracks,
-        })
+        return this.playerStore.shuffleNow(this.item!.tracks)
       },
       async playTrack(track: Track) {
         if (track.id === this.playingTrackId) {
-          return this.$store.dispatch('player/playPause')
+          return this.playerStore.playPause()
         }
         const index = this.item!.tracks!.findIndex((x: any) => x.id === track.id)
-        return this.$store.dispatch('player/playTrackList', {
-          index,
-          tracks: this.item!.tracks,
-        })
+        return this.playerStore.playTrackList(this.item!.tracks, index)
       },
       openDirectory(id: string) {
         const path = this.path === '' ? id : [this.path, id].join('/')

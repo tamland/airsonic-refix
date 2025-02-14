@@ -74,6 +74,7 @@
   import IconLastFm from '@/shared/components/IconLastFm.vue'
   import IconMusicBrainz from '@/shared/components/IconMusicBrainz.vue'
   import OverflowFade from '@/shared/components/OverflowFade.vue'
+  import { usePlayerStore } from '@/player/store'
 
   export default defineComponent({
     components: {
@@ -87,7 +88,8 @@
     },
     setup() {
       return {
-        favouriteStore: useFavouriteStore()
+        favouriteStore: useFavouriteStore(),
+        playerStore: usePlayerStore(),
       }
     },
     data() {
@@ -105,23 +107,19 @@
     },
     methods: {
       playNow() {
-        return this.$store.dispatch('player/playNow', {
-          tracks: this.album!.tracks,
-        })
+        return this.playerStore.playNow(this.album!.tracks!)
       },
       shuffleNow() {
-        return this.$store.dispatch('player/shuffleNow', {
-          tracks: this.album!.tracks,
-        })
+        return this.playerStore.shuffleNow(this.album!.tracks!)
       },
       setNextInQueue() {
         if (this.album) {
-          return this.$store.dispatch('player/setNextInQueue', this.album.tracks)
+          return this.playerStore.setNextInQueue(this.album.tracks!)
         }
       },
       addToQueue() {
         if (this.album) {
-          return this.$store.dispatch('player/addToQueue', this.album.tracks)
+          return this.playerStore.addToQueue(this.album.tracks!)
         }
       },
       toggleFavourite() {

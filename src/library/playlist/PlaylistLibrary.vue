@@ -48,6 +48,7 @@
   import CreatePlaylistModal from '@/library/playlist/CreatePlaylistModal.vue'
   import { orderBy } from 'lodash-es'
   import { usePlaylistStore } from '@/library/playlist/store'
+  import { usePlayerStore } from '@/player/store'
 
   export default defineComponent({
     components: {
@@ -65,22 +66,21 @@
           props.sort === 'a-z'
             ? orderBy(store.playlists, 'name')
             : orderBy(store.playlists, 'createdAt', 'desc')),
+        playerStore: usePlayerStore(),
       }
     },
     methods: {
       async playNow(id: string) {
         const playlist = await this.$api.getPlaylist(id)
-        return this.$store.dispatch('player/playTrackList', {
-          tracks: playlist.tracks,
-        })
+        return this.playerStore.playTrackList(playlist.tracks!)
       },
       async playNext(id: string) {
         const playlist = await this.$api.getPlaylist(id)
-        return this.$store.dispatch('player/setNextInQueue', playlist.tracks)
+        return this.playerStore.setNextInQueue(playlist.tracks!)
       },
       async playLater(id: string) {
         const playlist = await this.$api.getPlaylist(id)
-        return this.$store.dispatch('player/addToQueue', playlist.tracks)
+        return this.playerStore.addToQueue(playlist.tracks!)
       },
     }
   })

@@ -79,6 +79,7 @@
   import { usePlaylistStore } from '@/library/playlist/store'
   import SwitchInput from '@/shared/components/SwitchInput.vue'
   import { formatDuration } from '@/shared/utils'
+  import { usePlayerStore } from '@/player/store'
 
   export default defineComponent({
     components: {
@@ -92,6 +93,7 @@
     setup() {
       return {
         playlistStore: usePlaylistStore(),
+        playerStore: usePlayerStore(),
         formatDuration,
       }
     },
@@ -114,14 +116,10 @@
     },
     methods: {
       playNow() {
-        return this.$store.dispatch('player/playNow', {
-          tracks: this.playlist.tracks,
-        })
+        return this.playerStore.playNow(this.playlist.tracks)
       },
       shuffleNow() {
-        return this.$store.dispatch('player/shuffleNow', {
-          tracks: this.playlist.tracks,
-        })
+        return this.playerStore.shuffleNow(this.playlist.tracks)
       },
       removeTrack(index: number) {
         this.playlist.tracks.splice(index, 1)

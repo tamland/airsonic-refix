@@ -10,7 +10,9 @@
       <template #text>
         <template v-for="(artist, index) in item.artists">
           <span v-if="index > 0" :key="artist.id" class="text-muted">, </span>
-          <router-link :key="`${artist.id}-link`" :to="{name: 'artist', params: { id: artist.id }}" class="text-muted">{{ artist.name }}</router-link>
+          <router-link :key="`${artist.id}-link`" :to="{name: 'artist', params: { id: artist.id }}" class="text-muted">
+            {{ artist.name }}
+          </router-link>
         </template>
       </template>
 
@@ -37,6 +39,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import { useFavouriteStore } from '@/library/favourite/store'
+  import { usePlayerStore } from '@/player/store'
 
   export default defineComponent({
     props: {
@@ -45,7 +48,8 @@
     },
     setup() {
       return {
-        favouriteStore: useFavouriteStore()
+        favouriteStore: useFavouriteStore(),
+        playerStore: usePlayerStore(),
       }
     },
     computed: {
@@ -56,17 +60,15 @@
     methods: {
       async playNow(id: string) {
         const album = await this.$api.getAlbumDetails(id)
-        return this.$store.dispatch('player/playTrackList', {
-          tracks: album.tracks,
-        })
+        return this.playerStore.playTrackList(album.tracks!)
       },
       async playNext(id: string) {
         const album = await this.$api.getAlbumDetails(id)
-        return this.$store.dispatch('player/setNextInQueue', album.tracks)
+        return this.playerStore.setNextInQueue(album.tracks!)
       },
       async playLater(id: string) {
         const album = await this.$api.getAlbumDetails(id)
-        return this.$store.dispatch('player/addToQueue', album.tracks)
+        return this.playerStore.addToQueue(album.tracks!)
       },
       toggleFavourite(id: string) {
         return this.favouriteStore.toggle('album', id)

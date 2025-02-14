@@ -54,6 +54,7 @@
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
   import { Track } from '@/shared/api'
   import OverflowFade from '@/shared/components/OverflowFade.vue'
+  import { usePlayerStore } from '@/player/store'
 
   export default defineComponent({
     components: {
@@ -68,6 +69,11 @@
     props: {
       id: { type: String, required: true },
     },
+    setup() {
+      return {
+        playerStore: usePlayerStore(),
+      }
+    },
     data() {
       return {
         podcast: null as null | any,
@@ -75,10 +81,10 @@
     },
     computed: {
       isPlaying(): boolean {
-        return this.$store.getters['player/isPlaying']
+        return this.playerStore.isPlaying
       },
-      playingTrackId(): any {
-        return this.$store.getters['player/trackId']
+      playingTrackId() {
+        return this.playerStore.trackId
       },
       playableTracks(): Track[] {
         return this.podcast.tracks.filter((x: any) => !x.isUnavailable)
@@ -89,27 +95,20 @@
     },
     methods: {
       async playNow() {
-        return this.$store.dispatch('player/playNow', {
-          tracks: this.playableTracks,
-        })
+        return this.playerStore.playNow(this.playableTracks)
       },
       async shuffleNow() {
-        return this.$store.dispatch('player/shuffleNow', {
-          tracks: this.playableTracks,
-        })
+        return this.playerStore.shuffleNow(this.playableTracks)
       },
       async playTrack(track: any) {
         if (track.isUnavailable) {
           return
         }
         if (track.id === this.playingTrackId) {
-          return this.$store.dispatch('player/playPause')
+          return this.playerStore.playPause()
         }
         const index = this.playableTracks.findIndex((x: any) => x.id === track.id)
-        return this.$store.dispatch('player/playTrackList', {
-          index,
-          tracks: this.playableTracks,
-        })
+        return this.playerStore.playTrackList(this.playableTracks, index)
       },
       async deletePodcast() {
         this.podcast = null

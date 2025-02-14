@@ -16,24 +16,30 @@
   import { defineComponent } from 'vue'
   import VueSlider from 'vue-slider-component'
   import { formatDuration } from '@/shared/utils'
+  import { usePlayerStore } from '@/player/store'
 
   export default defineComponent({
     components: {
       VueSlider,
     },
+    setup() {
+      return {
+        playerStore: usePlayerStore(),
+      }
+    },
     computed: {
       progress(): number {
-        return this.$store.getters['player/progress']
+        return this.playerStore.progress
       },
     },
     methods: {
       formatter(value: number): string {
-        const duration = this.$store.state.player.duration
+        const duration = this.playerStore.duration
         const time = value * duration
         return `${formatDuration(time)} / ${formatDuration(duration)}`
       },
       seek(value: number) {
-        this.$store.dispatch('player/seek', value)
+        this.playerStore.seek(value)
       },
     }
   })

@@ -42,6 +42,7 @@
   import BaseTable from '@/library/track/BaseTable.vue'
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
   import { Track } from '@/shared/api'
+  import { usePlayerStore } from '@/player/store'
 
   export default defineComponent({
     components: {
@@ -60,23 +61,25 @@
       noArtist: { type: Boolean, default: false },
       noDuration: { type: Boolean, default: false },
     },
+    setup() {
+      return {
+        playerStore: usePlayerStore(),
+      }
+    },
     computed: {
       isPlaying(): boolean {
-        return this.$store.getters['player/isPlaying']
+        return this.playerStore.isPlaying
       },
-      playingTrackId(): any {
-        return this.$store.getters['player/trackId']
+      playingTrackId() {
+        return this.playerStore.trackId
       },
     },
     methods: {
       play(index: number) {
         if (this.tracks[index].id === this.playingTrackId) {
-          return this.$store.dispatch('player/playPause')
+          return this.playerStore.playPause()
         }
-        return this.$store.dispatch('player/playTrackList', {
-          index,
-          tracks: this.tracks,
-        })
+        return this.playerStore.playTrackList(this.tracks, index)
       },
       dragstart(item: any, event: any) {
         if (!item.isStream) {

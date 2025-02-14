@@ -1,6 +1,5 @@
 import '@/style/main.scss'
 import Vue, { markRaw, watch } from 'vue'
-import Vuex from 'vuex'
 import Router from 'vue-router'
 import AppComponent from '@/app/App.vue'
 import { createApp } from '@/shared/compat'
@@ -9,7 +8,7 @@ import { setupRouter } from '@/shared/router'
 import { useMainStore } from '@/shared/store'
 import { API } from '@/shared/api'
 import { createAuth } from '@/auth/service'
-import { createPlayerStore } from './player/store'
+import { setupAudio, usePlayerStore } from './player/store'
 import { createApi } from '@/shared'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import { useFavouriteStore } from '@/library/favourite/store'
@@ -27,7 +26,6 @@ declare module 'pinia' {
   }
 }
 
-Vue.use(Vuex)
 Vue.use(Router)
 Vue.use(PiniaVuePlugin)
 
@@ -41,7 +39,9 @@ const pinia = createPinia()
   })
 
 const mainStore = useMainStore(pinia)
-const playerStore = createPlayerStore(mainStore, api)
+const playerStore = usePlayerStore(pinia)
+
+setupAudio(playerStore, mainStore, api)
 
 watch(
   () => mainStore.isLoggedIn,
@@ -50,7 +50,7 @@ watch(
       return Promise.all([
         useFavouriteStore().load(),
         usePlaylistStore().load(),
-        playerStore.dispatch('player/loadQueue'),
+        playerStore.loadQueue(),
       ])
     }
   })

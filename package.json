@@ -19,8 +19,7 @@
     "vue": "^2.7.0",
     "vue-infinite-loading": "^2.4.5",
     "vue-router": "^3.5.2",
-    "vue-slider-component": "^3.2.22",
-    "vuex": "^3.6.2"
+    "vue-slider-component": "^3.2.22"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.6",

@@ -42,6 +42,8 @@
   import { defineComponent } from 'vue'
   import { useFavouriteStore } from '@/library/favourite/store'
   import { usePlaylistStore } from '@/library/playlist/store'
+  import { usePlayerStore } from '@/player/store'
+  import { Track } from '@/shared/api'
 
   export default defineComponent({
     props: {
@@ -51,6 +53,7 @@
       return {
         favouriteStore: useFavouriteStore(),
         playlistStore: usePlaylistStore(),
+        playerStore: usePlayerStore(),
       }
     },
     data() {
@@ -71,10 +74,10 @@
         window.location.href = this.$api.getDownloadUrl(this.track.id)
       },
       setNextInQueue() {
-        return this.$store.dispatch('player/setNextInQueue', [this.track])
+        return this.playerStore.setNextInQueue([this.track as Track])
       },
       addToQueue() {
-        return this.$store.dispatch('player/addToQueue', [this.track])
+        return this.playerStore.addToQueue([this.track as Track])
       },
       addToPlaylist(playlistId: string) {
         this.showPlaylistSelect = false
