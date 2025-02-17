@@ -11,14 +11,10 @@
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
     "sourceMap": true,
-    "baseUrl": ".",
-    "types": [
-      "webpack-env"
-    ],
+    "baseUrl": "./src",
+    "types": ["vite/client"],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["./*"]
     },
     "lib": [
       "esnext",
@@ -26,6 +22,9 @@
       "dom.iterable",
       "scripthost"
     ]
+  },
+  "vueCompilerOptions": {
+    "skipTemplateCodegen": true
   },
   "include": [
     "src/**/*.ts",

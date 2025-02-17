@@ -23,7 +23,7 @@ export function setupRouter(auth: AuthService) {
   const router = new Router({
     mode: 'history',
     linkExactActiveClass: 'active',
-    base: process.env.BASE_URL,
+    base: import.meta.env.BASE_URL,
     routes: [
       {
         path: '/',

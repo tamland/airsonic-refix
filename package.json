@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@iconify-icons/bi": "^1.2.2",
@@ -25,21 +25,22 @@
     "@types/lodash-es": "^4.17.6",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
-    "@vue/cli-plugin-babel": "^5.0.4",
-    "@vue/cli-plugin-eslint": "^5.0.4",
-    "@vue/cli-plugin-typescript": "^5.0.4",
-    "@vue/cli-service": "^5.0.4",
+    "@vitejs/plugin-vue2": "^2.3.3",
     "@vue/eslint-config-standard": "^8.0.1",
     "@vue/eslint-config-typescript": "^11.0.2",
+    "autoprefixer": "^10.4.20",
     "eslint": "^8.13.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-standard": "^5.0.0",
     "eslint-plugin-vue": "^9.5.1",
+    "rollup-plugin-bundle-analyzer": "^1.6.6",
     "sass": "^1.34.0",
-    "sass-loader": "^13.0.2",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vite": "^6.1.0",
+    "vite-plugin-checker": "^0.8.0",
+    "vue-tsc": "^2.2.2"
   },
   "postcss": {
     "plugins": {
