@@ -53,8 +53,8 @@
       }
     },
     computed: {
-      build: () => process.env.VUE_APP_BUILD,
-      buildDate: () => process.env.VUE_APP_BUILD_DATE,
+      build: () => import.meta.env.VITE_BUILD,
+      buildDate: () => import.meta.env.VITE_BUILD_DATE,
       url: () => 'https://github.com/tamland/airsonic-refix'
     },
   })

@@ -1,5 +1,5 @@
 import MD5 from 'md5-es'
-import { Artist, Track } from '@/shared/api'
+import { Track } from '@/shared/api'
 
 export function randomString(): string {
   let arr = new Uint8Array(16)
