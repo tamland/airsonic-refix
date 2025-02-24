@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue2'
+import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
 import autoprefixer from 'autoprefixer'
 import checker from 'vite-plugin-checker'
@@ -24,7 +24,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      vue: 'vue/dist/vue.runtime.esm-bundler.js'
     }
   },
   css: {

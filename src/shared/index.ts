@@ -1,7 +1,6 @@
 import { API } from '@/shared/api'
-import { inject } from 'vue'
+import { App, Plugin, inject } from 'vue'
 import { AuthService } from '@/auth/service'
-import { App, Plugin } from '@/shared/compat'
 
 const apiSymbol = Symbol('')
 

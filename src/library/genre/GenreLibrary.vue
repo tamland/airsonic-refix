@@ -2,7 +2,7 @@
   <div>
     <ul class="nav-underlined mb-3">
       <li>
-        <router-link :to="{... $route, params: {... $route.params, sort: null }}">
+        <router-link :to="{... $route, params: {... $route.params, sort: 'most-albums' }}">
           Most albums
         </router-link>
       </li>

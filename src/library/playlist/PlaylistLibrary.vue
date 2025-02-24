@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
       <ul class="nav-underlined">
         <li>
-          <router-link :to="{... $route, params: {... $route.params, sort: null }}">
+          <router-link :to="{... $route, params: {... $route.params, sort: 'recently-added' }}">
             Recently added
           </router-link>
         </li>
@@ -40,7 +40,7 @@
       </Tile>
     </Tiles>
     <EmptyIndicator v-else />
-    <CreatePlaylistModal :visible.sync="showAddModal" />
+    <CreatePlaylistModal v-model:visible="showAddModal" />
   </div>
 </template>
 <script lang="ts">

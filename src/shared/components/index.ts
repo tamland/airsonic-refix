@@ -15,7 +15,7 @@ import Tile from './Tile.vue'
 import {
   BButton,
   BModal,
-} from 'bootstrap-vue'
+} from 'bootstrap-vue-next'
 
 export const components = {
   Avatar,

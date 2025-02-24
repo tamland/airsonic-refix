@@ -1,8 +1,8 @@
-<template functional>
+<template>
   <td class="d-none d-lg-table-cell">
-    <template v-for="(artist, index) in props.track.artists">
+    <template v-for="(artist, index) in $attrs.track.artists" :key="artist.id">
       <span v-if="index > 0" :key="artist.id">, </span>
-      <router-link v-if="artist.id" :key="`${artist.id}-link`" :to="{name: 'artist', params: { id: artist.id }}" @click.native.stop>
+      <router-link v-if="artist.id" :to="{name: 'artist', params: { id: artist.id }}" @click.stop>
         {{ artist.name }}
       </router-link>
       <template v-else>

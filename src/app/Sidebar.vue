@@ -74,18 +74,18 @@
     margin-right: 0.75rem;
   }
 
-  .sidebar-container .nav-link:not(.router-link-active) .icon {
+  .sidebar-container .nav-link:not(.active) .icon {
     color: var(--bs-secondary-color);
   }
   .sidebar-container .nav-link:hover {
     color: inherit;
     background-color: rgba(255, 255, 255, 0.045);
   }
-  .sidebar-container .nav-link.router-link-active {
+  .sidebar-container .nav-link.active {
     color: var(--bs-primary);
     background-color: rgba(255, 255, 255, 0.045);
   }
-  .sidebar-container .nav-link.router-link-active:hover {
+  .sidebar-container .nav-link.active:hover {
     color: var(--bs-primary);
   }
 </style>

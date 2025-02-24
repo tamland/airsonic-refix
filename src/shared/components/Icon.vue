@@ -11,7 +11,6 @@
     preserveAspectRatio="xMidYMid meet"
     viewBox="0 0 16 16"
     class="bi icon"
-    v-bind="$attrs"
     v-html="path"
   />
 </template>

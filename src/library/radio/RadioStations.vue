@@ -23,7 +23,7 @@
     <EmptyIndicator v-else-if="unsupported" label="Not supported" />
     <EmptyIndicator v-else />
 
-    <EditModal :visible.sync="modalVisible" :item="editItem" @confirm="saveRadioStation">
+    <EditModal v-model:visible="modalVisible" :item="editItem" @confirm="saveRadioStation">
       <template #title="{ item }">
         {{ item?.id ? "Edit" : "Add" }} Radio Station
       </template>

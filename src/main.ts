@@ -1,8 +1,6 @@
 import '@/style/main.scss'
-import Vue, { markRaw, watch } from 'vue'
-import Router from 'vue-router'
+import { createApp, markRaw, watch } from 'vue'
 import AppComponent from '@/app/App.vue'
-import { createApp } from '@/shared/compat'
 import { components } from '@/shared/components'
 import { setupRouter } from '@/shared/router'
 import { useMainStore } from '@/shared/store'
@@ -10,12 +8,13 @@ import { API } from '@/shared/api'
 import { createAuth } from '@/auth/service'
 import { setupAudio, usePlayerStore } from './player/store'
 import { createApi } from '@/shared'
-import { createPinia, PiniaVuePlugin } from 'pinia'
+import { createPinia } from 'pinia'
 import { useFavouriteStore } from '@/library/favourite/store'
 import { usePlaylistStore } from '@/library/playlist/store'
 
-declare module 'vue/types/vue' {
-  interface Vue {
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $router: typeof router
     $api: API
   }
 }
@@ -25,18 +24,22 @@ declare module 'pinia' {
     api: API;
   }
 }
-
-Vue.use(Router)
-Vue.use(PiniaVuePlugin)
-
+const app = createApp(AppComponent)
 const auth = createAuth()
 const api = createApi(auth)
 const router = setupRouter(auth)
 
 const pinia = createPinia()
-  .use(({ store }) => {
-    store.api = markRaw(api)
-  })
+  .use(() => ({ api: markRaw(api) }))
+
+app.use(pinia)
+app.use(router)
+app.use(auth)
+app.use(api)
+
+Object.entries(components).forEach(([key, value]) => {
+  app.component(key, value as any)
+})
 
 const mainStore = useMainStore(pinia)
 const playerStore = usePlayerStore(pinia)
@@ -60,19 +63,10 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-const app = createApp(AppComponent, { router, pinia, store: playerStore })
-
-app.config.errorHandler = (err: Error) => {
+app.config.errorHandler = (err) => {
   // eslint-disable-next-line
   console.error(err)
-  mainStore.setError(err)
+  mainStore.setError(err as Error)
 }
-
-app.use(auth)
-app.use(api)
-
-Object.entries(components).forEach(([key, value]) => {
-  app.component(key, value as any)
-})
 
 app.mount('#app')

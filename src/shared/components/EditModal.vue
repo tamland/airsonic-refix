@@ -1,12 +1,12 @@
 <template>
-  <b-modal ok-title="Save" :visible="visible" @ok="confirm" @change="change">
-    <template #modal-header>
+  <b-modal ok-title="Save" :show="visible" @ok="confirm" @hidden="hidden">
+    <template #header>
       <h5 class="modal-title">
         <slot name="title" :item="copy">
           {{ title }}
         </slot>
       </h5>
-      <button class="btn-close" @click="change" />
+      <button class="btn-close" @click="hidden" />
     </template>
     <template v-if="visible">
       <slot :item="copy" />
@@ -40,7 +40,7 @@
       confirm() {
         this.$emit('confirm', this.copy)
       },
-      change() {
+      hidden() {
         this.$emit('update:visible', false)
       },
     }

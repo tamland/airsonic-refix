@@ -19,35 +19,35 @@
       Library
     </small>
 
-    <router-link class="nav-link" :to="{name: 'albums-default'}">
+    <router-link class="nav-link" :to="{path: '/albums'}">
       <Icon icon="library" /> Albums
     </router-link>
 
-    <router-link class="nav-link" :to="{name: 'artists'}">
+    <router-link class="nav-link" :to="{path: '/artists'}">
       <Icon icon="library" /> Artists
     </router-link>
 
-    <router-link class="nav-item nav-link" :to="{name: 'genres'}">
+    <router-link class="nav-link" :to="{path: '/genres'}">
       <Icon icon="library" /> Genres
     </router-link>
 
-    <router-link class="nav-link" :to="{name: 'playlists'}">
+    <router-link class="nav-link" :to="{path: '/playlists'}">
       <Icon icon="list" /> Playlists
     </router-link>
 
-    <router-link class="nav-link" :to="{name: 'favourites'}">
+    <router-link class="nav-link" :to="{path: '/favourites'}">
       <Icon icon="heart" /> Favourites
     </router-link>
 
-    <router-link class="nav-link" :to="{name: 'podcasts'}">
+    <router-link class="nav-link" :to="{path: '/podcasts'}">
       <Icon icon="podcast" /> Podcasts
     </router-link>
 
-    <router-link class="nav-link" :to="{name: 'radio'}">
+    <router-link class="nav-link" :to="{path: '/radio'}">
       <Icon icon="radio" /> Radio
     </router-link>
 
-    <router-link class="nav-link" :to="{name: 'files'}">
+    <router-link class="nav-link" :to="{path: '/files'}">
       <Icon icon="files" /> Files
     </router-link>
 

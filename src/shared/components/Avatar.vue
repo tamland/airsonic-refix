@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <span class="bg-secondary text-white rounded-circle avatar">
     <slot />
   </span>
