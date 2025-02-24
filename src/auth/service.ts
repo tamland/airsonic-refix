@@ -1,7 +1,7 @@
 import { md5, randomString, toQueryString } from '@/shared/utils'
 import { config } from '@/shared/config'
 import { inject } from 'vue'
-import { App, PluginObject } from '@/shared/compat'
+import { App, Plugin } from '@/shared/compat'
 import { pickBy } from 'lodash-es'
 
 type Auth = { password?: string, salt?: string, hash?: string }
@@ -144,7 +144,7 @@ export function useAuth(): AuthService {
   return inject(apiSymbol) as AuthService
 }
 
-export function createAuth(): AuthService & PluginObject<never> {
+export function createAuth(): AuthService & Plugin {
   const instance = new AuthService()
   return Object.assign(instance, {
     install: (app: App) => {

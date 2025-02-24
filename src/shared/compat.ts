@@ -4,7 +4,7 @@ import Vue from 'vue'
 export interface App<T = any> {
   config: VueConstructor['config'] & {globalProperties: any}
   // eslint-disable-next-line no-use-before-define
-  use(plugin: PluginObject<T>, options?: T): this
+  use(plugin: Plugin<T>, options?: T): this
   component: VueConstructor['component']
   provide<T>(key: symbol | string, value: T): this
   mount: Vue['$mount']
@@ -13,7 +13,7 @@ export interface App<T = any> {
   // unmount: Vue['$destroy']
 }
 
-export interface PluginObject<T> {
+export interface Plugin<T = any> {
   install: (app: App<T>, options?: T) => void
 }
 
@@ -21,7 +21,7 @@ export const createApp = (component: any, options: any): App => {
   const provide: Record<any, any> = {}
   let vm = undefined as undefined | Vue
   return {
-    use<T>(plugin: PluginObject<T>, options?: T) {
+    use<T>(plugin: Plugin<T>, options?: T) {
       (plugin as any).install(this, options)
       return this
     },
