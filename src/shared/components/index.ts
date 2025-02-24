@@ -19,7 +19,7 @@ import {
   BDropdownItemButton,
   BDropdownText,
   BModal,
-} from 'bootstrap-vue'
+} from 'bootstrap-vue-next'
 
 export const components = {
   Avatar,

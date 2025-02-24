@@ -1,5 +1,5 @@
-<template functional>
-  <div :class="['tiles', props.square ? 'tiles-square' : 'tiles-rect', {'tiles-hs' : props.allowHScroll}]">
+<template>
+  <div :class="['tiles', $attrs.square ? 'tiles-square' : 'tiles-rect', {'tiles-hs' : allowHScroll}]">
     <slot />
   </div>
 </template>

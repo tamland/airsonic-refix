@@ -1,4 +1,4 @@
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/auth/Login.vue'
 import Queue from '@/player/Queue.vue'
 import Discover from '@/discover/Discover.vue'
@@ -20,10 +20,9 @@ import ArtistTracks from '@/library/artist/ArtistTracks.vue'
 import Files from '@/library/file/Files.vue'
 
 export function setupRouter(auth: AuthService) {
-  const router = new Router({
-    mode: 'history',
+  const router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
     linkExactActiveClass: 'active',
-    base: import.meta.env.BASE_URL,
     routes: [
       {
         path: '/',

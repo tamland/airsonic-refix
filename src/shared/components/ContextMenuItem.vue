@@ -5,7 +5,7 @@
       'd-flex justify-content-between align-items-center text-nowrap',
       {[`dropdown-item-${variant}`]: variant}
     ]"
-    v-on="$listeners"
+    v-bind="$attrs"
   >
     <slot>
       {{ text }}

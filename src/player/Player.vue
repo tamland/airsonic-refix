@@ -135,7 +135,7 @@
   import ProgressBar from '@/player/ProgressBar.vue'
   import { useFavouriteStore } from '@/library/favourite/store'
   import { formatArtists } from '@/shared/utils'
-  import { BPopover } from 'bootstrap-vue'
+  import { BPopover } from 'bootstrap-vue-next'
   import SwitchInput from '@/shared/components/SwitchInput.vue'
   import IconReplayGain from '@/shared/components/IconReplayGain.vue'
   import IconReplayGainTrack from '@/shared/components/IconReplayGainTrack.vue'

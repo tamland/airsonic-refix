@@ -43,7 +43,7 @@
   import Logo from '@/app/Logo.vue'
   import { useMainStore } from '@/shared/store'
   import { useAuth } from '@/auth/service'
-  import { BOverlay } from 'bootstrap-vue'
+  import { BOverlay } from 'bootstrap-vue-next'
 
   export default defineComponent({
     components: {

@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <thead>
     <tr>
       <th>#</th>

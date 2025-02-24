@@ -18,7 +18,7 @@
 <script lang="ts">
   import { computed, defineComponent } from 'vue'
   import { useMainStore } from '@/shared/store'
-  import { BToast } from 'bootstrap-vue'
+  import { BToast } from 'bootstrap-vue-next'
 
   export default defineComponent({
     components: {

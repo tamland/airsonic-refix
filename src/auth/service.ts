@@ -1,7 +1,6 @@
 import { md5, randomString, toQueryString } from '@/shared/utils'
 import { config } from '@/shared/config'
-import { inject } from 'vue'
-import { App, Plugin } from '@/shared/compat'
+import { inject, App, Plugin } from 'vue'
 import { pickBy } from 'lodash-es'
 
 type Auth = { password?: string, salt?: string, hash?: string }

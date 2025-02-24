@@ -8,9 +8,9 @@
       :draggable="true" @dragstart="dragstart(item.id, $event)"
     >
       <template #text>
-        <template v-for="(artist, index) in item.artists">
+        <template v-for="(artist, index) in item.artists" :key="artist.id">
           <span v-if="index > 0" :key="artist.id" class="text-muted">, </span>
-          <router-link :key="`${artist.id}-link`" :to="{name: 'artist', params: { id: artist.id }}" class="text-muted">
+          <router-link :to="{name: 'artist', params: { id: artist.id }}" class="text-muted">
             {{ artist.name }}
           </router-link>
         </template>
