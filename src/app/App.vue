@@ -1,9 +1,11 @@
 <template>
   <div>
     <component :is="layout">
-      <keep-alive max="3">
-        <router-view :key="$route.fullPath" />
-      </keep-alive>
+      <router-view v-slot="{ Component }">
+        <keep-alive max="3">
+          <component :is="Component" :key="$route.fullPath" />
+        </keep-alive>
+      </router-view>
     </component>
     <ErrorToast />
   </div>

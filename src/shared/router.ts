@@ -1,4 +1,4 @@
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/auth/Login.vue'
 import Queue from '@/player/Queue.vue'
 import Discover from '@/discover/Discover.vue'
@@ -18,21 +18,16 @@ import SearchResult from '@/library/search/SearchResult.vue'
 import { AuthService } from '@/auth/service'
 import ArtistTracks from '@/library/artist/ArtistTracks.vue'
 import Files from '@/library/file/Files.vue'
+import { isArray } from 'lodash-es'
 
 export function setupRouter(auth: AuthService) {
-  const router = new Router({
-    mode: 'history',
-    linkExactActiveClass: 'active',
-    base: import.meta.env.BASE_URL,
+  const router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
+    linkActiveClass: 'active',
     routes: [
       {
-        path: '/',
-        name: 'home',
-        component: Discover
-      },
-      {
-        name: 'login',
         path: '/login',
+        name: 'login',
         component: Login,
         props: (route) => ({
           returnTo: route.query.returnTo,
@@ -42,104 +37,101 @@ export function setupRouter(auth: AuthService) {
         }
       },
       {
-        name: 'queue',
+        path: '/',
+        name: 'home',
+        component: Discover
+      },
+      {
         path: '/queue',
+        name: 'queue',
         component: Queue,
       },
       {
-        name: 'albums-default',
         path: '/albums',
-        redirect: ({
-          name: 'albums',
-          params: { sort: 'recently-added' }
-        }),
+        children: [
+          { path: '', redirect: { name: 'albums', params: { sort: 'recently-added' } } },
+          { path: ':sort', name: 'albums', component: AlbumLibrary, props: true },
+          { path: 'id/:id', name: 'album', component: AlbumDetails, props: true },
+        ]
       },
       {
-        name: 'albums',
-        path: '/albums/:sort',
-        component: AlbumLibrary,
-        props: true
+        path: '/artists',
+        children: [
+          { path: '', redirect: { name: 'artists', params: { sort: 'most-albums' } } },
+          { path: ':sort', name: 'artists', component: ArtistLibrary, props: true },
+          { path: 'id/:id', name: 'artist', component: ArtistDetails, props: true },
+          { path: 'id/:id/tracks', name: 'artist-tracks', component: ArtistTracks, props: true },
+        ]
       },
       {
-        name: 'album',
-        path: '/albums/id/:id',
-        component: AlbumDetails,
-        props: true,
+        path: '/genres',
+        children: [
+          { path: '', redirect: { name: 'genres', params: { sort: 'most-albums' } } },
+          { path: ':sort', name: 'genres', component: GenreLibrary, props: true, },
+          { path: 'id/:id/:section?', name: 'genre', component: GenreDetails, props: true },
+        ]
       },
       {
-        name: 'artists',
-        path: '/artists/:sort?',
-        component: ArtistLibrary,
-        props: true,
+        path: '/favourites',
+        children: [
+          { path: '', redirect: { name: 'favourites', params: { section: 'albums' } } },
+          { path: ':section', name: 'favourites', component: Favourites, props: true },
+        ]
       },
       {
-        name: 'artist',
-        path: '/artists/id/:id',
-        component: ArtistDetails,
-        props: true,
-      },
-      {
-        name: 'artist-tracks',
-        path: '/artists/id/:id/tracks',
-        component: ArtistTracks,
-        props: true,
-      },
-      {
-        name: 'genres',
-        path: '/genres/:sort?',
-        component: GenreLibrary,
-        props: true,
-      },
-      {
-        name: 'genre',
-        path: '/genres/id/:id/:section?',
-        component: GenreDetails,
-        props: true,
-      },
-      {
-        name: 'favourites',
-        path: '/favourites/:section?',
-        component: Favourites,
-        props: true,
-      },
-      {
-        name: 'radio',
         path: '/radio',
-        component: RadioStations,
+        children: [
+          { path: '', name: 'radio', component: RadioStations, props: true },
+        ]
       },
       {
-        name: 'podcasts',
-        path: '/podcasts/:sort?',
-        component: PodcastLibrary,
-        props: true,
+        path: '/podcasts',
+        children: [
+          { path: '', redirect: { name: 'podcasts', params: { sort: 'recently-updated' } } },
+          { path: ':sort', name: 'podcasts', component: PodcastLibrary, props: true },
+          { path: 'id/:id', name: 'podcast', component: PodcastDetails, props: true },
+        ]
       },
       {
-        name: 'podcast',
-        path: '/podcasts/id/:id',
-        component: PodcastDetails,
-        props: true,
+        path: '/files',
+        children: [
+          { path: '', component: Files, props: ({ path: '' }) },
+          {
+            path: ':path(.*)+',
+            name: 'files',
+            component: Files,
+            props: (route) => ({
+              ...route.params,
+              path: isArray(route.params.path) ? route.params.path.join('/') : route.params.path
+            })
+          },
+        ]
       },
       {
-        name: 'files',
-        path: '/files/:path*',
-        component: Files,
-        props: true,
+        path: '/playlists',
+        children: [
+          {
+            path: '',
+            redirect: { name: 'playlists', params: { sort: 'recently-added' } }
+          },
+          {
+            path: ':sort',
+            name: 'playlists',
+            component: PlaylistLibrary,
+            props: true,
+          },
+
+        ],
       },
       {
-        name: 'playlists',
-        path: '/playlists/:sort?',
-        component: PlaylistLibrary,
-        props: true,
-      },
-      {
+        path: '/playlists/id/:id',
         name: 'playlist',
-        path: '/playlist/:id',
         component: Playlist,
         props: true,
       },
       {
-        name: 'search',
         path: '/search/:type?',
+        name: 'search',
         component: SearchResult,
         props: (route) => ({
           ...route.params,
@@ -148,7 +140,7 @@ export function setupRouter(auth: AuthService) {
       },
     ],
     scrollBehavior(to, from, savedPosition) {
-      return savedPosition || { x: 0, y: 0 }
+      return savedPosition || { top: 0 }
     },
   })
 

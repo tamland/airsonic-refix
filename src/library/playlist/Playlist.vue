@@ -52,7 +52,7 @@
       </template>
     </TrackList>
     <EmptyIndicator v-else />
-    <EditModal :visible.sync="showEditModal" :item="playlist" @confirm="updatePlaylist">
+    <EditModal v-model:visible="showEditModal" :item="playlist" @confirm="updatePlaylist">
       <template #title>
         Edit playlist
       </template>
@@ -134,7 +134,7 @@
       },
       deletePlaylist() {
         return this.playlistStore.delete(this.id).then(() => {
-          this.$router.replace({ name: 'playlists' })
+          this.$router.replace({ path: '/playlists' })
         })
       },
     }

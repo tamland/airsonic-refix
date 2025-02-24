@@ -5,7 +5,7 @@
       <button type="button" class="btn btn-link btn-sm p-0 float-end" @click="showAddModal = true">
         <Icon icon="plus" />
       </button>
-      <CreatePlaylistModal :visible.sync="showAddModal" />
+      <CreatePlaylistModal v-model:visible="showAddModal" />
     </small>
 
     <router-link class="nav-link" :to="{name: 'playlist', params: { id: 'random' }}">

@@ -20,7 +20,7 @@
     </OverflowMenu>
 
     <b-modal v-model="showPlaylistSelect" ok-only ok-variant="transparent" ok-title="Cancel" size="md">
-      <template #modal-header>
+      <template #header>
         <h5 class="modal-title">
           Add to playlist
         </h5>

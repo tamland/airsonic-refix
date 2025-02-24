@@ -1,5 +1,5 @@
 <template>
-  <b-modal size="lg" hide-header hide-footer :visible="visible" @change="$emit('close')">
+  <b-modal size="lg" no-header no-footer :show="visible" @hidden="$emit('close')">
     <div style="width: 200px" class="mx-auto mb-3">
       <Logo />
     </div>
