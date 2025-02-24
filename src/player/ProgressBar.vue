@@ -1,7 +1,6 @@
 <template>
   <VueSlider
-    v-bind="$attrs"
-    :value="progress"
+    :model-value="progress"
     :min="0"
     :max="1"
     :interval="0.00001"

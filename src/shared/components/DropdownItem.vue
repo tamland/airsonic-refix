@@ -10,7 +10,6 @@
         {[`dropdown-item-${variant}`]: variant}
       ]"
       v-bind="$attrs"
-      v-on="$listeners"
     >
       <slot />
       <Icon v-if="icon" :icon="icon" class="ms-4" />
@@ -21,6 +20,7 @@
   import { defineComponent } from 'vue'
 
   export default defineComponent({
+    inheritAttrs: false,
     props: {
       icon: { type: String, default: null },
       variant: { type: String, default: '' },
