@@ -1,52 +1,55 @@
 <template>
-  <infinite-loading ref="inf" force-use-infinite-wrapper @infinite="loadMore">
-    <template slot="spinner">
-      <div class="d-flex justify-content-center my-4">
-        <span class="spinner-border" />
-      </div>
-    </template>
-    <template slot="no-more">
-      <span />
-    </template>
-    <template slot="no-results">
-      <span />
-    </template>
-  </infinite-loading>
+  <div ref="el" class="d-flex justify-content-center my-4">
+    <span v-show="loading" class="spinner-border" />
+  </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
-  import InfiniteLoading from 'vue-infinite-loading'
+  import { defineComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+  import { useIntersectionObserver } from '@vueuse/core'
+
+  function isInViewport(el: HTMLElement | null) {
+    if (!el) {
+      return false
+    }
+    const rect = el.getBoundingClientRect()
+    return (
+      rect.bottom >= 0 &&
+      rect.right >= 0 &&
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.left <= (window.innerWidth || document.documentElement.clientWidth)
+    )
+  }
 
   export default defineComponent({
-    components: {
-      InfiniteLoading,
-    },
     props: {
       loading: { type: Boolean, required: true },
       hasMore: { type: Boolean, required: true },
     },
-    watch: {
-      loading: {
-        handler(value: boolean) {
-          if (!this.hasMore) {
-            (this.$refs.inf as any).stateChanger.complete()
-          } else if (!value) {
-            (this.$refs.inf as any).stateChanger.loaded()
-          }
-        }
-      },
-      hasMore: {
-        handler(value: boolean) {
-          if (!value) {
-            (this.$refs.inf as any).stateChanger.complete()
-          }
+    setup(props, { emit }) {
+      const el = ref<HTMLElement | null>(null)
+
+      function check() {
+        if (isInViewport(el.value) && !props.loading && props.hasMore) {
+          emit('load-more')
         }
       }
+
+      const { stop } = useIntersectionObserver(el, () => {
+        check()
+      })
+
+      watch([props], () => {
+        check()
+      })
+
+      onMounted(() => {
+        emit('load-more')
+      })
+
+      onBeforeUnmount(() => {
+        stop()
+      })
+      return { el }
     },
-    methods: {
-      loadMore() {
-        this.$emit('load-more')
-      },
-    }
   })
 </script>

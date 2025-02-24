@@ -32,7 +32,7 @@
 
     <EmptyIndicator v-if="!loading && !hasResult" label="No results" />
 
-    <InfiniteLoader :key="key" :loading="loading" :has-more="type ? hasMore : false" @load-more="loadMore" />
+    <InfiniteLoader :loading="loading" :has-more="hasMore" @load-more="loadMore" />
   </div>
 </template>
 <script lang="ts">
@@ -58,7 +58,7 @@
           artists: [] as any[],
           tracks: [] as any[],
         },
-        loading: true,
+        loading: false,
         offset: 0 as number,
         hasMore: true,
       }
@@ -82,7 +82,7 @@
           this.result.tracks = []
           this.offset = 0
           this.hasMore = true
-          this.loading = true
+          this.loading = false
         }
       },
     },

@@ -8,8 +8,8 @@
       </li>
     </ul>
     <AlbumList :items="albums" />
-    <InfiniteLoader :key="sort" :loading="loading" :has-more="hasMore" @load-more="loadMore" />
     <EmptyIndicator v-if="!loading && albums.length === 0" />
+    <InfiniteLoader :loading="loading" :has-more="hasMore" @load-more="loadMore" />
   </div>
 </template>
 <script lang="ts">
