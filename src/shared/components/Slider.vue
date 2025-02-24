@@ -1,7 +1,6 @@
 <template>
   <VueSlider
-    v-bind="$attrs"
-    :value="value"
+    :model-value="value"
     :min="min"
     :max="max"
     :interval="step"
@@ -24,6 +23,7 @@
       step: { type: Number, required: true },
       percent: { type: Boolean, default: false },
     },
+    emits: ['input'],
     methods: {
       onInput(value: number) {
         this.$emit('input', value)

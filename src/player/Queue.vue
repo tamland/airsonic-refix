@@ -57,7 +57,7 @@
       </BaseTable>
       <EmptyIndicator v-else />
 
-      <CreatePlaylistModal :visible.sync="savePlaylistModalVisible" :tracks="tracks" />
+      <CreatePlaylistModal v-model:visible="savePlaylistModalVisible" :tracks="tracks" />
     </ContentLoader>
   </div>
 </template>

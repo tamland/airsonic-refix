@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { defineStore } from 'pinia'
 
 type MediaType = 'track' | 'album' | 'artist'
@@ -20,10 +19,10 @@ export const useFavouriteStore = defineStore('favourite', {
     toggle(type: MediaType, id: string) {
       const field = getTypeKey(type)
       if (this[field][id]) {
-        Vue.delete(this[field], id)
+        delete this[field][id]
         return this.api.removeFavourite(id, type)
       } else {
-        Vue.set(this[field], id, true)
+        this[field][id] = true
         return this.api.addFavourite(id, type)
       }
     },

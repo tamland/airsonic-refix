@@ -1,6 +1,6 @@
 <template>
-  <b-modal :visible="visible" @ok="confirm" @change="change">
-    <template #modal-header>
+  <b-modal :visible="visible" ok-title="Add" @ok="confirm" @hidden="hidden">
+    <template #header>
       <h5 class="modal-title">
         Add podcast
       </h5>
@@ -13,9 +13,6 @@
         Required
       </div>
     </div>
-    <template #modal-ok>
-      Add
-    </template>
   </b-modal>
 </template>
 <script lang="ts">
@@ -25,6 +22,7 @@
     props: {
       visible: { type: Boolean, required: true },
     },
+    emits: ['confirm', 'update:visible'],
     data() {
       return {
         url: '',
@@ -40,7 +38,7 @@
         }
         this.$emit('confirm', this.url)
       },
-      change() {
+      hidden() {
         this.hasError = false
         this.url = ''
         this.$emit('update:visible', false)

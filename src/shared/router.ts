@@ -1,4 +1,4 @@
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/auth/Login.vue'
 import Queue from '@/player/Queue.vue'
 import Discover from '@/discover/Discover.vue'
@@ -18,12 +18,12 @@ import SearchResult from '@/library/search/SearchResult.vue'
 import { AuthService } from '@/auth/service'
 import ArtistTracks from '@/library/artist/ArtistTracks.vue'
 import Files from '@/library/file/Files.vue'
+import { isArray } from 'lodash-es'
 
 export function setupRouter(auth: AuthService) {
-  const router = new Router({
-    mode: 'history',
-    linkExactActiveClass: 'active',
-    base: import.meta.env.BASE_URL,
+  const router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
+    linkActiveClass: 'active',
     routes: [
       {
         path: '/',
@@ -121,9 +121,12 @@ export function setupRouter(auth: AuthService) {
       },
       {
         name: 'files',
-        path: '/files/:path*',
+        path: '/files/:path(.*)*',
         component: Files,
-        props: true,
+        props: (route) => ({
+          ...route.params,
+          path: isArray(route.params.path) ? route.params.path.join('/') : route.params.path
+        })
       },
       {
         name: 'playlists',
