@@ -1,6 +1,6 @@
-<template functional>
+<template>
   <div>
-    <div v-if="props.loading" class="d-flex justify-content-center">
+    <div v-if="$attrs.loading" class="d-flex justify-content-center">
       <span class="spinner-border" />
     </div>
     <slot v-else />
