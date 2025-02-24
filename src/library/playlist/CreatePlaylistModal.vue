@@ -1,18 +1,15 @@
 <template>
-  <b-modal :visible="visible" @ok="confirm" @change="change">
-    <template #modal-header>
+  <b-modal :show="visible" ok-title="Create" @ok="confirm" @hidden="hidden">
+    <template #header>
       <h5 class="modal-title">
         New playlist
       </h5>
-      <button class="btn-close" @click="change" />
+      <button class="btn-close" @click="hidden" />
     </template>
     <div class="mb-3">
       <label class="form-label">Name</label>
       <input v-model="name" class="form-control" type="text">
     </div>
-    <template #modal-ok>
-      Create
-    </template>
   </b-modal>
 </template>
 <script lang="ts">
@@ -34,7 +31,7 @@
         confirm: () => {
           store.create(name.value, props.tracks?.map(item => item.id))
         },
-        change: () => {
+        hidden: () => {
           name.value = ''
           emit('update:visible', false)
         },

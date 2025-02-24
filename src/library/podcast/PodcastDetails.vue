@@ -114,7 +114,7 @@
       async deletePodcast() {
         this.podcast = null
         await this.$api.deletePodcast(this.id)
-        return this.$router.replace({ name: 'podcasts' })
+        return this.$router.replace({ path: '/podcasts' })
       }
     }
   })

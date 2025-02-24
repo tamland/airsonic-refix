@@ -2,7 +2,7 @@
   <div>
     <ul class="nav-underlined mb-3">
       <li>
-        <router-link :to="{... $route, params: { }}">
+        <router-link :to="{... $route, params: { section: 'albums' }}">
           Albums
         </router-link>
       </li>
