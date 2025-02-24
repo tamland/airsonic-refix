@@ -30,7 +30,7 @@
       <TrackList :tracks="result.tracks" />
     </div>
 
-    <EmptyIndicator v-if="!loading && !hasResult" label="No results" />
+    <EmptyIndicator v-if="!loading && !hasResult && !hasMore" label="No results" />
 
     <InfiniteLoader :loading="loading" :has-more="hasMore" @load-more="loadMore" />
   </div>
@@ -89,7 +89,7 @@
     methods: {
       async loadMore() {
         this.loading = true
-        const result = await this.$api.search(this.query, this.type, this.offset)
+        const result = await this.$api.search(this.query, this.type, 20, this.offset)
         const size = result.albums.length + result.artists.length + result.tracks.length
 
         this.result.albums.push(...result.albums)
@@ -97,7 +97,7 @@
         this.result.tracks.push(...result.tracks)
 
         this.offset += size
-        this.hasMore = size > 0
+        this.hasMore = size >= 20
         this.loading = false
       }
     }

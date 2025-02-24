@@ -58,7 +58,7 @@
         return this.$api.getAlbums(this.sort as AlbumSort, 50, this.offset).then(albums => {
           this.albums.push(...albums)
           this.offset += albums.length
-          this.hasMore = albums.length > 0
+          this.hasMore = albums.length >= 50
           this.loading = false
         })
       }

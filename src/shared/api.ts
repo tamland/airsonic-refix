@@ -390,8 +390,7 @@ export class API {
     await this.fetch('rest/unstar', params)
   }
 
-  async search(query: string, type?: string, offset?: number): Promise<SearchResult> {
-    const size = 20
+  async search(query: string, type: string | null, size: number, offset?: number): Promise<SearchResult> {
     const params = {
       query,
       albumCount: !type || type === 'album' ? size : 0,
