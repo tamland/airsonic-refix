@@ -37,7 +37,7 @@
       <EmptyIndicator v-else />
     </ContentLoader>
 
-    <AddPodcastModal :visible.sync="showAddModal" @confirm="add" />
+    <AddPodcastModal v-model:visible="showAddModal" @confirm="add" />
   </div>
 </template>
 <script lang="ts">

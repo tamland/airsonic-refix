@@ -40,7 +40,7 @@
       </Tile>
     </Tiles>
     <EmptyIndicator v-else />
-    <CreatePlaylistModal :visible.sync="showAddModal" />
+    <CreatePlaylistModal v-model:visible="showAddModal" />
   </div>
 </template>
 <script lang="ts">
