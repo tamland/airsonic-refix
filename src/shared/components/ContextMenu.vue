@@ -3,9 +3,10 @@
     <slot />
     <b-dropdown
       v-if="$slots['context-menu']"
-      ref="dropdown" toggle-class="p-0 border-0" no-caret lazy
+      ref="dropdown"
+      v-model="visible"
+      toggle-class="p-0 border-0" no-caret lazy
       :style="{position: 'absolute', left: `${left}px`,top: `${top}px`}"
-      @hide="hide"
     >
       <slot name="context-menu" />
     </b-dropdown>
@@ -22,18 +23,7 @@
         visible: false,
       }
     },
-    watch: {
-      visible: {
-        handler(value: boolean) {
-          (this.$refs.dropdown as any).visible = value
-        }
-      }
-    },
     methods: {
-      hide(event: any) {
-        event.preventDefault()
-        this.visible = false
-      },
       showContextMenu(event: any) {
         if (this.$slots['context-menu']) {
           event.preventDefault()
