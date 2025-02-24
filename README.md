@@ -83,7 +83,7 @@ $ docker build -f docker/Dockerfile .
 
 ```
 $ yarn install
-$ yarn serve
+$ yarn dev
 ```
 
 ## OpenSubsonic support
