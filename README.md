@@ -18,12 +18,12 @@ Modern responsive web frontend for [airsonic-advanced](https://github.com/airson
 - Internet radio
 - Podcasts
 
-## [Live demo](https://airsonic.netlify.app)
+## [Live demo](https://airsonic-refix.netlify.app)
 
 Enter the URL and credentials for your subsonic compatible server, or use one of the following public demo servers:
 
 **Subsonic**  
-  Server: `https://airsonic.netlify.app/api`  
+  Server: `https://airsonic-refix.netlify.app/api`  
   Username: `guest4`, `guest5`, `guest6` etc.  
   Password:`guest`
 
