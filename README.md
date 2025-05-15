@@ -8,7 +8,7 @@ Modern responsive web frontend for [airsonic-advanced](https://github.com/airson
 
 ## Features
 - Responsive UI for desktop and mobile
-- Browse library for albums, artist, generes
+- Browse library for albums, artist, genres
 - Playback with persistent queue, repeat & shuffle
 - MediaSession integration
 - View, create, and edit playlists with drag and drop
