@@ -1,5 +1,5 @@
 FROM nginx:alpine
-
+LABEL org.opencontainers.image.source https://github.com/aleksclark/airsonic-refix
 EXPOSE 80
 
 RUN apk add gettext

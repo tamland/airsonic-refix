@@ -73,41 +73,41 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  preview:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref != 'refs/heads/master'
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist
-
-      - name: Deploy preview
-        uses: netlify/actions/cli@master
-        env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        with:
-          args: deploy --dir=dist
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist
-
-      - name: Deploy site
-        uses: netlify/actions/cli@master
-        env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        with:
-          args: deploy --dir=dist --prod
+#  preview:
+#    runs-on: ubuntu-latest
+#    needs: build
+#    if: github.ref != 'refs/heads/master'
+#    steps:
+#      - name: Download artifact
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: dist
+#          path: dist
+#
+#      - name: Deploy preview
+#        uses: netlify/actions/cli@master
+#        env:
+#          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+#          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+#        with:
+#          args: deploy --dir=dist
+#
+#  deploy:
+#    runs-on: ubuntu-latest
+#    needs: build
+#    if: github.ref == 'refs/heads/master'
+#    steps:
+#      - name: Download artifact
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: dist
+#          path: dist
+#
+#      - name: Deploy site
+#        uses: netlify/actions/cli@master
+#        env:
+#          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+#          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+#        with:
+#          args: deploy --dir=dist --prod
 
