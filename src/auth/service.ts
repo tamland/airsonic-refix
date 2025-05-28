@@ -4,7 +4,14 @@ import { inject } from 'vue'
 import { App, Plugin } from '@/shared/compat'
 import { pickBy } from 'lodash-es'
 
-type Auth = { password?: string, salt?: string, hash?: string }
+type Auth = { password?: string, salt?: string, hash?: string, guestSession?: string }
+interface AuthParams {
+  p?: string,
+  s?: string,
+  t?: string,
+  g?: string,
+  u?: string,
+}
 
 interface ServerInfo {
   name: string
@@ -21,6 +28,7 @@ export class AuthService {
   private hash = ''
   private password = ''
   private authenticated = false
+  private guestSession = ''
 
   constructor() {
     this.server = config.serverUrl || localStorage.getItem('server') || ''
@@ -28,6 +36,7 @@ export class AuthService {
     this.salt = localStorage.getItem('salt') || ''
     this.hash = localStorage.getItem('hash') || ''
     this.password = localStorage.getItem('password') || ''
+    this.guestSession = localStorage.getItem('guestSession') || ''
   }
 
   private saveSession() {
@@ -38,6 +47,23 @@ export class AuthService {
     localStorage.setItem('salt', this.salt)
     localStorage.setItem('hash', this.hash)
     localStorage.setItem('password', this.password)
+    localStorage.setItem('guestSession', this.guestSession)
+  }
+
+  private guestFromResp(response: any): void {
+    console.log('resp')
+    try {
+      const guestSession = response['subsonic-response'].guestSession
+      console.log(guestSession, response)
+      if (guestSession) {
+        this.guestSession = guestSession
+        this.saveSession()
+      }
+    } catch (e) {
+      console.log('no guest session found in response')
+    }
+
+    console.log('done', this.guestSession)
   }
 
   async autoLogin(): Promise<boolean> {
@@ -45,8 +71,10 @@ export class AuthService {
       return false
     }
     try {
-      const auth = { salt: this.salt, hash: this.hash, password: this.password }
-      await login(this.server, this.username, auth)
+      let auth = { salt: this.salt, hash: this.hash, password: this.password, guestSession: this.guestSession }
+      const response = await login(this.server, this.username, auth)
+      this.guestFromResp(response)
+      auth = { salt: this.salt, hash: this.hash, password: this.password, guestSession: this.guestSession }
       this.authenticated = true
       this.serverInfo = await fetchServerInfo(this.server, this.username, auth)
       return true
@@ -58,13 +86,16 @@ export class AuthService {
   async loginWithPassword(server: string, username: string, password: string): Promise<void> {
     const salt = randomString()
     const hash = md5(password + salt)
+
     try {
-      await login(server, username, { hash, salt })
+      const response = await login(server, username, { hash, salt })
+      this.guestFromResp(response)
       this.salt = salt
       this.hash = hash
       this.password = ''
     } catch {
-      await login(server, username, { password })
+      const response = await login(server, username, { password })
+      this.guestFromResp(response)
       this.salt = ''
       this.hash = ''
       this.password = password
@@ -72,17 +103,18 @@ export class AuthService {
     this.server = server
     this.username = username
     this.authenticated = true
-    this.serverInfo = await fetchServerInfo(server, username, { hash, salt, password })
+    this.serverInfo = await fetchServerInfo(server, username, { hash, salt, password: this.password, guestSession: this.guestSession })
     this.saveSession()
   }
 
   get urlParams() {
-    return toQueryString(pickBy({
+    return filterAuth({
       u: this.username,
       s: this.salt,
       t: this.hash,
       p: this.password,
-    }))
+      g: this.guestSession,
+    }, 'urlParams')
   }
 
   logout() {
@@ -95,12 +127,19 @@ export class AuthService {
   }
 }
 
+function filterAuth(auth: AuthParams, src: string): string {
+  const result = toQueryString(pickBy(auth, x => (x !== undefined && x !== '')))
+  console.log('filterAuth', auth, src, result)
+  return result
+}
+
 async function login(server: string, username: string, auth: Auth) {
-  const qs = toQueryString(pickBy({
+  const qs = filterAuth({
     s: auth.salt,
     t: auth.hash,
     p: auth.password,
-  }, x => x !== undefined) as Record<string, string>)
+    g: auth.guestSession
+  }, 'login')
   const url = `${server}/rest/ping?u=${username}&${qs}&v=1.15.0&c=app&f=json`
   return fetch(url)
     .then(response => response.ok
@@ -112,15 +151,18 @@ async function login(server: string, username: string, auth: Auth) {
         const message = subsonicResponse.error?.message || subsonicResponse.status
         throw new Error(message)
       }
+      console.log('got from api', response)
+      return response
     })
 }
 
 async function fetchServerInfo(server: string, username: string, auth: Auth): Promise<ServerInfo> {
-  const qs = toQueryString(pickBy({
+  const qs = filterAuth({
     s: auth.salt,
     t: auth.hash,
     p: auth.password,
-  }, x => x !== undefined) as Record<string, string>)
+    g: auth.guestSession,
+  }, 'serverInfo')
   const url = `${server}/rest/getOpenSubsonicExtensions?u=${username}&${qs}&v=1.15.0&c=app&f=json`
   const response = await fetch(url)
   if (response.ok) {
