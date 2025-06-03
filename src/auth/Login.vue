@@ -4,7 +4,7 @@
       <span class="spinner-border " />
     </div>
     <div v-else class="mx-auto card" style="width: 22rem">
-      <b-overlay rounded :show="busy" opacity="0.1">
+      <fieldset :disabled="busy">
         <div class="card-body">
           <form @submit.prevent="login">
             <div class="d-flex mb-2">
@@ -28,12 +28,12 @@
             <div v-if="error != null" class="alert alert-danger">
               Could not log in. ({{ error.message }})
             </div>
-            <button class="btn btn-primary w-100" :disabled="busy" @click="login">
-              <span v-show="false" class="spinner-border spinner-border-sm" /> Log in
+            <button class="btn btn-primary w-100" @click="login">
+              <span v-show="busy" class="spinner-border spinner-border-sm" /> Log in
             </button>
           </form>
         </div>
-      </b-overlay>
+      </fieldset>
     </div>
   </div>
 </template>
@@ -43,11 +43,9 @@
   import Logo from '@/app/Logo.vue'
   import { useMainStore } from '@/shared/store'
   import { useAuth } from '@/auth/service'
-  import { BOverlay } from 'bootstrap-vue'
 
   export default defineComponent({
     components: {
-      BOverlay,
       Logo,
     },
     props: {

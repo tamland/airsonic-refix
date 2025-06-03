@@ -26,6 +26,7 @@ $border-color: $theme-elevation-2;
 // Button
 .btn-primary {
   --bs-btn-color: #fff !important;
+  --bs-btn-disabled-color: #fff !important;
   --bs-btn-active-color: #fff !important;
   --bs-btn-hover-color: #fff !important;
 }
@@ -71,6 +72,7 @@ $tooltip-color: $theme-text;
 
 // Form
 $input-bg: $theme-elevation-2;
+$input-disabled-bg: $theme-elevation-1;
 $input-border-color: $theme-elevation-2;
 $input-color: $theme-text;
 $custom-range-track-height: 0.1rem;
