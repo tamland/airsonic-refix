@@ -1,18 +1,19 @@
 <template>
   <ContentLoader v-slot :loading="podcast == null">
     <Hero :image="podcast.image">
-      <h1>
+      <small>Podcast</small>
+      <h1 class="display-5 fw-bold">
         {{ podcast.name }}
       </h1>
       <OverflowFade v-if="podcast.description" class="mb-3">
         {{ podcast.description }}
       </OverflowFade>
       <div class="text-nowrap">
-        <b-button variant="secondary" class="me-2" :disabled="playableTracks.length === 0" @click="playNow">
+        <b-button variant="light" class="me-2" :disabled="playableTracks.length === 0" @click="playNow">
           <Icon icon="play" /> Play
         </b-button>
-        <b-button variant="secondary" :disabled="playableTracks.length === 0" @click="shuffleNow">
-          <Icon icon="shuffle" /> Shuffle
+        <b-button variant="link" class="me-2" :disabled="playableTracks.length === 0" title="Shuffle" @click="shuffleNow">
+          <Icon icon="shuffle" />
         </b-button>
         <OverflowMenu class="px-1">
           <ContextMenuItem icon="x" variant="danger" @click="deletePodcast">

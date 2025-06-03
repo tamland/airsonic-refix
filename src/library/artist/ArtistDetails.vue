@@ -1,36 +1,40 @@
 <template>
   <ContentLoader v-slot :loading="item == null">
     <Hero :image="item.image">
-      <h1>
+      <small>Artist</small>
+      <h1 class="display-5 fw-bold">
         {{ item.name }}
-        <b-button variant="link" class="p-0" @click="toggleFavourite">
-          <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
-        </b-button>
       </h1>
       <div class="d-flex flex-wrap align-items-center">
         <span class="text-nowrap">
           <strong>{{ item.albumCount }}</strong> albums
         </span>
-        <span class="mx-1">•</span>
-        <span class="text-nowrap me-3">
+        <span class="mx-2">•</span>
+        <span class="text-nowrap">
           <strong>{{ item.trackCount }}</strong> tracks
         </span>
-        <div class="d-flex flex-nowrap">
-          <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="btn btn-link p-0 me-2" title="Last.fm">
-            <IconLastFm />
-          </ExternalLink>
-          <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl" class="btn btn-link me-2 p-0" title="MusicBrainz">
-            <IconMusicBrainz />
-          </ExternalLink>
-        </div>
-      </div>
-      <div v-if="item.genres.length > 0">
-        <span v-for="({ name: genre }, index) in item.genres" :key="genre">
-          <span v-if="index > 0">•</span>
-          <router-link :to="{name: 'genre', params: { id: genre }}">
-            {{ genre }}
-          </router-link>
-        </span>
+
+        <template v-if="item.genres.length > 0">
+          <span class="mx-2">•</span>
+          <span v-for="({ name: genre }, index) in item.genres" :key="genre">
+            <span v-if="index > 0">, </span>
+            <router-link :to="{name: 'genre', params: { id: genre }}">
+              {{ genre }}
+            </router-link>
+          </span>
+        </template>
+
+        <template v-if="item.lastFmUrl || item.musicBrainzUrl">
+          <span class="mx-2">•</span>
+          <div class="d-flex flex-nowrap">
+            <ExternalLink v-if="item.lastFmUrl" :href="item.lastFmUrl" class="btn btn-link p-0 me-2" title="Last.fm">
+              <IconLastFm />
+            </ExternalLink>
+            <ExternalLink v-if="item.musicBrainzUrl" :href="item.musicBrainzUrl" class="btn btn-link me-2 p-0" title="MusicBrainz">
+              <IconMusicBrainz />
+            </ExternalLink>
+          </div>
+        </template>
       </div>
 
       <OverflowFade v-if="item.description" class="mt-3">
@@ -38,11 +42,14 @@
       </OverflowFade>
 
       <div class="text-nowrap mt-3">
-        <b-button variant="secondary" :disabled="item.topTracks.length === 0" class="me-2" @click="playNow">
+        <b-button variant="light" :disabled="item.topTracks.length === 0" class="me-2" @click="playNow">
           <Icon icon="play" /> Play
         </b-button>
-        <b-button variant="secondary" :disabled="item.topTracks.length === 0" @click="shuffleNow">
-          <Icon icon="shuffle" /> Shuffle
+        <b-button variant="link" :disabled="item.topTracks.length === 0" title="Shuffle" @click="shuffleNow">
+          <Icon icon="shuffle" />
+        </b-button>
+        <b-button variant="link" class="me-2" title="Favourite" @click="toggleFavourite">
+          <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
         </b-button>
       </div>
     </Hero>

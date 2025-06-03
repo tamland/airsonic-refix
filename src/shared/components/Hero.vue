@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start position-relative mb-3">
+  <div class="d-flex flex-column flex-md-row align-items-center position-relative mb-3">
     <div class="backdrop" />
     <img v-if="image" :src="image">
     <img v-else src="@/shared/assets/fallback.svg">

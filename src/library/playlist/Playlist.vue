@@ -1,46 +1,47 @@
 <template>
   <ContentLoader v-slot :loading="playlist == null">
-    <div class="d-flex align-items-center mb-2">
-      <h1 class="mb-0 me-2 text-truncate">
+    <Hero :image="playlist.image">
+      <small>Playlist</small>
+      <h1 class="display-5 fw-bold">
         {{ playlist.name }}
       </h1>
-      <OverflowMenu class="ms-auto">
-        <ContextMenuItem icon="edit" :disabled="playlist.isReadOnly" @click="showEditModal = true">
-          Edit
-        </ContextMenuItem>
-        <b-dropdown-divider />
-        <ContextMenuItem icon="x" variant="danger" :disabled="playlist.isReadOnly" @click="deletePlaylist()">
-          Delete
-        </ContextMenuItem>
-      </OverflowMenu>
-    </div>
 
-    <div class="d-flex flex-wrap align-items-center">
-      <span class="text-nowrap">
-        <strong>{{ playlist.trackCount }}</strong> tracks
-      </span>
-      <span class="mx-1">•</span>
-      <strong>{{ formatDuration(playlist.duration) }}</strong>
-      <template v-if="playlist.isPublic">
-        <span class="mx-1">•</span>
-        <span class="badge bg-secondary rounded-pill">
-          Public
+      <div class="d-flex flex-wrap align-items-center">
+        <span class="text-nowrap">
+          <strong>{{ playlist.trackCount }}</strong> tracks
         </span>
-      </template>
-    </div>
+        <span class="mx-2">•</span>
+        <strong>{{ formatDuration(playlist.duration) }}</strong>
+        <template v-if="playlist.isPublic">
+          <span class="mx-2">•</span>
+          <span class="badge bg-secondary rounded-pill">
+            Public
+          </span>
+        </template>
+      </div>
 
-    <div v-if="playlist.comment" class="mt-3">
-      {{ playlist.comment }}
-    </div>
+      <OverflowFade v-if="playlist.comment" class="mt-3">
+        {{ playlist.comment }}
+      </OverflowFade>
 
-    <div class="text-nowrap mt-3">
-      <b-button variant="secondary" :disabled="playlist.tracks.length === 0" class="me-2" @click="playNow">
-        <Icon icon="play" /> Play
-      </b-button>
-      <b-button variant="secondary" :disabled="playlist.tracks.length === 0" @click="shuffleNow">
-        <Icon icon="shuffle" /> Shuffle
-      </b-button>
-    </div>
+      <div class="text-nowrap mt-3">
+        <b-button variant="light" :disabled="playlist.tracks.length === 0" class="me-2" @click="playNow">
+          <Icon icon="play" /> Play
+        </b-button>
+        <b-button variant="link" class="me-2" :disabled="playlist.tracks.length === 0" title="Shuffle" @click="shuffleNow">
+          <Icon icon="shuffle" />
+        </b-button>
+        <OverflowMenu class="ms-auto">
+          <ContextMenuItem icon="edit" :disabled="playlist.isReadOnly" @click="showEditModal = true">
+            Edit
+          </ContextMenuItem>
+          <b-dropdown-divider />
+          <ContextMenuItem icon="x" variant="danger" :disabled="playlist.isReadOnly" @click="deletePlaylist()">
+            Delete
+          </ContextMenuItem>
+        </OverflowMenu>
+      </div>
+    </Hero>
 
     <TrackList v-if="playlist.tracks.length > 0" :tracks="playlist.tracks" class="mt-3">
       <template #context-menu="{index}">
@@ -80,9 +81,11 @@
   import SwitchInput from '@/shared/components/SwitchInput.vue'
   import { formatDuration } from '@/shared/utils'
   import { usePlayerStore } from '@/player/store'
+  import OverflowFade from '@/shared/components/OverflowFade.vue'
 
   export default defineComponent({
     components: {
+      OverflowFade,
       SwitchInput,
       TrackList,
       EditModal,
