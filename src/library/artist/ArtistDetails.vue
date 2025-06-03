@@ -75,7 +75,11 @@
           <Icon icon="arrow-up-down" />
         </b-button>
       </div>
-      <AlbumList :items="albums" />
+      <AlbumList :items="albums">
+        <template #text="{ year }">
+          {{ year || 'Unknown' }}
+        </template>
+      </AlbumList>
     </template>
 
     <template v-if="item.similarArtist.length > 0">
