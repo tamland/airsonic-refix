@@ -2,7 +2,7 @@
   <ContentLoader :loading="loading">
     <div v-for="section in sections" :key="section.key" class="mb-4">
       <template v-if="result[section.key].length > 0">
-        <h1>
+        <h3>
           {{ section.name }}
           <router-link
             :to="{name: 'albums', params: {sort: section.key}}"
@@ -10,7 +10,7 @@
           >
             <Icon icon="chevron-right" />
           </router-link>
-        </h1>
+        </h3>
         <AlbumList :items="result[section.key]" allow-h-scroll />
       </template>
     </div>

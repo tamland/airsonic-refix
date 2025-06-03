@@ -1,32 +1,32 @@
 <template>
   <div>
     <div v-if="result.albums.length > 0" class="mb-5">
-      <h1 v-if="!type">
+      <h3 v-if="!type">
         Albums
         <router-link v-if="!type" :to="{params: {type: 'album'}, query: $route.query}" class="text-muted">
           <Icon icon="chevron-right" />
         </router-link>
-      </h1>
+      </h3>
       <AlbumList :items="result.albums" />
     </div>
 
     <div v-if="result.artists.length > 0" class="mb-5">
-      <h1 v-if="!type">
+      <h3 v-if="!type">
         Artists
         <router-link v-if="!type" :to="{params: {type: 'artist'}, query: $route.query}" class="text-muted">
           <Icon icon="chevron-right" />
         </router-link>
-      </h1>
+      </h3>
       <ArtistList :items="result.artists" />
     </div>
 
     <div v-if="result.tracks.length > 0">
-      <h1 v-if="!type">
+      <h3 v-if="!type">
         Tracks
         <router-link :to="{params: {type: 'track'}, query: $route.query}" class="text-muted">
           <Icon icon="chevron-right" />
         </router-link>
-      </h1>
+      </h3>
       <TrackList :tracks="result.tracks" />
     </div>
 
