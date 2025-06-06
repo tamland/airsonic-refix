@@ -4,7 +4,7 @@
       <h1 class="mb-0 me-2 text-truncate">
         Radio
       </h1>
-      <b-button variant="link" :disabled="unsupported" @click="openAddModal">
+      <b-button variant="transparent" :disabled="unsupported" @click="openAddModal">
         <Icon icon="plus" />
       </b-button>
     </div>

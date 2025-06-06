@@ -28,10 +28,10 @@
         <b-button variant="light" :disabled="playlist.tracks.length === 0" class="me-2" @click="playNow">
           <Icon icon="play" /> Play
         </b-button>
-        <b-button variant="link" class="me-2" :disabled="playlist.tracks.length === 0" title="Shuffle" @click="shuffleNow">
+        <b-button variant="transparent" class="me-2" :disabled="playlist.tracks.length === 0" title="Shuffle" @click="shuffleNow">
           <Icon icon="shuffle" />
         </b-button>
-        <OverflowMenu class="ms-auto">
+        <OverflowMenu variant="transparent" class="ms-auto">
           <ContextMenuItem icon="edit" :disabled="playlist.isReadOnly" @click="showEditModal = true">
             Edit
           </ContextMenuItem>

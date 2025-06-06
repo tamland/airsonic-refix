@@ -12,10 +12,10 @@
         <b-button variant="light" class="me-2" :disabled="playableTracks.length === 0" @click="playNow">
           <Icon icon="play" /> Play
         </b-button>
-        <b-button variant="link" class="me-2" :disabled="playableTracks.length === 0" title="Shuffle" @click="shuffleNow">
+        <b-button variant="transparent" class="me-2" :disabled="playableTracks.length === 0" title="Shuffle" @click="shuffleNow">
           <Icon icon="shuffle" />
         </b-button>
-        <OverflowMenu class="px-1">
+        <OverflowMenu variant="transparent">
           <ContextMenuItem icon="x" variant="danger" @click="deletePodcast">
             Delete
           </ContextMenuItem>

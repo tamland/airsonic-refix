@@ -32,13 +32,13 @@
 
         <!-- Controls--->
         <div class="col-auto p-0">
-          <b-button variant="link" class="m-2 d-none d-sm-inline-block" @click="previous">
+          <b-button variant="transparent" class="m-2 d-none d-sm-inline-block" @click="previous">
             <Icon icon="skip-start" />
           </b-button>
-          <b-button variant="link" size="lg" class="m-2" @click="playPause">
+          <b-button variant="transparent" size="lg" class="m-2" @click="playPause">
             <Icon :icon="isPlaying ? 'pause' : 'play'" />
           </b-button>
-          <b-button variant="link" class="m-2" @click="next">
+          <b-button variant="transparent" class="m-2" @click="next">
             <Icon icon="skip-end" />
           </b-button>
         </div>
@@ -61,13 +61,13 @@
               </template>
               <b-button
                 title="Favourite"
-                variant="link" class="m-0"
+                variant="transparent" class="m-0"
                 :disabled="track && track.isStream"
                 @click="toggleFavourite"
               >
                 <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
               </b-button>
-              <b-button id="player-volume-btn" variant="link" title="Volume">
+              <b-button id="player-volume-btn" variant="transparent" title="Volume">
                 <Icon :icon="isMuted ? 'mute' : 'volume'" />
               </b-button>
               <b-popover target="player-volume-btn" placement="top" triggers="click blur" no-fade>
@@ -79,7 +79,7 @@
               <b-button
                 v-if="track && track.replayGain"
                 title="ReplayGain"
-                variant="link"
+                variant="transparent"
                 class="m-0"
                 :class="{ 'text-primary': replayGainMode !== ReplayGainMode.None }"
                 @click="toggleReplayGain"
@@ -89,12 +89,12 @@
                 <IconReplayGainAlbum v-else-if="replayGainMode === ReplayGainMode.Album" />
               </b-button>
               <b-button title="Shuffle"
-                        variant="link" class="m-0" :class="{ 'text-primary': shuffleActive }"
+                        variant="transparent" class="m-0" :class="{ 'text-primary': shuffleActive }"
                         @click="toggleShuffle">
                 <Icon icon="shuffle" />
               </b-button>
               <b-button title="Repeat"
-                        variant="link" class="m-0" :class="{ 'text-primary': repeatActive }"
+                        variant="transparent" class="m-0" :class="{ 'text-primary': repeatActive }"
                         @click="toggleRepeat">
                 <Icon icon="repeat" />
               </b-button>
@@ -126,7 +126,7 @@
               </div>
               <div class="d-flex justify-content-between px-3 py-1">
                 <span>Favourite</span>
-                <b-button variant="link" class="m-0 px-2 py-0" @click.stop="toggleFavourite">
+                <b-button variant="transparent" class="m-0 px-2 py-0" @click.stop="toggleFavourite">
                   <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
                 </b-button>
               </div>

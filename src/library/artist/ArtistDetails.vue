@@ -45,10 +45,10 @@
         <b-button variant="light" :disabled="item.topTracks.length === 0" class="me-2" @click="playNow">
           <Icon icon="play" /> Play
         </b-button>
-        <b-button variant="link" :disabled="item.topTracks.length === 0" title="Shuffle" @click="shuffleNow">
+        <b-button variant="transparent" :disabled="item.topTracks.length === 0" class="me-2" title="Shuffle" @click="shuffleNow">
           <Icon icon="shuffle" />
         </b-button>
-        <b-button variant="link" class="me-2" title="Favourite" @click="toggleFavourite">
+        <b-button variant="transparent" class="me-2" title="Favourite" @click="toggleFavourite">
           <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
         </b-button>
       </div>

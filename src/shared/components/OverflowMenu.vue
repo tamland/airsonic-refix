@@ -4,7 +4,7 @@
     no-caret
     boundary="window"
     :variant="variant"
-    :toggle-class="variant === 'link' ? 'p-0' : 'px-1'"
+    :toggle-class="variant === 'link' ? 'p-0' : ''"
     :disabled="disabled"
     lazy
   >

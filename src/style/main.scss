@@ -30,6 +30,24 @@ $border-color: $theme-elevation-2;
   --bs-btn-active-color: #fff !important;
   --bs-btn-hover-color: #fff !important;
 }
+
+.btn-transparent {
+  --bs-btn-color: $theme-text;
+  --bs-btn-bg: transparent;
+  --bs-btn-border-width: 0;
+
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-border-color: transparent;
+
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #{rgba(#fff, .12)};
+
+  --bs-btn-focus-shadow-rgb: 125, 125, 125;
+
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: transparent;
+}
+
 $btn-close-color: $theme-text;
 
 // Card

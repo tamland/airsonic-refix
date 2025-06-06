@@ -19,7 +19,7 @@
       <slot :item="track" />
     </OverflowMenu>
 
-    <b-modal v-model="showPlaylistSelect" ok-only ok-variant="secondary" ok-title="Cancel" size="md">
+    <b-modal v-model="showPlaylistSelect" ok-only ok-variant="transparent" ok-title="Cancel" size="md">
       <template #modal-header>
         <h5 class="modal-title">
           Add to playlist

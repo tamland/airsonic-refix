@@ -5,10 +5,10 @@
         Playing
       </h1>
       <div>
-        <b-button variant="link" class="me-2" :disabled="!tracks?.length" @click="shuffle">
+        <b-button variant="transparent" class="me-2" :disabled="!tracks?.length" @click="shuffle">
           <Icon icon="shuffle" /> Shuffle
         </b-button>
-        <b-button class="clear-btn" variant="link" :disabled="!tracks?.length" @click="clear">
+        <b-button variant="transparent" class="clear-btn" :disabled="!tracks?.length" @click="clear">
           <Icon icon="x" /> Clear
           <div v-if="tracks?.length === 1 " class="tooltip bs-tooltip-bottom">
             <div class="tooltip-inner">

@@ -14,10 +14,10 @@
         </li>
       </ul>
       <div>
-        <b-button variant="link" class="me-2" @click="showAddModal = true">
+        <b-button variant="transparent" class="me-2" @click="showAddModal = true">
           <Icon icon="plus" />
         </b-button>
-        <b-button icon="refresh" variant="link" @click="refresh()">
+        <b-button icon="refresh" variant="transparent" @click="refresh()">
           <Icon icon="refresh" />
         </b-button>
       </div>
