@@ -14,13 +14,36 @@
         <AlbumList :items="result[section.key]" allow-h-scroll />
       </template>
     </div>
+
+    <div v-if="result.genres.length > 0" class="mb-4">
+      <h3>Genres</h3>
+      <div class="d-flex flex-wrap gap-3">
+        <span v-for="item in result.genres" :key="item.id" class="text-bg-secondary rounded-pill py-2 px-3 +mb-2 +me-2">
+          <router-link :to="{name: 'genre', params: { id: item.id } }">
+            {{ item.name }}
+          </router-link>
+        </span>
+      </div>
+    </div>
+
+    <div v-if="result.random.length > 0" class="mb-4">
+      <h3>
+        Random
+        <router-link :to="{name: 'albums', params: {sort: 'random'}}" class="text-muted">
+          <Icon icon="chevron-right" />
+        </router-link>
+      </h3>
+      <AlbumList :items="result.random" allow-h-scroll />
+    </div>
+
     <EmptyIndicator v-if="empty" />
   </ContentLoader>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'
   import AlbumList from '@/library/album/AlbumList.vue'
-  import { Album } from '@/shared/api'
+  import { Album, Genre } from '@/shared/api'
+  import { orderBy } from 'lodash-es'
 
   export default defineComponent({
     components: {
@@ -34,6 +57,7 @@
           'recently-played': [] as Album[],
           'most-played': [] as Album[],
           random: [] as Album[],
+          genres: [] as Genre[],
         }
       }
     },
@@ -43,7 +67,6 @@
           { name: 'Recently added', key: 'recently-added' },
           { name: 'Recently played', key: 'recently-played' },
           { name: 'Most played', key: 'most-played' },
-          { name: 'Random', key: 'random' },
         ]
       },
       empty() {
@@ -64,6 +87,9 @@
       })
       this.$api.getAlbums('random', 50).then(result => {
         this.result.random = result
+      })
+      this.$api.getGenres().then(result => {
+        this.result.genres = orderBy(result, 'albumCount', 'desc')
       })
     }
   })
