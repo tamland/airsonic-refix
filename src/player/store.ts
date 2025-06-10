@@ -140,9 +140,19 @@ export const usePlayerStore = defineStore('player', {
       }
     },
     addToQueue(tracks: Track[]) {
+      const lastTrack = this.queue && this.queue.length > 0 ? this.queue[this.queue.length - 1] : null
+      if (tracks.length === 1 && tracks[0].id === lastTrack?.id) {
+        return
+      }
       this.queue?.push(...this.shuffle ? shuffled(tracks) : tracks)
     },
     setNextInQueue(tracks: Track[]) {
+      const nextTrack = this.queue && this.queue.length > 0
+        ? this.queue[(this.queueIndex + 1) % this.queue.length]
+        : null
+      if (tracks.length === 1 && tracks[0].id === nextTrack?.id) {
+        return
+      }
       this.queue?.splice(this.queueIndex + 1, 0, ...this.shuffle ? shuffled(tracks) : tracks)
     },
     removeFromQueue(index: number) {
