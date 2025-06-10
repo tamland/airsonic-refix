@@ -122,6 +122,10 @@ export class AudioController {
       this.statsListener?.start()
     }
 
+    if (options.isStream) {
+      this.audio.load()
+    }
+
     if (options.paused !== true) {
       try {
         await this.audio.play()
