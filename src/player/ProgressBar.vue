@@ -45,7 +45,6 @@
   })
 </script>
 <style lang="scss" scoped>
-  @use 'vue-slider-component/theme/material.css';
 
   .vue-slider {
     height: 4px !important;

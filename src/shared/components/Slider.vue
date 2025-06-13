@@ -37,8 +37,6 @@
   })
 </script>
 <style lang="scss" scoped>
-  @use 'vue-slider-component/theme/material.css';
-
   .vue-slider {
     cursor: pointer;
   }
