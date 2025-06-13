@@ -7,10 +7,14 @@
         <!-- Track info --->
         <div class="col p-0 d-flex flex-nowrap align-items-center justify-content-start" style="width: 0; min-width: 0">
           <template v-if="track">
-            <router-link :to="{ name: 'queue' }" style="padding: 12px">
+            <component
+              :is="track.albumId ? 'router-link': 'div'"
+              :to="{ name: 'album', params: { id: track.albumId } }"
+              style="padding: 12px"
+            >
               <img v-if="track.image" width="52" height="52" :src="track.image">
               <img v-else width="52" height="52" src="@/shared/assets/fallback.svg">
-            </router-link>
+            </component>
             <div style="min-width: 0">
               <div class="text-truncate">
                 {{ streamTitle || track.title }}
@@ -75,6 +79,7 @@
                   />
                 </b-popover>
               </template>
+
               <b-button
                 title="Favourite"
                 variant="transparent" class="m-0"
@@ -83,15 +88,7 @@
               >
                 <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
               </b-button>
-              <b-button id="player-volume-btn" variant="transparent" title="Volume">
-                <Icon :icon="isMuted ? 'mute' : 'volume'" />
-              </b-button>
-              <b-popover target="player-volume-btn" placement="top" triggers="click blur" no-fade>
-                <Slider class="pt-2" style="height: 120px;" direction="btt"
-                        :min="0" :max="1" :step="0.01" percent
-                        :value="volume" @input="setVolume"
-                />
-              </b-popover>
+
               <b-button
                 v-if="track && track.replayGain"
                 title="ReplayGain"
@@ -104,6 +101,20 @@
                 <IconReplayGainTrack v-else-if="replayGainMode === ReplayGainMode.Track" />
                 <IconReplayGainAlbum v-else-if="replayGainMode === ReplayGainMode.Album" />
               </b-button>
+
+              <b-button id="player-volume-btn" variant="transparent" title="Volume">
+                <Icon :icon="isMuted ? 'mute' : 'volume'" />
+              </b-button>
+              <b-popover target="player-volume-btn" placement="top" triggers="click blur" no-fade>
+                <Slider class="pt-2" style="height: 120px;" direction="btt"
+                        :min="0" :max="1" :step="0.01" percent
+                        :value="volume" @input="setVolume"
+                />
+              </b-popover>
+
+              <router-link :to="{ name: 'queue' }" class="btn btn-transparent">
+                <Icon icon="list" />
+              </router-link>
             </div>
             <OverflowMenu class="d-md-none">
               <div class="d-flex justify-content-between align-items-center px-3 py-1">
