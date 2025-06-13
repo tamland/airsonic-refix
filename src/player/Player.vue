@@ -32,19 +32,35 @@
 
         <!-- Controls--->
         <div class="col-auto p-0">
-          <b-button variant="transparent" class="m-2 d-none d-sm-inline-block" @click="previous">
+          <b-button
+            title="Shuffle"
+            variant="transparent"
+            class="d-none d-md-inline-block"
+            :class="{ 'text-primary': shuffleActive } "
+            @click="toggleShuffle">
+            <Icon icon="shuffle" />
+          </b-button>
+          <b-button variant="transparent" class="m-2 d-none d-md-inline-block" @click="previous">
             <Icon icon="skip-start" />
           </b-button>
-          <b-button variant="transparent" size="lg" class="m-2" @click="playPause">
+          <b-button variant="transparent" size="lg" class="btn-play m-2" @click="playPause">
             <Icon :icon="isPlaying ? 'pause' : 'play'" />
           </b-button>
           <b-button variant="transparent" class="m-2" @click="next">
             <Icon icon="skip-end" />
           </b-button>
+          <b-button
+            title="Repeat"
+            variant="transparent"
+            class="d-none d-md-inline-block"
+            :class="{ 'text-primary': repeatActive }"
+            @click="toggleRepeat">
+            <Icon icon="repeat" />
+          </b-button>
         </div>
 
         <!-- Controls right --->
-        <div class="col-auto col-sm p-0">
+        <div class="col-auto col-md p-0">
           <div class="d-flex flex-nowrap justify-content-end pe-3">
             <div class="m-0 d-none d-md-inline-flex align-items-center">
               <template v-if="track && track.isPodcast">
@@ -87,16 +103,6 @@
                 <IconReplayGain v-if="replayGainMode === ReplayGainMode.None" />
                 <IconReplayGainTrack v-else-if="replayGainMode === ReplayGainMode.Track" />
                 <IconReplayGainAlbum v-else-if="replayGainMode === ReplayGainMode.Album" />
-              </b-button>
-              <b-button title="Shuffle"
-                        variant="transparent" class="m-0" :class="{ 'text-primary': shuffleActive }"
-                        @click="toggleShuffle">
-                <Icon icon="shuffle" />
-              </b-button>
-              <b-button title="Repeat"
-                        variant="transparent" class="m-0" :class="{ 'text-primary': repeatActive }"
-                        @click="toggleRepeat">
-                <Icon icon="repeat" />
               </b-button>
             </div>
             <OverflowMenu class="d-md-none">
@@ -261,5 +267,8 @@
   .icon {
     display: flex;
     align-items: center;
+  }
+  .btn-play {
+    --bs-btn-font-size: 1.5rem;
   }
 </style>
