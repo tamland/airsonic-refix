@@ -47,10 +47,9 @@
       linear-gradient(to top, transparent 0, black v-bind(maskBottom));
     mask-composite: intersect;
     overflow-y: scroll;
-    min-height: 0;
-  }
-  .el {
     scrollbar-width: none;
+    min-height: 0;
+    max-height: 7rem;
   }
   .el::-webkit-scrollbar {
     display: none;

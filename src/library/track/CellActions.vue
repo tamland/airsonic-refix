@@ -1,21 +1,21 @@
 <template>
   <td class="text-end" @click.stop="">
     <OverflowMenu>
-      <ContextMenuItem v-if="!track.isUnavailable" icon="plus" @click="setNextInQueue()">
+      <DropdownItem v-if="!track.isUnavailable" icon="plus" @click="setNextInQueue()">
         Play next
-      </ContextMenuItem>
-      <ContextMenuItem v-if="!track.isUnavailable" icon="plus" @click="addToQueue()">
+      </DropdownItem>
+      <DropdownItem v-if="!track.isUnavailable" icon="plus" @click="addToQueue()">
         Add to queue
-      </ContextMenuItem>
-      <ContextMenuItem v-if="!track.isStream" icon="plus" @click="showPlaylistSelect = true">
+      </DropdownItem>
+      <DropdownItem v-if="!track.isStream" icon="plus" @click="showPlaylistSelect = true">
         Add to playlist
-      </ContextMenuItem>
-      <ContextMenuItem v-if="!track.isStream" :icon="isFavourite ? 'heart-fill' : 'heart'" @click="toggleFavourite()">
+      </DropdownItem>
+      <DropdownItem v-if="!track.isStream" :icon="isFavourite ? 'heart-fill' : 'heart'" @click="toggleFavourite()">
         Favourite
-      </ContextMenuItem>
-      <ContextMenuItem v-if="!track.isStream" icon="download" @click="download()">
+      </DropdownItem>
+      <DropdownItem v-if="!track.isStream" icon="download" @click="download()">
         Download
-      </ContextMenuItem>
+      </DropdownItem>
       <slot :item="track" />
     </OverflowMenu>
 

@@ -58,12 +58,12 @@
           <Icon :icon="isFavourite ? 'heart-fill' : 'heart'" />
         </b-button>
         <OverflowMenu variant="transparent">
-          <ContextMenuItem icon="plus" @click="setNextInQueue">
+          <DropdownItem icon="plus" @click="setNextInQueue">
             Play next
-          </ContextMenuItem>
-          <ContextMenuItem icon="plus" @click="addToQueue">
+          </DropdownItem>
+          <DropdownItem icon="plus" @click="addToQueue">
             Add to queue
-          </ContextMenuItem>
+          </DropdownItem>
         </OverflowMenu>
       </div>
     </Hero>

@@ -19,21 +19,21 @@
       </template>
 
       <template #context-menu>
-        <ContextMenuItem icon="play" @click="playNow(item.id)">
+        <DropdownItem icon="play" @click="playNow(item.id)">
           Play
-        </ContextMenuItem>
-        <ContextMenuItem icon="plus" @click="playNext(item.id)">
+        </DropdownItem>
+        <DropdownItem icon="plus" @click="playNext(item.id)">
           Play next
-        </ContextMenuItem>
-        <ContextMenuItem icon="plus" @click="playLater(item.id)">
+        </DropdownItem>
+        <DropdownItem icon="plus" @click="playLater(item.id)">
           Add to queue
-        </ContextMenuItem>
-        <ContextMenuItem
+        </DropdownItem>
+        <DropdownItem
           :icon="favourites[item.id] ? 'heart-fill' : 'heart'"
           @click="toggleFavourite(item.id)"
         >
           Favourite
-        </ContextMenuItem>
+        </DropdownItem>
       </template>
     </Tile>
   </Tiles>

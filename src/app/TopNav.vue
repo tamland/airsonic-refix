@@ -7,7 +7,7 @@
     <SearchForm class="flex-grow-1 flex-md-grow-0 ms-auto me-2" />
 
     <template v-if="store.username">
-      <b-dropdown variant="link" right no-caret toggle-class="px-0">
+      <Dropdown variant="link" align="end" no-caret toggle-class="px-0">
         <template #button-content>
           <Avatar>
             <Icon icon="person" />
@@ -16,21 +16,21 @@
         <div class="px-3 py-1">
           {{ store.username }}
         </div>
-        <b-dropdown-divider />
-        <b-dropdown-item :href="store.server" target="_blank" rel="noopener noreferrer">
+        <hr class="dropdown-divider">
+        <DropdownItem :href="store.server" target="_blank" rel="noopener noreferrer">
           Server <Icon icon="link" />
-        </b-dropdown-item>
-        <b-dropdown-item-button @click="scan">
+        </DropdownItem>
+        <DropdownItem @click="scan">
           Scan media folders
-        </b-dropdown-item-button>
-        <b-dropdown-item-button @click="showAboutModal = true">
+        </DropdownItem>
+        <DropdownItem @click="showAboutModal = true">
           About
-        </b-dropdown-item-button>
-        <b-dropdown-divider />
-        <b-dropdown-item-button @click="logout">
+        </DropdownItem>
+        <hr class="dropdown-divider">
+        <DropdownItem @click="logout">
           Log out
-        </b-dropdown-item-button>
-      </b-dropdown>
+        </DropdownItem>
+      </Dropdown>
     </template>
     <About :visible="showAboutModal" @close="showAboutModal = false" />
   </div>

@@ -1,18 +1,15 @@
 <template>
-  <b-dropdown
-    right
-    no-caret
-    boundary="window"
+  <Dropdown
+    align="end"
     :variant="variant"
     :toggle-class="variant === 'link' ? 'p-0' : ''"
     :disabled="disabled"
-    lazy
   >
     <template #button-content>
       <Icon icon="three-dots-vertical" />
     </template>
     <slot />
-  </b-dropdown>
+  </Dropdown>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue'

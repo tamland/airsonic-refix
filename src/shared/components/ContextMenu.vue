@@ -1,47 +1,55 @@
 <template>
-  <div @contextmenu="showContextMenu">
+  <div ref="el">
     <slot />
-    <b-dropdown
-      v-if="$slots['context-menu']"
-      ref="dropdown" toggle-class="p-0 border-0" no-caret lazy
-      :style="{position: 'absolute', left: `${left}px`,top: `${top}px`}"
-      @hide="hide"
+    <ul
+      v-if="visible && $slots['context-menu']"
+      :class="['dropdown-menu', 'position-absolute', 'show']"
+      :style="{ left: `${position.left}px`,top: `${position.top}px` }"
     >
       <slot name="context-menu" />
-    </b-dropdown>
+    </ul>
   </div>
 </template>
 <script lang="ts">
-  import Vue, { defineComponent } from 'vue'
+  import { defineComponent, ref, } from 'vue'
+  import { useEventListener } from '@vueuse/core'
 
   export default defineComponent({
-    data() {
-      return {
-        top: 0,
-        left: 0,
-        visible: false,
-      }
-    },
-    watch: {
-      visible: {
-        handler(value: boolean) {
-          Vue.set((this.$refs.dropdown as any), 'visible', value)
-        }
-      }
-    },
-    methods: {
-      hide(event: any) {
-        event.preventDefault()
-        this.visible = false
-      },
-      showContextMenu(event: any) {
-        if (this.$slots['context-menu']) {
+    setup(props, { slots }) {
+      const el = ref<Element | null>(null)
+      const visible = ref(false)
+      const position = ref({ top: 0, left: 0 })
+
+      useEventListener(document, 'contextmenu', (event) => {
+        if (
+          el.value &&
+          event.target &&
+          slots['context-menu'] && slots['context-menu']() &&
+          (event.target === el.value || el.value.contains(event.target as Element))
+        ) {
           event.preventDefault()
-          this.top = event.offsetY
-          this.left = event.offsetX
-          this.visible = true
+          position.value = { top: event.offsetY, left: event.offsetX }
+          visible.value = true
+        } else {
+          visible.value = false
         }
+      })
+
+      useEventListener(document, 'click', () => {
+        visible.value = false
+      })
+
+      useEventListener(document, 'keyup', (event) => {
+        if (event.key === 'Escape') {
+          visible.value = false
+        }
+      })
+
+      return {
+        el,
+        visible,
+        position,
       }
-    }
+    },
   })
 </script>

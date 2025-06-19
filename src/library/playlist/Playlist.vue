@@ -32,23 +32,23 @@
           <Icon icon="shuffle" />
         </b-button>
         <OverflowMenu variant="transparent" class="ms-auto">
-          <ContextMenuItem icon="edit" :disabled="playlist.isReadOnly" @click="showEditModal = true">
+          <DropdownItem icon="edit" :disabled="playlist.isReadOnly" @click="showEditModal = true">
             Edit
-          </ContextMenuItem>
-          <b-dropdown-divider />
-          <ContextMenuItem icon="x" variant="danger" :disabled="playlist.isReadOnly" @click="deletePlaylist()">
+          </DropdownItem>
+          <hr class="dropdown-divider">
+          <DropdownItem icon="x" variant="danger" :disabled="playlist.isReadOnly" @click="deletePlaylist()">
             Delete
-          </ContextMenuItem>
+          </DropdownItem>
         </OverflowMenu>
       </div>
     </Hero>
 
     <TrackList v-if="playlist.tracks.length > 0" :tracks="playlist.tracks" class="mt-3">
       <template #context-menu="{index}">
-        <b-dropdown-divider />
-        <ContextMenuItem icon="x" variant="danger" :disabled="playlist.isReadOnly" @click="removeTrack(index)">
+        <hr class="dropdown-divider">
+        <DropdownItem icon="x" variant="danger" :disabled="playlist.isReadOnly" @click="removeTrack(index)">
           Remove
-        </ContextMenuItem>
+        </DropdownItem>
       </template>
     </TrackList>
     <EmptyIndicator v-else />

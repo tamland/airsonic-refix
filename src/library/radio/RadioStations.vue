@@ -11,13 +11,13 @@
 
     <TrackList v-if="items.length > 0" :tracks="items" no-artist no-album no-duration>
       <template #context-menu="{ item }">
-        <ContextMenuItem icon="edit" @click="openEditModal(item)">
+        <DropdownItem icon="edit" @click="openEditModal(item)">
           Edit
-        </ContextMenuItem>
-        <b-dropdown-divider />
-        <ContextMenuItem icon="x" variant="danger" @click="deleteRadioStation(item)">
+        </DropdownItem>
+        <hr class="dropdown-divider">
+        <DropdownItem icon="x" variant="danger" @click="deleteRadioStation(item)">
           Delete
-        </ContextMenuItem>
+        </DropdownItem>
       </template>
     </TrackList>
     <EmptyIndicator v-else-if="unsupported" label="Not supported" />

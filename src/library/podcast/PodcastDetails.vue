@@ -16,9 +16,9 @@
           <Icon icon="shuffle" />
         </b-button>
         <OverflowMenu variant="transparent">
-          <ContextMenuItem icon="x" variant="danger" @click="deletePodcast">
+          <DropdownItem icon="x" variant="danger" @click="deletePodcast">
             Delete
-          </ContextMenuItem>
+          </DropdownItem>
         </OverflowMenu>
       </div>
     </Hero>

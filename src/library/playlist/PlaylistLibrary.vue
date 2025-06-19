@@ -27,15 +27,15 @@
           <strong>{{ item.trackCount }}</strong> tracks
         </template>
         <template #context-menu>
-          <ContextMenuItem icon="play" @click="playNow(item.id)">
+          <DropdownItem icon="play" @click="playNow(item.id)">
             Play
-          </ContextMenuItem>
-          <ContextMenuItem icon="plus" @click="playNext(item.id)">
+          </DropdownItem>
+          <DropdownItem icon="plus" @click="playNext(item.id)">
             Play next
-          </ContextMenuItem>
-          <ContextMenuItem icon="plus" @click="playLater(item.id)">
+          </DropdownItem>
+          <DropdownItem icon="plus" @click="playLater(item.id)">
             Add to queue
-          </ContextMenuItem>
+          </DropdownItem>
         </template>
       </Tile>
     </Tiles>
