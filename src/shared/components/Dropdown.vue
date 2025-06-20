@@ -8,7 +8,8 @@
     </button>
     <ul
       v-if="visible"
-      :class="['dropdown-menu', 'show', {'dropdown-menu-end': align === 'end' }]"
+      :style="menuStyle"
+      :class="['dropdown-menu', `dropdown-menu-${align}`, 'show']"
       @click="onClickInside"
     >
       <slot />
@@ -25,6 +26,7 @@
       align: { type: String, default: 'start' },
       direction: { type: String, default: 'down' },
       toggleClass: { type: String, default: '' },
+      menuStyle: { type: String, default: '' },
       disabled: { type: Boolean, default: false },
     },
     setup() {
@@ -67,6 +69,10 @@
   }
   .dropdown-menu-end {
     right: 0;
+  }
+  .dropdown-menu-center {
+    left: 50%;
+    transform: translateX(-50%);
   }
   .dropdown-toggle::after {
     display: none;

@@ -68,16 +68,17 @@
           <div class="d-flex flex-nowrap justify-content-end pe-3">
             <div class="m-0 d-none d-md-inline-flex align-items-center">
               <template v-if="track && track.isPodcast">
-                <b-button id="player-playback-rate-btn" variant="icon" title="Speed" class="mb-1">
-                  {{ playbackRate }}x
-                </b-button>
-                <b-popover target="player-playback-rate-btn" placement="top" triggers="click blur" no-fade>
-                  <Slider class="pt-2" style="height: 120px;" direction="btt"
-                          :min="0.8" :max="2" :step="0.1"
-                          :value="playbackRate"
-                          @input="setPlaybackRate"
+                <Dropdown variant="transparent" align="center" direction="up" menu-style="min-width: 0px;" title="Speed">
+                  <template #button-content>
+                    {{ playbackRate }}x
+                  </template>
+                  <Slider
+                    class="py-3 px-4" style="height: 120px;" direction="btt"
+                    :min="0.8" :max="2" :step="0.1"
+                    :value="playbackRate"
+                    @input="setPlaybackRate"
                   />
-                </b-popover>
+                </Dropdown>
               </template>
 
               <b-button
@@ -102,15 +103,17 @@
                 <IconReplayGainAlbum v-else-if="replayGainMode === ReplayGainMode.Album" />
               </b-button>
 
-              <b-button id="player-volume-btn" variant="transparent" title="Volume">
-                <Icon :icon="isMuted ? 'mute' : 'volume'" />
-              </b-button>
-              <b-popover target="player-volume-btn" placement="top" triggers="click blur" no-fade>
-                <Slider class="pt-2" style="height: 120px;" direction="btt"
-                        :min="0" :max="1" :step="0.01" percent
-                        :value="volume" @input="setVolume"
+              <Dropdown variant="transparent" align="center" direction="up" menu-style="min-width: 0px;" title="Volume">
+                <template #button-content>
+                  <Icon :icon="isMuted ? 'mute' : 'volume'" />
+                </template>
+                <Slider
+                  class="py-3 px-4"
+                  style="height: 120px;" direction="btt"
+                  :min="0" :max="1" :step="0.01" percent
+                  :value="volume" @input="setVolume"
                 />
-              </b-popover>
+              </Dropdown>
 
               <router-link :to="{ name: 'queue' }" class="btn btn-transparent">
                 <Icon icon="list" />
@@ -160,17 +163,17 @@
   import ProgressBar from '@/player/ProgressBar.vue'
   import { useFavouriteStore } from '@/library/favourite/store'
   import { formatArtists } from '@/shared/utils'
-  import { BPopover } from 'bootstrap-vue'
   import SwitchInput from '@/shared/components/SwitchInput.vue'
   import IconReplayGain from '@/shared/components/IconReplayGain.vue'
   import IconReplayGainTrack from '@/shared/components/IconReplayGainTrack.vue'
   import IconReplayGainAlbum from '@/shared/components/IconReplayGainAlbum.vue'
   import { usePlayerStore } from '@/player/store'
+  import Dropdown from '@/shared/components/Dropdown.vue'
 
   export default defineComponent({
     components: {
+      Dropdown,
       SwitchInput,
-      BPopover,
       ProgressBar,
       IconReplayGain,
       IconReplayGainTrack,
