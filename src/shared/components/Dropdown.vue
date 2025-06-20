@@ -1,5 +1,5 @@
 <template>
-  <div ref="el" class="dropdown">
+  <div ref="el" class="dropdown" :class="{ 'dropup': direction === 'up' }">
     <button
       type="button"
       :class="`btn btn-${variant} dropdown-toggle ${toggleClass}`"
@@ -23,6 +23,7 @@
     props: {
       variant: { type: String, default: 'link' },
       align: { type: String, default: 'start' },
+      direction: { type: String, default: 'down' },
       toggleClass: { type: String, default: '' },
       disabled: { type: Boolean, default: false },
     },
@@ -69,5 +70,10 @@
   }
   .dropdown-toggle::after {
     display: none;
+  }
+  .dropup {
+    .dropdown-menu {
+      bottom: 100%;
+    }
   }
 </style>

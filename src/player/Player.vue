@@ -116,7 +116,7 @@
                 <Icon icon="list" />
               </router-link>
             </div>
-            <OverflowMenu class="d-md-none">
+            <OverflowMenu class="d-md-none" variant="transparent" direction="up">
               <div class="d-flex justify-content-between align-items-center px-3 py-1">
                 <span>Volume</span>
                 <Slider class="p-3" style="width: 120px;"

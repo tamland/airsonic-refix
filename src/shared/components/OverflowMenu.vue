@@ -1,6 +1,7 @@
 <template>
   <Dropdown
     align="end"
+    :direction="direction"
     :variant="variant"
     :toggle-class="variant === 'link' ? 'p-0' : ''"
     :disabled="disabled"
@@ -18,6 +19,7 @@
     props: {
       disabled: { type: Boolean, default: false },
       variant: { type: String, default: 'link' },
+      direction: { type: String, default: 'down' },
     }
   })
 </script>
