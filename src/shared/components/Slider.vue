@@ -36,36 +36,37 @@
     }
   })
 </script>
-<style lang="scss" scoped>
+<style scoped>
   .vue-slider {
     cursor: pointer;
-  }
-  ::v-deep .vue-slider-rail {
-    background-color: var(--bs-secondary);
-    border-radius: 0;
-  }
-  ::v-deep .vue-slider-process {
-    background-color: var(--bs-primary);
-    border-radius: 0;
-  }
-  ::v-deep .vue-slider-dot-handle  {
-    background-color: var(--bs-primary);
-  }
-  ::v-deep .vue-slider-dot-handle::after {
-    background-color: var(--bs-primary);
-    opacity: 0.32;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  ::v-deep .vue-slider-dot-handle:hover .vue-slider-dot-tooltip {
-    visibility: visible;
-  }
-  ::v-deep .vue-slider-dot-tooltip-inner {
-    background-color: var(--bs-primary);
-    border-color: var(--bs-primary);
-  }
-  ::v-deep .vue-slider-dot-tooltip-text {
-    width: 44px;
-    height: 44px;
-    font-size: inherit;
+
+    &:deep(.vue-slider-rail) {
+      background-color: var(--bs-secondary);
+      border-radius: 0;
+    }
+    &:deep(.vue-slider-process) {
+      background-color: var(--bs-primary);
+      border-radius: 0;
+    }
+    &:deep(.vue-slider-dot-handle) {
+      background-color: var(--bs-primary);
+    }
+    &:deep(.vue-slider-dot-handle::after) {
+      background-color: var(--bs-primary);
+      opacity: 0.32;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    &:deep(.vue-slider-dot-handle:hover .vue-slider-dot-tooltip) {
+      visibility: visible;
+    }
+    &:deep(.vue-slider-dot-tooltip-inner) {
+      background-color: var(--bs-primary);
+      border-color: var(--bs-primary);
+    }
+    &:deep(.vue-slider-dot-tooltip-text) {
+      width: 44px;
+      height: 44px;
+      font-size: inherit;
+    }
   }
 </style>
