@@ -88,6 +88,10 @@
       login() {
         this.error = null
         this.busy = true
+        this.server = this.server.trim()
+        if (!this.server.startsWith('http://') && !this.server.startsWith('https://')) {
+          this.server = `https://${this.server}`
+        }
         this.auth.loginWithPassword(this.server, this.username, this.password)
           .then(() => {
             this.store.setLoginSuccess(this.username, this.server)
