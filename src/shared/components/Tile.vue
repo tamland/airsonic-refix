@@ -25,12 +25,12 @@
     </div>
   </div>
 </template>
-<style lang="scss">
+<style>
   .tile-img {
     position: relative;
     width: 100%;
 
-    img {
+    & img {
       position: absolute;
       width: 100%;
       height: 100%;

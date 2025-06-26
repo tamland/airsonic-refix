@@ -13,21 +13,21 @@
     }
   })
 </script>
-<style lang="scss">
+<style>
   .tiles {
     display: grid;
     grid-gap: 12px;
     grid-template-columns: repeat(auto-fill, minmax(min(100% / 3, 200px), 1fr));
   }
 
-  @media(max-width: 442px) { // 15px padding + 200px tile + 12px gap + 200px tile + 15px padding
+  @media(max-width: 442px) { /* 15px padding + 200px tile + 12px gap + 200px tile + 15px padding */
     .tiles {
       grid-gap: 8px;
     }
   }
 
-  // Enable horizontal scrolling before breaking to 2 columns
-  @media(max-width: 654px) { // 15px padding + 200px tile + 12px gap + 200px tile + 12px gap + 200px tile + 15px padding
+  /* Enable horizontal scrolling before breaking to 2 columns */
+  @media(max-width: 654px) { /* 15px padding + 200px tile + 12px gap + 200px tile + 12px gap + 200px tile + 15px padding */
     .tiles-hs {
       grid-template-columns: none;
       grid-auto-flow: column;
@@ -36,15 +36,11 @@
     }
   }
 
-  .tiles-square {
-    .tile-img {
-      padding-bottom: 100%;
-    }
+  .tiles-square .tile-img {
+    padding-bottom: 100%;
   }
 
-  .tiles-rect {
-    .tile-img {
-      padding-bottom: 70%;
-    }
+  .tiles-rect .tile-img {
+    padding-bottom: 70%;
   }
 </style>
