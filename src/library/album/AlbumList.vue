@@ -2,9 +2,9 @@
   <Tiles square :allow-h-scroll="allowHScroll">
     <Tile
       v-for="item in items" :key="item.id"
-      :image="item.image"
       :to="{name: 'album', params: { id: item.id } }"
       :title="item.name"
+      :image="item.image"
       :draggable="true" @dragstart="dragstart(item.id, $event)"
     >
       <template #text>
@@ -17,7 +17,6 @@
           </template>
         </slot>
       </template>
-
       <template #context-menu>
         <DropdownItem icon="play" @click="playNow(item.id)">
           Play
