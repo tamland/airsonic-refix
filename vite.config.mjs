@@ -13,6 +13,9 @@ export default defineConfig({
       eslint: {
         lintCommand: 'eslint . --ext .vue,.ts,.js --ignore-path .gitignore',
       },
+      overlay: {
+        initialIsOpen: 'error',
+      }
     }),
     bundleAnalyzer({
       analyzerMode: 'static',
