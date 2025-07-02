@@ -1,6 +1,6 @@
 <template functional>
   <div class="tile card" v-bind="data.attrs" v-on="data.on">
-    <ContextMenu class="tile-img">
+    <ContextMenu class="tile-img" :enabled="!!$slots['context-menu']">
       <router-link :to="props.to">
         <img v-if="props.image" :src="props.image">
         <img v-else src="@/shared/assets/fallback.svg">

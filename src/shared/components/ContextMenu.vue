@@ -2,7 +2,7 @@
   <div ref="el">
     <slot />
     <ul
-      v-if="visible && $slots['context-menu']"
+      v-if="enabled && visible"
       :class="['dropdown-menu', 'position-absolute', 'show']"
       :style="{ left: `${position.left}px`,top: `${position.top}px` }"
     >
@@ -15,16 +15,19 @@
   import { useEventListener } from '@vueuse/core'
 
   export default defineComponent({
-    setup(props, { slots }) {
+    props: {
+      enabled: { type: Boolean, default: true },
+    },
+    setup(props) {
       const el = ref<Element | null>(null)
       const visible = ref(false)
       const position = ref({ top: 0, left: 0 })
 
       useEventListener(document, 'contextmenu', (event) => {
         if (
+          props.enabled &&
           el.value &&
           event.target &&
-          slots['context-menu'] && slots['context-menu']() &&
           (event.target === el.value || el.value.contains(event.target as Element))
         ) {
           event.preventDefault()
