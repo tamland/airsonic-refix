@@ -12,7 +12,7 @@
     </router-link>
 
     <router-link class="nav-link" :to="{name: 'queue'}">
-      <Icon icon="playlist" /> Playing
+      <Icon icon="soundwave" /> Playing
     </router-link>
 
     <small class="sidebar-heading text-muted">

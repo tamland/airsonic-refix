@@ -44,6 +44,7 @@
   import iconShuffle from '@iconify-icons/bi/shuffle'
   import iconSkipEnd from '@iconify-icons/bi/skip-end-fill'
   import iconSkipStart from '@iconify-icons/bi/skip-start-fill'
+  import iconSoundwave from '@iconify-icons/bi/soundwave'
   import iconStack from '@iconify-icons/bi/stack'
   import iconThreeDotsVertical from '@iconify-icons/bi/three-dots-vertical'
   import iconVolume from '@iconify-icons/bi/volume-up-fill'
@@ -77,6 +78,7 @@
     shuffle: iconShuffle.body,
     'skip-end': iconSkipEnd.body,
     'skip-start': iconSkipStart.body,
+    soundwave: iconSoundwave.body,
     stack: iconStack.body,
     'three-dots-vertical': iconThreeDotsVertical.body,
     volume: iconVolume.body,
