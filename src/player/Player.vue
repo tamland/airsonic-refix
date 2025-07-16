@@ -1,9 +1,9 @@
 <template>
-  <div :class="{'visible': track}" class="player elevated d-flex">
+  <div :class="{'visible': track}" class="player d-flex">
     <div class="flex-fill">
-      <ProgressBar v-if="track" style="margin-bottom: -5px; margin-top: -9px" />
+      <ProgressBar v-if="track" />
 
-      <div class="row align-items-center m-0" style="padding-top: -10px">
+      <div class="row align-items-center m-0 elevated">
         <!-- Track info --->
         <div class="col p-0 d-flex flex-nowrap align-items-center justify-content-start" style="width: 0; min-width: 0">
           <template v-if="track">

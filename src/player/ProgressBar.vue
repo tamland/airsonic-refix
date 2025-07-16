@@ -47,7 +47,8 @@
 <style scoped>
   .vue-slider {
     height: 4px !important;
-    padding: 5px 0 !important;
+    padding: 12px 0 !important;
+    margin-bottom: -12px !important;
     cursor: pointer;
 
     /* rail */
