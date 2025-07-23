@@ -16,12 +16,14 @@
   </b-modal>
 </template>
 <script lang="ts">
-  import { defineComponent, ref } from 'vue'
+  import { defineComponent, ref, PropType } from 'vue'
   import { usePlaylistStore } from '@/library/playlist/store'
+  import { Track } from '@/shared/api'
 
   export default defineComponent({
     props: {
       visible: { type: Boolean, required: true },
+      tracks: { type: Array as PropType<Track[] | null>, default: null },
     },
     setup(props, { emit }) {
       const name = ref('')
@@ -29,7 +31,7 @@
       return {
         name,
         confirm: () => {
-          store.create(name.value)
+          store.create(name.value, props.tracks?.map(item => item.id))
         },
         change: () => {
           name.value = ''

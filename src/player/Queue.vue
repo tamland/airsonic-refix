@@ -16,6 +16,11 @@
             </div>
           </div>
         </b-button>
+        <OverflowMenu variant="transparent">
+          <DropdownItem icon="plus" @click="savePlaylistModalVisible = true">
+            Save as playlist
+          </DropdownItem>
+        </OverflowMenu>
       </div>
     </div>
     <ContentLoader v-slot :loading="loading">
@@ -51,11 +56,13 @@
         </tbody>
       </BaseTable>
       <EmptyIndicator v-else />
+
+      <CreatePlaylistModal :visible.sync="savePlaylistModalVisible" :tracks="tracks" />
     </ContentLoader>
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent, ref } from 'vue'
   import BaseTable from '@/library/track/BaseTable.vue'
   import BaseTableHead from '@/library/track/BaseTableHead.vue'
   import CellTrackNumber from '@/library/track/CellTrackNumber.vue'
@@ -65,21 +72,24 @@
   import CellTitle from '@/library/track/CellTitle.vue'
   import CellActions from '@/library/track/CellActions.vue'
   import { usePlayerStore } from '@/player/store'
+  import CreatePlaylistModal from '@/library/playlist/CreatePlaylistModal.vue'
 
   export default defineComponent({
     components: {
-      CellActions,
-      CellTitle,
-      CellArtist,
-      CellAlbum,
-      CellDuration,
-      CellTrackNumber,
-      BaseTableHead,
       BaseTable,
+      BaseTableHead,
+      CellActions,
+      CellAlbum,
+      CellArtist,
+      CellDuration,
+      CellTitle,
+      CellTrackNumber,
+      CreatePlaylistModal,
     },
     setup() {
       return {
         playerStore: usePlayerStore(),
+        savePlaylistModalVisible: ref(false),
       }
     },
     computed: {
@@ -114,7 +124,7 @@
       },
       shuffle() {
         return this.playerStore.shuffleQueue()
-      }
+      },
     }
   })
 </script>
