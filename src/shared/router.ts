@@ -146,7 +146,10 @@ export function setupRouter(auth: AuthService) {
           ...route.query,
         })
       },
-    ]
+    ],
+    scrollBehavior(to, from, savedPosition) {
+      return savedPosition || { x: 0, y: 0 }
+    },
   })
 
   router.beforeEach((to, from, next) => {
