@@ -66,28 +66,20 @@
       <TrackList :tracks="item.topTracks" no-artist />
     </template>
 
-    <template v-if="albums.length > 0">
-      <div class="d-flex justify-content-between mt-5 mb-2">
+    <template v-for="({ releaseType, albums: releaseTypeAlbums }) in albums">
+      <div :key="releaseType" class="d-flex justify-content-between mt-5 mb-2">
         <h3 class="my-0">
-          Albums
+          {{ releaseType }}
         </h3>
         <b-button variant="link" class="p-0" @click="toggleAlbumSortOrder">
           <Icon icon="arrow-up-down" />
         </b-button>
       </div>
-      <div v-for="({ releaseType, albums: releaseTypeAlbums }) in albums" :key="releaseType">
-        <template v-if="albums.length >= 2">
-          <h4 class="mt-3 text-muted">
-            {{ releaseType }}
-          </h4>
-          <hr class="my-2">
+      <AlbumList :key="releaseType" :items="releaseTypeAlbums">
+        <template #text="{ year }">
+          {{ year || 'Unknown' }}
         </template>
-        <AlbumList :items="releaseTypeAlbums">
-          <template #text="{ year }">
-            {{ year || 'Unknown' }}
-          </template>
-        </AlbumList>
-      </div>
+      </AlbumList>
     </template>
 
     <template v-if="item.similarArtist.length > 0">
@@ -143,7 +135,7 @@
       albums(): { releaseType: string, albums: Album[] }[] {
         const sorted: Album[] = (orderBy(this.item?.albums ?? [], 'year', this.mainStore.artistAlbumSortOrder) || [])
         const grouped = Object.groupBy(sorted, ({ isCompilation, releaseTypes }) =>
-          isCompilation ? 'Compilation' : (releaseTypes[0] || 'Other')
+          isCompilation ? 'Compilation' : (releaseTypes[0] || 'Album')
         ) || {}
 
         const groupOrder = ['Album', 'EP', 'Single']
