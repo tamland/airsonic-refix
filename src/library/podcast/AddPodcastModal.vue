@@ -25,6 +25,7 @@
     props: {
       visible: { type: Boolean, required: true },
     },
+    emits: ['confirm', 'update:visible'],
     data() {
       return {
         url: '',

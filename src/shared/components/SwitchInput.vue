@@ -18,6 +18,7 @@
     props: {
       value: { type: Boolean, default: false },
     },
+    emits: ['input'],
     computed: {
       id(): string {
         return uniqueId('switch-')

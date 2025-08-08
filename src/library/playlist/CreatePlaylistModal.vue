@@ -25,6 +25,7 @@
       visible: { type: Boolean, required: true },
       tracks: { type: Array as PropType<Track[] | null>, default: null },
     },
+    emits: ['update:visible'],
     setup(props, { emit }) {
       const name = ref('')
       const store = usePlaylistStore()

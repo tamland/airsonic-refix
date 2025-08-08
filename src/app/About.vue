@@ -47,6 +47,7 @@
     props: {
       visible: { type: Boolean, required: true },
     },
+    emits: ['close'],
     setup() {
       return {
         auth: useAuth()

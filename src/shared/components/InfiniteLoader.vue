@@ -25,6 +25,7 @@
       loading: { type: Boolean, required: true },
       hasMore: { type: Boolean, required: true },
     },
+    emits: ['load-more'],
     setup(props, { emit }) {
       const el = ref<HTMLElement | null>(null)
 

@@ -24,6 +24,7 @@
       step: { type: Number, required: true },
       percent: { type: Boolean, default: false },
     },
+    emits: ['input'],
     methods: {
       onInput(value: number) {
         this.$emit('input', value)

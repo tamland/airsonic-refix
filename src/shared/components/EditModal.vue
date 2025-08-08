@@ -22,6 +22,7 @@
       visible: { type: Boolean, required: true },
       title: { type: String, default: '' },
     },
+    emits: ['confirm', 'update:visible'],
     data() {
       return {
         copy: null,
