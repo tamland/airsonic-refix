@@ -66,16 +66,16 @@
       <TrackList :tracks="item.topTracks" no-artist />
     </template>
 
-    <template v-if="albums.length > 0">
-      <div class="d-flex justify-content-between mt-5 mb-2">
+    <template v-for="({ releaseType, albums: releaseTypeAlbums }) in albums">
+      <div :key="releaseType" class="d-flex justify-content-between mt-5 mb-2">
         <h3 class="my-0">
-          Albums
+          {{ releaseType }}
         </h3>
         <b-button variant="link" class="p-0" @click="toggleAlbumSortOrder">
           <Icon icon="arrow-up-down" />
         </b-button>
       </div>
-      <AlbumList :items="albums">
+      <AlbumList :key="releaseType" :items="releaseTypeAlbums">
         <template #text="{ year }">
           {{ year || 'Unknown' }}
         </template>
@@ -132,8 +132,21 @@
       isFavourite(): boolean {
         return !!this.favouriteStore.artists[this.id]
       },
-      albums(): Album[] {
-        return orderBy(this.item?.albums ?? [], 'year', this.mainStore.artistAlbumSortOrder)
+      albums(): { releaseType: string, albums: Album[] }[] {
+        const sorted: Album[] = (orderBy(this.item?.albums ?? [], 'year', this.mainStore.artistAlbumSortOrder) || [])
+        const grouped = Object.groupBy(sorted, ({ isCompilation, releaseTypes }) =>
+          isCompilation ? 'Compilation' : (releaseTypes[0] || 'Album')
+        ) || {}
+
+        const groupOrder = ['Album', 'EP', 'Single']
+        const groups = Object.entries(grouped).sort(([aType], [bType]) => {
+          const [a, b] = [groupOrder.indexOf(aType), groupOrder.indexOf(bType)]
+          if (a === -1 && b === -1) return 0
+          if (a === -1) return 1
+          if (b === -1) return -1
+          return a - b
+        })
+        return groups.map(([releaseType, albums]) => ({ releaseType, albums: albums || [] }))
       },
     },
     watch: {
