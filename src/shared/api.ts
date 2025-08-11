@@ -595,7 +595,7 @@ export class API {
         : undefined,
       tracks: (item.song || []).map(this.normalizeTrack, this),
       isCompilation: !!item.isCompilation,
-      releaseTypes: item.releaseTypes.length ? item.releaseTypes : [],
+      releaseTypes: item.releaseTypes?.length ? item.releaseTypes : [],
     }
   }
 
