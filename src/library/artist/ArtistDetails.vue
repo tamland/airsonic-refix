@@ -134,10 +134,7 @@
       },
       albums(): { releaseType: string, albums: Album[] }[] {
         const sorted: Album[] = (orderBy(this.item?.albums ?? [], 'year', this.mainStore.artistAlbumSortOrder) || [])
-        const grouped = Object.groupBy(sorted, ({ isCompilation, releaseTypes }) =>
-          isCompilation ? 'Compilation' : (releaseTypes[0] || 'Album')
-        ) || {}
-
+        const grouped = Object.groupBy(sorted, ({ releaseTypes }) => (releaseTypes[0] || 'Album')) || {}
         const groupOrder = ['Album', 'EP', 'Single']
         const groups = Object.entries(grouped).sort(([aType], [bType]) => {
           const [a, b] = [groupOrder.indexOf(aType), groupOrder.indexOf(bType)]
