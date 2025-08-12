@@ -67,7 +67,7 @@
     </template>
 
     <template v-for="({ releaseType, albums: releaseTypeAlbums }) in albums">
-      <div :key="releaseType" class="d-flex justify-content-between mt-5 mb-2">
+      <div :key="`${releaseType}-h`" class="d-flex justify-content-between mt-5 mb-2">
         <h3 class="my-0">
           {{ formatReleaseType(releaseType) }}
         </h3>
@@ -75,7 +75,7 @@
           <Icon icon="arrow-up-down" />
         </b-button>
       </div>
-      <AlbumList :key="releaseType" :items="releaseTypeAlbums">
+      <AlbumList :key="`${releaseType}-body`" :items="releaseTypeAlbums">
         <template #text="{ year }">
           {{ year || 'Unknown' }}
         </template>
