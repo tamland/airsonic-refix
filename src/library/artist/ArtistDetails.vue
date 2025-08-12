@@ -69,7 +69,7 @@
     <template v-for="({ releaseType, albums: releaseTypeAlbums }) in albums">
       <div :key="releaseType" class="d-flex justify-content-between mt-5 mb-2">
         <h3 class="my-0">
-          {{ releaseType }}
+          {{ formatReleaseType(releaseType) }}
         </h3>
         <b-button variant="link" class="p-0" @click="toggleAlbumSortOrder">
           <Icon icon="arrow-up-down" />
@@ -156,6 +156,15 @@
       }
     },
     methods: {
+      formatReleaseType(value: string) {
+        switch (value.toUpperCase()) {
+        case 'ALBUM': return 'Albums'
+        case 'EP': return 'EPs'
+        case 'SINGLE': return 'Singles'
+        case 'COMPILATION': return 'Compilations'
+        default: return value
+        }
+      },
       playNow() {
         return this.playerStore.playNow(this.item.topTracks)
       },
