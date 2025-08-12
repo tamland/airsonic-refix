@@ -98,7 +98,7 @@
   import { useFavouriteStore } from '@/library/favourite/store'
   import OverflowFade from '@/shared/components/OverflowFade.vue'
   import { Album } from '@/shared/api'
-  import { orderBy } from 'lodash-es'
+  import { groupBy, orderBy } from 'lodash-es'
   import { useMainStore } from '@/shared/store'
   import IconLastFm from '@/shared/components/IconLastFm.vue'
   import IconMusicBrainz from '@/shared/components/IconMusicBrainz.vue'
@@ -134,8 +134,8 @@
       },
       albums(): { releaseType: string, albums: Album[] }[] {
         const sorted: Album[] = (orderBy(this.item?.albums ?? [], 'year', this.mainStore.artistAlbumSortOrder) || [])
-        const grouped = Object.groupBy(sorted, ({ releaseTypes }) => (releaseTypes[0] || 'Album')) || {}
-        const groupOrder = ['Album', 'EP', 'Single']
+        const grouped = groupBy(sorted, 'releaseType')
+        const groupOrder = ['ALBUM', 'EP', 'SINGLE']
         const groups = Object.entries(grouped).sort(([aType], [bType]) => {
           const [a, b] = [groupOrder.indexOf(aType), groupOrder.indexOf(bType)]
           if (a === -1 && b === -1) return 0

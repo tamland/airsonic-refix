@@ -1,5 +1,5 @@
 import { AuthService } from '@/auth/service'
-import { map, max, orderBy, sumBy, uniqBy } from 'lodash-es'
+import { map, max, orderBy, startCase, sumBy, uniqBy } from 'lodash-es'
 import { toQueryString } from '@/shared/utils'
 
 export type AlbumSort =
@@ -48,7 +48,7 @@ export interface Album {
   lastFmUrl?: string
   musicBrainzUrl?: string
   tracks?: Track[]
-  releaseTypes: string[]
+  releaseType?: string
 }
 
 export interface Artist {
@@ -593,11 +593,22 @@ export class API {
         ? `https://musicbrainz.org/release/${item.musicBrainzId}`
         : undefined,
       tracks: (item.song || []).map(this.normalizeTrack, this),
-      releaseTypes: [
-        ...(item.isCompilation ? ['Compilation'] : []),
-        ...(item.releaseTypes ?? []),
-      ],
+      releaseType: this.normalizeReleaseType(item),
     }
+  }
+
+  private normalizeReleaseType(item: any): string {
+    if (item.isCompilation) {
+      return 'COMPILATION'
+    }
+    if (!item.releaseTypes?.length || item.releaseTypes[0] === '') {
+      return 'ALBUM'
+    }
+    const value = item.releaseTypes[0].toUpperCase()
+    if (['ALBUM', 'EP', 'SINGLE', 'COMPILATION'].includes(value)) {
+      return value
+    }
+    return startCase(item.releaseTypes[0].toLowerCase())
   }
 
   private normalizeArtist(item: any): Artist {
