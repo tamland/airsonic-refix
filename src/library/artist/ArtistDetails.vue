@@ -133,7 +133,11 @@
         return !!this.favouriteStore.artists[this.id]
       },
       albums(): { releaseType: string, albums: Album[] }[] {
-        const sorted: Album[] = (orderBy(this.item?.albums ?? [], 'year', this.mainStore.artistAlbumSortOrder) || [])
+        const sorted: Album[] = orderBy(
+          this.item?.albums ?? [],
+          ['year', 'name'],
+          [this.mainStore.artistAlbumSortOrder, this.mainStore.artistAlbumSortOrder]
+        )
         const grouped = groupBy(sorted, 'releaseType')
         const groupOrder = ['ALBUM', 'EP', 'SINGLE']
         const groups = Object.entries(grouped).sort(([aType], [bType]) => {
