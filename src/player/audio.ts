@@ -64,6 +64,7 @@ export class AudioController {
   }
 
   async resume() {
+    await this.context.resume()
     await this.pipeline.audio.play()
     await this.fadeIn()
   }
@@ -134,6 +135,7 @@ export class AudioController {
 
     if (options.paused !== true) {
       try {
+        await this.context.resume()
         await this.pipeline.audio.play()
       } catch (error) {
         if (error instanceof Error && error.name === 'AbortError') {
