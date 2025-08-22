@@ -75,6 +75,9 @@ $dropdown-divider-bg: $theme-elevation-2;
 .dropdown-toggle.dropdown-toggle-no-caret::after {
   display: none !important;
 }
+.dropdown-menu {
+  --bs-dropdown-link-active-bg: var(--bs-primary) !important;
+}
 
 // Popover
 $popover-bg: $theme-elevation-1;
