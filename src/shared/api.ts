@@ -516,6 +516,11 @@ export class API {
     return this.fetch('rest/startScan')
   }
 
+  async getScanStatus(): Promise<boolean> {
+    const response = await this.fetch('rest/getScanStatus')
+    return response.scanStatus.scanning
+  }
+
   async scrobble(id: string): Promise<void> {
     return this.fetch('rest/scrobble', { id, submission: true })
   }

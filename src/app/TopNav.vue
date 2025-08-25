@@ -4,7 +4,11 @@
       <Icon icon="nav" />
     </button>
 
-    <SearchForm class="flex-grow-1 flex-md-grow-0 ms-auto me-2" />
+    <div class="d-none d-md-block ms-auto">
+      <span v-if="isScanning" class="spinner-border me-2" title="Scanning…" />
+    </div>
+
+    <SearchForm class="flex-grow-1 flex-md-grow-0 me-2" />
 
     <template v-if="store.username">
       <Dropdown variant="link" align="end" no-caret toggle-class="px-0">
@@ -41,6 +45,7 @@
   import SearchForm from '@/library/search/SearchForm.vue'
   import { useMainStore } from '@/shared/store'
   import { useAuth } from '@/auth/service'
+  import { sleep } from '@/shared/utils'
 
   export default defineComponent({
     components: {
@@ -55,12 +60,26 @@
     },
     data() {
       return {
-        showAboutModal: false
+        isScanning: false,
+        showAboutModal: false,
       }
     },
     methods: {
-      scan() {
-        return this.$api.scan()
+      async scan() {
+        if (this.isScanning) {
+          return
+        }
+        this.isScanning = true
+        try {
+          await this.$api.scan()
+          let scanning = false
+          do {
+            await sleep(1000)
+            scanning = await this.$api.getScanStatus()
+          } while (scanning)
+        } finally {
+          this.isScanning = false
+        }
       },
       logout() {
         this.auth.logout()
