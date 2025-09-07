@@ -59,6 +59,17 @@ Environment variables:
 
 - `SERVER_URL` (Optional): The backend server URL. When set the server input on the login page will not be displayed.
 
+#### Rootless Docker
+
+The container image also supports running with additional security measures, such as read-only rootfs:
+
+```shell
+docker run --read-only --cap-drop ALL \
+  --tmpfs /tmp:noexec,nosuid,size=100m \
+  --detach --publish 8080:8080 \
+  --volume app:/app tamland/airsonic-refix:latest
+```
+
 ### Pre-built bundle
 
 Pre-built bundles can be found in the [Actions](https://github.com/tamland/airsonic-refix/actions)
