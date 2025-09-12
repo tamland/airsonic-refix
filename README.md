@@ -61,8 +61,7 @@ Environment variables:
 
 ### Pre-built bundle
 
-Pre-built bundles can be found in the [Actions](https://github.com/tamland/airsonic-refix/actions)
-tab. Download/extract artifact and serve with any web server such as nginx or apache.
+Pre-built bundles can be found in [Releases](https://github.com/tamland/airsonic-refix/releases). Download/extract artifact and serve with any web server such as nginx or apache.
 
 ### Build from source
 
