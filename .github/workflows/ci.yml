@@ -24,6 +24,7 @@ jobs:
         export VITE_BUILD=$VERSION
         export VITE_BUILD_DATE=$(date --iso-8601)
         yarn build
+        rm dist/report.html
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
