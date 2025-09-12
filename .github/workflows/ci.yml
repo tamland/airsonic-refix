@@ -91,7 +91,7 @@ jobs:
       - name: Upload release
         uses: softprops/action-gh-release@v2
         with:
-          name: sha-${{ github.sha }}
+          tag_name: sha-${{ github.sha }}
           files: dist.tar.gz
 
   preview:
