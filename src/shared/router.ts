@@ -68,7 +68,12 @@ export function setupRouter(auth: AuthService) {
         children: [
           { path: '', redirect: { name: 'genres', params: { sort: 'most-albums' } } },
           { path: ':sort', name: 'genres', component: GenreLibrary, props: true, },
-          { path: 'id/:id/:section?', name: 'genre', component: GenreDetails, props: true },
+          {
+            path: 'id/:id',
+            name: 'genre',
+            redirect: to => ({ name: 'genre-section', params: { ...to.params, section: 'albums' } })
+          },
+          { path: 'id/:id/:section', name: 'genre-section', component: GenreDetails, props: true },
         ]
       },
       {
