@@ -244,6 +244,7 @@ export const usePlayerStore = defineStore('player', {
 
 export function setupAudio(playerStore: ReturnType<typeof usePlayerStore>, mainStore: ReturnType<typeof useMainStore>, api: API) {
   audio.ontimeupdate = (value: number) => {
+    if (document.hidden) return
     playerStore.currentTime = value
   }
   audio.ondurationchange = (value: number) => {
