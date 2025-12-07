@@ -1,4 +1,4 @@
 #!/bin/sh
 set -e
-envsubst < env.js.template > /var/www/html/env.js
+envsubst < /resources/env.js.template > /app/env.js
 exec "$@"
