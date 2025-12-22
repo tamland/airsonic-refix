@@ -7,6 +7,7 @@ Modern responsive web frontend for [airsonic-advanced](https://github.com/airson
 [gonic](https://github.com/sentriz/gonic) and other [subsonic](https://github.com/topics/subsonic) compatible music servers.
 
 ## Features
+
 - Responsive UI for desktop and mobile
 - Browse library for albums, artist, genres
 - Playback with persistent queue, repeat & shuffle
@@ -22,16 +23,15 @@ Modern responsive web frontend for [airsonic-advanced](https://github.com/airson
 
 Enter the URL and credentials for your subsonic compatible server, or use one of the following public demo servers:
 
-**Subsonic**  
-  Server: `https://airsonic-refix.netlify.app/api`  
-  Username: `guest4`, `guest5`, `guest6` etc.  
-  Password:`guest`
+**Subsonic**
+Server: `https://airsonic-refix.netlify.app/api`
+Username: `guest4`, `guest5`, `guest6` etc.
+Password:`guest`
 
-**Navidrome**  
-  Server: `https://demo.navidrome.org`  
-  Username: `demo`  
-  Password:`demo`
-
+**Navidrome**
+Server: `https://demo.navidrome.org`
+Username: `demo`
+Password:`demo`
 
 **Note**: if the server is using http only you must allow mixed content in your browser otherwise login will not work.
 
@@ -49,15 +49,26 @@ Enter the URL and credentials for your subsonic compatible server, or use one of
 
 ### Docker
 
-```
-$ docker run -d -p 8080:80 tamland/airsonic-refix:latest
+```shell
+docker run --detach --publish 8080:8080 tamland/airsonic-refix:latest
 ```
 
 You can now access the application at http://localhost:8080/
 
 Environment variables:
+
 - `SERVER_URL` (Optional): The backend server URL. When set the server input on the login page will not be displayed.
 
+#### Rootless Docker
+
+The container image also supports running with additional security measures, such as read-only rootfs:
+
+```shell
+docker run --read-only --cap-drop ALL \
+  --tmpfs /tmp:noexec,nosuid,size=100m \
+  --detach --publish 8080:8080 \
+  --volume app:/app tamland/airsonic-refix:latest
+```
 
 ### Pre-built bundle
 
@@ -65,24 +76,24 @@ Pre-built bundles can be found in [Releases](https://github.com/tamland/airsonic
 
 ### Build from source
 
-```
-$ yarn install
-$ yarn build
+```shell
+yarn install
+yarn build
 ```
 
 Bundle can be found in the `dist` folder.
 
 Build docker image:
 
-```
-$ docker build -f docker/Dockerfile .
+```shell
+docker build -f docker/Dockerfile .
 ```
 
 ## Develop
 
-```
-$ yarn install
-$ yarn dev
+```shel
+yarn install
+yarn dev
 ```
 
 ## OpenSubsonic support
