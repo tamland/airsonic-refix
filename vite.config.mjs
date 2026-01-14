@@ -6,6 +6,7 @@ import checker from 'vite-plugin-checker'
 import bundleAnalyzer from 'rollup-plugin-bundle-analyzer'
 
 export default defineConfig({
+  base: '/',
   plugins: [
     vue(),
     checker({
