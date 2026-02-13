@@ -5,6 +5,7 @@
     :min="0"
     :max="1"
     :interval="0.00001"
+    :duration="0"
     :lazy="true"
     :contained="true"
     :dot-options="{tooltip: 'always'}"
