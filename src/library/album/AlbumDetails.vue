@@ -69,7 +69,7 @@
     </Hero>
     <div class="row">
       <div class="col">
-        <TrackList :tracks="album.tracks" no-album />
+        <TrackList :tracks="album.tracks" :disc-titles="album.discTitles" :disc-image="album.image" no-album />
       </div>
     </div>
   </div>

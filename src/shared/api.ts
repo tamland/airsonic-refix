@@ -17,6 +17,7 @@ export interface Track {
   image?: string
   url?: string
   track?: number
+  discNumber?: number
   album?: string
   albumId?: string
   artists: {name: string, id: string}[]
@@ -36,6 +37,12 @@ export interface Genre {
   name: string
 }
 
+export interface DiscTitle {
+  disc: number
+  title: string
+  image?: string
+}
+
 export interface Album {
   id: string
   name: string
@@ -48,6 +55,7 @@ export interface Album {
   lastFmUrl?: string
   musicBrainzUrl?: string
   tracks?: Track[]
+  discTitles?: DiscTitle[]
   releaseType?: string
 }
 
@@ -560,6 +568,7 @@ export class API {
       duration: item.duration,
       favourite: !!item.starred,
       track: item.track,
+      discNumber: item.discNumber,
       album: item.album,
       albumId: item.albumId,
       artists: item.artists?.length
@@ -598,6 +607,11 @@ export class API {
         ? `https://musicbrainz.org/release/${item.musicBrainzId}`
         : undefined,
       tracks: (item.song || []).map(this.normalizeTrack, this),
+      discTitles: (item.discTitles || []).map((disc: {disc: number, title: string, coverArt?: string}): DiscTitle => ({
+        disc: disc.disc,
+        title: disc.title,
+        image: this.getCoverArtUrl(disc),
+      })),
       releaseType: this.normalizeReleaseType(item),
     }
   }
