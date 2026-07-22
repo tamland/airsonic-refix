@@ -84,6 +84,7 @@
       tracks: { type: Array as PropType<Track[]>, required: true },
       discTitles: { type: Array as PropType<DiscTitle[]>, default: () => [] },
       discImage: { type: String, default: undefined },
+      groupByDisc: { type: Boolean, default: false },
       noAlbum: { type: Boolean, default: false },
       noArtist: { type: Boolean, default: false },
       noDuration: { type: Boolean, default: false },
@@ -101,7 +102,7 @@
         return this.playerStore.trackId
       },
       isMultiDisc(): boolean {
-        return new Set(this.tracks.map(track => track.discNumber ?? 1)).size > 1
+        return this.groupByDisc && new Set(this.tracks.map(track => track.discNumber ?? 1)).size > 1
       },
       columnCount(): number {
         return 3 + Number(!this.noArtist) + Number(!this.noAlbum) + Number(!this.noDuration)
