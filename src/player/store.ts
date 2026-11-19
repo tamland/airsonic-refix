@@ -89,9 +89,14 @@ export const usePlayerStore = defineStore('player', {
     async resume() {
       this.setPlaying()
       await audio.resume()
+      // Re-assert after the operation completes: a pause event queued before
+      // the resume may have flipped the state back while we were fading in.
+      this.setPlaying()
     },
     async pause() {
-      audio.pause()
+      this.setPaused()
+      await audio.pause()
+      // The element is now guaranteed to be paused.
       this.setPaused()
     },
     async playPause() {
@@ -198,15 +203,9 @@ export const usePlayerStore = defineStore('player', {
     },
     setPlaying() {
       this.isPlaying = true
-      if (mediaSession) {
-        mediaSession.playbackState = 'playing'
-      }
     },
     setPaused() {
       this.isPlaying = false
-      if (mediaSession) {
-        mediaSession.playbackState = 'paused'
-      }
     },
     setQueue(queue: Track[]) {
       this.queue = queue
@@ -260,6 +259,16 @@ export function setupAudio(playerStore: ReturnType<typeof usePlayerStore>, mainS
   }
   audio.onpause = () => {
     playerStore.setPaused()
+    // Report the real element state to the OS/media controls (KDE widget etc.)
+    if (mediaSession) {
+      mediaSession.playbackState = 'paused'
+    }
+  }
+  audio.onplaying = () => {
+    playerStore.setPlaying()
+    if (mediaSession) {
+      mediaSession.playbackState = 'playing'
+    }
   }
   audio.onstreamtitlechange = (value: string | null) => {
     playerStore.streamTitle = value
@@ -269,6 +278,9 @@ export function setupAudio(playerStore: ReturnType<typeof usePlayerStore>, mainS
   }
   audio.onerror = (error: any) => {
     playerStore.setPaused()
+    if (mediaSession) {
+      mediaSession.playbackState = 'paused'
+    }
     mainStore.setError(error)
   }
 
@@ -298,7 +310,8 @@ export function setupAudio(playerStore: ReturnType<typeof usePlayerStore>, mainS
       playerStore.pause()
     })
     mediaSession.setActionHandler('seekto', (details) => {
-      if (details.seekTime) {
+      // seekTime can legitimately be 0 (start of track)
+      if (typeof details.seekTime === 'number') {
         audio.seek(details.seekTime)
       }
     })
