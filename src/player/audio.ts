@@ -14,6 +14,14 @@ type ReplayGain = {
   albumPeak: number // 0.0-1.0
 }
 
+type Pipeline = {
+  audio: HTMLAudioElement
+  volumeNode: GainNode
+  replayGainNode: GainNode
+  fadeNode: GainNode
+  disconnect: () => void
+}
+
 export class AudioController {
   private fadeDuration = 0.2
 
@@ -28,9 +36,22 @@ export class AudioController {
   ontimeupdate: (value: number) => void = () => { /* do nothing */ }
   ondurationchange: (value: number) => void = () => { /* do nothing */ }
   onpause: () => void = () => { /* do nothing */ }
+  onplaying: () => void = () => { /* do nothing */ }
   onstreamtitlechange: (value: string | null) => void = () => { /* do nothing */ }
   onended: () => void = () => { /* do nothing */ }
   onerror: (err: MediaError | null) => void = () => { /* do nothing */ }
+
+  // All playback operations are serialized through this queue so that
+  // pause/resume/seek/changeTrack cannot interleave: an operation always
+  // re-reads this.pipeline only while no other operation can swap it.
+  // Fixes https://github.com/tamland/airsonic-refix/issues/72
+  private ops: Promise<unknown> = Promise.resolve()
+
+  private serialize<T>(operation: () => Promise<T>): Promise<T> {
+    const result = this.ops.then(operation, operation)
+    this.ops = result.then(() => undefined, () => undefined)
+    return result
+  }
 
   currentTime() {
     return this.pipeline.audio.currentTime
@@ -59,58 +80,80 @@ export class AudioController {
   }
 
   async pause() {
-    await this.fadeOut()
-    this.pipeline.audio.pause()
+    return this.serialize(() => this.doPause())
   }
 
   async resume() {
-    await this.context.resume()
-    await this.pipeline.audio.play()
-    await this.fadeIn()
+    return this.serialize(() => this.doResume())
   }
 
   async seek(value: number) {
-    if (!this.pipeline.audio.paused) {
-      await this.fadeOut(this.fadeDuration / 2.0)
-    }
-    this.pipeline.audio.currentTime = value
-    if (!this.pipeline.audio.paused) {
-      await this.fadeIn(this.fadeDuration / 2.0)
-    }
+    return this.serialize(() => this.doSeek(value))
   }
 
   async changeTrack(options: { url?: string, paused?: boolean, replayGain?: ReplayGain, isStream?: boolean, playbackRate?: number }) {
-    if (this.pipeline.audio) {
-      endPlayback(this.context, this.pipeline, 1.0)
+    return this.serialize(() => this.doChangeTrack(options))
+  }
+
+  private async doPause() {
+    const pipeline = this.pipeline
+    await this.fadeOut(pipeline, this.fadeDuration)
+    pipeline.audio.pause()
+  }
+
+  private async doResume() {
+    const pipeline = this.pipeline
+    await this.context.resume()
+    await pipeline.audio.play()
+    await this.fadeIn(pipeline, this.fadeDuration)
+  }
+
+  private async doSeek(value: number) {
+    const pipeline = this.pipeline
+    if (!pipeline.audio.paused) {
+      await this.fadeOut(pipeline, this.fadeDuration / 2.0)
     }
+    pipeline.audio.currentTime = value
+    if (!pipeline.audio.paused) {
+      await this.fadeIn(pipeline, this.fadeDuration / 2.0)
+    }
+  }
+
+  private async doChangeTrack(options: { url?: string, paused?: boolean, replayGain?: ReplayGain, isStream?: boolean, playbackRate?: number }) {
+    const prev = this.pipeline
+    endPlayback(this.context, prev, 1.0)
 
     this.replayGain = options.replayGain || null
 
-    this.pipeline = creatPipeline(this.context, {
+    const pipeline = creatPipeline(this.context, {
       url: options.url,
-      volume: this.pipeline.volumeNode.gain.value,
+      volume: prev.volumeNode.gain.value,
       replayGain: this.replayGainFactor(),
     })
+    this.pipeline = pipeline
 
-    this.pipeline.audio.onerror = () => {
-      this.onerror(this.pipeline.audio.error)
+    pipeline.audio.onerror = () => {
+      this.onerror(pipeline.audio.error)
     }
-    this.pipeline.audio.onended = () => {
+    pipeline.audio.onended = () => {
       this.onended()
     }
-    this.pipeline.audio.ontimeupdate = () => {
-      this.ontimeupdate(this.pipeline.audio.currentTime)
+    pipeline.audio.ontimeupdate = () => {
+      this.ontimeupdate(pipeline.audio.currentTime)
     }
-    this.pipeline.audio.ondurationchange = () => {
-      this.ondurationchange(this.pipeline.audio.duration)
+    pipeline.audio.ondurationchange = () => {
+      this.ondurationchange(pipeline.audio.duration)
     }
-    this.pipeline.audio.onpause = () => {
+    pipeline.audio.onpause = () => {
       this.onpause()
     }
-    this.ondurationchange(this.pipeline.audio.duration)
-    this.ontimeupdate(this.pipeline.audio.currentTime)
+    pipeline.audio.onplaying = () => {
+      this.onplaying()
+    }
+    this.ondurationchange(pipeline.audio.duration)
+    this.ontimeupdate(pipeline.audio.currentTime)
     this.onstreamtitlechange(null)
-    this.pipeline.audio.playbackRate = options.playbackRate ?? 1.0
+    pipeline.audio.playbackRate = options.playbackRate ?? 1.0
 
     this.statsListener?.stop()
     if (options.isStream) {
@@ -130,37 +173,44 @@ export class AudioController {
     }
 
     if (options.isStream) {
-      this.pipeline.audio.load()
+      pipeline.audio.load()
     }
 
     if (options.paused !== true) {
       try {
         await this.context.resume()
-        await this.pipeline.audio.play()
+        await pipeline.audio.play()
       } catch (error) {
         if (error instanceof Error && error.name === 'AbortError') {
+          // The play() request was interrupted (e.g. by the browser or an
+          // extension pausing the element). If the element did end up
+          // playing, the gain must still be faded in, otherwise playback
+          // continues silently with fadeGain stuck at 0.
           console.warn(error)
+          if (!pipeline.audio.paused) {
+            await this.fadeIn(pipeline, this.fadeDuration)
+          }
           return
         }
         throw error
       }
-      await this.fadeIn()
+      await this.fadeIn(pipeline, this.fadeDuration)
     }
   }
 
-  private async fadeIn(duration: number = this.fadeDuration) {
-    const value = this.pipeline.fadeNode.gain.value
-    this.pipeline.fadeNode.gain.cancelScheduledValues(0)
-    this.pipeline.fadeNode.gain.setValueAtTime(value, this.context.currentTime)
-    this.pipeline.fadeNode.gain.linearRampToValueAtTime(1, this.context.currentTime + duration)
+  private async fadeIn(pipeline: Pipeline, duration: number) {
+    const value = pipeline.fadeNode.gain.value
+    pipeline.fadeNode.gain.cancelScheduledValues(0)
+    pipeline.fadeNode.gain.setValueAtTime(value, this.context.currentTime)
+    pipeline.fadeNode.gain.linearRampToValueAtTime(1, this.context.currentTime + duration)
     await sleep(duration * 1000)
   }
 
-  private async fadeOut(duration: number = this.fadeDuration) {
-    const value = this.pipeline.fadeNode.gain.value
-    this.pipeline.fadeNode.gain.cancelScheduledValues(0)
-    this.pipeline.fadeNode.gain.setValueAtTime(value, this.context.currentTime)
-    this.pipeline.fadeNode.gain.linearRampToValueAtTime(0, this.context.currentTime + duration)
+  private async fadeOut(pipeline: Pipeline, duration: number) {
+    const value = pipeline.fadeNode.gain.value
+    pipeline.fadeNode.gain.cancelScheduledValues(0)
+    pipeline.fadeNode.gain.setValueAtTime(value, this.context.currentTime)
+    pipeline.fadeNode.gain.linearRampToValueAtTime(0, this.context.currentTime + duration)
     await sleep(duration * 1000)
   }
 
@@ -192,7 +242,7 @@ export class AudioController {
   }
 }
 
-function creatPipeline(context: AudioContext, options: { url?: string, volume?: number, replayGain?: number }) {
+function creatPipeline(context: AudioContext, options: { url?: string, volume?: number, replayGain?: number }): Pipeline {
   const audio = new Audio(options.url)
   audio.crossOrigin = 'anonymous'
   const sourceNode = context.createMediaElementSource(audio)
@@ -223,7 +273,7 @@ function creatPipeline(context: AudioContext, options: { url?: string, volume?: 
   return { audio, volumeNode, replayGainNode, fadeNode, disconnect }
 }
 
-function endPlayback(context: AudioContext, pipeline: ReturnType<typeof creatPipeline>, duration: number) {
+function endPlayback(context: AudioContext, pipeline: Pipeline, duration: number) {
   console.info(`AudioController: ending payback for ${pipeline.audio}`)
   pipeline.audio.ontimeupdate = null
   pipeline.audio.ondurationchange = null
